@@ -19,7 +19,7 @@ export function CreatorCard({ creator, index }: Props) {
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.4, delay: index * 0.05 }}
       onClick={() => router.push(`/creator/${creator.username}`)}
-      className="cursor-pointer rounded-2xl p-5 transition-all hover:scale-105"
+      className="cursor-pointer rounded-2xl p-4 md:p-5 transition-all hover:scale-105"
       style={{
         background: '#12122A',
         border: '1px solid rgba(255,255,255,0.08)',
@@ -29,10 +29,10 @@ export function CreatorCard({ creator, index }: Props) {
         boxShadow: '0 0 30px rgba(0,212,255,0.1)',
       }}
     >
-      {/* Avatar */}
-      <div className="flex items-center gap-3 mb-4">
+      {/* Avatar + name */}
+      <div className="flex items-center gap-3 mb-3 md:mb-4">
         <div
-          className="w-12 h-12 rounded-full flex items-center justify-center text-lg font-black flex-shrink-0 overflow-hidden"
+          className="w-11 h-11 md:w-12 md:h-12 rounded-full flex items-center justify-center text-lg font-black flex-shrink-0 overflow-hidden"
           style={{ background: 'linear-gradient(135deg, #FF3CAC, #7B2FFF)' }}
         >
           {creator.avatarUrl ? (
@@ -48,7 +48,7 @@ export function CreatorCard({ creator, index }: Props) {
           )}
         </div>
         <div className="min-w-0">
-          <p className="font-bold text-white truncate">{creator.displayName}</p>
+          <p className="font-bold text-white truncate text-sm md:text-base">{creator.displayName}</p>
           <p className="text-xs truncate" style={{ color: 'rgba(255,255,255,0.4)' }}>
             @{creator.username}
           </p>
@@ -61,13 +61,24 @@ export function CreatorCard({ creator, index }: Props) {
         </div>
       </div>
 
-      {/* Top artists */}
+      {/* Top artists — 2 on mobile, 3 on desktop */}
       {creator.topArtists.length > 0 && (
-        <div className="flex flex-wrap gap-1 mb-4">
-          {creator.topArtists.slice(0, 3).map((artist) => (
+        <div className="flex flex-wrap gap-1 mb-3 md:mb-4">
+          {/* Mobile: first 2 */}
+          {creator.topArtists.slice(0, 2).map((artist) => (
             <span
               key={artist}
-              className="text-xs px-2 py-1 rounded-full"
+              className="text-xs px-2 py-1 rounded-full md:hidden"
+              style={{ background: 'rgba(0,212,255,0.1)', color: '#00D4FF' }}
+            >
+              🎵 {artist}
+            </span>
+          ))}
+          {/* Desktop: all 3 */}
+          {creator.topArtists.slice(0, 3).map((artist) => (
+            <span
+              key={`d-${artist}`}
+              className="text-xs px-2 py-1 rounded-full hidden md:inline-block"
               style={{ background: 'rgba(0,212,255,0.1)', color: '#00D4FF' }}
             >
               🎵 {artist}
@@ -76,8 +87,8 @@ export function CreatorCard({ creator, index }: Props) {
         </div>
       )}
 
-      {/* Price + CTA */}
-      <div className="flex items-center justify-between mt-2">
+      {/* Price + CTA — min 44px tap target */}
+      <div className="flex items-center justify-between mt-1">
         {creator.minTierPrice !== null ? (
           <span className="text-sm" style={{ color: 'rgba(255,255,255,0.4)' }}>
             From{' '}
@@ -91,8 +102,12 @@ export function CreatorCard({ creator, index }: Props) {
           </span>
         )}
         <span
-          className="text-xs font-bold px-3 py-1.5 rounded-full"
-          style={{ background: 'linear-gradient(135deg, #00D4FF, #00FFB2)', color: '#0A0A1A' }}
+          className="text-xs font-bold px-3 rounded-full flex items-center"
+          style={{
+            background: 'linear-gradient(135deg, #00D4FF, #00FFB2)',
+            color: '#0A0A1A',
+            minHeight: '44px',
+          }}
         >
           View profile →
         </span>

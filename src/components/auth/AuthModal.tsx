@@ -64,18 +64,37 @@ export function AuthModal({ isOpen, onClose, onSuccess, redirectMessage }: Props
             style={{ background: 'rgba(0,0,0,0.8)', backdropFilter: 'blur(4px)' }}
           />
 
-          {/* Modal */}
+          {/* Modal — bottom sheet on mobile, centered on desktop */}
           <motion.div
-            initial={{ opacity: 0, scale: 0.95, y: 20 }}
-            animate={{ opacity: 1, scale: 1, y: 0 }}
-            exit={{ opacity: 0, scale: 0.95, y: 20 }}
-            className="fixed inset-x-4 top-1/2 -translate-y-1/2 z-50 max-w-md mx-auto rounded-3xl p-8"
-            style={{ background: '#12122A', border: '1px solid rgba(255,255,255,0.1)' }}
+            initial={{ opacity: 0, y: 40 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: 40 }}
+            className="fixed inset-x-0 bottom-0 z-50 md:inset-x-4 md:bottom-auto md:top-1/2 md:max-w-md md:mx-auto p-6 md:p-8"
+            style={{
+              background: '#12122A',
+              border: '1px solid rgba(255,255,255,0.1)',
+              borderRadius: '24px 24px 0 0',
+            }}
           >
+            {/* Drag handle — mobile only */}
+            <div className="md:hidden flex justify-center mb-4">
+              <div className="w-10 h-1 rounded-full" style={{ background: 'rgba(255,255,255,0.2)' }} />
+            </div>
+
+            {/* On desktop, apply centered transform via style */}
+            <style>{`
+              @media (min-width: 768px) {
+                .auth-modal-inner {
+                  transform: translateY(-50%);
+                  border-radius: 24px;
+                }
+              }
+            `}</style>
+
             {/* Close */}
             <button
               onClick={onClose}
-              className="absolute top-4 right-4 text-xl transition-colors hover:text-white"
+              className="absolute top-5 right-5 text-xl transition-colors hover:text-white"
               style={{ color: 'rgba(255,255,255,0.4)' }}
             >
               ✕
@@ -104,21 +123,29 @@ export function AuthModal({ isOpen, onClose, onSuccess, redirectMessage }: Props
 
                 {mode === 'choice' ? (
                   <div className="space-y-3">
-                    {/* Google */}
                     <button
                       onClick={handleGoogle}
                       disabled={loading}
-                      className="w-full py-3 rounded-xl font-semibold text-sm flex items-center justify-center gap-3 transition-all hover:scale-105"
-                      style={{ background: '#1A1A35', border: '1px solid rgba(255,255,255,0.15)', color: '#fff' }}
+                      className="w-full rounded-xl font-semibold text-sm flex items-center justify-center gap-3 transition-all hover:scale-105"
+                      style={{
+                        background: '#1A1A35',
+                        border: '1px solid rgba(255,255,255,0.15)',
+                        color: '#fff',
+                        minHeight: '48px',
+                      }}
                     >
                       <span>🔵</span> Continue with Google
                     </button>
 
-                    {/* Email */}
                     <button
                       onClick={() => setMode('email')}
-                      className="w-full py-3 rounded-xl font-semibold text-sm flex items-center justify-center gap-3 transition-all hover:scale-105"
-                      style={{ background: '#1A1A35', border: '1px solid rgba(255,255,255,0.15)', color: '#fff' }}
+                      className="w-full rounded-xl font-semibold text-sm flex items-center justify-center gap-3 transition-all hover:scale-105"
+                      style={{
+                        background: '#1A1A35',
+                        border: '1px solid rgba(255,255,255,0.15)',
+                        color: '#fff',
+                        minHeight: '48px',
+                      }}
                     >
                       <span>✉️</span> Continue with Email
                     </button>
@@ -147,6 +174,7 @@ export function AuthModal({ isOpen, onClose, onSuccess, redirectMessage }: Props
                         background: '#0A0A1A',
                         border: '1px solid rgba(255,255,255,0.1)',
                         color: '#FFFFFF',
+                        minHeight: '48px',
                       }}
                     />
                     <input
@@ -160,6 +188,7 @@ export function AuthModal({ isOpen, onClose, onSuccess, redirectMessage }: Props
                         background: '#0A0A1A',
                         border: '1px solid rgba(255,255,255,0.1)',
                         color: '#FFFFFF',
+                        minHeight: '48px',
                       }}
                     />
                     {error && (
@@ -168,15 +197,19 @@ export function AuthModal({ isOpen, onClose, onSuccess, redirectMessage }: Props
                     <button
                       onClick={handleEmail}
                       disabled={loading || !email || !password}
-                      className="w-full py-3 rounded-xl font-bold text-sm transition-all hover:scale-105 disabled:opacity-50"
-                      style={{ background: 'linear-gradient(135deg, #00D4FF, #00FFB2)', color: '#0A0A1A' }}
+                      className="w-full rounded-xl font-bold text-sm transition-all hover:scale-105 disabled:opacity-50"
+                      style={{
+                        background: 'linear-gradient(135deg, #00D4FF, #00FFB2)',
+                        color: '#0A0A1A',
+                        minHeight: '48px',
+                      }}
                     >
                       {loading ? '...' : isSignUp ? 'Create account' : 'Sign in'}
                     </button>
                     <button
                       onClick={() => setMode('choice')}
                       className="w-full text-xs transition-colors hover:text-white"
-                      style={{ color: 'rgba(255,255,255,0.4)' }}
+                      style={{ color: 'rgba(255,255,255,0.4)', minHeight: '44px' }}
                     >
                       ← Back
                     </button>

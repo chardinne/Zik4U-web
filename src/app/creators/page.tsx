@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { motion } from 'framer-motion';
 import { AuthModal } from '@/components/auth/AuthModal';
@@ -86,6 +86,13 @@ const STEPS = [
 export default function CreatorsPage() {
   const router = useRouter();
   const [authOpen, setAuthOpen] = useState(false);
+  const [showStickyBar, setShowStickyBar] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => setShowStickyBar(window.scrollY > 300);
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
 
   const handleAuthSuccess = () => {
     setAuthOpen(false);
@@ -93,11 +100,11 @@ export default function CreatorsPage() {
   };
 
   return (
-    <main className="min-h-screen" style={{ backgroundColor: '#0A0A1A' }}>
+    <main className="min-h-screen pb-20 md:pb-0" style={{ backgroundColor: '#0A0A1A' }}>
 
       {/* Header */}
       <header
-        className="flex items-center justify-between px-8 py-6"
+        className="flex items-center justify-between px-6 md:px-8 py-4 md:py-6"
         style={{ borderBottom: '1px solid rgba(255,255,255,0.05)' }}
       >
         <button
@@ -115,8 +122,8 @@ export default function CreatorsPage() {
         </button>
       </header>
 
-      {/* Hero */}
-      <section className="max-w-5xl mx-auto px-6 py-20 text-center">
+      {/* Hero — compact on mobile, CTA visible without scrolling */}
+      <section className="max-w-5xl mx-auto px-6 py-12 md:py-20 text-center">
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
@@ -128,14 +135,14 @@ export default function CreatorsPage() {
           >
             For creators
           </p>
-          <h1 className="text-5xl md:text-7xl font-black mb-6 leading-tight">
+          <h1 className="text-4xl md:text-7xl font-black mb-5 md:mb-6 leading-tight">
             Turn your music taste
             <br />
             into{' '}
             <span className="gradient-text-creator">passive revenue</span>
           </h1>
           <p
-            className="text-xl max-w-2xl mx-auto mb-10"
+            className="text-base md:text-xl max-w-2xl mx-auto mb-8 md:mb-10"
             style={{ color: 'rgba(255,255,255,0.5)' }}
           >
             Your listening habits are your content.
@@ -147,7 +154,7 @@ export default function CreatorsPage() {
             whileTap={{ scale: 0.95 }}
             onClick={() => setAuthOpen(true)}
             className="px-10 py-4 rounded-full font-black text-lg text-white"
-            style={{ background: 'linear-gradient(135deg, #FF3CAC, #7B2FFF)' }}
+            style={{ background: 'linear-gradient(135deg, #FF3CAC, #7B2FFF)', minHeight: '44px' }}
           >
             Start earning now →
           </motion.button>
@@ -156,12 +163,12 @@ export default function CreatorsPage() {
           </p>
         </motion.div>
 
-        {/* Revenue teaser */}
+        {/* Revenue stats — hidden on mobile */}
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 0.4 }}
-          className="mt-16 grid grid-cols-3 gap-6 max-w-lg mx-auto"
+          className="hidden md:grid mt-16 grid-cols-3 gap-6 max-w-lg mx-auto"
         >
           {[
             { value: '$127', label: 'Avg monthly revenue' },
@@ -178,12 +185,12 @@ export default function CreatorsPage() {
         </motion.div>
       </section>
 
-      {/* Benefits */}
-      <section className="max-w-5xl mx-auto px-6 py-16">
-        <h2 className="text-3xl font-black text-white text-center mb-12">
+      {/* Benefits — 3 on mobile, 6 on desktop */}
+      <section className="max-w-5xl mx-auto px-6 py-8 md:py-16">
+        <h2 className="text-2xl md:text-3xl font-black text-white text-center mb-8 md:mb-12">
           Everything you need to monetize
         </h2>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6">
           {BENEFITS.map((benefit, index) => (
             <motion.div
               key={benefit.title}
@@ -191,30 +198,87 @@ export default function CreatorsPage() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ delay: index * 0.1 }}
-              className="rounded-2xl p-6"
+              className={`rounded-2xl p-5 md:p-6${index >= 3 ? ' hidden md:block' : ''}`}
               style={{ background: '#12122A', border: '1px solid rgba(255,255,255,0.06)' }}
             >
-              <div className="text-3xl mb-3">{benefit.emoji}</div>
-              <h3 className="font-bold text-white mb-2">{benefit.title}</h3>
+              <div className="text-2xl md:text-3xl mb-2 md:mb-3">{benefit.emoji}</div>
+              <h3 className="font-bold text-white mb-1 md:mb-2">{benefit.title}</h3>
               <p className="text-sm leading-relaxed" style={{ color: 'rgba(255,255,255,0.5)' }}>
                 {benefit.description}
               </p>
             </motion.div>
           ))}
         </div>
+        {/* "And more" link — mobile only */}
+        <p
+          className="md:hidden text-center text-sm mt-4 cursor-pointer hover:text-white transition-colors"
+          style={{ color: 'rgba(255,255,255,0.4)' }}
+          onClick={() => setAuthOpen(true)}
+        >
+          And much more — join to discover →
+        </p>
       </section>
 
-      {/* Pricing */}
-      <section className="max-w-5xl mx-auto px-6 py-16">
-        <div className="text-center mb-12">
-          <h2 className="text-3xl font-black text-white mb-3">
-            Suggested subscription tiers
-          </h2>
-          <p style={{ color: 'rgba(255,255,255,0.5)' }}>
-            You choose your prices. These are our recommendations.
-          </p>
+      {/* Pricing tiers — horizontal carousel on mobile, grid on desktop */}
+      <section className="py-8 md:py-16">
+        <div className="max-w-5xl mx-auto px-6">
+          <div className="text-center mb-8 md:mb-12">
+            <h2 className="text-2xl md:text-3xl font-black text-white mb-2 md:mb-3">
+              Suggested subscription tiers
+            </h2>
+            <p style={{ color: 'rgba(255,255,255,0.5)' }}>
+              You choose your prices. These are our recommendations.
+            </p>
+          </div>
         </div>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+        {/* Mobile: horizontal scroll carousel */}
+        <div
+          className="md:hidden flex gap-4 overflow-x-auto pb-4 px-6"
+          style={{ scrollSnapType: 'x mandatory', WebkitOverflowScrolling: 'touch' }}
+        >
+          {TIERS.map((tier, index) => (
+            <div
+              key={tier.name}
+              className="relative rounded-2xl p-6 flex-shrink-0"
+              style={{
+                minWidth: '280px',
+                scrollSnapAlign: 'start',
+                background: tier.popular
+                  ? 'linear-gradient(135deg, rgba(255,60,172,0.12), rgba(123,47,255,0.08))'
+                  : '#12122A',
+                border: tier.popular
+                  ? '1px solid rgba(255,60,172,0.3)'
+                  : '1px solid rgba(255,255,255,0.08)',
+              }}
+            >
+              {tier.popular && (
+                <div
+                  className="absolute -top-3 left-1/2 -translate-x-1/2 text-xs font-bold px-4 py-1 rounded-full text-white whitespace-nowrap"
+                  style={{ background: 'linear-gradient(135deg, #FF3CAC, #7B2FFF)' }}
+                >
+                  ⭐ Most chosen
+                </div>
+              )}
+              <p className="text-xs font-bold tracking-widest uppercase mb-2" style={{ color: tier.color }}>
+                {tier.name}
+              </p>
+              <div className="flex items-baseline gap-1 mb-4">
+                <span className="text-4xl font-black text-white">${tier.price}</span>
+                <span className="text-sm" style={{ color: 'rgba(255,255,255,0.4)' }}>/mo per fan</span>
+              </div>
+              <ul className="space-y-2">
+                {tier.perks.map((perk) => (
+                  <li key={perk} className="flex items-start gap-2 text-sm" style={{ color: 'rgba(255,255,255,0.8)' }}>
+                    <span className="flex-shrink-0 mt-0.5" style={{ color: tier.color }}>✓</span>
+                    <span>{perk}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          ))}
+        </div>
+        {/* Desktop: 3-col grid */}
+        <div className="hidden md:grid max-w-5xl mx-auto px-6 grid-cols-3 gap-6">
           {TIERS.map((tier, index) => (
             <motion.div
               key={tier.name}
@@ -240,10 +304,7 @@ export default function CreatorsPage() {
                   ⭐ Most chosen
                 </div>
               )}
-              <p
-                className="text-xs font-bold tracking-widest uppercase mb-2"
-                style={{ color: tier.color }}
-              >
+              <p className="text-xs font-bold tracking-widest uppercase mb-2" style={{ color: tier.color }}>
                 {tier.name}
               </p>
               <div className="flex items-baseline gap-1 mb-4">
@@ -261,17 +322,17 @@ export default function CreatorsPage() {
             </motion.div>
           ))}
         </div>
-        <p className="text-center text-xs mt-6" style={{ color: 'rgba(255,255,255,0.4)' }}>
+        <p className="text-center text-xs mt-6 px-6" style={{ color: 'rgba(255,255,255,0.4)' }}>
           Zik4U takes 15% platform fee. You keep 85% of all revenue.
         </p>
       </section>
 
-      {/* How it works */}
-      <section className="max-w-4xl mx-auto px-6 py-16">
-        <h2 className="text-3xl font-black text-white text-center mb-12">
+      {/* How it works — 2 steps on mobile, 4 on desktop */}
+      <section className="max-w-4xl mx-auto px-6 py-8 md:py-16">
+        <h2 className="text-2xl md:text-3xl font-black text-white text-center mb-8 md:mb-12">
           Start earning in 4 steps
         </h2>
-        <div className="space-y-6">
+        <div className="space-y-4 md:space-y-6">
           {STEPS.map((step, index) => (
             <motion.div
               key={step.number}
@@ -279,10 +340,11 @@ export default function CreatorsPage() {
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true }}
               transition={{ delay: index * 0.1 }}
-              className="flex items-start gap-6 p-6 rounded-2xl"
+              // On mobile show only step 01 and 04
+              className={`flex items-start gap-5 md:gap-6 p-5 md:p-6 rounded-2xl${index === 1 || index === 2 ? ' hidden md:flex' : ''}`}
               style={{ background: '#12122A', border: '1px solid rgba(255,255,255,0.06)' }}
             >
-              <span className="text-2xl font-black flex-shrink-0" style={{ color: '#FF3CAC' }}>
+              <span className="text-xl md:text-2xl font-black flex-shrink-0" style={{ color: '#FF3CAC' }}>
                 {step.number}
               </span>
               <div>
@@ -296,8 +358,8 @@ export default function CreatorsPage() {
         </div>
       </section>
 
-      {/* Final CTA */}
-      <section className="max-w-3xl mx-auto px-6 py-20 text-center">
+      {/* Final CTA — desktop only (mobile has sticky bar) */}
+      <section className="hidden md:block max-w-3xl mx-auto px-6 py-20 text-center">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -327,10 +389,7 @@ export default function CreatorsPage() {
           </motion.button>
           <p className="text-xs mt-4" style={{ color: 'rgba(255,255,255,0.4)' }}>
             Already have an account?{' '}
-            <button
-              onClick={() => setAuthOpen(true)}
-              className="underline hover:text-white transition-colors"
-            >
+            <button onClick={() => setAuthOpen(true)} className="underline hover:text-white transition-colors">
               Sign in
             </button>
           </p>
@@ -339,7 +398,7 @@ export default function CreatorsPage() {
 
       {/* Footer */}
       <footer
-        className="px-8 py-6 flex items-center justify-between text-xs"
+        className="hidden md:flex px-8 py-6 items-center justify-between text-xs"
         style={{ color: 'rgba(255,255,255,0.3)', borderTop: '1px solid rgba(255,255,255,0.05)' }}
       >
         <span>© 2026 Zik4U. All rights reserved.</span>
@@ -349,6 +408,24 @@ export default function CreatorsPage() {
           <a href="mailto:support@zik4u.com" className="hover:text-white transition-colors">Support</a>
         </div>
       </footer>
+
+      {/* Sticky bottom CTA — mobile only, appears after 300px scroll */}
+      {showStickyBar && (
+        <motion.div
+          initial={{ y: 80, opacity: 0 }}
+          animate={{ y: 0, opacity: 1 }}
+          className="md:hidden fixed bottom-0 inset-x-0 z-50 px-4 py-3"
+          style={{ background: 'rgba(10,10,26,0.97)', borderTop: '1px solid rgba(255,255,255,0.08)', backdropFilter: 'blur(12px)' }}
+        >
+          <button
+            onClick={() => setAuthOpen(true)}
+            className="w-full py-4 rounded-2xl font-black text-white text-base"
+            style={{ background: 'linear-gradient(135deg, #FF3CAC, #7B2FFF)', minHeight: '52px' }}
+          >
+            Start earning now →
+          </button>
+        </motion.div>
+      )}
 
       {/* Auth modal */}
       <AuthModal
