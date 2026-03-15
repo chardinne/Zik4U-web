@@ -1,0 +1,68 @@
+import { MetadataRoute } from 'next';
+import { supabase } from '@/lib/supabase';
+
+const BASE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://zik4u.com';
+
+export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
+  // Static pages
+  const staticRoutes: MetadataRoute.Sitemap = [
+    {
+      url: BASE_URL,
+      lastModified: new Date(),
+      changeFrequency: 'weekly',
+      priority: 1,
+    },
+    {
+      url: `${BASE_URL}/users`,
+      lastModified: new Date(),
+      changeFrequency: 'hourly',
+      priority: 0.9,
+    },
+    {
+      url: `${BASE_URL}/creators`,
+      lastModified: new Date(),
+      changeFrequency: 'weekly',
+      priority: 0.8,
+    },
+    {
+      url: `${BASE_URL}/become-creator`,
+      lastModified: new Date(),
+      changeFrequency: 'monthly',
+      priority: 0.6,
+    },
+    {
+      url: `${BASE_URL}/legal/privacy`,
+      lastModified: new Date(),
+      changeFrequency: 'monthly',
+      priority: 0.3,
+    },
+    {
+      url: `${BASE_URL}/legal/terms`,
+      lastModified: new Date(),
+      changeFrequency: 'monthly',
+      priority: 0.3,
+    },
+  ];
+
+  // Dynamic creator profile pages
+  try {
+    const { data: creators } = await supabase
+      .from('users')
+      .select('username, updated_at')
+      .eq('is_creator', true)
+      .not('username', 'is', null)
+      .limit(5000);
+
+    const creatorRoutes: MetadataRoute.Sitemap = (creators ?? []).map((creator) => ({
+      url: `${BASE_URL}/creator/${creator.username}`,
+      lastModified: creator.updated_at ? new Date(creator.updated_at) : new Date(),
+      changeFrequency: 'daily' as const,
+      priority: 0.7,
+    }));
+
+    return [...staticRoutes, ...creatorRoutes];
+  } catch {
+    // If DB is unavailable during build, return only static routes
+    return staticRoutes;
+  }
+}

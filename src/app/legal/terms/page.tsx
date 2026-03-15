@@ -1,0 +1,319 @@
+import { generatePageMetadata } from '@/lib/seo';
+
+export const metadata = generatePageMetadata(
+  'Terms of Service',
+  'Read the Zik4U Terms of Service — your rights and responsibilities as a listener or creator.',
+  '/legal/terms',
+);
+
+const LAST_UPDATED = 'March 15, 2026';
+const CONTACT_EMAIL = 'legal@zik4u.com';
+const SITE_URL = 'https://zik4u.com';
+
+export default function TermsOfServicePage() {
+  return (
+    <div style={{ backgroundColor: '#0A0A1A', minHeight: '100vh', color: '#FFFFFF' }}>
+      {/* Header */}
+      <header style={{ borderBottom: '1px solid rgba(255,255,255,0.08)', padding: '20px 24px' }}>
+        <div style={{ maxWidth: '800px', margin: '0 auto', display: 'flex', alignItems: 'center', gap: '16px' }}>
+          <a
+            href="/"
+            style={{
+              background: 'linear-gradient(135deg, #00D4FF, #00FFB2, #FF3CAC)',
+              WebkitBackgroundClip: 'text',
+              WebkitTextFillColor: 'transparent',
+              fontWeight: 900,
+              fontSize: '22px',
+              textDecoration: 'none',
+              letterSpacing: '-0.5px',
+            }}
+          >
+            ZIK4U
+          </a>
+          <span style={{ color: 'rgba(255,255,255,0.3)', fontSize: '14px' }}>/ Terms of Service</span>
+        </div>
+      </header>
+
+      {/* Content */}
+      <main style={{ maxWidth: '800px', margin: '0 auto', padding: '48px 24px 80px' }}>
+        <h1 style={{ fontSize: '36px', fontWeight: 900, marginBottom: '8px' }}>Terms of Service</h1>
+        <p style={{ color: 'rgba(255,255,255,0.4)', fontSize: '14px', marginBottom: '48px' }}>
+          Last updated: {LAST_UPDATED}
+        </p>
+
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '40px', lineHeight: '1.7', color: 'rgba(255,255,255,0.8)' }}>
+
+          {/* Intro */}
+          <section style={{ backgroundColor: '#12122A', borderRadius: '12px', padding: '24px', borderLeft: '3px solid #FF3CAC' }}>
+            <p>
+              Please read these Terms of Service (&ldquo;Terms&rdquo;) carefully before using Zik4U. By creating an account or accessing
+              the Service, you agree to be bound by these Terms. If you do not agree, do not use the Service.
+            </p>
+          </section>
+
+          {/* 1 */}
+          <section>
+            <h2 style={{ fontSize: '22px', fontWeight: 700, color: '#FFFFFF', marginBottom: '16px' }}>1. Acceptance of Terms</h2>
+            <p>
+              These Terms constitute a legally binding agreement between you and Zik4U (&ldquo;we&rdquo;, &ldquo;us&rdquo;, or &ldquo;our&rdquo;).
+              They govern your access to and use of our website at{' '}
+              <a href={SITE_URL} style={{ color: '#00D4FF', textDecoration: 'none' }}>{SITE_URL}</a>{' '}
+              and our mobile application (collectively, the &ldquo;Service&rdquo;). You must be at least 13 years old (16 in the EEA)
+              to use the Service.
+            </p>
+          </section>
+
+          {/* 2 */}
+          <section>
+            <h2 style={{ fontSize: '22px', fontWeight: 700, color: '#FFFFFF', marginBottom: '16px' }}>2. Account Registration</h2>
+            <ul style={{ paddingLeft: '20px', display: 'flex', flexDirection: 'column', gap: '8px' }}>
+              <li>You may register with an email address or through OAuth providers (Google, Apple).</li>
+              <li>You are responsible for maintaining the confidentiality of your credentials and for all activity under your account.</li>
+              <li>You agree to provide accurate, current, and complete information during registration.</li>
+              <li>Zik4U reserves the right to suspend or terminate accounts that violate these Terms.</li>
+              <li>You may not create more than one account per person without our prior written consent.</li>
+            </ul>
+          </section>
+
+          {/* 3 */}
+          <section>
+            <h2 style={{ fontSize: '22px', fontWeight: 700, color: '#FFFFFF', marginBottom: '16px' }}>3. The Service</h2>
+            <p style={{ marginBottom: '12px' }}>
+              Zik4U is a music social platform that allows users to:
+            </p>
+            <ul style={{ paddingLeft: '20px', display: 'flex', flexDirection: 'column', gap: '8px' }}>
+              <li>Connect music streaming services and automatically track listening history (Captation)</li>
+              <li>Discover other users with compatible music taste</li>
+              <li>Share posts, playlists, and music discoveries with followers</li>
+              <li>Subscribe to creators&apos; exclusive musical content</li>
+              <li>Earn revenue as a creator through paid subscriptions</li>
+            </ul>
+            <p style={{ marginTop: '12px' }}>
+              We reserve the right to modify, suspend, or discontinue any feature of the Service at any time, with or without notice.
+            </p>
+          </section>
+
+          {/* 4 */}
+          <section>
+            <h2 style={{ fontSize: '22px', fontWeight: 700, color: '#FFFFFF', marginBottom: '16px' }}>4. User Conduct</h2>
+            <p style={{ marginBottom: '12px' }}>You agree <strong style={{ color: '#FFFFFF' }}>not</strong> to:</p>
+            <ul style={{ paddingLeft: '20px', display: 'flex', flexDirection: 'column', gap: '8px' }}>
+              <li>Post content that is illegal, harmful, abusive, harassing, defamatory, or obscene</li>
+              <li>Infringe any third-party intellectual property, privacy, or publicity rights</li>
+              <li>Use the Service to distribute spam, malware, or unauthorized advertising</li>
+              <li>Attempt to gain unauthorized access to other accounts or our systems</li>
+              <li>Scrape, crawl, or systematically extract data from the Service without written permission</li>
+              <li>Create fake accounts, impersonate others, or manipulate metrics</li>
+              <li>Use automated bots, scripts, or tools to interact with the Service</li>
+              <li>Reverse engineer, decompile, or disassemble the application</li>
+              <li>Violate any applicable law or regulation</li>
+            </ul>
+            <p style={{ marginTop: '12px' }}>
+              Violation of these rules may result in immediate account suspension or termination, with or without warning.
+            </p>
+          </section>
+
+          {/* 5 */}
+          <section>
+            <h2 style={{ fontSize: '22px', fontWeight: 700, color: '#FFFFFF', marginBottom: '16px' }}>5. User Content</h2>
+            <p style={{ marginBottom: '12px' }}>
+              You retain ownership of content you post (&ldquo;User Content&rdquo;). By posting, you grant Zik4U a non-exclusive,
+              royalty-free, worldwide, sublicensable license to use, display, reproduce, and distribute your User Content solely to
+              operate and improve the Service.
+            </p>
+            <p style={{ marginBottom: '12px' }}>You represent and warrant that:</p>
+            <ul style={{ paddingLeft: '20px', display: 'flex', flexDirection: 'column', gap: '8px' }}>
+              <li>You own or have the rights to post all User Content</li>
+              <li>Your User Content does not infringe any third-party rights</li>
+              <li>Your User Content complies with these Terms and applicable law</li>
+            </ul>
+            <p style={{ marginTop: '12px' }}>
+              We reserve the right to remove any User Content that violates these Terms, at our sole discretion.
+            </p>
+          </section>
+
+          {/* 6 */}
+          <section>
+            <h2 style={{ fontSize: '22px', fontWeight: 700, color: '#FFFFFF', marginBottom: '16px' }}>6. Creator Program</h2>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
+              <div style={{ backgroundColor: '#12122A', borderRadius: '12px', padding: '16px 20px' }}>
+                <p style={{ fontWeight: 700, color: '#FFFFFF', marginBottom: '8px' }}>Becoming a Creator</p>
+                <p style={{ fontSize: '14px', color: 'rgba(255,255,255,0.65)' }}>
+                  Any user may apply to become a Creator and offer paid subscription tiers to fans. Zik4U reserves the right to
+                  accept or reject Creator applications at its discretion.
+                </p>
+              </div>
+              <div style={{ backgroundColor: '#12122A', borderRadius: '12px', padding: '16px 20px' }}>
+                <p style={{ fontWeight: 700, color: '#FFFFFF', marginBottom: '8px' }}>Revenue Share</p>
+                <p style={{ fontSize: '14px', color: 'rgba(255,255,255,0.65)' }}>
+                  Creators receive their net revenue after platform fees and payment processor fees. The exact revenue share
+                  is displayed in the Creator Studio and may vary by subscription channel (web/iOS/Android). We reserve the
+                  right to modify the revenue share with 30 days&apos; notice.
+                </p>
+              </div>
+              <div style={{ backgroundColor: '#12122A', borderRadius: '12px', padding: '16px 20px' }}>
+                <p style={{ fontWeight: 700, color: '#FFFFFF', marginBottom: '8px' }}>Payouts</p>
+                <p style={{ fontSize: '14px', color: 'rgba(255,255,255,0.65)' }}>
+                  Payouts are processed monthly via Trolley, subject to a minimum threshold of $25. Creators must complete
+                  KYC (Know Your Customer) verification and provide tax information before receiving payouts. We may withhold
+                  payments if we suspect fraudulent activity.
+                </p>
+              </div>
+              <div style={{ backgroundColor: '#12122A', borderRadius: '12px', padding: '16px 20px' }}>
+                <p style={{ fontWeight: 700, color: '#FFFFFF', marginBottom: '8px' }}>Creator Responsibilities</p>
+                <p style={{ fontSize: '14px', color: 'rgba(255,255,255,0.65)' }}>
+                  Creators are responsible for the content they provide to subscribers, including compliance with applicable
+                  laws. Creators are independent contractors, not employees of Zik4U. Creators are responsible for reporting
+                  and paying taxes on earnings received through the platform.
+                </p>
+              </div>
+            </div>
+          </section>
+
+          {/* 7 */}
+          <section>
+            <h2 style={{ fontSize: '22px', fontWeight: 700, color: '#FFFFFF', marginBottom: '16px' }}>7. Subscriptions & Payments</h2>
+            <ul style={{ paddingLeft: '20px', display: 'flex', flexDirection: 'column', gap: '8px' }}>
+              <li>
+                <strong style={{ color: '#FFFFFF' }}>Billing:</strong> Subscriptions are billed on a recurring basis (monthly or annually)
+                starting on the date of purchase. Payments are processed by Stripe (web) or through your device&apos;s app store (iOS/Android).
+              </li>
+              <li>
+                <strong style={{ color: '#FFFFFF' }}>Cancellation:</strong> You may cancel a subscription at any time. Access continues
+                until the end of the current billing period. No partial refunds are provided for unused time.
+              </li>
+              <li>
+                <strong style={{ color: '#FFFFFF' }}>Refunds:</strong> Refunds are handled per the refund policy of the payment channel.
+                For web payments via Stripe, contact us within 7 days of a charge for refund consideration. For in-app purchases, refunds
+                are governed by Apple App Store or Google Play Store policies.
+              </li>
+              <li>
+                <strong style={{ color: '#FFFFFF' }}>Price Changes:</strong> We will notify you at least 30 days before any subscription
+                price increase. Continued use after the notice period constitutes acceptance.
+              </li>
+              <li>
+                <strong style={{ color: '#FFFFFF' }}>Failed Payments:</strong> If a payment fails, we will retry and notify you.
+                Continued failure may result in subscription suspension.
+              </li>
+            </ul>
+          </section>
+
+          {/* 8 */}
+          <section>
+            <h2 style={{ fontSize: '22px', fontWeight: 700, color: '#FFFFFF', marginBottom: '16px' }}>8. Intellectual Property</h2>
+            <p style={{ marginBottom: '12px' }}>
+              The Zik4U name, logo, design, software, and all platform content (excluding User Content) are the exclusive property
+              of Zik4U and are protected by copyright, trademark, and other intellectual property laws.
+            </p>
+            <p>
+              We grant you a limited, non-exclusive, non-transferable, revocable license to access and use the Service for
+              personal, non-commercial purposes. This license does not include the right to resell, sublicense, or commercially
+              exploit any part of the Service.
+            </p>
+          </section>
+
+          {/* 9 */}
+          <section>
+            <h2 style={{ fontSize: '22px', fontWeight: 700, color: '#FFFFFF', marginBottom: '16px' }}>9. Third-Party Services</h2>
+            <p>
+              The Service integrates with third-party music platforms (Spotify, Apple Music, YouTube, Deezer, SoundCloud) and payment
+              processors (Stripe, RevenueCat). Your use of these services is subject to their respective terms and privacy policies.
+              Zik4U is not responsible for the availability, content, or practices of third-party services. Connecting a third-party
+              service constitutes your consent to our accessing data from that service as described in our Privacy Policy.
+            </p>
+          </section>
+
+          {/* 10 */}
+          <section>
+            <h2 style={{ fontSize: '22px', fontWeight: 700, color: '#FFFFFF', marginBottom: '16px' }}>10. Disclaimers & Limitation of Liability</h2>
+            <p style={{ marginBottom: '12px' }}>
+              THE SERVICE IS PROVIDED &ldquo;AS IS&rdquo; WITHOUT WARRANTIES OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING WARRANTIES
+              OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE, AND NON-INFRINGEMENT.
+            </p>
+            <p style={{ marginBottom: '12px' }}>
+              TO THE MAXIMUM EXTENT PERMITTED BY LAW, ZIK4U SHALL NOT BE LIABLE FOR ANY INDIRECT, INCIDENTAL, SPECIAL, CONSEQUENTIAL,
+              OR PUNITIVE DAMAGES, OR ANY LOSS OF PROFITS, REVENUE, DATA, OR BUSINESS OPPORTUNITIES ARISING FROM YOUR USE OF THE SERVICE.
+            </p>
+            <p>
+              OUR TOTAL LIABILITY TO YOU FOR ANY CLAIM ARISING FROM THESE TERMS OR THE SERVICE SHALL NOT EXCEED THE GREATER OF (A)
+              $100 OR (B) THE AMOUNT YOU PAID TO ZIK4U IN THE 12 MONTHS PRECEDING THE CLAIM.
+            </p>
+          </section>
+
+          {/* 11 */}
+          <section>
+            <h2 style={{ fontSize: '22px', fontWeight: 700, color: '#FFFFFF', marginBottom: '16px' }}>11. Termination</h2>
+            <p style={{ marginBottom: '12px' }}>
+              You may delete your account at any time via Settings → Delete Account. Upon deletion, your personal data will be
+              removed within 30 days, except where retention is required by law.
+            </p>
+            <p>
+              We may suspend or terminate your account immediately, with or without notice, if you violate these Terms or engage
+              in conduct we deem harmful to other users or the Service. Upon termination, all licenses granted to you immediately cease.
+            </p>
+          </section>
+
+          {/* 12 */}
+          <section>
+            <h2 style={{ fontSize: '22px', fontWeight: 700, color: '#FFFFFF', marginBottom: '16px' }}>12. Governing Law & Disputes</h2>
+            <p style={{ marginBottom: '12px' }}>
+              These Terms are governed by the laws of the State of Florida, United States, without regard to conflict of law principles.
+            </p>
+            <p style={{ marginBottom: '12px' }}>
+              Any dispute arising from these Terms or the Service shall be resolved by binding arbitration under the rules of the
+              American Arbitration Association, except that either party may seek injunctive relief in a court of competent jurisdiction.
+              You waive any right to participate in a class action lawsuit.
+            </p>
+            <p>
+              For users in the EEA: Nothing in these Terms limits your rights under applicable EU consumer protection law or your
+              right to bring a claim before your local data protection authority.
+            </p>
+          </section>
+
+          {/* Contact */}
+          <section
+            style={{
+              backgroundColor: '#12122A',
+              borderRadius: '16px',
+              padding: '32px',
+              border: '1px solid rgba(255,60,172,0.2)',
+            }}
+          >
+            <h2 style={{ fontSize: '20px', fontWeight: 700, color: '#FFFFFF', marginBottom: '12px' }}>Questions?</h2>
+            <p style={{ marginBottom: '16px' }}>
+              For questions about these Terms, contact our Legal Team:
+            </p>
+            <a
+              href={`mailto:${CONTACT_EMAIL}`}
+              style={{
+                display: 'inline-block',
+                padding: '12px 24px',
+                background: 'linear-gradient(135deg, #FF3CAC, #7B2FFF)',
+                borderRadius: '8px',
+                color: '#FFFFFF',
+                fontWeight: 700,
+                textDecoration: 'none',
+                fontSize: '15px',
+              }}
+            >
+              {CONTACT_EMAIL}
+            </a>
+          </section>
+
+        </div>
+      </main>
+
+      {/* Footer */}
+      <footer style={{ borderTop: '1px solid rgba(255,255,255,0.08)', padding: '24px', textAlign: 'center' }}>
+        <div style={{ display: 'flex', gap: '24px', justifyContent: 'center', flexWrap: 'wrap' }}>
+          <a href="/legal/privacy" style={{ color: 'rgba(255,255,255,0.4)', textDecoration: 'none', fontSize: '14px' }}>Privacy Policy</a>
+          <a href="/legal/terms" style={{ color: '#00D4FF', textDecoration: 'none', fontSize: '14px' }}>Terms of Service</a>
+          <a href="/" style={{ color: 'rgba(255,255,255,0.4)', textDecoration: 'none', fontSize: '14px' }}>Home</a>
+        </div>
+        <p style={{ color: 'rgba(255,255,255,0.2)', fontSize: '12px', marginTop: '12px' }}>
+          © {new Date().getFullYear()} Zik4U. All rights reserved.
+        </p>
+      </footer>
+    </div>
+  );
+}

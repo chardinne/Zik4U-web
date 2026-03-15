@@ -1,18 +1,11 @@
 import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
 import './globals.css';
+import { defaultMetadata } from '@/lib/seo';
 
 const inter = Inter({ subsets: ['latin'] });
 
-export const metadata: Metadata = {
-  title: 'Zik4U — Your Music. Your Identity.',
-  description: 'Discover creators who listen like you. Turn your music taste into passive revenue.',
-  openGraph: {
-    title: 'Zik4U — Your Music. Your Identity.',
-    description: 'Discover creators who listen like you.',
-    type: 'website',
-  },
-};
+export const metadata: Metadata = defaultMetadata;
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
