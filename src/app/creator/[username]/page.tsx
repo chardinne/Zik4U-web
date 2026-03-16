@@ -46,10 +46,17 @@ export default function CreatorProfilePage() {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  const handleSubscribe = (tier: CreatorTier) => {
+  const handleSubscribe = (tier: CreatorTier | null) => {
     if (!user) {
       setPendingTier(tier);
       setAuthOpen(true);
+      return;
+    }
+    if (!tier) {
+      // Follow gratuit — rediriger vers l'app ou confirmer
+      router.push(
+        `https://zik4u.com/subscribe/${creator?.id}?action=follow`,
+      );
       return;
     }
     router.push(`/subscribe/${creator?.id}?tier=${tier.id}`);
@@ -57,6 +64,11 @@ export default function CreatorProfilePage() {
 
   const handleAuthSuccess = () => {
     setAuthOpen(false);
+    if (!pendingTier && creator) {
+      // Follow gratuit après auth
+      router.push(`/subscribe/success?creator=${creator.id}&action=follow`);
+      return;
+    }
     if (pendingTier && creator) {
       router.push(`/subscribe/${creator.id}?tier=${pendingTier.id}`);
     }
@@ -280,14 +292,31 @@ export default function CreatorProfilePage() {
             </div>
           </>
         ) : (
-          <div
-            className="text-center py-10 rounded-2xl mb-12"
-            style={{ background: '#12122A', border: '1px solid rgba(255,255,255,0.08)' }}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            className="rounded-2xl p-8 text-center mb-12"
+            style={{ background: '#12122A', border: '1px solid rgba(0,212,255,0.1)' }}
           >
-            <p style={{ color: 'rgba(255,255,255,0.4)' }}>
-              This creator hasn&apos;t set up subscriptions yet.
+            <p className="text-3xl mb-3">🎵</p>
+            <h3 className="text-lg font-black text-white mb-2">
+              Follow {creator.displayName}
+            </h3>
+            <p className="text-textSecondary text-sm mb-6 max-w-sm mx-auto">
+              {creator.displayName} hasn&apos;t set up paid subscriptions yet.
+              Follow them for free and get notified when they launch.
             </p>
-          </div>
+            <button
+              onClick={() => handleSubscribe(null)}
+              className="px-8 py-3 rounded-xl font-bold text-bg text-sm transition-all hover:scale-105"
+              style={{ background: 'linear-gradient(135deg, #00D4FF, #00FFB2)' }}
+            >
+              Follow for free →
+            </button>
+            <p className="text-xs text-textSecondary mt-3">
+              No payment required
+            </p>
+          </motion.div>
         )}
 
         {/* Legal disclaimer */}

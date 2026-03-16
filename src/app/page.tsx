@@ -119,23 +119,24 @@ export default function HomePage() {
           </motion.div>
         </div>
 
-        {/* Social proof — just below cards */}
+        {/* Early access message */}
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.55 }}
-          className="flex justify-center gap-6 md:gap-8 mt-8 md:mt-12 text-center"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 0.5 }}
+          className="mt-16 flex flex-col items-center gap-6"
         >
-          {[
-            { value: '10K+', label: 'Listeners' },
-            { value: '500+', label: 'Creators' },
-            { value: '$50K+', label: 'Paid out' },
-          ].map((stat) => (
-            <div key={stat.label}>
-              <div className="text-xl md:text-3xl font-black gradient-text">{stat.value}</div>
-              <div className="text-xs md:text-sm mt-0.5" style={{ color: 'rgba(255,255,255,0.5)' }}>{stat.label}</div>
-            </div>
-          ))}
+          <div
+            className="flex items-center gap-3 px-5 py-3 rounded-full text-sm"
+            style={{ background: '#12122A', border: '1px solid rgba(0,212,255,0.15)' }}
+          >
+            <span className="text-lg">🚀</span>
+            <span className="text-white font-semibold">Early access — be among the first</span>
+          </div>
+          <p className="text-textSecondary text-sm text-center max-w-sm">
+            Zik4U is launching soon. Join now and shape the future
+            of music identity.
+          </p>
         </motion.div>
       </main>
 
