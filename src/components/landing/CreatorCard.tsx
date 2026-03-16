@@ -19,7 +19,7 @@ export function CreatorCard({ creator, index }: Props) {
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.4, delay: index * 0.05 }}
       onClick={() => router.push(`/creator/${creator.username}`)}
-      className="cursor-pointer rounded-2xl p-4 md:p-5 transition-all hover:scale-105"
+      className="cursor-pointer rounded-2xl p-4 md:p-5 transition-all hover:scale-105 relative"
       style={{
         background: '#12122A',
         border: '1px solid rgba(255,255,255,0.08)',
@@ -29,6 +29,25 @@ export function CreatorCard({ creator, index }: Props) {
         boxShadow: '0 0 30px rgba(0,212,255,0.1)',
       }}
     >
+      {/* Featured badge */}
+      {creator.isFeatured && (
+        <span
+          style={{
+            position: 'absolute',
+            top: '8px',
+            right: '8px',
+            background: 'linear-gradient(135deg, #FF3CAC, #7B2FFF)',
+            color: '#fff',
+            fontSize: '10px',
+            fontWeight: 700,
+            borderRadius: '9999px',
+            padding: '2px 8px',
+          }}
+        >
+          ✦ Featured
+        </span>
+      )}
+
       {/* Avatar + name */}
       <div className="flex items-center gap-3 mb-3 md:mb-4">
         <div

@@ -26,5 +26,6 @@ export interface SearchResult {
   avatarUrl: string | null;
   topArtists: string[];
   isCreator: boolean;
+  isFeatured: boolean;
   minTierPrice: number | null;
 }
