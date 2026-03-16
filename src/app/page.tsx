@@ -144,8 +144,8 @@ export default function HomePage() {
       <footer className="flex items-center justify-between px-6 py-4 text-xs" style={{ borderTop: '1px solid rgba(255,255,255,0.1)', color: 'rgba(255,255,255,0.3)' }}>
         <span>© 2026 Zik4U. All rights reserved.</span>
         <div className="hidden md:flex gap-4">
-          <Link href="#" className="hover:text-white/60 transition-colors">Privacy</Link>
-          <Link href="#" className="hover:text-white/60 transition-colors">Terms</Link>
+          <Link href="/legal/privacy" className="hover:text-white/60 transition-colors">Privacy</Link>
+          <Link href="/legal/terms" className="hover:text-white/60 transition-colors">Terms</Link>
         </div>
       </footer>
     </div>

@@ -53,10 +53,8 @@ export default function CreatorProfilePage() {
       return;
     }
     if (!tier) {
-      // Follow gratuit — rediriger vers l'app ou confirmer
-      router.push(
-        `https://zik4u.com/subscribe/${creator?.id}?action=follow`,
-      );
+      // Follow gratuit — rediriger vers la page succès
+      router.push(`/subscribe/success?creator=${creator?.id}&action=follow`);
       return;
     }
     router.push(`/subscribe/${creator?.id}?tier=${tier.id}`);

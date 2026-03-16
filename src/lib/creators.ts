@@ -61,6 +61,9 @@ const DEMO_CREATORS: SearchResult[] = [
 export async function searchCreators(query: string): Promise<SearchResult[]> {
   if (!query.trim()) return getFeaturedCreators();
 
+  // Limit input length to prevent ILIKE pattern exhaustion on DB
+  const safeQuery = query.trim().slice(0, 100);
+
   try {
     const { data, error } = await supabase
       .from('profiles')
@@ -72,7 +75,7 @@ export async function searchCreators(query: string): Promise<SearchResult[]> {
         users!inner(is_creator)
       `)
       .eq('users.is_creator', true)
-      .or(`username.ilike.%${query}%,display_name.ilike.%${query}%`)
+      .or(`username.ilike.%${safeQuery}%,display_name.ilike.%${safeQuery}%`)
       .limit(12);
 
     if (error) throw error;
@@ -81,7 +84,7 @@ export async function searchCreators(query: string): Promise<SearchResult[]> {
 
     // Fallback sur démos filtrées si aucun résultat réel
     if (results.length === 0) {
-      const q = query.toLowerCase();
+      const q = safeQuery.toLowerCase();
       return DEMO_CREATORS.filter(
         (c) =>
           c.displayName.toLowerCase().includes(q) ||

@@ -116,7 +116,10 @@ export default function SubscribePage() {
         session.access_token,
       );
 
-      // Redirect to Stripe
+      // Validate URL before redirect — must be a Stripe checkout URL
+      if (!result.url.startsWith('https://checkout.stripe.com')) {
+        throw new Error('Invalid checkout URL');
+      }
       window.location.href = result.url;
     } catch (e) {
       setError(e instanceof Error ? e.message : 'Checkout failed. Please try again.');

@@ -33,6 +33,13 @@ export function AuthModal({ isOpen, onClose, onSuccess, redirectMessage }: Props
   const handleEmail = async () => {
     setLoading(true);
     setError(null);
+
+    if (isSignUp && password.length < 8) {
+      setError('Password must be at least 8 characters');
+      setLoading(false);
+      return;
+    }
+
     const { error } = isSignUp
       ? await supabase.auth.signUp({ email, password })
       : await supabase.auth.signInWithPassword({ email, password });
