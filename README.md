@@ -16,7 +16,8 @@ Public website for **Zik4U**, the music social network. Handles listener acquisi
 | `/subscribe/cancel` | Abandoned payment — retry CTA |
 | `/legal/privacy` | Privacy Policy (GDPR + CCPA, 11 sections) |
 | `/legal/terms` | Terms of Service (12 sections) |
-| `/sitemap.xml` | Static routes + dynamic creator profiles from Supabase |
+| `/card/[username]` | Share-to-install landing — Now Card preview (mood gradient + last track + top artist + streak), App Store / Play Store CTAs, deep link `zik4u://profile/:username`, OG metadata |
+| `/sitemap.xml` | Static routes + dynamic creator profiles + `/card/` pages from Supabase (profiles, limit 500) |
 | `/robots.txt` | Crawl allowed, /subscribe/ and /api/ excluded |
 
 ## Tech Stack
@@ -47,21 +48,22 @@ src/
     /subscribe/cancel      # Abandoned payment
     /legal/privacy         # Privacy Policy (Server Component, 11 sections)
     /legal/terms           # Terms of Service (Server Component, 12 sections)
-    /sitemap.xml           # Static + dynamic sitemap
+    /card/[username]       # Share-to-install Server Component — Now Card preview + store CTAs
+    /sitemap.xml           # Static + dynamic sitemap (creators + card pages)
     /robots.txt            # Crawl rules
   components/
     landing/
-      CreatorCard.tsx      # Search result card (avatar, artists, price, hover)
+      CreatorCard.tsx      # Search result card (avatar, artists, price, hover, "✦ Featured" badge)
       TierCard.tsx         # Subscription tier card (perks, price, popular badge, CTA)
     auth/
       AuthModal.tsx        # Auth modal (Google OAuth + Email sign in/sign up)
   lib/
     supabase.ts            # Supabase client
-    creators.ts            # searchCreators, getFeaturedCreators, getCreatorProfile
+    creators.ts            # searchCreators, getFeaturedCreators (Promise.all + dedup), getCreatorProfile
     stripe.ts              # createCheckoutSession → Edge Function create-stripe-checkout
     seo.ts                 # defaultMetadata, generatePageMetadata, generateCreatorMetadata
   types/
-    index.ts               # CreatorProfile, CreatorTier, SearchResult
+    index.ts               # CreatorProfile, CreatorTier, SearchResult (+ isFeatured: boolean)
 public/
   og-image.svg             # OG image 1200×630 SVG
 ```
@@ -106,6 +108,35 @@ npm run dev
 npm run build
 npm run start
 ```
+
+## Share-to-Install Flow (/card/[username])
+
+```
+Mobile app InviteScreen  →  Share.share({ url: 'https://zik4u.com/card/:username' })
+                             OR copy to clipboard
+  ↓
+/card/[username]  (Server Component)
+  Fetches: profiles (display_name, avatar, current_streak)
+           scrobbles (last played — played_at DESC LIMIT 1)
+           get_user_top_artists RPC (limit 1)
+  Renders: mood gradient card (5 moods based on UTC hour)
+           last track + top artist + streak badge
+  ↓
+CTAs:
+  → App Store (id6748722257 — update after approval)
+  → Google Play (com.zik4u.app)
+  → zik4u://profile/:username (deep link — opens app if installed)
+```
+
+OG metadata is generated server-side per user (`generateMetadata`), enabling rich link previews on iOS/Android when the URL is shared via WhatsApp, Messenger, iMessage, etc.
+
+## Featured Creators
+
+`getFeaturedCreators()` runs two parallel queries:
+1. `users WHERE is_featured = true LIMIT 6`
+2. `users LIMIT 12`
+
+Results are merged and deduplicated (featured first), giving a list of up to 12 with featured accounts always shown first. The `is_featured` flag is set manually in Supabase Dashboard. `CreatorCard` displays a "✦ Featured" badge (gradient #FF3CAC → #7B2FFF) for featured accounts.
 
 ## Checkout Flow
 
