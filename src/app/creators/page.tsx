@@ -1,440 +1,424 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { motion } from 'framer-motion';
-import { AuthModal } from '@/components/auth/AuthModal';
-
-const BENEFITS = [
-  {
-    emoji: '💰',
-    title: 'Passive Revenue',
-    description: 'Earn every month from fans who subscribe to your musical world. No content creation required — your listening habits are your product.',
-  },
-  {
-    emoji: '🎵',
-    title: 'Your Music Is Your Brand',
-    description: 'Zik4U automatically captures what you listen to and transforms it into your unique musical identity. Authentic. Real. Yours.',
-  },
-  {
-    emoji: '👥',
-    title: 'Real Fan Connections',
-    description: 'Connect with fans who genuinely share your taste. No algorithms — pure music compatibility.',
-  },
-  {
-    emoji: '📊',
-    title: 'Deep Analytics',
-    description: 'Know what your community listens to, your top fans, your revenue trends. Creator Wrapped shows your yearly impact.',
-  },
-  {
-    emoji: '🚀',
-    title: 'Viral Sharing Tools',
-    description: 'Now Card, Wrapped, Fan Cards — shareable on TikTok and Instagram. Your community grows organically.',
-  },
-  {
-    emoji: '🔒',
-    title: 'Exclusive Content Drops',
-    description: 'Reward your top subscribers with exclusive listening sessions, playlists and direct messages.',
-  },
-];
-
-const TIERS = [
-  {
-    name: 'Basic',
-    price: 4.99,
-    color: '#00D4FF',
-    popular: false,
-    perks: [
-      "Access to creator's listening feed",
-      'Music compatibility score',
-      'Exclusive posts',
-    ],
-  },
-  {
-    name: 'Pro',
-    price: 9.99,
-    color: '#FF3CAC',
-    popular: true,
-    perks: [
-      'Everything in Basic',
-      'Direct messaging',
-      'Monthly playlist drops',
-      'Fan Card shareable',
-    ],
-  },
-  {
-    name: 'Elite',
-    price: 19.99,
-    color: '#7B2FFF',
-    popular: false,
-    perks: [
-      'Everything in Pro',
-      'Weekly 1-on-1 listening session',
-      'Early access to all drops',
-      'Priority support',
-    ],
-  },
-];
 
 const STEPS = [
-  { number: '01', title: 'Sign up as creator', description: 'Create your account in 30 seconds with Google or email.' },
-  { number: '02', title: 'Connect your streaming', description: 'Link Spotify, Apple Music or YouTube Music. Zik4U captures your listening automatically.' },
-  { number: '03', title: 'Set your tiers', description: 'Choose your subscription prices. We suggest $4.99 / $9.99 / $19.99 — you can customize.' },
-  { number: '04', title: 'Start earning', description: 'Share your profile link. Fans subscribe. Revenue hits your account monthly via Stripe.' },
+  {
+    number: '01',
+    title: 'Connect your streaming services',
+    body: 'Spotify, Apple Music, YouTube Music — automatic capture. No manual logging.',
+  },
+  {
+    number: '02',
+    title: 'Your fans subscribe to your Zik4U',
+    body: 'They see what you actually listen to. In real time. Not your curated feed — your real taste.',
+  },
+  {
+    number: '03',
+    title: 'You earn. Every month.',
+    body: 'Direct to your account. The more subscribers, the more you earn. Simple.',
+  },
 ];
+
+const STORY_TEXT = `I just joined Zik4U — you can now see what I'm actually listening to, in real time.
+Link in bio 👇
+#Zik4U #Music`;
 
 export default function CreatorsPage() {
   const router = useRouter();
-  const [authOpen, setAuthOpen] = useState(false);
-  const [showStickyBar, setShowStickyBar] = useState(false);
+  const [copied, setCopied] = useState(false);
 
-  useEffect(() => {
-    const handleScroll = () => setShowStickyBar(window.scrollY > 300);
-    window.addEventListener('scroll', handleScroll, { passive: true });
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
-
-  const handleAuthSuccess = () => {
-    setAuthOpen(false);
-    router.push('/');
+  const handleCopy = () => {
+    navigator.clipboard.writeText(STORY_TEXT);
+    setCopied(true);
+    setTimeout(() => setCopied(false), 2500);
   };
 
   return (
-    <main className="min-h-screen pb-20 md:pb-0" style={{ backgroundColor: '#0A0A1A' }}>
+    <main style={{
+      minHeight: '100vh',
+      backgroundColor: '#0A0A1A',
+      fontFamily: 'Inter, system-ui, sans-serif',
+      color: '#fff',
+    }}>
 
-      {/* Header */}
-      <header
-        className="flex items-center justify-between px-6 md:px-8 py-4 md:py-6"
-        style={{ borderBottom: '1px solid rgba(255,255,255,0.05)' }}
-      >
+      {/* Nav */}
+      <nav style={{
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'space-between',
+        padding: '20px 32px',
+        maxWidth: 1100,
+        margin: '0 auto',
+      }}>
         <button
           onClick={() => router.push('/')}
-          className="text-xl font-black tracking-widest gradient-text-creator"
+          style={{
+            border: 'none',
+            fontSize: 20,
+            fontWeight: 900,
+            letterSpacing: '0.2em',
+            background: 'linear-gradient(90deg, #00D4FF, #00FFB2, #FF3CAC)',
+            WebkitBackgroundClip: 'text',
+            WebkitTextFillColor: 'transparent',
+            cursor: 'pointer',
+          }}
         >
           ZIK4U
         </button>
         <button
-          onClick={() => router.push('/users')}
-          className="text-sm transition-colors hover:text-white"
-          style={{ color: 'rgba(255,255,255,0.4)' }}
+          onClick={() => router.push('/fans')}
+          style={{
+            background: 'none',
+            border: 'none',
+            fontSize: 14,
+            color: 'rgba(255,255,255,0.4)',
+            cursor: 'pointer',
+            fontFamily: 'Inter, system-ui, sans-serif',
+          }}
+          onMouseEnter={e => (e.currentTarget.style.color = '#fff')}
+          onMouseLeave={e => (e.currentTarget.style.color = 'rgba(255,255,255,0.4)')}
         >
-          I&apos;m a listener →
+          Find a Creator →
         </button>
-      </header>
+      </nav>
 
-      {/* Hero — compact on mobile, CTA visible without scrolling */}
-      <section className="max-w-5xl mx-auto px-6 py-12 md:py-20 text-center">
+      <div style={{ maxWidth: 780, margin: '0 auto', padding: '40px 24px 120px' }}>
+
+        {/* BLOC 1 — Hero */}
         <motion.div
-          initial={{ opacity: 0, y: 30 }}
+          initial={{ opacity: 0, y: 40 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6 }}
+          transition={{ duration: 0.7 }}
+          style={{ marginBottom: 100 }}
         >
-          <p
-            className="text-xs font-bold tracking-widest uppercase mb-4"
-            style={{ color: '#FF3CAC' }}
-          >
-            For creators
+          <p style={{
+            fontSize: 13,
+            fontWeight: 700,
+            letterSpacing: '0.15em',
+            color: '#FF3CAC',
+            textTransform: 'uppercase',
+            marginBottom: 24,
+          }}>
+            For Creators
           </p>
-          <h1 className="text-4xl md:text-7xl font-black mb-5 md:mb-6 leading-tight">
-            Turn your music taste
+          <h1 style={{
+            fontSize: 'clamp(40px, 6vw, 80px)',
+            fontWeight: 900,
+            lineHeight: 1.0,
+            letterSpacing: '-0.03em',
+            marginBottom: 32,
+          }}>
+            Your fans are already asking.
             <br />
-            into{' '}
-            <span className="gradient-text-creator">passive revenue</span>
+            <span style={{
+              background: 'linear-gradient(90deg, #FF3CAC, #7B2FFF)',
+              WebkitBackgroundClip: 'text',
+              WebkitTextFillColor: 'transparent',
+            }}>
+              Now you get paid for the answer.
+            </span>
           </h1>
-          <p
-            className="text-base md:text-xl max-w-2xl mx-auto mb-8 md:mb-10"
-            style={{ color: 'rgba(255,255,255,0.5)' }}
-          >
-            Your listening habits are your content.
-            Fans subscribe to your musical world.
-            You earn — automatically, every month.
-          </p>
-          <motion.button
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
-            onClick={() => setAuthOpen(true)}
-            className="px-10 py-4 rounded-full font-black text-lg text-white"
-            style={{ background: 'linear-gradient(135deg, #FF3CAC, #7B2FFF)', minHeight: '44px' }}
-          >
-            Start earning now →
-          </motion.button>
-          <p className="text-xs mt-3" style={{ color: 'rgba(255,255,255,0.4)' }}>
-            Free to join. No credit card required.
+          <p style={{
+            fontSize: 20,
+            color: 'rgba(255,255,255,0.5)',
+            lineHeight: 1.7,
+            maxWidth: 560,
+          }}>
+            Every time someone asks &ldquo;what are you listening to?&rdquo; in your comments,
+            your DMs, your stories — that&apos;s money left on the table.
+            Zik4U closes that gap.
           </p>
         </motion.div>
 
-        {/* Revenue stats — hidden on mobile */}
+        {/* BLOC 2 — 80/20 */}
         <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 0.4 }}
-          className="hidden md:grid mt-16 grid-cols-3 gap-6 max-w-lg mx-auto"
-        >
-          {[
-            { value: '$127', label: 'Avg monthly revenue' },
-            { value: '23', label: 'Avg subscribers' },
-            { value: '85%', label: 'Creator revenue share' },
-          ].map((stat) => (
-            <div key={stat.label} className="text-center">
-              <p className="text-3xl font-black gradient-text-creator">{stat.value}</p>
-              <p className="text-xs mt-1" style={{ color: 'rgba(255,255,255,0.4)' }}>
-                {stat.label}
-              </p>
-            </div>
-          ))}
-        </motion.div>
-      </section>
-
-      {/* Benefits — 3 on mobile, 6 on desktop */}
-      <section className="max-w-5xl mx-auto px-6 py-8 md:py-16">
-        <h2 className="text-2xl md:text-3xl font-black text-white text-center mb-8 md:mb-12">
-          Everything you need to monetize
-        </h2>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6">
-          {BENEFITS.map((benefit, index) => (
-            <motion.div
-              key={benefit.title}
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: index * 0.1 }}
-              className={`rounded-2xl p-5 md:p-6${index >= 3 ? ' hidden md:block' : ''}`}
-              style={{ background: '#12122A', border: '1px solid rgba(255,255,255,0.06)' }}
-            >
-              <div className="text-2xl md:text-3xl mb-2 md:mb-3">{benefit.emoji}</div>
-              <h3 className="font-bold text-white mb-1 md:mb-2">{benefit.title}</h3>
-              <p className="text-sm leading-relaxed" style={{ color: 'rgba(255,255,255,0.5)' }}>
-                {benefit.description}
-              </p>
-            </motion.div>
-          ))}
-        </div>
-        {/* "And more" link — mobile only */}
-        <p
-          className="md:hidden text-center text-sm mt-4 cursor-pointer hover:text-white transition-colors"
-          style={{ color: 'rgba(255,255,255,0.4)' }}
-          onClick={() => setAuthOpen(true)}
-        >
-          And much more — join to discover →
-        </p>
-      </section>
-
-      {/* Pricing tiers — horizontal carousel on mobile, grid on desktop */}
-      <section className="py-8 md:py-16">
-        <div className="max-w-5xl mx-auto px-6">
-          <div className="text-center mb-8 md:mb-12">
-            <h2 className="text-2xl md:text-3xl font-black text-white mb-2 md:mb-3">
-              Suggested subscription tiers
-            </h2>
-            <p style={{ color: 'rgba(255,255,255,0.5)' }}>
-              You choose your prices. These are our recommendations.
-            </p>
-          </div>
-        </div>
-        {/* Mobile: horizontal scroll carousel */}
-        <div
-          className="md:hidden flex gap-4 overflow-x-auto pb-4 px-6"
-          style={{ scrollSnapType: 'x mandatory', WebkitOverflowScrolling: 'touch' }}
-        >
-          {TIERS.map((tier, index) => (
-            <div
-              key={tier.name}
-              className="relative rounded-2xl p-6 flex-shrink-0"
-              style={{
-                minWidth: '280px',
-                scrollSnapAlign: 'start',
-                background: tier.popular
-                  ? 'linear-gradient(135deg, rgba(255,60,172,0.12), rgba(123,47,255,0.08))'
-                  : '#12122A',
-                border: tier.popular
-                  ? '1px solid rgba(255,60,172,0.3)'
-                  : '1px solid rgba(255,255,255,0.08)',
-              }}
-            >
-              {tier.popular && (
-                <div
-                  className="absolute -top-3 left-1/2 -translate-x-1/2 text-xs font-bold px-4 py-1 rounded-full text-white whitespace-nowrap"
-                  style={{ background: 'linear-gradient(135deg, #FF3CAC, #7B2FFF)' }}
-                >
-                  ⭐ Most chosen
-                </div>
-              )}
-              <p className="text-xs font-bold tracking-widest uppercase mb-2" style={{ color: tier.color }}>
-                {tier.name}
-              </p>
-              <div className="flex items-baseline gap-1 mb-4">
-                <span className="text-4xl font-black text-white">${tier.price}</span>
-                <span className="text-sm" style={{ color: 'rgba(255,255,255,0.4)' }}>/mo per fan</span>
-              </div>
-              <ul className="space-y-2">
-                {tier.perks.map((perk) => (
-                  <li key={perk} className="flex items-start gap-2 text-sm" style={{ color: 'rgba(255,255,255,0.8)' }}>
-                    <span className="flex-shrink-0 mt-0.5" style={{ color: tier.color }}>✓</span>
-                    <span>{perk}</span>
-                  </li>
-                ))}
-              </ul>
-            </div>
-          ))}
-        </div>
-        {/* Desktop: 3-col grid */}
-        <div className="hidden md:grid max-w-5xl mx-auto px-6 grid-cols-3 gap-6">
-          {TIERS.map((tier, index) => (
-            <motion.div
-              key={tier.name}
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: index * 0.1 }}
-              className="relative rounded-2xl p-6"
-              style={{
-                background: tier.popular
-                  ? 'linear-gradient(135deg, rgba(255,60,172,0.12), rgba(123,47,255,0.08))'
-                  : '#12122A',
-                border: tier.popular
-                  ? '1px solid rgba(255,60,172,0.3)'
-                  : '1px solid rgba(255,255,255,0.08)',
-              }}
-            >
-              {tier.popular && (
-                <div
-                  className="absolute -top-3 left-1/2 -translate-x-1/2 text-xs font-bold px-4 py-1 rounded-full text-white"
-                  style={{ background: 'linear-gradient(135deg, #FF3CAC, #7B2FFF)' }}
-                >
-                  ⭐ Most chosen
-                </div>
-              )}
-              <p className="text-xs font-bold tracking-widest uppercase mb-2" style={{ color: tier.color }}>
-                {tier.name}
-              </p>
-              <div className="flex items-baseline gap-1 mb-4">
-                <span className="text-4xl font-black text-white">${tier.price}</span>
-                <span className="text-sm" style={{ color: 'rgba(255,255,255,0.4)' }}>/mo per fan</span>
-              </div>
-              <ul className="space-y-2">
-                {tier.perks.map((perk) => (
-                  <li key={perk} className="flex items-start gap-2 text-sm" style={{ color: 'rgba(255,255,255,0.8)' }}>
-                    <span className="flex-shrink-0 mt-0.5" style={{ color: tier.color }}>✓</span>
-                    <span>{perk}</span>
-                  </li>
-                ))}
-              </ul>
-            </motion.div>
-          ))}
-        </div>
-        <p className="text-center text-xs mt-6 px-6" style={{ color: 'rgba(255,255,255,0.4)' }}>
-          Zik4U takes 15% platform fee. You keep 85% of all revenue.
-        </p>
-      </section>
-
-      {/* How it works — 2 steps on mobile, 4 on desktop */}
-      <section className="max-w-4xl mx-auto px-6 py-8 md:py-16">
-        <h2 className="text-2xl md:text-3xl font-black text-white text-center mb-8 md:mb-12">
-          Start earning in 4 steps
-        </h2>
-        <div className="space-y-4 md:space-y-6">
-          {STEPS.map((step, index) => (
-            <motion.div
-              key={step.number}
-              initial={{ opacity: 0, x: -20 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: index * 0.1 }}
-              // On mobile show only step 01 and 04
-              className={`flex items-start gap-5 md:gap-6 p-5 md:p-6 rounded-2xl${index === 1 || index === 2 ? ' hidden md:flex' : ''}`}
-              style={{ background: '#12122A', border: '1px solid rgba(255,255,255,0.06)' }}
-            >
-              <span className="text-xl md:text-2xl font-black flex-shrink-0" style={{ color: '#FF3CAC' }}>
-                {step.number}
-              </span>
-              <div>
-                <h3 className="font-bold text-white mb-1">{step.title}</h3>
-                <p className="text-sm leading-relaxed" style={{ color: 'rgba(255,255,255,0.5)' }}>
-                  {step.description}
-                </p>
-              </div>
-            </motion.div>
-          ))}
-        </div>
-      </section>
-
-      {/* Final CTA — desktop only (mobile has sticky bar) */}
-      <section className="hidden md:block max-w-3xl mx-auto px-6 py-20 text-center">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
+          initial={{ opacity: 0, y: 40 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          className="rounded-3xl p-12"
+          transition={{ duration: 0.7 }}
           style={{
-            background: 'linear-gradient(135deg, rgba(255,60,172,0.12), rgba(123,47,255,0.08))',
-            border: '1px solid rgba(255,60,172,0.2)',
+            marginBottom: 100,
+            padding: '64px 48px',
+            background: '#0D0D20',
+            borderRadius: 32,
+            textAlign: 'center',
           }}
         >
-          <p className="text-4xl mb-4">🎤</p>
-          <h2 className="text-3xl font-black text-white mb-3">
-            Ready to monetize your sound?
-          </h2>
-          <p className="mb-8" style={{ color: 'rgba(255,255,255,0.5)' }}>
-            Join hundreds of creators already earning on Zik4U.
-            Free to start. No credit card required.
+          <div style={{
+            fontSize: 'clamp(100px, 18vw, 180px)',
+            fontWeight: 900,
+            lineHeight: 0.9,
+            background: 'linear-gradient(135deg, #FF3CAC, #7B2FFF)',
+            WebkitBackgroundClip: 'text',
+            WebkitTextFillColor: 'transparent',
+            marginBottom: 24,
+          }}>
+            80%
+          </div>
+          <p style={{
+            fontSize: 'clamp(20px, 3vw, 28px)',
+            fontWeight: 700,
+            color: '#fff',
+            marginBottom: 12,
+          }}>
+            You keep eighty percent.
           </p>
-          <motion.button
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
-            onClick={() => setAuthOpen(true)}
-            className="px-10 py-4 rounded-full font-black text-lg text-white"
-            style={{ background: 'linear-gradient(135deg, #FF3CAC, #7B2FFF)' }}
-          >
-            Create my creator account →
-          </motion.button>
-          <p className="text-xs mt-4" style={{ color: 'rgba(255,255,255,0.4)' }}>
-            Already have an account?{' '}
-            <button onClick={() => setAuthOpen(true)} className="underline hover:text-white transition-colors">
-              Sign in
-            </button>
+          <p style={{
+            fontSize: 18,
+            color: 'rgba(255,255,255,0.4)',
+            lineHeight: 1.6,
+          }}>
+            We take twenty. That&apos;s the deal.
+            <br />
+            No hidden fees. No complicated splits. No surprises.
           </p>
         </motion.div>
-      </section>
 
-      {/* Footer */}
-      <footer
-        className="hidden md:flex px-8 py-6 items-center justify-between text-xs"
-        style={{ color: 'rgba(255,255,255,0.3)', borderTop: '1px solid rgba(255,255,255,0.05)' }}
-      >
-        <span>© 2026 Zik4U. All rights reserved.</span>
-        <div className="flex gap-6">
-          <a href="/legal/privacy" className="hover:text-white transition-colors">Privacy</a>
-          <a href="/legal/terms" className="hover:text-white transition-colors">Terms</a>
-          <a href="mailto:support@zik4u.com" className="hover:text-white transition-colors">Support</a>
-        </div>
-      </footer>
-
-      {/* Sticky bottom CTA — mobile only, appears after 300px scroll */}
-      {showStickyBar && (
+        {/* BLOC 3 — 3 étapes */}
         <motion.div
-          initial={{ y: 80, opacity: 0 }}
-          animate={{ y: 0, opacity: 1 }}
-          className="md:hidden fixed bottom-0 inset-x-0 z-50 px-4 py-3"
-          style={{ background: 'rgba(10,10,26,0.97)', borderTop: '1px solid rgba(255,255,255,0.08)', backdropFilter: 'blur(12px)' }}
+          initial={{ opacity: 0, y: 40 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.7 }}
+          style={{ marginBottom: 100 }}
         >
+          <h2 style={{
+            fontSize: 'clamp(28px, 4vw, 44px)',
+            fontWeight: 900,
+            marginBottom: 56,
+            letterSpacing: '-0.02em',
+          }}>
+            How it works.
+          </h2>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 48 }}>
+            {STEPS.map((step, i) => (
+              <motion.div
+                key={step.number}
+                initial={{ opacity: 0, x: -20 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.5, delay: i * 0.1 }}
+                style={{ display: 'flex', gap: 32, alignItems: 'flex-start' }}
+              >
+                <span style={{
+                  fontSize: 13,
+                  fontWeight: 700,
+                  color: '#FF3CAC',
+                  letterSpacing: '0.1em',
+                  minWidth: 28,
+                  paddingTop: 4,
+                }}>
+                  {step.number}
+                </span>
+                <div>
+                  <p style={{
+                    fontSize: 22,
+                    fontWeight: 700,
+                    color: '#fff',
+                    marginBottom: 8,
+                  }}>
+                    {step.title}
+                  </p>
+                  <p style={{
+                    fontSize: 16,
+                    color: 'rgba(255,255,255,0.4)',
+                    lineHeight: 1.6,
+                  }}>
+                    {step.body}
+                  </p>
+                </div>
+              </motion.div>
+            ))}
+          </div>
+        </motion.div>
+
+        {/* BLOC 4 — Lien spécial */}
+        <motion.div
+          initial={{ opacity: 0, y: 40 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.7 }}
+          style={{ marginBottom: 100 }}
+        >
+          <h2 style={{
+            fontSize: 'clamp(28px, 4vw, 44px)',
+            fontWeight: 900,
+            marginBottom: 24,
+            letterSpacing: '-0.02em',
+          }}>
+            Your Zik4U profile
+            <br />
+            <span style={{
+              background: 'linear-gradient(90deg, #00D4FF, #00FFB2)',
+              WebkitBackgroundClip: 'text',
+              WebkitTextFillColor: 'transparent',
+            }}>
+              is your new link in bio.
+            </span>
+          </h2>
+          <p style={{
+            fontSize: 18,
+            color: 'rgba(255,255,255,0.45)',
+            lineHeight: 1.7,
+            maxWidth: 520,
+            marginBottom: 40,
+          }}>
+            One link. Your real music taste. Your exclusive drops.
+            Your subscriber community. Everything your fans want —
+            in one place.
+          </p>
+          <div style={{
+            display: 'inline-flex',
+            alignItems: 'center',
+            gap: 12,
+            padding: '14px 24px',
+            background: '#12122A',
+            borderRadius: 12,
+            border: '1px solid rgba(0,212,255,0.15)',
+          }}>
+            <span style={{ fontSize: 15, color: 'rgba(255,255,255,0.3)' }}>
+              zik4u.com/creator/
+            </span>
+            <span style={{
+              fontSize: 15,
+              fontWeight: 700,
+              background: 'linear-gradient(90deg, #00D4FF, #00FFB2)',
+              WebkitBackgroundClip: 'text',
+              WebkitTextFillColor: 'transparent',
+            }}>
+              yourname
+            </span>
+          </div>
+        </motion.div>
+
+        {/* BLOC 5 — Story CTA */}
+        <motion.div
+          initial={{ opacity: 0, y: 40 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.7 }}
+          style={{
+            marginBottom: 100,
+            padding: '48px',
+            background: '#0D0D20',
+            borderRadius: 32,
+          }}
+        >
+          <p style={{
+            fontSize: 13,
+            fontWeight: 700,
+            letterSpacing: '0.15em',
+            color: '#00FFB2',
+            textTransform: 'uppercase',
+            marginBottom: 20,
+          }}>
+            Tell your community
+          </p>
+          <h2 style={{
+            fontSize: 'clamp(24px, 3.5vw, 38px)',
+            fontWeight: 900,
+            marginBottom: 16,
+            letterSpacing: '-0.02em',
+            lineHeight: 1.15,
+          }}>
+            Your fans don&apos;t know you&apos;re here yet.
+            <br />
+            One story changes that.
+          </h2>
+          <p style={{
+            fontSize: 16,
+            color: 'rgba(255,255,255,0.4)',
+            marginBottom: 32,
+            lineHeight: 1.6,
+          }}>
+            Post this on Instagram or TikTok. Your community will follow.
+          </p>
+          <div style={{
+            background: '#0A0A1A',
+            borderRadius: 16,
+            padding: '24px',
+            marginBottom: 20,
+            border: '1px solid rgba(255,255,255,0.06)',
+          }}>
+            <p style={{
+              fontSize: 15,
+              color: 'rgba(255,255,255,0.7)',
+              lineHeight: 1.8,
+              whiteSpace: 'pre-line',
+              margin: 0,
+            }}>
+              {STORY_TEXT}
+            </p>
+          </div>
           <button
-            onClick={() => setAuthOpen(true)}
-            className="w-full py-4 rounded-2xl font-black text-white text-base"
-            style={{ background: 'linear-gradient(135deg, #FF3CAC, #7B2FFF)', minHeight: '52px' }}
+            onClick={handleCopy}
+            style={{
+              padding: '14px 28px',
+              background: copied
+                ? 'linear-gradient(135deg, #00FFB2, #00D4FF)'
+                : '#1A1A35',
+              border: '1px solid rgba(255,255,255,0.1)',
+              borderRadius: 12,
+              cursor: 'pointer',
+              fontSize: 14,
+              fontWeight: 700,
+              color: copied ? '#0A0A1A' : '#fff',
+              fontFamily: 'Inter, system-ui, sans-serif',
+              transition: 'all 0.2s',
+            }}
           >
-            Start earning now →
+            {copied ? '✓ Copied!' : 'Copy this text'}
           </button>
         </motion.div>
-      )}
 
-      {/* Auth modal */}
-      <AuthModal
-        isOpen={authOpen}
-        onClose={() => setAuthOpen(false)}
-        onSuccess={handleAuthSuccess}
-        redirectMessage="Create your creator account"
-      />
+        {/* BLOC 6 — CTA final */}
+        <motion.div
+          initial={{ opacity: 0, y: 40 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.7 }}
+          style={{ textAlign: 'center' }}
+        >
+          <h2 style={{
+            fontSize: 'clamp(28px, 4vw, 48px)',
+            fontWeight: 900,
+            marginBottom: 16,
+            letterSpacing: '-0.02em',
+          }}>
+            Ready to monetize
+            <br />
+            your real taste?
+          </h2>
+          <p style={{
+            fontSize: 16,
+            color: 'rgba(255,255,255,0.4)',
+            marginBottom: 40,
+          }}>
+            Set up your profile in minutes. Your first subscriber could be today.
+          </p>
+          <button
+            onClick={() => router.push('/become-creator')}
+            style={{
+              padding: '18px 48px',
+              background: 'linear-gradient(135deg, #FF3CAC, #7B2FFF)',
+              border: 'none',
+              borderRadius: 16,
+              cursor: 'pointer',
+              fontSize: 17,
+              fontWeight: 800,
+              color: '#fff',
+              fontFamily: 'Inter, system-ui, sans-serif',
+              letterSpacing: '-0.01em',
+            }}
+          >
+            Become a Creator →
+          </button>
+        </motion.div>
 
+      </div>
     </main>
   );
 }
