@@ -157,7 +157,7 @@ export default function SubscribePage() {
           onClick={() => router.push('/fans')}
           style={{ color: '#00D4FF', background: 'none', border: 'none', cursor: 'pointer', fontSize: '14px' }}
         >
-          ← Browse creators
+          ← Explore creators
         </button>
       </main>
     );
@@ -200,7 +200,7 @@ export default function SubscribePage() {
     return (
       <main style={{ backgroundColor: '#0A0A1A', minHeight: '100vh', color: '#FFFFFF' }}>
         {/* Header */}
-        <header style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '20px 24px', borderBottom: '1px solid rgba(255,255,255,0.05)' }}>
+        <header style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '20px 24px' }}>
           <button
             onClick={() => router.push(`/creator/${creator.username}`)}
             style={{ color: 'rgba(255,255,255,0.4)', background: 'none', border: 'none', cursor: 'pointer', fontSize: '14px' }}
@@ -218,8 +218,23 @@ export default function SubscribePage() {
 
             {/* Creator info */}
             <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '32px' }}>
-              <div style={{ width: '48px', height: '48px', borderRadius: '50%', flexShrink: 0, background: 'linear-gradient(135deg, #FF3CAC, #7B2FFF)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontWeight: 900, fontSize: '20px' }}>
-                {creator.displayName.charAt(0).toUpperCase()}
+              <div style={{ width: '48px', height: '48px', borderRadius: '50%', flexShrink: 0, background: 'linear-gradient(135deg, #FF3CAC, #7B2FFF)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontWeight: 900, fontSize: '20px', overflow: 'hidden' }}>
+                {creator.avatarUrl ? (
+                  <img
+                    src={creator.avatarUrl}
+                    alt={creator.displayName}
+                    style={{
+                      width: '100%',
+                      height: '100%',
+                      borderRadius: '50%',
+                      objectFit: 'cover',
+                    }}
+                  />
+                ) : (
+                  <span style={{ fontWeight: 900, fontSize: '20px', color: '#fff' }}>
+                    {creator.displayName.charAt(0).toUpperCase()}
+                  </span>
+                )}
               </div>
               <div>
                 <p style={{ fontWeight: 700, color: '#FFFFFF', margin: 0 }}>{creator.displayName}</p>
