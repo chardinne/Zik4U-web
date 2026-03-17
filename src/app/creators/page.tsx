@@ -56,14 +56,17 @@ export default function CreatorsPage() {
         <button
           onClick={() => router.push('/')}
           style={{
+            background: 'linear-gradient(90deg, #00D4FF, #00FFB2, #FF3CAC)',
+            WebkitBackgroundClip: 'text',
+            WebkitTextFillColor: 'transparent',
+            backgroundClip: 'text',
             border: 'none',
             fontSize: 20,
             fontWeight: 900,
             letterSpacing: '0.2em',
-            background: 'linear-gradient(90deg, #00D4FF, #00FFB2, #FF3CAC)',
-            WebkitBackgroundClip: 'text',
-            WebkitTextFillColor: 'transparent',
             cursor: 'pointer',
+            fontFamily: 'Inter, system-ui, sans-serif',
+            padding: 0,
           }}
         >
           ZIK4U

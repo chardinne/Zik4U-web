@@ -89,7 +89,7 @@ export default function CreatorProfilePage() {
         <p className="text-6xl">🎵</p>
         <h1 className="text-2xl font-black text-white">Creator not found</h1>
         <button
-          onClick={() => router.push('/users')}
+          onClick={() => router.push('/fans')}
           className="transition-colors hover:underline"
           style={{ color: '#00D4FF' }}
         >
@@ -126,7 +126,7 @@ export default function CreatorProfilePage() {
           ZIK4U
         </button>
         <button
-          onClick={() => router.push('/users')}
+          onClick={() => router.push('/fans')}
           className="text-sm transition-colors hover:text-white"
           style={{ color: 'rgba(255,255,255,0.4)' }}
         >

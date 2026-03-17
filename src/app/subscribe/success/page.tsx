@@ -5,6 +5,9 @@ import { motion } from 'framer-motion';
 import { useEffect, useState, Suspense } from 'react';
 import { supabase } from '@/lib/supabase';
 
+const APP_STORE_URL = 'https://apps.apple.com/app/zik4u/id6748722257';
+const PLAY_STORE_URL = 'https://play.google.com/store/apps/details?id=com.zik4u.app';
+
 function SuccessContent() {
   const searchParams = useSearchParams();
   const router = useRouter();
@@ -53,12 +56,46 @@ function SuccessContent() {
         <div style={{ background: '#12122A', border: '1px solid rgba(0,212,255,0.15)', borderRadius: '16px', padding: '24px', marginBottom: '24px' }}>
           <p style={{ fontWeight: 700, color: '#FFFFFF', marginBottom: '16px' }}>Get the full experience</p>
           <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
-            <button style={{ width: '100%', padding: '12px', borderRadius: '12px', border: 'none', cursor: 'pointer', background: 'linear-gradient(135deg, #00D4FF, #00FFB2)', color: '#0A0A1A', fontWeight: 700, fontSize: '14px' }}>
-              📱 Download on iOS
-            </button>
-            <button style={{ width: '100%', padding: '12px', borderRadius: '12px', cursor: 'pointer', background: '#1A1A35', border: '1px solid rgba(255,255,255,0.1)', color: '#FFFFFF', fontWeight: 700, fontSize: '14px' }}>
-              🤖 Get on Android
-            </button>
+            <a
+              href={APP_STORE_URL}
+              style={{
+                display: 'block',
+                width: '100%',
+                padding: '12px',
+                borderRadius: '12px',
+                border: 'none',
+                cursor: 'pointer',
+                background: 'linear-gradient(135deg, #00D4FF, #00FFB2)',
+                color: '#0A0A1A',
+                fontWeight: 700,
+                fontSize: '14px',
+                textDecoration: 'none',
+                textAlign: 'center',
+                fontFamily: 'Inter, system-ui, sans-serif',
+              }}
+            >
+              🍎 Download on App Store
+            </a>
+            <a
+              href={PLAY_STORE_URL}
+              style={{
+                display: 'block',
+                width: '100%',
+                padding: '12px',
+                borderRadius: '12px',
+                cursor: 'pointer',
+                background: '#1A1A35',
+                border: '1px solid rgba(255,255,255,0.1)',
+                color: '#FFFFFF',
+                fontWeight: 700,
+                fontSize: '14px',
+                textDecoration: 'none',
+                textAlign: 'center',
+                fontFamily: 'Inter, system-ui, sans-serif',
+              }}
+            >
+              ▶ Get on Google Play
+            </a>
           </div>
         </div>
 
@@ -72,10 +109,10 @@ function SuccessContent() {
             </button>
           )}
           <button
-            onClick={() => router.push('/users')}
+            onClick={() => router.push('/fans')}
             style={{ flex: 1, padding: '12px', borderRadius: '12px', cursor: 'pointer', background: 'transparent', border: '1px solid rgba(0,212,255,0.2)', color: '#00D4FF', fontSize: '13px' }}
           >
-            Discover more →
+            Explore creators →
           </button>
         </div>
       </motion.div>

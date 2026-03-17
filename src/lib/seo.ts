@@ -20,7 +20,7 @@ export const defaultMetadata: Metadata = {
     url: BASE_URL,
     images: [
       {
-        url: '/og-image.png',
+        url: '/opengraph-image',
         width: 1200,
         height: 630,
         alt: 'Zik4U — Your Music. Your Identity.',
@@ -31,7 +31,7 @@ export const defaultMetadata: Metadata = {
     card: 'summary_large_image',
     title: 'Zik4U — Your Music. Your Identity.',
     description: 'Discover creators who listen like you.',
-    images: ['/og-image.png'],
+    images: ['/opengraph-image'],
     creator: '@zik4u',
   },
   robots: {

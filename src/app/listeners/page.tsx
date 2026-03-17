@@ -15,7 +15,7 @@ const FEATURES = [
   {
     emoji: '🃏',
     title: 'Now Card',
-    body: "Generate a shareable card of what you're listening to right now. Post it on TikTok, Instagram, anywhere.",
+    body: "Generate your Now Card — a live snapshot of your musical identity. Share it on TikTok, Instagram. Watch people ask 'what app is this?'",
   },
   {
     emoji: '📡',
@@ -52,14 +52,17 @@ export default function ListenersPage() {
         <button
           onClick={() => router.push('/')}
           style={{
+            background: 'linear-gradient(90deg, #00D4FF, #00FFB2, #FF3CAC)',
+            WebkitBackgroundClip: 'text',
+            WebkitTextFillColor: 'transparent',
+            backgroundClip: 'text',
             border: 'none',
             fontSize: 20,
             fontWeight: 900,
             letterSpacing: '0.2em',
-            background: 'linear-gradient(90deg, #00D4FF, #00FFB2, #FF3CAC)',
-            WebkitBackgroundClip: 'text',
-            WebkitTextFillColor: 'transparent',
             cursor: 'pointer',
+            fontFamily: 'Inter, system-ui, sans-serif',
+            padding: 0,
           }}
         >
           ZIK4U

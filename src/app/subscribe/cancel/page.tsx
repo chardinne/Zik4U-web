@@ -28,13 +28,13 @@ function CancelContent() {
         animate={{ opacity: 1, y: 0 }}
         style={{ maxWidth: '360px', width: '100%' }}
       >
-        <p style={{ fontSize: '56px', marginBottom: '24px' }}>😔</p>
+        <p style={{ fontSize: '56px', marginBottom: '24px' }}>💳</p>
         <h1 style={{ fontSize: '24px', fontWeight: 900, color: '#FFFFFF', marginBottom: '8px' }}>
-          Payment cancelled
+          Changed your mind?
         </h1>
         <p style={{ color: 'rgba(255,255,255,0.5)', marginBottom: '32px', fontSize: '14px' }}>
           No worries — you haven&apos;t been charged.
-          You can subscribe anytime.
+          The creator&apos;s content is still waiting for you.
         </p>
         <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
           {creatorUsername && (
@@ -46,10 +46,10 @@ function CancelContent() {
             </button>
           )}
           <button
-            onClick={() => router.push('/users')}
+            onClick={() => router.push('/fans')}
             style={{ width: '100%', padding: '14px', borderRadius: '12px', cursor: 'pointer', background: 'transparent', border: '1px solid rgba(255,255,255,0.1)', color: 'rgba(255,255,255,0.5)', fontSize: '14px' }}
           >
-            Browse other creators
+            Explore other creators →
           </button>
         </div>
       </motion.div>

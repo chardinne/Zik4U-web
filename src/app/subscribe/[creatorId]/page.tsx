@@ -154,7 +154,7 @@ export default function SubscribePage() {
         <h1 style={{ fontSize: '24px', fontWeight: 900, color: '#FFFFFF' }}>Something went wrong</h1>
         <p style={{ color: 'rgba(255,255,255,0.5)' }}>{error}</p>
         <button
-          onClick={() => router.push('/users')}
+          onClick={() => router.push('/fans')}
           style={{ color: '#00D4FF', background: 'none', border: 'none', cursor: 'pointer', fontSize: '14px' }}
         >
           ← Browse creators
