@@ -155,7 +155,7 @@ export default function HomePage() {
             Fan
           </span>
           <span style={{ fontSize: 13, color: 'rgba(255,255,255,0.35)', fontWeight: 500 }}>
-            See what your favorite artist listens to. For real.
+            Your favorite artist. What they really listen to.
           </span>
         </button>
       </motion.div>
@@ -178,7 +178,7 @@ export default function HomePage() {
           borderRadius: 999,
           border: '1px solid rgba(0,212,255,0.2)',
         }}>
-          Early Access · Join Now
+          Early Access  ·  Join Now
         </span>
       </motion.div>
 
