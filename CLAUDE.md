@@ -29,6 +29,7 @@ src/
     /users                 ✅ Tunnel listener : search + grille créateurs
     /creators              ✅ Tunnel créateur : hero + benefits + pricing + how-to
     /become-creator        ✅ Page transition user → creator
+    /card/[username]       ✅ Share-to-Install : Now Card preview + CTAs App Store/Play
     /creator/[username]    ✅ Profil public créateur + tiers + auth gate
     /subscribe/[creatorId] ✅ Checkout Stripe (auth check, billing toggle, Edge Function redirect)
     /subscribe/success     ✅ Page succès post-paiement
@@ -135,9 +136,20 @@ Security headers et `images.remotePatterns` doivent être configurés dans `next
 - RPC `get_user_top_artists(p_user_id, p_limit)` → `[{ artist_name: string }]`
 - `creator_subscriptions` : compter avec `{ count: 'exact', head: true }` + `.eq('status', 'active')`
 - **DEMO_CREATORS** : tableau de 6 profils statiques retourné si la DB est vide ou en erreur — site fonctionnel dès le premier jour sans données réelles
+- **getFeaturedCreators()** : Promise.all — Query A (is_featured=true, limit 6)
+  + Query B (tous creators, limit 12) — merge featured en premier, dédupliqués par id
+- **isFeatured** : champ boolean ajouté à SearchResult (src/types/index.ts)
+- **mapToSearchResult** : mappe is_featured depuis la jointure users
 
 ## Gotchas supplémentaires
 - **`sitemap.ts`** : importer `supabase` (export nommé de `supabase.ts`), pas `createClient` (n'existe pas dans ce fichier)
+- **`sitemap.ts`** : génère aussi les routes /card/{username} depuis profiles (limit 500)
+  via Promise.all avec les creator routes (limit 5000)
+- **`/card/[username]`** : Server Component — params typé Promise<{username}> et awaité
+  (Next.js 16). Fetch profil + dernier scrobble + RPC get_user_top_artists.
+  getMoodFromHour(utcHour) → 5 moods avec gradients. Deep link zik4u://profile/:username.
+- **APP_STORE_URL** dans /card/[username]/page.tsx : placeholder à remplacer par l'ID
+  réel après approbation App Store
 - **`searchCreators`** : `.or(\`username.ilike.%${safeQuery}%,...\`)` — toujours passer par `safeQuery = query.trim().slice(0, 100)`
 - **`AuthModal` password** : validation `password.length < 8` côté client avant `signUp` (Supabase exige ≥6, on en veut ≥8)
 - **`og-image.svg`** dans `public/` : 1200×630 SVG — utilisé par `defaultMetadata.openGraph.images`
@@ -178,8 +190,21 @@ git push         # Push via gh auth (upstream main configuré)
 ```
 
 ## Prochaines étapes
-- Déploiement Vercel (configurer les variables d'environnement de prod)
-- Configurer `NEXT_PUBLIC_SUPABASE_ANON_KEY` en prod (app vide sans cette clé)
-- OG image : remplacer `public/og-image.svg` par un PNG 1200×630 généré (meilleur support social)
-- A/B test landing : mesurer conversion listener vs creator
-- Composants `ui/` réutilisables (Button, Card, Badge) si duplication détectée
+
+### Déploiement (à faire)
+- [ ] Vercel : importer chardinne/Zik4U-web, configurer les 3 env vars
+- [ ] Hostinger DNS : A @ 76.76.21.21 + CNAME www cname.vercel-dns.com
+      (procédure complète : docs/HOSTINGER_VERCEL_DNS.md)
+- [ ] Vercel : configurer NEXT_PUBLIC_SUPABASE_ANON_KEY en prod
+- [ ] OG image : remplacer public/og-image.svg par PNG 1200×630
+
+### Post-LLC
+- [ ] Mettre à jour APP_STORE_URL dans /card/[username]/page.tsx
+      avec l'ID réel App Store
+- [ ] A/B test landing : mesurer conversion listener vs creator
+- [ ] Composants ui/ réutilisables si duplication détectée
+
+### Variables d'environnement (voir .env.example)
+- NEXT_PUBLIC_SUPABASE_URL ✅ hardcodé (public)
+- NEXT_PUBLIC_SUPABASE_ANON_KEY ⚠️ à configurer dans Vercel
+- NEXT_PUBLIC_SITE_URL ⚠️ https://zik4u.com en prod
