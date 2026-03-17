@@ -110,14 +110,14 @@ export default function ListenersPage() {
             letterSpacing: '-0.03em',
             marginBottom: 32,
           }}>
-            What are they
+            What are they listening to.
             <br />
             <span style={{
               background: 'linear-gradient(90deg, #00D4FF, #00FFB2)',
               WebkitBackgroundClip: 'text',
               WebkitTextFillColor: 'transparent',
             }}>
-              really listening to?
+              For real.
             </span>
           </h1>
           <p style={{

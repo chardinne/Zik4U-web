@@ -175,7 +175,7 @@ export default async function CardPage({ params }: Props) {
           Listen to what {displayName} hears
         </p>
         <p style={{ textAlign: 'center', fontSize: 13, color: 'rgba(255,255,255,0.4)', margin: 0 }}>
-          Your music. Your identity. Real connections.
+          Real music. Real identity. For real.
         </p>
 
         {/* App Store */}

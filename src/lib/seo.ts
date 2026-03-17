@@ -8,7 +8,7 @@ export const defaultMetadata: Metadata = {
     default: 'Zik4U: Your Music. Your Identity.',
     template: '%s | Zik4U',
   },
-  description: 'Discover creators who listen like you. Subscribe to their musical world. Or turn your music taste into passive revenue.',
+  description: 'The social network built on real listens. Discover, connect, and monetize what you actually hear. For real.',
   keywords: ['music social network', 'music creators', 'music identity', 'passive revenue music', 'spotify social', 'music subscription'],
   authors: [{ name: 'Zik4U' }],
   creator: 'Zik4U',

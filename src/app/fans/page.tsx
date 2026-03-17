@@ -10,7 +10,7 @@ const APP_STORE_URL = 'https://apps.apple.com/app/zik4u/id6748722257';
 const PLAY_STORE_URL = 'https://play.google.com/store/apps/details?id=com.zik4u.app';
 
 const WHAT_YOU_GET = [
-  { emoji: '📡', text: "Real-time listening feed: what they play, when they play it" },
+  { emoji: '📡', text: "Real-time listening feed. What they play. For real." },
   { emoji: '🎵', text: "Exclusive Drops: tracks they share only with subscribers" },
   { emoji: '🎯', text: "Music compatibility score between you and your creator" },
   { emoji: '🃏', text: "Fan Card: shareable proof you're part of their world" },
@@ -134,8 +134,9 @@ export default function FansPage() {
             lineHeight: 1.7,
             maxWidth: 480,
           }}>
-            See what they actually listen to.
-            Before anyone else.
+            See what they listen to.{' '}
+            <span style={{ color: '#00FFB2', fontWeight: 700 }}>For real.</span>
+            {' '}Before anyone else.
           </p>
         </motion.div>
 

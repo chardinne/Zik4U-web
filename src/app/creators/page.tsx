@@ -13,7 +13,7 @@ const STEPS = [
   {
     number: '02',
     title: 'Your fans subscribe to your Zik4U',
-    body: 'They see what you actually listen to. In real time. Not your curated feed. Your real taste.',
+    body: 'They see what you actually listen to. In real time. Not your curated feed. For real.',
   },
   {
     number: '03',
@@ -121,6 +121,10 @@ export default function CreatorsPage() {
               WebkitBackgroundClip: 'text',
               WebkitTextFillColor: 'transparent',
             }}>
+              What do you listen to? For real.
+            </span>
+            <br />
+            <span style={{ color: '#fff' }}>
               Now you get paid for the answer.
             </span>
           </h1>
