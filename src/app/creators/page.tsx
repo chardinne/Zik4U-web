@@ -8,12 +8,12 @@ const STEPS = [
   {
     number: '01',
     title: 'Connect your streaming services',
-    body: 'Spotify, Apple Music, YouTube Music — automatic capture. No manual logging.',
+    body: 'Spotify, Apple Music, YouTube Music. Automatic capture. No manual logging.',
   },
   {
     number: '02',
     title: 'Your fans subscribe to your Zik4U',
-    body: 'They see what you actually listen to. In real time. Not your curated feed — your real taste.',
+    body: 'They see what you actually listen to. In real time. Not your curated feed. Your real taste.',
   },
   {
     number: '03',
@@ -22,7 +22,7 @@ const STEPS = [
   },
 ];
 
-const STORY_TEXT = `I just joined Zik4U — you can now see what I'm actually listening to, in real time.
+const STORY_TEXT = `I just joined Zik4U. You can now see what I'm actually listening to, in real time.
 Link in bio 👇
 #Zik4U #Music`;
 
@@ -131,7 +131,7 @@ export default function CreatorsPage() {
             maxWidth: 560,
           }}>
             Every time someone asks &ldquo;what are you listening to?&rdquo; in your comments,
-            your DMs, your stories — that&apos;s money left on the table.
+            your DMs, your stories. That&apos;s money left on the table.
             Zik4U closes that gap.
           </p>
         </motion.div>
@@ -270,8 +270,7 @@ export default function CreatorsPage() {
             marginBottom: 40,
           }}>
             One link. Your real music taste. Your exclusive drops.
-            Your subscriber community. Everything your fans want —
-            in one place.
+            Your subscriber community. Everything your fans want, in one place.
           </p>
           <div style={{
             display: 'inline-flex',

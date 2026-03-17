@@ -5,7 +5,7 @@ const BASE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://zik4u.com';
 export const defaultMetadata: Metadata = {
   metadataBase: new URL(BASE_URL),
   title: {
-    default: 'Zik4U — Your Music. Your Identity.',
+    default: 'Zik4U: Your Music. Your Identity.',
     template: '%s | Zik4U',
   },
   description: 'Discover creators who listen like you. Subscribe to their musical world. Or turn your music taste into passive revenue.',
@@ -15,7 +15,7 @@ export const defaultMetadata: Metadata = {
   openGraph: {
     type: 'website',
     siteName: 'Zik4U',
-    title: 'Zik4U — Your Music. Your Identity.',
+    title: 'Zik4U: Your Music. Your Identity.',
     description: 'Discover creators who listen like you. Turn your music taste into passive revenue.',
     url: BASE_URL,
     images: [
@@ -23,13 +23,13 @@ export const defaultMetadata: Metadata = {
         url: '/opengraph-image',
         width: 1200,
         height: 630,
-        alt: 'Zik4U — Your Music. Your Identity.',
+        alt: 'Zik4U: Your Music. Your Identity.',
       },
     ],
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Zik4U — Your Music. Your Identity.',
+    title: 'Zik4U: Your Music. Your Identity.',
     description: 'Discover creators who listen like you.',
     images: ['/opengraph-image'],
     creator: '@zik4u',

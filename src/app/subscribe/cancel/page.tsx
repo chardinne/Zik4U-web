@@ -33,7 +33,7 @@ function CancelContent() {
           Changed your mind?
         </h1>
         <p style={{ color: 'rgba(255,255,255,0.5)', marginBottom: '32px', fontSize: '14px' }}>
-          No worries — you haven&apos;t been charged.
+          No worries. You haven&apos;t been charged.
           The creator&apos;s content is still waiting for you.
         </p>
         <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>

@@ -24,16 +24,16 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     .single();
 
   if (!profile) {
-    return { title: 'Zik4U — Musical Identity' };
+    return { title: 'Zik4U: Musical Identity' };
   }
 
   const displayName = profile.display_name ?? profile.username;
 
   return {
-    title: `${displayName}'s Musical Identity — Zik4U`,
-    description: `Discover what @${profile.username} is listening to. Join Zik4U — the social network built around real music.`,
+    title: `${displayName} on Zik4U`,
+    description: `Discover what @${profile.username} is listening to. Join Zik4U, the social network built around real music.`,
     openGraph: {
-      title: `${displayName}'s Musical Identity — Zik4U`,
+      title: `${displayName} on Zik4U`,
       description: `See @${profile.username}'s listening identity. Download Zik4U.`,
       images: profile.avatar_url ? [{ url: profile.avatar_url, width: 400, height: 400 }] : [],
       type: 'profile',

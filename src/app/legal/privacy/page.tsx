@@ -143,10 +143,10 @@ export default function PrivacyPolicyPage() {
               If you are located in the European Economic Area (EEA), our legal basis for processing your data is:
             </p>
             <ul style={{ paddingLeft: '20px', display: 'flex', flexDirection: 'column', gap: '8px' }}>
-              <li><strong style={{ color: '#FFFFFF' }}>Contract performance</strong> — to deliver the Service you signed up for</li>
-              <li><strong style={{ color: '#FFFFFF' }}>Consent</strong> — for music detection, push notifications, and optional analytics</li>
-              <li><strong style={{ color: '#FFFFFF' }}>Legitimate interests</strong> — for fraud prevention, security, and product improvement</li>
-              <li><strong style={{ color: '#FFFFFF' }}>Legal obligation</strong> — for tax reporting, GDPR compliance, and law enforcement requests</li>
+              <li><strong style={{ color: '#FFFFFF' }}>Contract performance</strong>: to deliver the Service you signed up for</li>
+              <li><strong style={{ color: '#FFFFFF' }}>Consent</strong>: for music detection, push notifications, and optional analytics</li>
+              <li><strong style={{ color: '#FFFFFF' }}>Legitimate interests</strong>: for fraud prevention, security, and product improvement</li>
+              <li><strong style={{ color: '#FFFFFF' }}>Legal obligation</strong>: for tax reporting, GDPR compliance, and law enforcement requests</li>
             </ul>
           </section>
 

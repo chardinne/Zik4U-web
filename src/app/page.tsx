@@ -70,7 +70,7 @@ export default function HomePage() {
         }}>
           Not your curated playlist. Not your public profile.
           <br />
-          Your real listening identity — live, shared, monetized.
+          Your real listening identity. Live, shared, monetized.
         </p>
       </motion.div>
 
@@ -178,7 +178,7 @@ export default function HomePage() {
           borderRadius: 999,
           border: '1px solid rgba(0,212,255,0.2)',
         }}>
-          Early Access — Join Now
+          Early Access · Join Now
         </span>
       </motion.div>
 

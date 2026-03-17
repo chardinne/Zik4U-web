@@ -2,7 +2,7 @@ import { generatePageMetadata } from '@/lib/seo';
 
 export const metadata = generatePageMetadata(
   'Terms of Service',
-  'Read the Zik4U Terms of Service — your rights and responsibilities as a listener or creator.',
+  'Read the Zik4U Terms of Service: your rights and responsibilities as a listener or creator.',
   '/legal/terms',
 );
 
