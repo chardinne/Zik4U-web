@@ -93,7 +93,7 @@ export default function CreatorProfilePage() {
           className="transition-colors hover:underline"
           style={{ color: '#00D4FF' }}
         >
-          Browse all creators →
+          Explore creators →
         </button>
       </main>
     );
@@ -117,7 +117,7 @@ export default function CreatorProfilePage() {
       {/* Header */}
       <header
         className="flex items-center justify-between px-6 md:px-8 py-4 md:py-6"
-        style={{ borderBottom: '1px solid rgba(255,255,255,0.05)' }}
+        style={{}}
       >
         <button
           onClick={() => router.push('/')}
@@ -130,7 +130,7 @@ export default function CreatorProfilePage() {
           className="text-sm transition-colors hover:text-white"
           style={{ color: 'rgba(255,255,255,0.4)' }}
         >
-          ← Browse creators
+          ← Explore creators
         </button>
       </header>
 
@@ -192,20 +192,33 @@ export default function CreatorProfilePage() {
               </p>
             )}
 
-            {/* Stats — hidden on mobile */}
-            <div className="hidden md:flex items-center gap-6 mb-4">
-              <div className="text-center">
-                <p className="text-xl font-black text-white">{creator.totalSubscribers}</p>
-                <p className="text-xs" style={{ color: 'rgba(255,255,255,0.4)' }}>subscribers</p>
-              </div>
-              {creator.tiers.length > 0 && (
-                <div className="text-center">
-                  <p className="text-xl font-black text-white">
-                    ${Math.min(...creator.tiers.map((t) => t.priceWeb)).toFixed(2)}
-                  </p>
-                  <p className="text-xs" style={{ color: 'rgba(255,255,255,0.4)' }}>from /month</p>
+            {/* Stats */}
+            <div className="flex items-center gap-6 mb-4">
+              <div style={{ display: 'flex', alignItems: 'center', gap: 16, marginBottom: 12 }}>
+                <div>
+                  <span style={{ fontSize: 18, fontWeight: 900, color: '#fff' }}>
+                    {creator.totalSubscribers}
+                  </span>
+                  <span style={{
+                    fontSize: 12,
+                    color: 'rgba(255,255,255,0.4)',
+                    marginLeft: 4,
+                  }}>
+                    {creator.totalSubscribers === 1 ? 'subscriber' : 'subscribers'}
+                  </span>
                 </div>
-              )}
+                {creator.tiers.length > 0 && (
+                  <div style={{
+                    fontSize: 12,
+                    color: 'rgba(255,255,255,0.4)',
+                    padding: '3px 10px',
+                    borderRadius: 999,
+                    background: 'rgba(255,255,255,0.05)',
+                  }}>
+                    From ${Math.min(...creator.tiers.map(t => t.priceWeb)).toFixed(2)}/mo
+                  </div>
+                )}
+              </div>
             </div>
 
             {/* Top artists — max 2 on mobile with horizontal scroll */}
@@ -241,14 +254,59 @@ export default function CreatorProfilePage() {
         </motion.div>
 
         {/* Tiers */}
+        {creator.tiers.length > 0 && (
+          <div style={{
+            display: 'flex',
+            gap: 8,
+            marginBottom: 32,
+            overflowX: 'auto',
+            WebkitOverflowScrolling: 'touch' as const,
+            scrollbarWidth: 'none' as const,
+          }}>
+            {[
+              { emoji: '📡', text: 'Real-time listening feed' },
+              { emoji: '🎵', text: 'Exclusive Drops' },
+              { emoji: '🃏', text: 'Fan Card' },
+            ].map(item => (
+              <div
+                key={item.text}
+                style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: 6,
+                  padding: '8px 14px',
+                  borderRadius: 999,
+                  background: 'rgba(0,212,255,0.06)',
+                  border: '1px solid rgba(0,212,255,0.12)',
+                  whiteSpace: 'nowrap' as const,
+                  flexShrink: 0,
+                }}
+              >
+                <span style={{ fontSize: 14 }}>{item.emoji}</span>
+                <span style={{
+                  fontSize: 12,
+                  fontWeight: 600,
+                  color: 'rgba(255,255,255,0.6)',
+                }}>
+                  {item.text}
+                </span>
+              </div>
+            ))}
+          </div>
+        )}
         {creator.tiers.length > 0 ? (
           <>
             <div className="text-center mb-6 md:mb-8">
-              <h2 className="text-xl md:text-2xl font-black text-white mb-1 md:mb-2">
-                Choose your subscription
+              <h2 style={{
+                fontSize: 'clamp(20px, 3vw, 28px)',
+                fontWeight: 900,
+                color: '#fff',
+                marginBottom: 6,
+              }}>
+                Get inside {creator.displayName}&apos;s musical world
               </h2>
-              <p className="text-sm md:text-base" style={{ color: 'rgba(255,255,255,0.5)' }}>
-                Support {creator.displayName} and get exclusive access
+              <p style={{ fontSize: 14, color: 'rgba(255,255,255,0.45)', marginBottom: 0 }}>
+                See what they actually listen to. In real time.
               </p>
             </div>
 

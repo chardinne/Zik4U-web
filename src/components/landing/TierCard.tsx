@@ -78,7 +78,7 @@ export function TierCard({ tier, index, onSubscribe, isPopular }: Props) {
         style={
           isPopular
             ? { background: 'linear-gradient(135deg, #FF3CAC, #7B2FFF)', color: '#fff' }
-            : { background: '#1A1A35', color: '#fff', border: '1px solid rgba(255,255,255,0.15)' }
+            : { background: 'transparent', color: '#00D4FF', border: '1px solid rgba(0,212,255,0.35)' }
         }
       >
         Subscribe for ${tier.priceWeb.toFixed(2)}/mo →
