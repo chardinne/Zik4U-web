@@ -104,10 +104,10 @@ export default function HomePage() {
           }}
         >
           <span style={{ fontSize: 17, fontWeight: 800, color: '#0A0A1A' }}>
-            I&apos;m a Listener
+            Listener
           </span>
           <span style={{ fontSize: 13, color: 'rgba(10,10,26,0.6)', fontWeight: 500 }}>
-            Discover who listens like you
+            Discover people who listen like you. For real.
           </span>
         </button>
 
@@ -128,10 +128,10 @@ export default function HomePage() {
           }}
         >
           <span style={{ fontSize: 17, fontWeight: 800, color: '#fff' }}>
-            I&apos;m a Creator
+            Creator
           </span>
           <span style={{ fontSize: 13, color: 'rgba(255,255,255,0.6)', fontWeight: 500 }}>
-            Monetize your real music taste
+            Monetize your listens. For real.
           </span>
         </button>
 
@@ -152,10 +152,10 @@ export default function HomePage() {
           }}
         >
           <span style={{ fontSize: 17, fontWeight: 800, color: '#fff' }}>
-            Find a Creator
+            Fan
           </span>
           <span style={{ fontSize: 13, color: 'rgba(255,255,255,0.35)', fontWeight: 500 }}>
-            See what your favorite artist really listens to
+            See what your favorite artist listens to. For real.
           </span>
         </button>
       </motion.div>
