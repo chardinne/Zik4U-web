@@ -2,7 +2,7 @@
 
 ## Vue d'ensemble
 Site public Next.js 16 App Router pour Zik4U.
-Tunnels d'acquisition : listeners et créateurs.
+Tunnels d'acquisition : listeners, créateurs, fans.
 Backend partagé avec l'app mobile via Supabase.
 
 ## Stack
@@ -25,23 +25,29 @@ Backend partagé avec l'app mobile via Supabase.
 ```
 src/
   app/
-    /                      ✅ Landing (dual-door listener / creator)
-    /users                 ✅ Tunnel listener : search + grille créateurs
+    /                      ✅ Landing (triple-door: Listener / Creator / Fan)
+    /listeners             ✅ Tunnel listener : hero "What are they listening to. For real." + features
     /creators              ✅ Tunnel créateur : hero + benefits + pricing + how-to
-    /become-creator        ✅ Page transition user → creator
+    /fans                  ✅ Tunnel fan : search créateurs + WHAT_YOU_GET + store CTAs
+    /users                 ✅ Page créateurs (ancienne URL — conservée pour compatibilité)
+    /become-creator        ✅ Redirect → /creators (Server Component, next/navigation redirect)
     /card/[username]       ✅ Share-to-Install : Now Card preview + CTAs App Store/Play
     /creator/[username]    ✅ Profil public créateur + tiers + auth gate
     /subscribe/[creatorId] ✅ Checkout Stripe (auth check, billing toggle, Edge Function redirect)
-    /subscribe/success     ✅ Page succès post-paiement
-    /subscribe/cancel      ✅ Page abandon paiement
+    /subscribe/success     ✅ Page succès post-paiement + vrais liens App Store / Play Store
+    /subscribe/cancel      ✅ Page abandon paiement ("Changed your mind?")
     /legal/privacy         ✅ Privacy Policy (Server Component, 11 sections)
     /legal/terms           ✅ Terms of Service (Server Component, 12 sections)
     /sitemap.xml           ✅ Routes statiques + profils créateurs dynamiques depuis Supabase
     /robots.txt            ✅ Crawl autorisé, /subscribe/ et /api/ exclus
+    /not-found             ✅ Page 404 custom — "This track doesn't exist."
+    /opengraph-image       ✅ OG image générée en code (ImageResponse, edge runtime, 1200×630)
+    /icon                  ✅ Favicon généré en code (ImageResponse, edge runtime, 32×32, "Z4")
   components/
     landing/
-      CreatorCard.tsx      ✅ Card search result (avatar, artistes, prix, hover)
+      CreatorCard.tsx      ✅ Card search result (avatar, artistes, prix, hover, badge "✦ Featured")
       TierCard.tsx         ✅ Card abonnement (perks, prix, badge popular, CTA)
+                              CTA non-populaire : transparent + border cyan rgba(0,212,255,0.35)
     auth/
       AuthModal.tsx        ✅ Modal auth (Google OAuth + Email sign in/sign up)
     ui/                    ⏳ Composants réutilisables (à construire)
@@ -50,10 +56,11 @@ src/
     creators.ts            ✅ searchCreators, getFeaturedCreators, getCreatorProfile
     stripe.ts              ✅ createCheckoutSession → Edge Function create-stripe-checkout
     seo.ts                 ✅ defaultMetadata, generatePageMetadata, generateCreatorMetadata
+                              openGraph.images + twitter.images → '/opengraph-image' (pas og-image.png)
   types/
-    index.ts               ✅ CreatorProfile, CreatorTier, SearchResult
+    index.ts               ✅ CreatorProfile, CreatorTier, SearchResult (+ isFeatured: boolean)
 public/
-  og-image.svg             ✅ OG image 1200×630 SVG (placeholder)
+  og-image.svg             (remplacé par opengraph-image.tsx — conservé pour compatibilité)
 ```
 
 ## Design System
@@ -86,14 +93,21 @@ En pratique : styles inline `style={{ background: '...' }}` utilisés partout (p
 Next.js interdit `export const metadata` dans un fichier `'use client'`. Solution :
 créer un `layout.tsx` parent (Server Component) qui exporte `metadata`, laisser `page.tsx` en client component.
 ```tsx
-// src/app/users/layout.tsx (Server Component — pas de 'use client')
-import { generatePageMetadata } from '@/lib/seo';
-export const metadata = generatePageMetadata('Title', 'description', '/path');
+// src/app/fans/layout.tsx (Server Component — pas de 'use client')
+import type { Metadata } from 'next';
+export const metadata: Metadata = { title: '...', description: '...' };
 export default function Layout({ children }: { children: React.ReactNode }) {
   return <>{children}</>;
 }
 ```
-Les profils créateurs dynamiques utilisent `generateCreatorMetadata` dans leur propre layout avec `generateStaticParams` si nécessaire.
+Layouts SEO créés : `/creators/layout.tsx`, `/listeners/layout.tsx`, `/fans/layout.tsx`.
+Les profils créateurs dynamiques utilisent `generateCreatorMetadata` dans `generateMetadata`.
+
+## OG Image & Favicon — Générés en code
+- `src/app/opengraph-image.tsx` : `ImageResponse` edge runtime — logo ZIK4U gradient + tagline + badge
+- `src/app/icon.tsx` : `ImageResponse` edge runtime — carré arrondi gradient "Z4" 32×32
+- `seo.ts` référence `/opengraph-image` (plus `/og-image.png`)
+- Import : `import { ImageResponse } from 'next/og'` (Next.js ≥13.3 — pas de `@vercel/og`)
 
 ## Sécurité — next.config.ts (obligatoire en production)
 Security headers et `images.remotePatterns` doivent être configurés dans `next.config.ts` :
@@ -110,14 +124,28 @@ Security headers et `images.remotePatterns` doivent être configurés dans `next
 - **Auth Supabase** : `onAuthStateChange` avec cleanup `unsubscribe()` dans `useEffect`
 - **Types Supabase JS** : les joins `!inner` retournent des tableaux — utiliser `any` avec cast explicite
 - **`'use client'`** : obligatoire sur toutes les pages (Framer Motion + hooks)
+- **Tirets longs (—)** : interdits dans les textes visibles — remplacer par `.`, `:`, `,` ou `·`
+
+## Copy — Tagline "For real"
+Le fil rouge copywriting du site est "For real" (authenticité des données d'écoute).
+Décliné sur tous les tunnels :
+- `/` : boutons "Listener / Creator / Fan" avec sous-titre "... For real."
+- `/listeners` : h1 "What are they listening to. **For real.**"
+- `/creators` : h1 "What do you listen to? For real. / Now you get paid for the answer."
+- `/fans` : hero "See what they listen to. **For real.** Before anyone else."
+- `/card/[username]` : CTA "Real music. Real identity. For real."
+- `seo.ts` description : "...what you actually hear. For real."
 
 ## Flows utilisateur
 
 ### Tunnel listener
-`/` → clic "I'm a Listener" → `/users` → search créateurs → clic card → `/creator/[username]` → clic Subscribe → AuthModal (si non connecté) → `/subscribe/[creatorId]?tier=...` → Stripe Checkout → `/subscribe/success`
+`/` → clic "Listener" → `/listeners` → clic CTA → store (App Store / Play Store)
 
 ### Tunnel créateur
-`/` → clic "I'm a Creator" → `/creators` → clic CTA → AuthModal → redirect `/`
+`/` → clic "Creator" → `/creators` → clic CTA → AuthModal → redirect `/`
+
+### Tunnel fan
+`/` → clic "Fan" → `/fans` → search créateurs → clic card → `/creator/[username]` → clic Subscribe → AuthModal (si non connecté) → `/subscribe/[creatorId]?tier=...` → Stripe Checkout → `/subscribe/success`
 
 ### Auth flow
 - Google OAuth : `supabase.auth.signInWithOAuth({ provider: 'google', redirectTo: window.location.href })`
@@ -142,17 +170,20 @@ Security headers et `images.remotePatterns` doivent être configurés dans `next
 - **mapToSearchResult** : mappe is_featured depuis la jointure users
 
 ## Gotchas supplémentaires
-- **`sitemap.ts`** : importer `supabase` (export nommé de `supabase.ts`), pas `createClient` (n'existe pas dans ce fichier)
+- **`sitemap.ts`** : importer `supabase` (export nommé de `supabase.ts`), pas `createClient`
 - **`sitemap.ts`** : génère aussi les routes /card/{username} depuis profiles (limit 500)
   via Promise.all avec les creator routes (limit 5000)
-- **`/card/[username]`** : Server Component — params typé Promise<{username}> et awaité
+- **`/card/[username]`** : Server Component — params typé `Promise<{username}>` et awaité
   (Next.js 16). Fetch profil + dernier scrobble + RPC get_user_top_artists.
-  getMoodFromHour(utcHour) → 5 moods avec gradients. Deep link zik4u://profile/:username.
-- **APP_STORE_URL** dans /card/[username]/page.tsx : placeholder à remplacer par l'ID
-  réel après approbation App Store
+  `getMoodFromHour(utcHour)` → 5 moods avec gradients. Deep link `zik4u://profile/:username`.
+- **APP_STORE_URL / PLAY_STORE_URL** dans `subscribe/success/page.tsx` : liens réels
+  App Store `id6748722257` + Play Store `com.zik4u.app` — sous forme de `<a>` (pas `<button>`)
 - **`searchCreators`** : `.or(\`username.ilike.%${safeQuery}%,...\`)` — toujours passer par `safeQuery = query.trim().slice(0, 100)`
-- **`AuthModal` password** : validation `password.length < 8` côté client avant `signUp` (Supabase exige ≥6, on en veut ≥8)
-- **`og-image.svg`** dans `public/` : 1200×630 SVG — utilisé par `defaultMetadata.openGraph.images`
+- **`AuthModal` password** : validation `password.length < 8` côté client avant `signUp`
+- **`/fans` vs `/users`** : `/fans` est la route principale (nouvelle navigation). `/users` est conservée pour les anciens liens mais ne figure plus dans les CTAs ni boutons nav.
+- **`/become-creator`** : Server Component pur avec `redirect('/creators')` — pas de 'use client'
+- **`not-found.tsx`** : `'use client'` requis (useRouter + motion)
+- **`opengraph-image.tsx` / `icon.tsx`** : `export const runtime = 'edge'` obligatoire — sans ça, erreur de build ImageResponse
 - **URL prod hardcodée interdite** : jamais `https://zik4u.com/...` dans le code — utiliser des chemins relatifs `/...` ou `process.env.NEXT_PUBLIC_SITE_URL`
 - **Landing page** : pas de stats fictives — utiliser un badge "Early access" honnête
 
@@ -160,18 +191,24 @@ Security headers et `images.remotePatterns` doivent être configurés dans `next
 
 | Route | Statut | Description |
 |---|---|---|
-| `/` | ✅ | Landing dual-door, early access badge, footer avec liens légaux |
-| `/users` | ✅ | Browse créateurs, search debouncée 300ms, skeleton, DEMO_CREATORS fallback |
+| `/` | ✅ | Landing triple-door (Listener / Creator / Fan), taglines "For real", early access badge |
+| `/listeners` | ✅ | Tunnel listener — hero gradient + FEATURES (4 items) + store CTAs |
 | `/creators` | ✅ | Hero, 6 benefits, 3 tiers suggérés, 4 steps, sticky CTA mobile |
-| `/become-creator` | ✅ | Page intermédiaire transition |
-| `/creator/[username]` | ✅ | Profil public, tiers carousel mobile / grid desktop, Follow CTA si pas de tiers |
-| `/subscribe/[creatorId]` | ✅ | Auth check, order summary, billing toggle mensuel/annuel, redirect Stripe |
-| `/subscribe/success` | ✅ | Succès paiement, CTA download app |
-| `/subscribe/cancel` | ✅ | Abandon paiement, retry CTA |
+| `/fans` | ✅ | Search créateurs, WHAT_YOU_GET pills, store CTAs |
+| `/users` | ✅ | Alias ancienne URL — conservée pour liens existants |
+| `/become-creator` | ✅ | Redirect Server Component → /creators |
+| `/creator/[username]` | ✅ | Profil public, pills "What you get", titre "Get inside X's musical world", stats mobile, tiers carousel mobile / grid desktop |
+| `/subscribe/[creatorId]` | ✅ | Auth check, avatar créateur réel, order summary, billing toggle mensuel/annuel, redirect Stripe |
+| `/subscribe/success` | ✅ | Succès paiement, `<a>` App Store / Play Store avec vrais liens, "Explore creators →" |
+| `/subscribe/cancel` | ✅ | "Changed your mind?", "Explore other creators →" → /fans |
 | `/legal/privacy` | ✅ | Privacy Policy GDPR/CCPA (Server Component, 11 sections) |
 | `/legal/terms` | ✅ | Terms of Service (Server Component, 12 sections) |
-| `/sitemap.xml` | ✅ | Routes statiques + profils créateurs dynamiques depuis Supabase |
+| `/card/[username]` | ✅ | Share-to-install, OG metadata dynamique, mood + track + streak |
+| `/sitemap.xml` | ✅ | Routes statiques + créateurs + /card/ pages (limit 500) |
 | `/robots.txt` | ✅ | Crawl autorisé, /subscribe/ et /api/ exclus |
+| `/not-found` (404) | ✅ | "This track doesn't exist." + boutons Back / Find a creator |
+| `/opengraph-image` | ✅ | OG PNG généré edge (1200×630, logo gradient + tagline) |
+| `/icon` | ✅ | Favicon généré edge (32×32, "Z4" gradient) |
 
 ## Variables d'environnement
 ```env
@@ -196,12 +233,10 @@ git push         # Push via gh auth (upstream main configuré)
 - [ ] Hostinger DNS : A @ 76.76.21.21 + CNAME www cname.vercel-dns.com
       (procédure complète : docs/HOSTINGER_VERCEL_DNS.md)
 - [ ] Vercel : configurer NEXT_PUBLIC_SUPABASE_ANON_KEY en prod
-- [ ] OG image : remplacer public/og-image.svg par PNG 1200×630
 
 ### Post-LLC
-- [ ] Mettre à jour APP_STORE_URL dans /card/[username]/page.tsx
-      avec l'ID réel App Store
-- [ ] A/B test landing : mesurer conversion listener vs creator
+- [ ] Mettre à jour APP_STORE_URL dans /card/[username]/page.tsx si l'ID change
+- [ ] A/B test landing : mesurer conversion listener vs creator vs fan
 - [ ] Composants ui/ réutilisables si duplication détectée
 
 ### Variables d'environnement (voir .env.example)

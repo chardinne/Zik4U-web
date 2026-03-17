@@ -1,24 +1,29 @@
 # Zik4U Web — Public Site & Creator Marketplace
 
-Public website for **Zik4U**, the music social network. Handles listener acquisition, creator discovery, and Stripe subscription checkout. Shares the same Supabase backend as the mobile app.
+Public website for **Zik4U**, the music social network. Three acquisition tunnels (listeners, creators, fans), creator discovery, and Stripe subscription checkout. Shares the same Supabase backend as the mobile app.
 
-## Features
+## Routes
 
 | Route | Description |
 |---|---|
-| `/` | Landing page — dual-door entry (listener / creator) |
-| `/users` | Browse creators — search with 300ms debounce, grid, DEMO_CREATORS fallback |
+| `/` | Landing — triple-door entry (Listener / Creator / Fan), "For real" taglines |
+| `/listeners` | Listener tunnel — "What are they listening to. For real." + features + store CTAs |
 | `/creators` | Creator acquisition funnel — benefits, pricing tiers, 4-step how-to |
-| `/become-creator` | Transition page: user → creator |
-| `/creator/[username]` | Public creator profile — tiers carousel (mobile) / grid (desktop), Follow CTA |
-| `/subscribe/[creatorId]` | Stripe checkout — auth gate, tier selection, monthly/annual toggle |
-| `/subscribe/success` | Post-payment success — CTA to download the app |
-| `/subscribe/cancel` | Abandoned payment — retry CTA |
+| `/fans` | Fan discovery — search creators, WHAT_YOU_GET pills, store CTAs |
+| `/users` | Legacy alias for `/fans` — kept for existing links |
+| `/become-creator` | Server-side redirect → `/creators` |
+| `/creator/[username]` | Public creator profile — "What you get" pills, tiers carousel (mobile) / grid (desktop) |
+| `/subscribe/[creatorId]` | Stripe checkout — auth gate, creator avatar, tier selection, monthly/annual toggle |
+| `/subscribe/success` | Post-payment success — real App Store / Play Store `<a>` links |
+| `/subscribe/cancel` | Abandoned payment — "Changed your mind?" retry CTA |
 | `/legal/privacy` | Privacy Policy (GDPR + CCPA, 11 sections) |
 | `/legal/terms` | Terms of Service (12 sections) |
-| `/card/[username]` | Share-to-install landing — Now Card preview (mood gradient + last track + top artist + streak), App Store / Play Store CTAs, deep link `zik4u://profile/:username`, OG metadata |
-| `/sitemap.xml` | Static routes + dynamic creator profiles + `/card/` pages from Supabase (profiles, limit 500) |
-| `/robots.txt` | Crawl allowed, /subscribe/ and /api/ excluded |
+| `/card/[username]` | Share-to-install — Now Card preview (mood + last track + top artist + streak), OG metadata, store CTAs, deep link |
+| `/not-found` | Custom 404 — "This track doesn't exist." |
+| `/opengraph-image` | Generated OG PNG (1200×630, edge runtime) |
+| `/icon` | Generated favicon (32×32 "Z4", edge runtime) |
+| `/sitemap.xml` | Static routes + dynamic creator profiles + `/card/` pages (limit 500) |
+| `/robots.txt` | Crawl allowed, `/subscribe/` and `/api/` excluded |
 
 ## Tech Stack
 
@@ -38,23 +43,33 @@ Public website for **Zik4U**, the music social network. Handles listener acquisi
 ```
 src/
   app/
-    /                      # Landing (dual-door listener / creator)
-    /users                 # Listener tunnel — creator search + grid
+    /                      # Landing (triple-door: Listener / Creator / Fan)
+    /listeners             # Listener tunnel — hero + features + store CTAs
     /creators              # Creator acquisition funnel
-    /become-creator        # Transition: user → creator
+    /fans                  # Fan discovery — search + WHAT_YOU_GET + store CTAs
+    /users                 # Legacy — kept for existing links
+    /become-creator        # Server redirect → /creators
     /creator/[username]    # Public creator profile + tiers
     /subscribe/[creatorId] # Stripe checkout (auth check, billing toggle, Edge Function)
-    /subscribe/success     # Post-payment success
+    /subscribe/success     # Post-payment success (real store links)
     /subscribe/cancel      # Abandoned payment
     /legal/privacy         # Privacy Policy (Server Component, 11 sections)
     /legal/terms           # Terms of Service (Server Component, 12 sections)
-    /card/[username]       # Share-to-install Server Component — Now Card preview + store CTAs
-    /sitemap.xml           # Static + dynamic sitemap (creators + card pages)
+    /card/[username]       # Share-to-install Server Component — Now Card + store CTAs
+    /not-found             # Custom 404 page
+    /opengraph-image       # Generated OG PNG via ImageResponse (edge, 1200×630)
+    /icon                  # Generated favicon via ImageResponse (edge, 32×32)
+    /sitemap.xml           # Static + dynamic sitemap
     /robots.txt            # Crawl rules
+    layout.tsx             # Root layout + SEO metadata
+    globals.css            # Tailwind v4 @theme tokens + .gradient-text classes
+  app/creators/layout.tsx  # SEO: "For Creators — Monetize Your Real Music Taste"
+  app/listeners/layout.tsx # SEO: "For Listeners — Discover Who Listens Like You"
+  app/fans/layout.tsx      # SEO: "Find a Creator — See What They Really Listen To"
   components/
     landing/
-      CreatorCard.tsx      # Search result card (avatar, artists, price, hover, "✦ Featured" badge)
-      TierCard.tsx         # Subscription tier card (perks, price, popular badge, CTA)
+      CreatorCard.tsx      # Search result card (avatar, artists, price, "✦ Featured" badge)
+      TierCard.tsx         # Subscription tier card (popular badge, cyan CTA for non-popular)
     auth/
       AuthModal.tsx        # Auth modal (Google OAuth + Email sign in/sign up)
   lib/
@@ -65,7 +80,7 @@ src/
   types/
     index.ts               # CreatorProfile, CreatorTier, SearchResult (+ isFeatured: boolean)
 public/
-  og-image.svg             # OG image 1200×630 SVG
+  og-image.svg             # Legacy SVG placeholder (superseded by /opengraph-image)
 ```
 
 ## Getting Started
@@ -109,6 +124,19 @@ npm run build
 npm run start
 ```
 
+## Copy Strategy
+
+The site is built around one idea: **"For real"** — every listen is real, every connection is real, every dollar is earned from real data.
+
+Declined across all tunnels:
+- `/` buttons: "Listener / Creator / Fan" + "... For real."
+- `/listeners`: "What are they listening to. **For real.**"
+- `/creators`: "What do you listen to? For real. / Now you get paid for the answer."
+- `/fans`: "See what they listen to. **For real.** Before anyone else."
+- `/card/[username]`: "Real music. Real identity. For real."
+
+No em dashes (—) in user-facing text — replaced by `.`, `:`, `,` or `·`.
+
 ## Share-to-Install Flow (/card/[username])
 
 ```
@@ -123,7 +151,7 @@ Mobile app InviteScreen  →  Share.share({ url: 'https://zik4u.com/card/:userna
            last track + top artist + streak badge
   ↓
 CTAs:
-  → App Store (id6748722257 — update after approval)
+  → App Store (id6748722257)
   → Google Play (com.zik4u.app)
   → zik4u://profile/:username (deep link — opens app if installed)
 ```
@@ -136,7 +164,7 @@ OG metadata is generated server-side per user (`generateMetadata`), enabling ric
 1. `users WHERE is_featured = true LIMIT 6`
 2. `users LIMIT 12`
 
-Results are merged and deduplicated (featured first), giving a list of up to 12 with featured accounts always shown first. The `is_featured` flag is set manually in Supabase Dashboard. `CreatorCard` displays a "✦ Featured" badge (gradient #FF3CAC → #7B2FFF) for featured accounts.
+Results are merged and deduplicated (featured first). The `is_featured` flag is set manually in Supabase Dashboard → Table Editor → users. `CreatorCard` displays a "✦ Featured" badge (gradient #FF3CAC → #7B2FFF) for featured accounts.
 
 ## Checkout Flow
 
@@ -146,6 +174,7 @@ Results are merged and deduplicated (featured first), giving a list of up to 12 
 AuthModal if not authenticated (Google OAuth or email/password)
   ↓
 /subscribe/[creatorId]?tier=<tierId>
+  Creator avatar (real photo or initial fallback)
   Tier details + monthly/annual billing toggle
   JWT from supabase.auth.getSession()
   ↓
@@ -181,6 +210,8 @@ Tailwind v4 tokens are declared in `src/app/globals.css` via `@theme`. Brand col
 1. Push to `main` → Vercel deploys automatically
 2. Set environment variables in **Vercel Dashboard → Settings → Environment Variables**
 3. Configure custom domain: `zik4u.com`
+4. DNS (Hostinger): `A @ 76.76.21.21` + `CNAME www cname.vercel-dns.com`
+   — full procedure: `docs/HOSTINGER_VERCEL_DNS.md`
 
 ## Relation to Other Repos
 
