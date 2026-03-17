@@ -154,8 +154,8 @@ export default function HomePage() {
           <span style={{ fontSize: 17, fontWeight: 800, color: '#fff' }}>
             Fan
           </span>
-          <span style={{ fontSize: 13, color: 'rgba(255,255,255,0.35)', fontWeight: 500 }}>
-            Your favorite artist. What they really listen to.
+          <span style={{ fontSize: 12, color: 'rgba(255,255,255,0.35)', fontWeight: 500, whiteSpace: 'nowrap' as const }}>
+            See what your favorite artist listens to. For real.
           </span>
         </button>
       </motion.div>
@@ -185,7 +185,8 @@ export default function HomePage() {
       {/* Footer links */}
       <div style={{
         position: 'fixed',
-        bottom: 24,
+        bottom: 80,
+        zIndex: 10,
         display: 'flex',
         gap: 24,
       }}>
