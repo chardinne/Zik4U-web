@@ -62,6 +62,23 @@ export default function HomePage() {
             what you actually listen to.
           </span>
         </h1>
+        <motion.p
+          initial={{ opacity: 0, y: 10 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5, delay: 0.25 }}
+          style={{
+            fontSize: 'clamp(48px, 8vw, 96px)',
+            fontWeight: 900,
+            letterSpacing: '-0.03em',
+            lineHeight: 1,
+            marginBottom: 24,
+            background: 'linear-gradient(90deg, #00D4FF, #00FFB2, #FF3CAC)',
+            WebkitBackgroundClip: 'text',
+            WebkitTextFillColor: 'transparent',
+          }}
+        >
+          For real.
+        </motion.p>
         <p style={{
           fontSize: 'clamp(16px, 2vw, 20px)',
           color: 'rgba(255,255,255,0.45)',
