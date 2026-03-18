@@ -123,7 +123,7 @@ export default function HomePage() {
           <span style={{ fontSize: 17, fontWeight: 800, color: '#0A0A1A' }}>
             Listener
           </span>
-          <span style={{ fontSize: 13, color: 'rgba(10,10,26,0.6)', fontWeight: 500 }}>
+          <span style={{ fontSize: 12, color: 'rgba(10,10,26,0.6)', fontWeight: 500 }}>
             Discover people who listen like you. For real.
           </span>
         </button>
@@ -147,7 +147,7 @@ export default function HomePage() {
           <span style={{ fontSize: 17, fontWeight: 800, color: '#fff' }}>
             Creator
           </span>
-          <span style={{ fontSize: 13, color: 'rgba(255,255,255,0.6)', fontWeight: 500 }}>
+          <span style={{ fontSize: 12, color: 'rgba(255,255,255,0.6)', fontWeight: 500 }}>
             Monetize your listens. For real.
           </span>
         </button>
@@ -201,9 +201,8 @@ export default function HomePage() {
 
       {/* Footer links */}
       <div style={{
-        position: 'fixed',
-        bottom: 80,
-        zIndex: 10,
+        position: 'relative',
+        marginTop: 32,
         display: 'flex',
         gap: 24,
       }}>
