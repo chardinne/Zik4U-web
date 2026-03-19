@@ -61,6 +61,9 @@ export default function TermsOfServicePage() {
               and our mobile application (collectively, the &ldquo;Service&rdquo;). You must be at least 13 years old (16 in the EEA)
               to use the Service.
             </p>
+            <p style={{ marginTop: '12px' }}>
+              Zik4U LLC is a limited liability company registered in the State of Florida, United States.
+            </p>
           </section>
 
           {/* 2 */}
@@ -260,9 +263,8 @@ export default function TermsOfServicePage() {
               These Terms are governed by the laws of the State of Florida, United States, without regard to conflict of law principles.
             </p>
             <p style={{ marginBottom: '12px' }}>
-              Any dispute arising from these Terms or the Service shall be resolved by binding arbitration under the rules of the
-              American Arbitration Association, except that either party may seek injunctive relief in a court of competent jurisdiction.
-              You waive any right to participate in a class action lawsuit.
+              Any disputes shall be resolved exclusively in the courts of Florida. You consent to the personal jurisdiction of such
+              courts and waive any objection to venue or inconvenient forum.
             </p>
             <p>
               For users in the EEA: Nothing in these Terms limits your rights under applicable EU consumer protection law or your

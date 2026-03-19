@@ -8,7 +8,7 @@ export const metadata = generatePageMetadata(
 
 const LAST_UPDATED = 'March 15, 2026';
 const CONTACT_EMAIL = 'privacy@zik4u.com';
-const COMPANY = 'Zik4U';
+const COMPANY = 'Zik4U LLC';
 const SITE_URL = 'https://zik4u.com';
 
 export default function PrivacyPolicyPage() {
@@ -52,6 +52,9 @@ export default function PrivacyPolicyPage() {
               <a href={SITE_URL} style={{ color: '#00D4FF', textDecoration: 'none' }}>{SITE_URL}</a>{' '}
               and the Zik4U mobile application (collectively, the &ldquo;Service&rdquo;). This Privacy Policy explains how we collect,
               use, disclose, and safeguard your personal information when you use our Service.
+            </p>
+            <p style={{ marginTop: '12px' }}>
+              Zik4U LLC is a limited liability company registered in the State of Florida, United States.
             </p>
             <p style={{ marginTop: '12px' }}>
               For privacy inquiries, contact us at:{' '}
@@ -175,6 +178,17 @@ export default function PrivacyPolicyPage() {
                 </div>
               ))}
             </div>
+          </section>
+
+          {/* International Transfers */}
+          <section>
+            <h2 style={{ fontSize: '22px', fontWeight: 700, color: '#FFFFFF', marginBottom: '16px' }}>5b. International Data Transfers</h2>
+            <p>
+              As a Florida LLC, your data is processed and stored in the United States. We comply with GDPR (EU users) and CCPA
+              (California users) requirements. If you are located outside the United States, please be aware that your information
+              may be transferred to, stored, and processed in the U.S. where our servers are located and our central database is
+              operated. By using the Service, you consent to this transfer.
+            </p>
           </section>
 
           {/* 6 */}
