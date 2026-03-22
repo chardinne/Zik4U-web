@@ -97,6 +97,10 @@ export default function PrivacyPolicyPage() {
                   title: 'Push Notification Tokens',
                   desc: 'Expo push tokens collected when you grant notification permission, used solely to deliver in-app notifications.',
                 },
+                {
+                  title: 'Inferred Emotional Profile',
+                  desc: 'We automatically derive an anonymized emotional music profile from your listening patterns, including a daily listening score, mood indicators (e.g., nocturnal, explorative), and behavioral metrics such as musical diversity and listening consistency. This profile is used solely to personalize your experience and improve our services. It is never sold or shared with third parties without your explicit consent.',
+                },
               ].map((item) => (
                 <div
                   key={item.title}
@@ -235,9 +239,43 @@ export default function PrivacyPolicyPage() {
             </p>
           </section>
 
+          {/* 8b */}
+          <section>
+            <h2 style={{ fontSize: '22px', fontWeight: 700, color: '#FFFFFF', marginBottom: '16px' }}>
+              8b. Automated Processing &amp; Profiling
+            </h2>
+            <p style={{ marginBottom: '12px' }}>
+              In accordance with Article 22 of the GDPR, we inform you that Zik4U uses
+              automated processing to derive insights from your listening behavior.
+              This includes:
+            </p>
+            <ul style={{ paddingLeft: '20px', marginBottom: '12px' }}>
+              <li style={{ marginBottom: '8px' }}>
+                <strong style={{ color: '#FFFFFF' }}>Daily Emotional Score:</strong> A composite
+                score (0–100) reflecting your listening diversity, activity patterns, and
+                consistency. Used to personalize notifications and content.
+              </li>
+              <li style={{ marginBottom: '8px' }}>
+                <strong style={{ color: '#FFFFFF' }}>Mood Indicators:</strong> Inferred listening
+                moods (e.g., nocturnal, explorative, high energy) based on time-of-day patterns
+                and artist diversity. Not used for external profiling or advertising.
+              </li>
+              <li style={{ marginBottom: '8px' }}>
+                <strong style={{ color: '#FFFFFF' }}>Trajectory Analysis:</strong> Week-over-week
+                comparison of listening patterns to personalize engagement notifications.
+              </li>
+            </ul>
+            <p>
+              This automated processing does not produce legal or similarly significant effects.
+              You may opt out of emotional profiling at any time in Settings → Privacy.
+              Opting out will disable personalized digest notifications but will not affect
+              core app functionality.
+            </p>
+          </section>
+
           {/* 8 */}
           <section>
-            <h2 style={{ fontSize: '22px', fontWeight: 700, color: '#FFFFFF', marginBottom: '16px' }}>8. Cookies & Tracking</h2>
+            <h2 style={{ fontSize: '22px', fontWeight: 700, color: '#FFFFFF', marginBottom: '16px' }}>8. Cookies &amp; Tracking</h2>
             <p style={{ marginBottom: '12px' }}>Our website uses minimal cookies:</p>
             <ul style={{ paddingLeft: '20px', display: 'flex', flexDirection: 'column', gap: '8px' }}>
               <li><strong style={{ color: '#FFFFFF' }}>Essential cookies:</strong> Authentication session management (Supabase auth token). Required for the Service to function.</li>
