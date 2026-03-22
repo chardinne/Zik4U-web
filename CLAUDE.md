@@ -207,6 +207,8 @@ Décliné sur tous les tunnels :
 | `/sitemap.xml` | ✅ | Routes statiques + créateurs + /card/ pages (limit 500) |
 | `/robots.txt` | ✅ | Crawl autorisé, /subscribe/ et /api/ exclus |
 | `/not-found` (404) | ✅ | "This track doesn't exist." + boutons Back / Find a creator |
+| `/partner` | ✅ | Page Partner enrichie — hero, demo report interactif (3 tabs), 6 features, ROI calculator, 4 plans ($0/$499/$1299/Enterprise), contact form Formspree |
+| `/partner/dashboard` | ✅ | Dashboard partenaire demo — virality leaderboard, search, period selector, upgrade CTA |
 | `/opengraph-image` | ✅ | OG PNG généré edge (1200×630, logo gradient + tagline) |
 | `/icon` | ✅ | Favicon généré edge (32×32, "Z4" gradient) |
 
