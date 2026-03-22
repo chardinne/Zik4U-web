@@ -175,6 +175,30 @@ export default function HomePage() {
             See what your favorite artist listens to. For real.
           </span>
         </button>
+
+        {/* Partner */}
+        <button
+          onClick={() => router.push('/partner')}
+          style={{
+            width: '100%',
+            padding: '20px 32px',
+            background: 'linear-gradient(135deg, #7B2FFF22, #00D4FF11)',
+            border: '1px solid rgba(123,47,255,0.4)',
+            borderRadius: 16,
+            cursor: 'pointer',
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'flex-start',
+            gap: 4,
+          }}
+        >
+          <span style={{ fontSize: 17, fontWeight: 800, color: '#fff' }}>
+            Partner
+          </span>
+          <span style={{ fontSize: 12, color: 'rgba(255,255,255,0.35)', fontWeight: 500 }}>
+            Understand music emotionally. For real.
+          </span>
+        </button>
       </motion.div>
 
       {/* Early access badge */}
