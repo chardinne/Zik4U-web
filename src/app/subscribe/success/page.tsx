@@ -52,6 +52,31 @@ function SuccessContent() {
           Now Cards, Wrapped and more.
         </p>
 
+        {/* Open in app si déjà installé */}
+        <div style={{ marginBottom: 16, textAlign: 'center' }}>
+          <p style={{ fontSize: 13, color: 'rgba(255,255,255,0.4)', marginBottom: 10 }}>
+            Already have Zik4U installed?
+          </p>
+          <a
+            href="zik4u://home"
+            style={{
+              display: 'inline-flex',
+              alignItems: 'center',
+              gap: 8,
+              padding: '12px 28px',
+              background: 'linear-gradient(135deg, #00D4FF, #00FFB2)',
+              borderRadius: 12,
+              textDecoration: 'none',
+              fontSize: 15,
+              fontWeight: 700,
+              color: '#0A0A1A',
+              fontFamily: 'Inter, system-ui, sans-serif',
+            }}
+          >
+            🎵 Open Zik4U →
+          </a>
+        </div>
+
         {/* Download CTA */}
         <div style={{ background: '#12122A', border: '1px solid rgba(0,212,255,0.15)', borderRadius: '16px', padding: '24px', marginBottom: '24px' }}>
           <p style={{ fontWeight: 700, color: '#FFFFFF', marginBottom: '16px' }}>Get the full experience</p>
