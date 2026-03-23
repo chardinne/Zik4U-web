@@ -50,6 +50,8 @@ src/
                               CTA non-populaire : transparent + border cyan rgba(0,212,255,0.35)
     auth/
       AuthModal.tsx        ✅ Modal auth (Google OAuth + Email sign in/sign up)
+    CookieBanner.tsx       ✅ Banner ePrivacy — 'use client', localStorage (zik4u_cookie_consent),
+                              boutons "Essential only" / "Accept", lien /legal/privacy#cookies
     ui/                    ⏳ Composants réutilisables (à construire)
   lib/
     supabase.ts            ✅ Client Supabase
@@ -201,8 +203,8 @@ Décliné sur tous les tunnels :
 | `/subscribe/[creatorId]` | ✅ | Auth check, avatar créateur réel, order summary, billing toggle mensuel/annuel, redirect Stripe |
 | `/subscribe/success` | ✅ | Succès paiement, `<a>` App Store / Play Store avec vrais liens, "Explore creators →" |
 | `/subscribe/cancel` | ✅ | "Changed your mind?", "Explore other creators →" → /fans |
-| `/legal/privacy` | ✅ | Privacy Policy GDPR/CCPA (Server Component, 11 sections) |
-| `/legal/terms` | ✅ | Terms of Service (Server Component, 12 sections) |
+| `/legal/privacy` | ✅ | Privacy Policy GDPR/CCPA (Server Component, 11 sections) — SCCs, B2B data disclosure, emotional retention, DPC contact. `LAST_UPDATED = 'March 23, 2026'` |
+| `/legal/terms` | ✅ | Terms of Service (Server Component, 12 sections) — revenue share chiffré, IAP refunds clarifiés, clause EU consommateurs. `LAST_UPDATED = 'March 23, 2026'` |
 | `/card/[username]` | ✅ | Share-to-install, OG metadata dynamique, mood + track + streak |
 | `/sitemap.xml` | ✅ | Routes statiques + créateurs + /card/ pages (limit 500) |
 | `/robots.txt` | ✅ | Crawl autorisé, /subscribe/ et /api/ exclus |
