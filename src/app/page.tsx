@@ -176,29 +176,6 @@ export default function HomePage() {
           </span>
         </button>
 
-        {/* Partner */}
-        <button
-          onClick={() => router.push('/partner')}
-          style={{
-            width: '100%',
-            padding: '20px 32px',
-            background: 'linear-gradient(135deg, #7B2FFF22, #00D4FF11)',
-            border: '1px solid rgba(123,47,255,0.4)',
-            borderRadius: 16,
-            cursor: 'pointer',
-            display: 'flex',
-            flexDirection: 'column',
-            alignItems: 'flex-start',
-            gap: 4,
-          }}
-        >
-          <span style={{ fontSize: 17, fontWeight: 800, color: '#fff' }}>
-            Partner
-          </span>
-          <span style={{ fontSize: 12, color: 'rgba(255,255,255,0.35)', fontWeight: 500 }}>
-            Understand music emotionally. For real.
-          </span>
-        </button>
       </motion.div>
 
       {/* Early access badge */}
@@ -246,6 +223,24 @@ export default function HomePage() {
             {link.label}
           </a>
         ))}
+        <span style={{ color: 'rgba(255,255,255,0.15)' }}>·</span>
+        <a
+          href="/partner"
+          style={{
+            color: 'rgba(255,255,255,0.25)',
+            textDecoration: 'none',
+            fontSize: '13px',
+            transition: 'color 0.2s',
+          }}
+          onMouseEnter={e => {
+            (e.target as HTMLAnchorElement).style.color = '#00D4FF';
+          }}
+          onMouseLeave={e => {
+            (e.target as HTMLAnchorElement).style.color = 'rgba(255,255,255,0.25)';
+          }}
+        >
+          For labels & researchers →
+        </a>
       </div>
 
     </main>
