@@ -6,7 +6,7 @@ export const metadata = generatePageMetadata(
   '/legal/terms',
 );
 
-const LAST_UPDATED = 'March 15, 2026';
+const LAST_UPDATED = 'March 23, 2026';
 const CONTACT_EMAIL = 'legal@zik4u.com';
 const SITE_URL = 'https://zik4u.com';
 
@@ -149,9 +149,12 @@ export default function TermsOfServicePage() {
               <div style={{ backgroundColor: '#12122A', borderRadius: '12px', padding: '16px 20px' }}>
                 <p style={{ fontWeight: 700, color: '#FFFFFF', marginBottom: '8px' }}>Revenue Share</p>
                 <p style={{ fontSize: '14px', color: 'rgba(255,255,255,0.65)' }}>
-                  Creators receive their net revenue after platform fees and payment processor fees. The exact revenue share
-                  is displayed in the Creator Studio and may vary by subscription channel (web/iOS/Android). We reserve the
-                  right to modify the revenue share with 30 days&apos; notice.
+                  Creators receive their net revenue after platform fees and payment processor fees. The standard creator
+                  revenue share is approximately 80% of net revenue received by Zik4U. For iOS and Android in-app
+                  subscriptions, the effective creator share is approximately 70% of gross (after Apple or Google&apos;s
+                  30% commission, or 15% under their Small Business Program), then 80% of the remaining net amount.
+                  The exact revenue share applicable to your account is displayed in Creator Studio. We reserve the right
+                  to modify the revenue share with 30 days&apos; written notice to active creators.
                 </p>
               </div>
               <div style={{ backgroundColor: '#12122A', borderRadius: '12px', padding: '16px 20px' }}>
@@ -186,9 +189,13 @@ export default function TermsOfServicePage() {
                 until the end of the current billing period. No partial refunds are provided for unused time.
               </li>
               <li>
-                <strong style={{ color: '#FFFFFF' }}>Refunds:</strong> Refunds are handled per the refund policy of the payment channel.
-                For web payments via Stripe, contact us within 7 days of a charge for refund consideration. For in-app purchases, refunds
-                are governed by Apple App Store or Google Play Store policies.
+                <strong style={{ color: '#FFFFFF' }}>Refunds:</strong>
+                {' '}For subscriptions purchased through our website via Stripe, contact us at{' '}
+                <a href="mailto:support@zik4u.com" style={{ color: '#00D4FF', textDecoration: 'none' }}>support@zik4u.com</a>
+                {' '}within 7 days of a charge for refund consideration, subject to our discretion.
+                For purchases made through Apple App Store or Google Play, refunds are governed solely and exclusively by
+                those platforms&apos; refund policies. Zik4U has no ability to issue refunds for in-app purchases &mdash;
+                please contact Apple or Google directly.
               </li>
               <li>
                 <strong style={{ color: '#FFFFFF' }}>Price Changes:</strong> We will notify you at least 30 days before any subscription
@@ -307,9 +314,25 @@ export default function TermsOfServicePage() {
               Any disputes shall be resolved exclusively in the courts of Florida. You consent to the personal jurisdiction of such
               courts and waive any objection to venue or inconvenient forum.
             </p>
-            <p>
-              For users in the EEA: Nothing in these Terms limits your rights under applicable EU consumer protection law or your
-              right to bring a claim before your local data protection authority.
+            <p style={{ marginTop: '12px' }}>
+              <strong style={{ color: '#FFFFFF' }}>For users in the EU/EEA:</strong>
+              {' '}Notwithstanding the above, if you are a consumer located in the European Union or European Economic Area,
+              mandatory consumer protection laws of your country of residence apply and cannot be excluded by these Terms.
+              The jurisdiction clause above does not limit your right to bring proceedings before the courts of your country
+              of habitual residence, nor does it limit any rights you have under applicable EU law, including but not limited
+              to Directive 93/13/EEC on unfair contract terms and Regulation (EU) 2016/679 (GDPR).
+            </p>
+            <p style={{ marginTop: '12px' }}>
+              EU users may also submit complaints to their local data protection authority (DPA). A list of EU DPAs is
+              available at{' '}
+              <a
+                href="https://edpb.europa.eu/about-edpb/about-edpb/members_en"
+                target="_blank"
+                rel="noopener noreferrer"
+                style={{ color: '#00D4FF', textDecoration: 'none' }}
+              >
+                edpb.europa.eu
+              </a>.
             </p>
           </section>
 

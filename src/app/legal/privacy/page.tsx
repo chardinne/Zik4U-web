@@ -6,7 +6,7 @@ export const metadata = generatePageMetadata(
   '/legal/privacy',
 );
 
-const LAST_UPDATED = 'March 15, 2026';
+const LAST_UPDATED = 'March 23, 2026';
 const CONTACT_EMAIL = 'privacy@zik4u.com';
 const COMPANY = 'Zik4U LLC';
 const SITE_URL = 'https://zik4u.com';
@@ -59,6 +59,12 @@ export default function PrivacyPolicyPage() {
             <p style={{ marginTop: '12px' }}>
               For privacy inquiries, contact us at:{' '}
               <a href={`mailto:${CONTACT_EMAIL}`} style={{ color: '#00D4FF', textDecoration: 'none' }}>{CONTACT_EMAIL}</a>
+            </p>
+            <p style={{ marginTop: '12px' }}>
+              We have designated{' '}
+              <a href="mailto:privacy@zik4u.com" style={{ color: '#00D4FF', textDecoration: 'none' }}>privacy@zik4u.com</a>
+              {' '}as our Data Protection Contact for GDPR purposes. A formal Data Protection Officer (DPO) will be
+              appointed as required by applicable law as the platform scales.
             </p>
           </section>
 
@@ -139,7 +145,16 @@ export default function PrivacyPolicyPage() {
               ))}
             </ul>
             <p style={{ marginTop: '16px' }}>
-              We do <strong>not</strong> sell your personal data to third parties. We do not use your listening data for advertising targeting.
+              We do <strong>not</strong> sell your individual personal data to third parties.
+              We do not currently use your personal listening data for advertising targeting on the Zik4U platform.
+            </p>
+            <p style={{ marginTop: '12px' }}>
+              As part of our Zik4U Intelligence Partner Program, we may share aggregated, anonymized, and
+              non-individually-identifiable derivatives of platform listening data with verified business
+              partners (labels, researchers, brands) under strict data use agreements. This aggregated data
+              cannot be used to identify any individual user. For California residents: this aggregated data
+              sharing may constitute a &ldquo;sale&rdquo; under CCPA. You may opt out by contacting{' '}
+              <a href="mailto:privacy@zik4u.com" style={{ color: '#00D4FF', textDecoration: 'none' }}>privacy@zik4u.com</a>.
             </p>
           </section>
 
@@ -187,11 +202,33 @@ export default function PrivacyPolicyPage() {
           {/* International Transfers */}
           <section>
             <h2 style={{ fontSize: '22px', fontWeight: 700, color: '#FFFFFF', marginBottom: '16px' }}>5b. International Data Transfers</h2>
+            <p style={{ marginBottom: '12px' }}>
+              As a Florida LLC, some of your data is processed and stored in the United States. We comply with GDPR (EU users)
+              and CCPA (California users) requirements.
+            </p>
+            <p style={{ marginBottom: '12px' }}>
+              For transfers of personal data from the European Economic Area (EEA) to the United States, we rely on the following
+              safeguards in accordance with GDPR Article 46:
+            </p>
+            <ul style={{ paddingLeft: '20px', marginBottom: '12px', display: 'flex', flexDirection: 'column', gap: '8px' }}>
+              <li>
+                <strong style={{ color: '#FFFFFF' }}>Standard Contractual Clauses (SCCs):</strong>
+                {' '}Our key service providers (Supabase, Stripe, Firebase, Sentry, Expo) have adopted EU Standard Contractual
+                Clauses as the legal mechanism for transatlantic data transfers.
+              </li>
+              <li>
+                <strong style={{ color: '#FFFFFF' }}>EU Data Storage:</strong>
+                {' '}Our primary database is hosted in the EU (eu-central-1 region, Supabase Frankfurt) to minimize cross-border transfers.
+              </li>
+              <li>
+                <strong style={{ color: '#FFFFFF' }}>Adequacy Decisions:</strong>
+                {' '}Where available, we rely on the European Commission adequacy decisions for the countries where our
+                sub-processors operate.
+              </li>
+            </ul>
             <p>
-              As a Florida LLC, your data is processed and stored in the United States. We comply with GDPR (EU users) and CCPA
-              (California users) requirements. If you are located outside the United States, please be aware that your information
-              may be transferred to, stored, and processed in the U.S. where our servers are located and our central database is
-              operated. By using the Service, you consent to this transfer.
+              For more information about the safeguards we apply, or to obtain a copy of the relevant SCCs, contact us at{' '}
+              <a href="mailto:privacy@zik4u.com" style={{ color: '#00D4FF', textDecoration: 'none' }}>privacy@zik4u.com</a>.
             </p>
           </section>
 
@@ -205,6 +242,11 @@ export default function PrivacyPolicyPage() {
               <li><strong style={{ color: '#FFFFFF' }}>IP addresses:</strong> Anonymized after 30 days.</li>
               <li><strong style={{ color: '#FFFFFF' }}>Payment records:</strong> 7 years for tax and legal compliance.</li>
               <li><strong style={{ color: '#FFFFFF' }}>Push tokens:</strong> Deleted when you revoke notification permission or delete your account.</li>
+              <li>
+                <strong style={{ color: '#FFFFFF' }}>Emotional profile &amp; archetypes:</strong>
+                {' '}Daily emotional snapshots and listener archetypes are retained while your account is active and deleted
+                within 30 days of account deletion. These profiles are never shared in individually identifiable form.
+              </li>
             </ul>
           </section>
 
@@ -258,7 +300,11 @@ export default function PrivacyPolicyPage() {
               <li style={{ marginBottom: '8px' }}>
                 <strong style={{ color: '#FFFFFF' }}>Mood Indicators:</strong> Inferred listening
                 moods (e.g., nocturnal, explorative, high energy) based on time-of-day patterns
-                and artist diversity. Not used for external profiling or advertising.
+                and artist diversity. Not used for individual-level external profiling or advertising targeting.
+                Aggregated, anonymized derivatives of platform-wide listening patterns may be shared with
+                verified Zik4U Intelligence Partners (labels, researchers, brands) under strict data use agreements.
+                These aggregated insights cannot be used to identify any individual user. See Section 5 for details
+                on our Partner Program.
               </li>
               <li style={{ marginBottom: '8px' }}>
                 <strong style={{ color: '#FFFFFF' }}>Trajectory Analysis:</strong> Week-over-week
@@ -290,7 +336,7 @@ export default function PrivacyPolicyPage() {
           <section>
             <h2 style={{ fontSize: '22px', fontWeight: 700, color: '#FFFFFF', marginBottom: '16px' }}>9. Data Security</h2>
             <p>
-              We implement industry-standard security measures including TLS 1.3 encryption in transit, AES-256 encryption at rest (Supabase),
+              We implement industry-standard security measures including TLS 1.3 encryption in transit, infrastructure-level disk encryption at rest (AES-256, managed by Supabase),
               Row-Level Security (RLS) policies on all database tables, and regular security audits. OAuth tokens for connected music services
               are stored encrypted and never exposed in plaintext. In the event of a data breach affecting your rights, we will notify you
               within 72 hours as required by GDPR.
