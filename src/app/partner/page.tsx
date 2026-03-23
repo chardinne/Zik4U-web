@@ -375,119 +375,245 @@ function DemoReportCard() {
 
 // ── Contact Form ──────────────────────────────────────────────────────────────
 
+const ADMIN_URL = process.env.NEXT_PUBLIC_ADMIN_URL ?? 'https://admin.zik4u.com';
+
+type FormFields = {
+  company_name: string;
+  website: string;
+  company_number: string;
+  phone: string;
+  contact_name: string;
+  contact_email: string;
+  profile_type: string;
+  plan_requested: string;
+  message: string;
+};
+
 function ContactForm({ defaultTier }: { defaultTier?: string }) {
-  const [formData, setFormData] = useState({
-    company: '', name: '', email: '',
-    tier: defaultTier ?? 'insight', message: '',
+  const [fields, setFields] = useState<FormFields>({
+    company_name:   '',
+    website:        '',
+    company_number: '',
+    phone:          '',
+    contact_name:   '',
+    contact_email:  '',
+    profile_type:   '',
+    plan_requested: defaultTier ?? 'insight',
+    message:        '',
   });
-  const [state, setState] = useState<'idle' | 'sending' | 'sent' | 'error'>('idle');
+  const [errors, setErrors]   = useState<Partial<FormFields>>({});
+  const [status, setStatus]   = useState<'idle' | 'sending' | 'sent' | 'error'>('idle');
+  const [serverMsg, setServerMsg] = useState('');
+
+  const set = (key: keyof FormFields) => (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>
+  ) => {
+    setFields(prev => ({ ...prev, [key]: e.target.value }));
+    setErrors(prev => ({ ...prev, [key]: undefined }));
+  };
+
+  const validate = (): boolean => {
+    const e: Partial<FormFields> = {};
+    if (!fields.company_name.trim())       e.company_name   = 'Required.';
+    if (!fields.website.trim())            e.website        = 'Required.';
+    else if (!fields.website.startsWith('https://')) e.website = 'Must start with https://';
+    if (!fields.contact_name.trim())       e.contact_name   = 'Required.';
+    if (!fields.contact_email.trim())      e.contact_email  = 'Required.';
+    else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(fields.contact_email))
+                                           e.contact_email  = 'Invalid email.';
+    if (!fields.profile_type)             e.profile_type   = 'Required.';
+    if (!fields.plan_requested)           e.plan_requested = 'Required.';
+    if (!fields.message.trim())           e.message        = 'Required.';
+    else if (fields.message.trim().length < 50)
+                                           e.message        = 'At least 50 characters.';
+    setErrors(e);
+    return Object.keys(e).length === 0;
+  };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!formData.email || !formData.company) return;
-    setState('sending');
+    if (!validate()) return;
+    setStatus('sending');
     try {
-      await fetch('https://formspree.io/f/zik4u-partner', {
+      const res = await fetch(`${ADMIN_URL}/api/partner/request`, {
         method:  'POST',
         headers: { 'Content-Type': 'application/json' },
-        body:    JSON.stringify({
-          ...formData,
-          subject:  `[Zik4U Partner] ${formData.company} — ${formData.tier}`,
-          _replyto: formData.email,
-        }),
+        body:    JSON.stringify(fields),
       });
-      setState('sent');
+      const data = await res.json() as { error?: string; errors?: Partial<FormFields>; message?: string };
+      if (!res.ok) {
+        if (data.errors) { setErrors(data.errors); setStatus('idle'); return; }
+        setServerMsg(data.error ?? 'Something went wrong.');
+        setStatus('error');
+        return;
+      }
+      setStatus('sent');
     } catch {
-      setState('error');
+      setServerMsg('Network error. Please try again or email partner@zik4u.com');
+      setStatus('error');
     }
   };
 
-  const update = (key: string) => (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>
-  ) => setFormData(prev => ({ ...prev, [key]: e.target.value }));
-
-  const inputStyle = {
+  const inp = (hasError: boolean) => ({
     width: '100%', boxSizing: 'border-box' as const,
-    background: 'rgba(255,255,255,0.05)', border: `1px solid ${C.border}`,
+    background: 'rgba(255,255,255,0.05)',
+    border: `1px solid ${hasError ? C.pink : C.border}`,
     borderRadius: 10, padding: '12px 16px', color: C.text,
     fontSize: 15, outline: 'none', fontFamily: 'Inter, system-ui, sans-serif',
-  };
-  const labelStyle = {
+  });
+  const lbl = {
     fontSize: 11, color: C.muted, letterSpacing: '0.08em',
     textTransform: 'uppercase' as const, display: 'block', marginBottom: 6,
   };
+  const err = { fontSize: 12, color: C.pink, marginTop: 4 };
 
-  if (state === 'sent') {
+  if (status === 'sent') {
     return (
       <div style={{ textAlign: 'center' as const, padding: '32px 0' }}>
         <div style={{ fontSize: 48, marginBottom: 16 }}>✅</div>
         <h3 style={{ fontSize: 22, fontWeight: 700, marginBottom: 8 }}>Request received.</h3>
         <p style={{ color: C.muted, fontSize: 15 }}>
-          We&apos;ll respond within 48 hours at {formData.email}
+          We&apos;ll review your application and respond within 48 hours at{' '}
+          <strong style={{ color: C.text }}>{fields.contact_email}</strong>.
         </p>
       </div>
     );
   }
 
+  const msgLen = fields.message.trim().length;
+
   return (
     <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column' as const, gap: 14 }}>
+
+      {/* Row 1: company + website */}
       <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 14 }}>
         <div>
-          <label style={labelStyle}>Your name</label>
-          <input value={formData.name} onChange={update('name')}
-            placeholder="John Smith" style={inputStyle} />
+          <label style={lbl}>Company name *</label>
+          <input value={fields.company_name} onChange={set('company_name')}
+            placeholder="Warner Music Group" style={inp(!!errors.company_name)} />
+          {errors.company_name && <p style={err}>{errors.company_name}</p>}
         </div>
         <div>
-          <label style={labelStyle}>Company / Label / University</label>
-          <input value={formData.company} onChange={update('company')} required
-            placeholder="Warner Music..." style={inputStyle} />
+          <label style={lbl}>Website *</label>
+          <input value={fields.website} onChange={set('website')}
+            placeholder="https://warnermusic.com" style={inp(!!errors.website)} />
+          {errors.website && <p style={err}>{errors.website}</p>}
         </div>
       </div>
-      <div>
-        <label style={labelStyle}>Email address</label>
-        <input type="email" value={formData.email} onChange={update('email')} required
-          placeholder="you@company.com" style={inputStyle} />
+
+      {/* Row 2: registration number + phone */}
+      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 14 }}>
+        <div>
+          <label style={lbl}>Registration number</label>
+          <input value={fields.company_number} onChange={set('company_number')}
+            placeholder="EIN / SIRET / Company No." style={inp(false)} />
+        </div>
+        <div>
+          <label style={lbl}>Phone</label>
+          <input value={fields.phone} onChange={set('phone')}
+            placeholder="+1 555 000 0000" style={inp(false)} />
+        </div>
       </div>
-      <div>
-        <label style={labelStyle}>Plan of interest</label>
-        <select value={formData.tier} onChange={update('tier')} style={inputStyle}>
-          <option value="discover">Discover — Free (3 months)</option>
-          <option value="insight">Insight — $499/month</option>
-          <option value="intelligence">Intelligence — $1,299/month</option>
-          <option value="enterprise">Enterprise — Custom pricing</option>
-        </select>
+
+      {/* Row 3: contact name + email */}
+      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 14 }}>
+        <div>
+          <label style={lbl}>Contact name *</label>
+          <input value={fields.contact_name} onChange={set('contact_name')}
+            placeholder="John Smith" style={inp(!!errors.contact_name)} />
+          {errors.contact_name && <p style={err}>{errors.contact_name}</p>}
+        </div>
+        <div>
+          <label style={lbl}>Work email *</label>
+          <input type="email" value={fields.contact_email} onChange={set('contact_email')}
+            placeholder="john@warnermusic.com" style={inp(!!errors.contact_email)} />
+          {errors.contact_email && <p style={err}>{errors.contact_email}</p>}
+        </div>
       </div>
-      <div>
-        <label style={labelStyle}>You are</label>
-        <select value={formData.message} onChange={update('message')} style={inputStyle}>
-          <option value="" disabled>Select your profile</option>
-          <option value="label">Music label / Publisher</option>
-          <option value="manager">Artist manager / Agent</option>
-          <option value="researcher">Academic researcher</option>
-          <option value="brand">Brand / Agency</option>
-          <option value="media">Music media / Press</option>
-          <option value="dsp">Streaming platform (DSP)</option>
-          <option value="other">Other</option>
-        </select>
+
+      {/* Row 4: profile type + plan */}
+      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 14 }}>
+        <div>
+          <label style={lbl}>Your profile *</label>
+          <select value={fields.profile_type} onChange={set('profile_type')}
+            style={inp(!!errors.profile_type)}>
+            <option value="" disabled>Select profile type</option>
+            <option value="label">Record Label / Publisher</option>
+            <option value="distributor">Distributor</option>
+            <option value="agency">Talent Agency</option>
+            <option value="platform">Streaming Platform (DSP)</option>
+            <option value="other">Other</option>
+          </select>
+          {errors.profile_type && <p style={err}>{errors.profile_type}</p>}
+        </div>
+        <div>
+          <label style={lbl}>Plan of interest *</label>
+          <select value={fields.plan_requested} onChange={set('plan_requested')}
+            style={inp(!!errors.plan_requested)}>
+            <option value="discover">Discover (Free)</option>
+            <option value="insight">Insight ($499/month)</option>
+            <option value="intelligence">Intelligence ($1,299/month)</option>
+            <option value="enterprise">Enterprise (Custom)</option>
+          </select>
+          {errors.plan_requested && <p style={err}>{errors.plan_requested}</p>}
+        </div>
       </div>
-      <button type="submit" disabled={state === 'sending'} style={{
+
+      {/* Message */}
+      <div>
+        <label style={{ ...lbl, display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+          <span>How would you use Zik4U Intelligence? *</span>
+          <span style={{ color: msgLen >= 50 ? C.mint : C.pink, fontVariantNumeric: 'tabular-nums' }}>
+            {msgLen}/50 min
+          </span>
+        </label>
+        <textarea
+          value={fields.message}
+          onChange={set('message')}
+          rows={4}
+          placeholder="Describe your use case: which artists you track, what decisions this data would inform, the size of your roster or catalog..."
+          style={{
+            ...inp(!!errors.message),
+            resize: 'vertical' as const,
+            lineHeight: '1.6',
+          }}
+        />
+        {errors.message && <p style={err}>{errors.message}</p>}
+      </div>
+
+      {/* Notice */}
+      <div style={{
+        background: `${C.purple}10`, border: `1px solid ${C.purple}25`,
+        borderRadius: 10, padding: '12px 16px', fontSize: 12, color: C.muted,
+      }}>
+        By submitting this form you agree to Zik4U&apos;s{' '}
+        <a href="/legal/terms" target="_blank"
+          style={{ color: C.cyan, textDecoration: 'underline' }}>Terms of Service</a>{' '}
+        and{' '}
+        <a href="/legal/privacy" target="_blank"
+          style={{ color: C.cyan, textDecoration: 'underline' }}>Privacy Policy</a>.
+        Partner data access is governed by a separate Data Processing Agreement.
+      </div>
+
+      <button type="submit" disabled={status === 'sending'} style={{
         width: '100%', padding: '16px',
         background: `linear-gradient(135deg, ${C.cyan}, ${C.mint})`,
         border: 'none', borderRadius: 12, color: '#0A0A1A',
         fontSize: 16, fontWeight: 700,
-        cursor: state === 'sending' ? 'not-allowed' : 'pointer',
-        opacity: state === 'sending' ? 0.7 : 1,
+        cursor: status === 'sending' ? 'not-allowed' : 'pointer',
+        opacity: status === 'sending' ? 0.7 : 1,
         fontFamily: 'Inter, system-ui, sans-serif',
       }}>
-        {state === 'sending' ? 'Sending...' : 'Request access →'}
+        {status === 'sending' ? 'Sending...' : 'Request partner access →'}
       </button>
-      {state === 'error' && (
+
+      {status === 'error' && (
         <p style={{ color: C.pink, textAlign: 'center' as const, fontSize: 13 }}>
-          Something went wrong — email us directly at support@zik4u.com
+          {serverMsg}
         </p>
       )}
       <p style={{ textAlign: 'center' as const, fontSize: 12, color: C.muted }}>
-        We respond within 48 hours · No sales pressure
+        We respond within 48 hours. No sales pressure.
       </p>
     </form>
   );
