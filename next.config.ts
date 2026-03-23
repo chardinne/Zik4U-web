@@ -10,6 +10,10 @@ const securityHeaders = [
     value: "nosniff",
   },
   {
+    key: "Strict-Transport-Security",
+    value: "max-age=63072000; includeSubDomains; preload",
+  },
+  {
     key: "Referrer-Policy",
     value: "strict-origin-when-cross-origin",
   },
@@ -31,7 +35,7 @@ const securityHeaders = [
       "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com",
       "font-src 'self' https://fonts.gstatic.com",
       // Supabase (DB + Auth + Realtime) + Stripe API
-      "connect-src 'self' https://*.supabase.co wss://*.supabase.co https://api.stripe.com https://checkout.stripe.com",
+      "connect-src 'self' https://*.supabase.co wss://*.supabase.co https://api.stripe.com https://checkout.stripe.com https://admin.zik4u.com",
       // Internal images + Unsplash demo creators + Supabase Storage
       "img-src 'self' https://images.unsplash.com https://*.supabase.co data: blob:",
       // Stripe checkout is opened via window.location.href, not iframe

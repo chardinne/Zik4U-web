@@ -226,6 +226,47 @@ export default function TermsOfServicePage() {
             </p>
           </section>
 
+          {/* 9b */}
+          <section>
+            <h2 style={{ fontSize: '22px', fontWeight: 700, color: '#FFFFFF', marginBottom: '16px' }}>
+              9b. Partner Program &amp; API Access
+            </h2>
+            <p style={{ marginBottom: '12px' }}>
+              Zik4U offers a Partner Program providing access to aggregated, anonymized music intelligence
+              data (&ldquo;Zik4U Intelligence&rdquo;) via API to verified business entities
+              (&ldquo;Partners&rdquo;).
+            </p>
+            <ul style={{ paddingLeft: '20px', marginBottom: '12px' }}>
+              <li style={{ marginBottom: '8px' }}>
+                <strong style={{ color: '#FFFFFF' }}>Eligibility:</strong>
+                {' '}Partner access is restricted to verified legal entities (companies, research
+                institutions, registered organizations). Individual consumers are not eligible.
+              </li>
+              <li style={{ marginBottom: '8px' }}>
+                <strong style={{ color: '#FFFFFF' }}>API Key:</strong>
+                {' '}Each Partner receives a unique API key. Keys must not be shared, resold, or used
+                by third parties. Zik4U reserves the right to revoke keys at any time.
+              </li>
+              <li style={{ marginBottom: '8px' }}>
+                <strong style={{ color: '#FFFFFF' }}>Data Use:</strong>
+                {' '}Intelligence data provided via the Partner API is aggregated and anonymized.
+                Partners may not attempt to re-identify individual users. Data may not be resold,
+                sublicensed, or incorporated into competing products without prior written consent.
+              </li>
+              <li style={{ marginBottom: '8px' }}>
+                <strong style={{ color: '#FFFFFF' }}>No Warranties:</strong>
+                {' '}Intelligence data is provided &ldquo;as is.&rdquo; Zik4U makes no guarantees
+                regarding accuracy, completeness, or fitness for any particular commercial purpose
+                including A&amp;R decisions or investment strategies.
+              </li>
+              <li style={{ marginBottom: '8px' }}>
+                <strong style={{ color: '#FFFFFF' }}>Termination:</strong>
+                {' '}Zik4U may suspend or terminate Partner access immediately for breach of these
+                terms or misuse of data.
+              </li>
+            </ul>
+          </section>
+
           {/* 10 */}
           <section>
             <h2 style={{ fontSize: '22px', fontWeight: 700, color: '#FFFFFF', marginBottom: '16px' }}>10. Disclaimers & Limitation of Liability</h2>

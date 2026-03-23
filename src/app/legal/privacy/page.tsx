@@ -299,12 +299,31 @@ export default function PrivacyPolicyPage() {
 
           {/* 10 */}
           <section>
-            <h2 style={{ fontSize: '22px', fontWeight: 700, color: '#FFFFFF', marginBottom: '16px' }}>10. Children&apos;s Privacy</h2>
+            <h2 style={{ fontSize: '22px', fontWeight: 700, color: '#FFFFFF', marginBottom: '16px' }}>
+              10. Children&apos;s Privacy (COPPA)
+            </h2>
+            <p style={{ marginBottom: '12px' }}>
+              Zik4U is not directed to children under the age of{' '}
+              <strong style={{ color: '#FFFFFF' }}>13 years old</strong>
+              {' '}(or <strong style={{ color: '#FFFFFF' }}>16 years old</strong> in the
+              European Economic Area).
+            </p>
+            <p style={{ marginBottom: '12px' }}>
+              We do not knowingly collect personal data from children under these age thresholds.
+              By using Zik4U, you confirm that you are at least 13 years old (or 16 in the EEA),
+              or that a parent or legal guardian has provided consent on your behalf.
+            </p>
+            <p style={{ marginBottom: '12px' }}>
+              If we become aware that we have collected personal data from a child below the
+              applicable age without verifiable parental consent, we will delete that data
+              immediately. To report such a case, contact us at{' '}
+              <a href={`mailto:${CONTACT_EMAIL}`} style={{ color: '#00D4FF', textDecoration: 'none' }}>
+                {CONTACT_EMAIL}
+              </a>.
+            </p>
             <p>
-              The Service is not directed to children under 13 years of age (or 16 in the EEA). We do not knowingly collect personal
-              data from children. If you believe we have inadvertently collected data from a child, contact us immediately at{' '}
-              <a href={`mailto:${CONTACT_EMAIL}`} style={{ color: '#00D4FF', textDecoration: 'none' }}>{CONTACT_EMAIL}</a>{' '}
-              and we will delete it promptly.
+              This policy complies with the Children&apos;s Online Privacy Protection Act
+              (COPPA, USA) and the GDPR provisions applicable to minors (EU/EEA).
             </p>
           </section>
 
