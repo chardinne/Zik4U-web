@@ -612,7 +612,12 @@ type FormFields = {
   message: string;
 };
 
-function ContactForm({ defaultTier }: { defaultTier?: string }) {
+function ContactForm({ defaultTier, billingPeriod = 'monthly', checkoutLoading = false, onCheckout }: {
+  defaultTier?: string;
+  billingPeriod?: 'monthly' | 'annual';
+  checkoutLoading?: boolean;
+  onCheckout?: (planId: string, data: FormFields) => Promise<void>;
+}) {
   const [fields, setFields] = useState<FormFields>({
     company_name:   '',
     website:        '',
@@ -653,11 +658,20 @@ function ContactForm({ defaultTier }: { defaultTier?: string }) {
     return Object.keys(e).length === 0;
   };
 
+  const isPaidPlan = ['insight', 'intelligence', 'enterprise'].includes(fields.plan_requested);
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!validate()) return;
     setStatus('sending');
     try {
+      if (isPaidPlan && onCheckout) {
+        await onCheckout(fields.plan_requested, fields);
+        // If onCheckout doesn't redirect, show error
+        setServerMsg('Checkout failed. Please try again or email partner@zik4u.com');
+        setStatus('error');
+        return;
+      }
       const res = await fetch(`${ADMIN_URL}/api/partner/request`, {
         method:  'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -818,16 +832,22 @@ function ContactForm({ defaultTier }: { defaultTier?: string }) {
         Partner data access is governed by a separate Data Processing Agreement.
       </div>
 
-      <button type="submit" disabled={status === 'sending'} style={{
+      <button type="submit" disabled={status === 'sending' || checkoutLoading} style={{
         width: '100%', padding: '16px',
         background: `linear-gradient(135deg, ${C.cyan}, ${C.mint})`,
         border: 'none', borderRadius: 12, color: '#0A0A1A',
         fontSize: 16, fontWeight: 700,
-        cursor: status === 'sending' ? 'not-allowed' : 'pointer',
-        opacity: status === 'sending' ? 0.7 : 1,
+        cursor: (status === 'sending' || checkoutLoading) ? 'not-allowed' : 'pointer',
+        opacity: (status === 'sending' || checkoutLoading) ? 0.7 : 1,
         fontFamily: 'Inter, system-ui, sans-serif',
       }}>
-        {status === 'sending' ? 'Sending...' : 'Request partner access →'}
+        {checkoutLoading
+          ? 'Redirecting...'
+          : status === 'sending'
+          ? (isPaidPlan ? 'Processing...' : 'Sending...')
+          : isPaidPlan
+          ? `Proceed to checkout${billingPeriod === 'annual' ? ' (annual)' : ''} →`
+          : 'Request partner access →'}
       </button>
 
       {status === 'error' && (
@@ -846,7 +866,26 @@ function ContactForm({ defaultTier }: { defaultTier?: string }) {
 
 export default function PartnerPage() {
   const router = useRouter();
-  const [selectedPlan, setSelectedPlan] = useState<string | null>(null);
+  const [selectedPlan, setSelectedPlan]     = useState<string | null>(null);
+  const [billingPeriod, setBillingPeriod]   = useState<'monthly' | 'annual'>('monthly');
+  const [checkoutLoading, setCheckoutLoading] = useState(false);
+
+  const handlePaidPlan = async (planId: string, data: FormFields) => {
+    setCheckoutLoading(true);
+    try {
+      const res = await fetch('/api/partner/checkout', {
+        method:  'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body:    JSON.stringify({ ...data, plan: planId, billing_period: billingPeriod }),
+      });
+      const json = await res.json() as { url?: string; error?: string };
+      if (json.url) router.push(json.url);
+    } catch {
+      // error shown in ContactForm
+    } finally {
+      setCheckoutLoading(false);
+    }
+  };
 
   const scrollToForm = (planId?: string) => {
     if (planId) setSelectedPlan(planId);
@@ -1011,9 +1050,39 @@ export default function PartnerPage() {
           <h2 style={{ fontSize: 28, fontWeight: 900, textAlign: 'center', marginBottom: 8 }}>
             Partner plans
           </h2>
-          <p style={{ color: C.muted, fontSize: 15, textAlign: 'center', marginBottom: 40 }}>
+          <p style={{ color: C.muted, fontSize: 15, textAlign: 'center', marginBottom: 32 }}>
             Start free. Upgrade when you&apos;re ready. Annual plans save up to 23%.
           </p>
+
+          {/* Billing period toggle */}
+          <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center',
+            gap: 14, marginBottom: 40 }}>
+            <span style={{ fontSize: 14, fontWeight: billingPeriod === 'monthly' ? 700 : 400,
+              color: billingPeriod === 'monthly' ? C.text : C.muted }}>Monthly</span>
+            <button
+              onClick={() => setBillingPeriod(p => p === 'monthly' ? 'annual' : 'monthly')}
+              style={{
+                position: 'relative' as const, width: 52, height: 28,
+                borderRadius: 14, border: 'none', cursor: 'pointer',
+                background: billingPeriod === 'annual'
+                  ? `linear-gradient(135deg, ${C.cyan}, ${C.mint})`
+                  : 'rgba(255,255,255,0.15)',
+                transition: 'background 0.2s', flexShrink: 0,
+              }}>
+              <span style={{
+                position: 'absolute' as const,
+                top: 4, left: billingPeriod === 'annual' ? 26 : 4,
+                width: 20, height: 20, borderRadius: '50%',
+                background: '#fff', transition: 'left 0.2s',
+              }} />
+            </button>
+            <span style={{ fontSize: 14, fontWeight: billingPeriod === 'annual' ? 700 : 400,
+              color: billingPeriod === 'annual' ? C.text : C.muted }}>
+              Annual{' '}
+              <span style={{ color: C.mint, fontSize: 12, fontWeight: 700 }}>−23%</span>
+            </span>
+          </div>
+
           <div style={{ display: 'grid',
             gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))',
             gap: 16, alignItems: 'start' }}>
@@ -1057,17 +1126,22 @@ export default function PartnerPage() {
                     </li>
                   ))}
                 </ul>
-                <button onClick={() => scrollToForm(plan.id)} style={{
-                  width: '100%', padding: '13px',
-                  background: plan.highlight
-                    ? `linear-gradient(135deg, ${plan.color}, ${C.cyan})`
-                    : 'transparent',
-                  border: `1px solid ${plan.color}`, borderRadius: 10,
-                  color: plan.highlight ? '#0A0A1A' : C.text,
-                  fontSize: 14, fontWeight: 700, cursor: 'pointer',
-                  fontFamily: 'Inter, system-ui, sans-serif',
-                }}>
-                  {plan.cta}
+                <button
+                  onClick={() => scrollToForm(plan.id)}
+                  disabled={checkoutLoading && selectedPlan === plan.id}
+                  style={{
+                    width: '100%', padding: '13px',
+                    background: plan.highlight
+                      ? `linear-gradient(135deg, ${plan.color}, ${C.cyan})`
+                      : 'transparent',
+                    border: `1px solid ${plan.color}`, borderRadius: 10,
+                    color: plan.highlight ? '#0A0A1A' : C.text,
+                    fontSize: 14, fontWeight: 700,
+                    cursor: (checkoutLoading && selectedPlan === plan.id) ? 'not-allowed' : 'pointer',
+                    opacity: (checkoutLoading && selectedPlan === plan.id) ? 0.7 : 1,
+                    fontFamily: 'Inter, system-ui, sans-serif',
+                  }}>
+                  {checkoutLoading && selectedPlan === plan.id ? 'Redirecting...' : plan.cta}
                 </button>
               </div>
             ))}
@@ -1086,7 +1160,12 @@ export default function PartnerPage() {
           <p style={{ color: C.muted, fontSize: 14, marginBottom: 28 }}>
             Tell us about you. We respond within 48 hours.
           </p>
-          <ContactForm defaultTier={selectedPlan ?? undefined} />
+          <ContactForm
+            defaultTier={selectedPlan ?? undefined}
+            billingPeriod={billingPeriod}
+            checkoutLoading={checkoutLoading}
+            onCheckout={handlePaidPlan}
+          />
         </div>
       </div>
     </main>
