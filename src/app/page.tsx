@@ -91,6 +91,76 @@ export default function HomePage() {
         </p>
       </motion.div>
 
+      {/* Powered by */}
+      <motion.div
+        initial={{ opacity: 0, y: 16 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.6, delay: 0.25 }}
+        style={{
+          textAlign: 'center',
+          maxWidth: 520,
+          marginBottom: 64,
+          padding: '28px 32px',
+          background: 'rgba(255,255,255,0.02)',
+          border: '1px solid rgba(255,255,255,0.05)',
+          borderRadius: 20,
+        }}
+      >
+        <p style={{
+          fontSize: 11,
+          fontWeight: 700,
+          letterSpacing: '0.15em',
+          color: 'rgba(255,255,255,0.25)',
+          textTransform: 'uppercase',
+          marginBottom: 20,
+        }}>
+          Works with your streaming apps
+        </p>
+
+        {/* Logos texte des plateformes */}
+        <div style={{
+          display: 'flex',
+          flexWrap: 'wrap',
+          justifyContent: 'center',
+          alignItems: 'center',
+          gap: '8px 20px',
+          marginBottom: 24,
+        }}>
+          {[
+            { name: 'Spotify',       color: '#1DB954' },
+            { name: 'Apple Music',   color: '#FC3C44' },
+            { name: 'YouTube Music', color: '#FF0000' },
+            { name: 'Deezer',        color: '#FEAA2D' },
+            { name: 'SoundCloud',    color: '#FF5500' },
+            { name: 'Tidal',         color: '#fff' },
+          ].map((p) => (
+            <span key={p.name} style={{
+              fontSize: 13,
+              fontWeight: 700,
+              color: p.color,
+              opacity: 0.7,
+              letterSpacing: '-0.01em',
+            }}>
+              {p.name}
+            </span>
+          ))}
+        </div>
+
+        <p style={{
+          fontSize: 13,
+          color: 'rgba(255,255,255,0.3)',
+          lineHeight: 1.7,
+          margin: 0,
+          maxWidth: 380,
+          marginLeft: 'auto',
+          marginRight: 'auto',
+        }}>
+          Zik4U adds a social and emotional layer on top of your favorite streaming apps.
+          We capture what you actually listen to — and turn it into human connections.
+          <span style={{ color: 'rgba(255,255,255,0.5)', fontWeight: 600 }}> We add. We never subtract.</span>
+        </p>
+      </motion.div>
+
       {/* 3 portes */}
       <motion.div
         initial={{ opacity: 0, y: 20 }}
