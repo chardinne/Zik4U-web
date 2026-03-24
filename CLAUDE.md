@@ -25,7 +25,7 @@ Backend partagé avec l'app mobile via Supabase.
 ```
 src/
   app/
-    /                      ✅ Landing (triple-door: Listener / Creator / Fan)
+    /                      ✅ Landing (triple-door: Listener / Creator / Fan), footer link discret "For labels & researchers →" vers /partner
     /listeners             ✅ Tunnel listener : hero "What are they listening to. For real." + features
     /creators              ✅ Tunnel créateur : hero + benefits + pricing + how-to
     /fans                  ✅ Tunnel fan : search créateurs + WHAT_YOU_GET + store CTAs
@@ -188,12 +188,13 @@ Décliné sur tous les tunnels :
 - **`opengraph-image.tsx` / `icon.tsx`** : `export const runtime = 'edge'` obligatoire — sans ça, erreur de build ImageResponse
 - **URL prod hardcodée interdite** : jamais `https://zik4u.com/...` dans le code — utiliser des chemins relatifs `/...` ou `process.env.NEXT_PUBLIC_SITE_URL`
 - **Landing page** : pas de stats fictives — utiliser un badge "Early access" honnête
+- **Landing footer partner link** : lien discret "For labels & researchers →" dans le footer de la landing (`src/app/page.tsx`), après les liens Privacy/Terms. Couleur `rgba(255,255,255,0.25)` → `#00D4FF` au hover. PAS un bouton nav — `onMouseEnter`/`onMouseLeave` inline style
 
 ## Pages — état actuel
 
 | Route | Statut | Description |
 |---|---|---|
-| `/` | ✅ | Landing triple-door (Listener / Creator / Fan), taglines "For real", early access badge |
+| `/` | ✅ | Landing triple-door (Listener / Creator / Fan), taglines "For real", early access badge, lien footer discret → /partner |
 | `/listeners` | ✅ | Tunnel listener — hero gradient + FEATURES (4 items) + store CTAs |
 | `/creators` | ✅ | Hero, 6 benefits, 3 tiers suggérés, 4 steps, sticky CTA mobile |
 | `/fans` | ✅ | Search créateurs, WHAT_YOU_GET pills, store CTAs |
