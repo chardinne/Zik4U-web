@@ -53,7 +53,47 @@ const DEMO_REPORT = {
     '🔄 45% of listeners play compulsively — strong addiction signal',
     '🌙 Peak listening at 23:00 — ideal for late-night playlist placement',
     '🔗 73% of listeners also listen to Artist Y — crossover potential',
+    '⚡ 412 new discoverers in the last 7 days (68% of all-time) — viral acceleration',
+    '🔥 42% of fans have reached a streak milestone — exceptional dedication',
   ],
+  discovery_velocity: {
+    total_new_discoverers:       847,
+    new_discoverers_7d:          412,
+    discovery_acceleration_pct:  68,
+    dominant_source:             'spotify',
+    sources_breakdown: {
+      spotify: 510, apple_music: 240, deezer: 97,
+    },
+    velocity_label: 'ACCELERATING — majority of discoveries in last 7 days',
+  },
+  fan_engagement_depth: {
+    streak_engagement_pct:    42,
+    fans_with_streak_milestone: 1196,
+    streak_milestones_breakdown: { '7': 680, '30': 420, '100': 87, '365': 9 },
+    avg_achievements_per_fan:  2.3,
+    total_achievements_unlocked: 6551,
+    achievements_by_rarity: { common: 4200, rare: 1800, epic: 450, legendary: 101 },
+    engagement_depth_label: 'DEEP — highly dedicated fanbase, above-average platform engagement',
+  },
+  mood_journey: {
+    top_transitions: [
+      { transition: 'nocturne → high_energy', count: 312, pct: 38 },
+      { transition: 'deep_focus → feel_good', count: 198, pct: 24 },
+      { transition: 'melancolique → nocturne', count: 156, pct: 19 },
+    ],
+    peak_transition_day:   'Friday',
+    total_mood_changes:    820,
+    avg_emotional_score:   74,
+    avg_exploration_index: 62,
+    exploration_label: 'BALANCED — mix of new and familiar music',
+  },
+  audience_demographics: {
+    opt_in_count:  891,
+    opt_in_pct:    31,
+    status_breakdown:     { single: 534, open: 178, taken: 179 },
+    status_breakdown_pct: { single: 60, open: 20, taken: 20 },
+    note: 'Based on users who explicitly opted in.',
+  },
 };
 
 // ── Pricing ───────────────────────────────────────────────────────────────────
@@ -221,13 +261,14 @@ function ROICalculator() {
 // ── Demo Report Card ──────────────────────────────────────────────────────────
 
 function DemoReportCard() {
-  const [activeTab, setActiveTab] = useState<'overview' | 'audience' | 'insights'>('overview');
+  const [activeTab, setActiveTab] = useState<'overview' | 'audience' | 'insights' | 'engagement'>('overview');
   const d = DEMO_REPORT;
 
   const tabs = [
-    { id: 'overview',  label: 'Overview'  },
-    { id: 'audience',  label: 'Audience'  },
-    { id: 'insights',  label: 'Key Insights' },
+    { id: 'overview',   label: 'Overview'     },
+    { id: 'audience',   label: 'Audience'     },
+    { id: 'insights',   label: 'Key Insights' },
+    { id: 'engagement', label: 'Engagement'   },
   ] as const;
 
   return (
@@ -366,6 +407,188 @@ function DemoReportCard() {
               </strong>
               {' '}— 6 weeks before chart entry.
             </div>
+          </div>
+        )}
+
+        {activeTab === 'engagement' && (
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 24 }}>
+
+            {/* Section 1 — Discovery Velocity */}
+            <div>
+              <div style={{ fontSize: 12, color: C.muted,
+                textTransform: 'uppercase' as const, letterSpacing: '0.1em', marginBottom: 12 }}>
+                Discovery Velocity
+              </div>
+              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 10, marginBottom: 14 }}>
+                <div style={{ background: `${C.cyan}08`, border: `1px solid ${C.cyan}22`,
+                  borderRadius: 10, padding: '14px', textAlign: 'center' as const }}>
+                  <div style={{ fontSize: 10, color: C.muted,
+                    textTransform: 'uppercase' as const, letterSpacing: '0.08em' }}>
+                    Total Discoverers
+                  </div>
+                  <div style={{ fontSize: 22, fontWeight: 900, color: C.cyan, margin: '6px 0' }}>
+                    {d.discovery_velocity.total_new_discoverers.toLocaleString()}
+                  </div>
+                  <div style={{ fontSize: 10, color: C.muted }}>
+                    {d.discovery_velocity.velocity_label.split(' — ')[0]}
+                  </div>
+                </div>
+                <div style={{ background: `${C.mint}08`, border: `1px solid ${C.mint}22`,
+                  borderRadius: 10, padding: '14px', textAlign: 'center' as const }}>
+                  <div style={{ fontSize: 10, color: C.muted,
+                    textTransform: 'uppercase' as const, letterSpacing: '0.08em' }}>
+                    Last 7 Days
+                  </div>
+                  <div style={{ fontSize: 22, fontWeight: 900, color: C.mint, margin: '6px 0' }}>
+                    {d.discovery_velocity.new_discoverers_7d}
+                  </div>
+                  <div style={{ fontSize: 10, color: C.muted }}>
+                    {d.discovery_velocity.discovery_acceleration_pct}% of all-time
+                  </div>
+                </div>
+              </div>
+              <div style={{ fontSize: 11, color: C.muted,
+                textTransform: 'uppercase' as const, letterSpacing: '0.08em', marginBottom: 8 }}>
+                Discovery Sources
+              </div>
+              {Object.entries(d.discovery_velocity.sources_breakdown)
+                .sort((a, b) => b[1] - a[1])
+                .map(([source, count]) => {
+                  const total = d.discovery_velocity.total_new_discoverers;
+                  const pct   = Math.round((count / total) * 100);
+                  return (
+                    <div key={source} style={{ marginBottom: 8 }}>
+                      <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 4 }}>
+                        <span style={{ fontSize: 12, textTransform: 'capitalize' as const }}>
+                          {source.replace('_', ' ')}
+                        </span>
+                        <span style={{ fontSize: 12, color: C.cyan, fontWeight: 700 }}>
+                          {count.toLocaleString()} ({pct}%)
+                        </span>
+                      </div>
+                      <div style={{ background: '#1A1A35', borderRadius: 4, height: 6 }}>
+                        <div style={{ height: '100%', borderRadius: 4, width: `${pct}%`,
+                          background: `linear-gradient(90deg, ${C.cyan}, ${C.purple})` }} />
+                      </div>
+                    </div>
+                  );
+                })}
+            </div>
+
+            {/* Section 2 — Fan Engagement */}
+            <div>
+              <div style={{ fontSize: 12, color: C.muted,
+                textTransform: 'uppercase' as const, letterSpacing: '0.1em', marginBottom: 12 }}>
+                Fan Engagement Depth
+              </div>
+              <div style={{ background: `${C.pink}08`, border: `1px solid ${C.pink}22`,
+                borderRadius: 10, padding: '14px 16px', marginBottom: 12 }}>
+                <div style={{ fontSize: 11, color: C.muted, marginBottom: 4 }}>Engagement depth</div>
+                <div style={{ fontSize: 13, fontWeight: 700, color: C.pink }}>
+                  {d.fan_engagement_depth.engagement_depth_label}
+                </div>
+              </div>
+              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 10, marginBottom: 14 }}>
+                <div style={{ background: `${C.purple}08`, border: `1px solid ${C.purple}22`,
+                  borderRadius: 10, padding: '14px', textAlign: 'center' as const }}>
+                  <div style={{ fontSize: 10, color: C.muted,
+                    textTransform: 'uppercase' as const, letterSpacing: '0.08em' }}>
+                    Streak Engagement
+                  </div>
+                  <div style={{ fontSize: 22, fontWeight: 900, color: C.purple, margin: '6px 0' }}>
+                    {d.fan_engagement_depth.streak_engagement_pct}%
+                  </div>
+                  <div style={{ fontSize: 10, color: C.muted }}>fans hit a streak milestone</div>
+                </div>
+                <div style={{ background: `${C.mint}08`, border: `1px solid ${C.mint}22`,
+                  borderRadius: 10, padding: '14px', textAlign: 'center' as const }}>
+                  <div style={{ fontSize: 10, color: C.muted,
+                    textTransform: 'uppercase' as const, letterSpacing: '0.08em' }}>
+                    Avg Achievements
+                  </div>
+                  <div style={{ fontSize: 22, fontWeight: 900, color: C.mint, margin: '6px 0' }}>
+                    {d.fan_engagement_depth.avg_achievements_per_fan}
+                  </div>
+                  <div style={{ fontSize: 10, color: C.muted }}>per fan</div>
+                </div>
+              </div>
+              <div style={{ fontSize: 11, color: C.muted,
+                textTransform: 'uppercase' as const, letterSpacing: '0.08em', marginBottom: 8 }}>
+                Streak Milestones Reached
+              </div>
+              {Object.entries(d.fan_engagement_depth.streak_milestones_breakdown)
+                .map(([days_label, count]) => {
+                  const max = Math.max(...Object.values(d.fan_engagement_depth.streak_milestones_breakdown));
+                  const pct = max > 0 ? Math.round((count / max) * 100) : 0;
+                  return (
+                    <div key={days_label} style={{ marginBottom: 8 }}>
+                      <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 4 }}>
+                        <span style={{ fontSize: 12 }}>🔥 {days_label}-day streak</span>
+                        <span style={{ fontSize: 12, color: C.purple, fontWeight: 700 }}>
+                          {count.toLocaleString()} fans
+                        </span>
+                      </div>
+                      <div style={{ background: '#1A1A35', borderRadius: 4, height: 6 }}>
+                        <div style={{ height: '100%', borderRadius: 4, width: `${pct}%`,
+                          background: `linear-gradient(90deg, ${C.purple}, ${C.pink})` }} />
+                      </div>
+                    </div>
+                  );
+                })}
+            </div>
+
+            {/* Section 3 — Mood Journey */}
+            <div>
+              <div style={{ fontSize: 12, color: C.muted,
+                textTransform: 'uppercase' as const, letterSpacing: '0.1em', marginBottom: 12 }}>
+                Mood Journey
+              </div>
+              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 10, marginBottom: 14 }}>
+                <div style={{ background: `${C.cyan}08`, border: `1px solid ${C.cyan}22`,
+                  borderRadius: 10, padding: '14px', textAlign: 'center' as const }}>
+                  <div style={{ fontSize: 10, color: C.muted,
+                    textTransform: 'uppercase' as const, letterSpacing: '0.08em' }}>
+                    Exploration Index
+                  </div>
+                  <div style={{ fontSize: 22, fontWeight: 900, color: C.cyan, margin: '6px 0' }}>
+                    {d.mood_journey.avg_exploration_index}/100
+                  </div>
+                  <div style={{ fontSize: 10, color: C.muted }}>
+                    {d.mood_journey.exploration_label.split(' — ')[0]}
+                  </div>
+                </div>
+                <div style={{ background: `${C.purple}08`, border: `1px solid ${C.purple}22`,
+                  borderRadius: 10, padding: '14px', textAlign: 'center' as const }}>
+                  <div style={{ fontSize: 10, color: C.muted,
+                    textTransform: 'uppercase' as const, letterSpacing: '0.08em' }}>
+                    Peak Transition Day
+                  </div>
+                  <div style={{ fontSize: 22, fontWeight: 900, color: C.purple, margin: '6px 0' }}>
+                    {d.mood_journey.peak_transition_day}
+                  </div>
+                  <div style={{ fontSize: 10, color: C.muted }}>
+                    {d.mood_journey.total_mood_changes} total transitions
+                  </div>
+                </div>
+              </div>
+              <div style={{ fontSize: 11, color: C.muted,
+                textTransform: 'uppercase' as const, letterSpacing: '0.08em', marginBottom: 8 }}>
+                Top Mood Transitions
+              </div>
+              {d.mood_journey.top_transitions.map((t, i) => (
+                <div key={i} style={{ marginBottom: 8 }}>
+                  <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 4 }}>
+                    <span style={{ fontSize: 12, fontFamily: 'monospace' }}>{t.transition}</span>
+                    <span style={{ fontSize: 12, color: C.mint, fontWeight: 700 }}>{t.pct}%</span>
+                  </div>
+                  <div style={{ background: '#1A1A35', borderRadius: 4, height: 6 }}>
+                    <div style={{ height: '100%', borderRadius: 4, width: `${t.pct}%`,
+                      background: `linear-gradient(90deg, ${C.mint}, ${C.cyan})` }} />
+                  </div>
+                </div>
+              ))}
+            </div>
+
           </div>
         )}
       </div>
