@@ -119,10 +119,21 @@ export function AuthModal({ isOpen, onClose, onSuccess, redirectMessage }: Props
               <>
                 <div className="text-center mb-6">
                   <h3 className="text-xl font-black text-white mb-1">
-                    {isSignUp ? 'Create your account' : 'Welcome back'}
+                    {redirectMessage ? 'Almost there' : (isSignUp ? 'Create account' : 'Sign in')}
                   </h3>
                   {redirectMessage && (
-                    <p className="text-sm mt-1" style={{ color: 'rgba(255,255,255,0.5)' }}>
+                    <p style={{
+                      fontSize: 13,
+                      color: 'rgba(255,255,255,0.5)',
+                      textAlign: 'center',
+                      lineHeight: 1.6,
+                      marginBottom: 20,
+                      marginTop: 8,
+                      padding: '10px 14px',
+                      background: 'rgba(0,212,255,0.06)',
+                      border: '1px solid rgba(0,212,255,0.15)',
+                      borderRadius: 10,
+                    }}>
                       {redirectMessage}
                     </p>
                   )}

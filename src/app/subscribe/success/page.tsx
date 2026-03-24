@@ -44,6 +44,16 @@ function SuccessContent() {
         <h1 style={{ fontSize: '36px', fontWeight: 900, color: '#FFFFFF', marginBottom: '12px' }}>
           You&apos;re in!
         </h1>
+        {creatorUsername && (
+          <p style={{
+            fontSize: 15,
+            color: 'rgba(255,255,255,0.7)',
+            marginBottom: 8,
+            fontWeight: 600,
+          }}>
+            You&apos;re now a fan of <span style={{ color: '#FF3CAC' }}>@{creatorUsername}</span>.
+          </p>
+        )}
         <p style={{ color: 'rgba(255,255,255,0.6)', marginBottom: '8px', fontSize: '17px' }}>
           Your subscription is now active.
         </p>
@@ -75,6 +85,32 @@ function SuccessContent() {
           >
             🎵 Open Zik4U →
           </a>
+        </div>
+
+        {/* What happens next */}
+        <div style={{
+          background: '#12122A',
+          border: '1px solid rgba(0,255,178,0.15)',
+          borderRadius: 16,
+          padding: 20,
+          marginBottom: 16,
+          textAlign: 'left',
+        }}>
+          <p style={{ fontSize: 11, fontWeight: 700, letterSpacing: '0.1em',
+            color: 'rgba(255,255,255,0.35)', textTransform: 'uppercase', marginBottom: 12 }}>
+            What happens next
+          </p>
+          {[
+            { emoji: '📱', text: 'Download Zik4U to see their live listening feed' },
+            { emoji: '🃏', text: 'Your Fan Card is waiting in the app' },
+            { emoji: '🎵', text: 'Exclusive drops will appear in your feed' },
+          ].map((item) => (
+            <div key={item.emoji} style={{ display: 'flex', alignItems: 'center', gap: 10,
+              marginBottom: 8, fontSize: 13, color: 'rgba(255,255,255,0.6)' }}>
+              <span style={{ fontSize: 16 }}>{item.emoji}</span>
+              <span>{item.text}</span>
+            </div>
+          ))}
         </div>
 
         {/* Download CTA */}
