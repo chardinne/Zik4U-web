@@ -1,5 +1,6 @@
 'use client';
 
+import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { motion } from 'framer-motion';
 
@@ -28,6 +29,137 @@ const FEATURES = [
     body: "Stay consistent. See your friends' streaks. Music as a daily habit, together.",
   },
 ];
+
+function PulseTeaser() {
+  const [email, setEmail] = useState('');
+  const [submitted, setSubmitted] = useState(false);
+  const [loading, setLoading] = useState(false);
+
+  const handleSubmit = async () => {
+    if (!email.trim() || loading) return;
+    setLoading(true);
+    try {
+      const res = await fetch('/api/pulse-waitlist', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email }),
+      });
+      if (res.ok) setSubmitted(true);
+    } catch { /* silent */ }
+    finally { setLoading(false); }
+  };
+
+  return (
+    <div style={{
+      background: 'linear-gradient(135deg, rgba(123,47,255,0.08), rgba(0,212,255,0.06))',
+      border: '1px solid rgba(123,47,255,0.2)',
+      borderRadius: 24,
+      padding: 'clamp(32px, 5vw, 56px)',
+      textAlign: 'center',
+      position: 'relative',
+      overflow: 'hidden',
+    }}>
+      {/* Glow background */}
+      <div style={{
+        position: 'absolute', top: -60, left: '50%',
+        transform: 'translateX(-50%)',
+        width: 300, height: 300, borderRadius: '50%',
+        background: 'radial-gradient(circle, rgba(123,47,255,0.15), transparent 70%)',
+        pointerEvents: 'none',
+      }} />
+
+      <p style={{
+        fontSize: 12, fontWeight: 700, letterSpacing: '0.2em',
+        color: '#7B2FFF', textTransform: 'uppercase', marginBottom: 16,
+      }}>
+        Coming soon
+      </p>
+
+      <h2 style={{
+        fontSize: 'clamp(32px, 5vw, 56px)',
+        fontWeight: 900, lineHeight: 1.05,
+        letterSpacing: '-0.02em', marginBottom: 16,
+      }}>
+        Listen together.{' '}
+        <span style={{
+          background: 'linear-gradient(90deg, #7B2FFF, #FF3CAC)',
+          WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent',
+        }}>
+          In sync.
+        </span>
+      </h2>
+
+      <p style={{
+        fontSize: 18, color: 'rgba(255,255,255,0.5)',
+        lineHeight: 1.7, maxWidth: 480, margin: '0 auto 32px',
+      }}>
+        Pulse — live listening rooms with your friends.
+        Same song. Same moment. Real reactions.
+        <br />
+        <span style={{ color: 'rgba(255,255,255,0.3)', fontSize: 14 }}>
+          Unlocks when you reach 10 mutual followers.
+        </span>
+      </p>
+
+      {submitted ? (
+        <div style={{
+          display: 'inline-flex', alignItems: 'center', gap: 8,
+          background: 'rgba(0,255,178,0.1)', border: '1px solid rgba(0,255,178,0.3)',
+          borderRadius: 999, padding: '12px 24px',
+          fontSize: 14, fontWeight: 600, color: '#00FFB2',
+        }}>
+          ✓ You&apos;re on the list. We&apos;ll notify you at launch.
+        </div>
+      ) : (
+        <div style={{
+          display: 'flex', gap: 8, maxWidth: 400,
+          margin: '0 auto', flexWrap: 'wrap', justifyContent: 'center',
+        }}>
+          <input
+            type="email"
+            value={email}
+            onChange={e => setEmail(e.target.value)}
+            onKeyDown={e => e.key === 'Enter' && void handleSubmit()}
+            placeholder="your@email.com"
+            style={{
+              flex: 1, minWidth: 200,
+              background: 'rgba(255,255,255,0.05)',
+              border: '1px solid rgba(123,47,255,0.3)',
+              borderRadius: 12, padding: '12px 16px',
+              color: '#fff', fontSize: 14, outline: 'none',
+              fontFamily: 'Inter, system-ui, sans-serif',
+            }}
+          />
+          <button
+            onClick={() => void handleSubmit()}
+            disabled={loading || !email.trim()}
+            style={{
+              padding: '12px 24px', borderRadius: 12, border: 'none',
+              background: 'linear-gradient(135deg, #7B2FFF, #FF3CAC)',
+              color: '#fff', fontWeight: 700, fontSize: 14,
+              cursor: loading ? 'not-allowed' : 'pointer',
+              opacity: loading ? 0.7 : 1,
+              fontFamily: 'Inter, system-ui, sans-serif',
+              whiteSpace: 'nowrap' as const,
+            }}
+          >
+            {loading ? '...' : 'Notify me →'}
+          </button>
+        </div>
+      )}
+
+      <p style={{
+        marginTop: 24, fontSize: 12,
+        color: 'rgba(255,255,255,0.2)',
+      }}>
+        Already have Zik4U?{' '}
+        <a href="zik4u://home" style={{ color: '#7B2FFF', textDecoration: 'none' }}>
+          Invite friends to unlock Pulse →
+        </a>
+      </p>
+    </div>
+  );
+}
 
 export default function ListenersPage() {
   const router = useRouter();
@@ -228,6 +360,17 @@ export default function ListenersPage() {
               Let your real taste speak for itself.
             </p>
           </div>
+        </motion.div>
+
+        {/* BLOC PULSE — teaser */}
+        <motion.div
+          initial={{ opacity: 0, y: 40 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.7 }}
+          style={{ marginBottom: 100 }}
+        >
+          <PulseTeaser />
         </motion.div>
 
         {/* BLOC 4 — CTA stores */}
