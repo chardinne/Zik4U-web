@@ -5,8 +5,6 @@ import type Stripe from 'stripe';
 
 export const dynamic = 'force-dynamic';
 
-// IMPORTANT : désactiver le body parsing de Next.js pour Stripe
-export const config = { api: { bodyParser: false } };
 
 async function sendActivationEmail(
   contactEmail: string,
