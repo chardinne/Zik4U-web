@@ -26,7 +26,7 @@ Backend partagé avec l'app mobile via Supabase.
 src/
   app/
     /                      ✅ Landing (triple-door: Listener / Creator / Fan), footer link discret "For labels & researchers →" vers /partner
-    /listeners             ✅ Tunnel listener : hero "What are they listening to. For real." + features
+    /listeners             ✅ Tunnel listener : hero "What are they listening to. For real." + features + section Pulse Teaser (waitlist email)
     /creators              ✅ Tunnel créateur : hero + benefits + pricing + how-to
     /fans                  ✅ Tunnel fan : search créateurs + WHAT_YOU_GET + store CTAs
     /users                 ✅ Page créateurs (ancienne URL — conservée pour compatibilité)
@@ -43,6 +43,13 @@ src/
     /not-found             ✅ Page 404 custom — "This track doesn't exist."
     /opengraph-image       ✅ OG image générée en code (ImageResponse, edge runtime, 1200×630)
     /icon                  ✅ Favicon généré en code (ImageResponse, edge runtime, 32×32, "Z4")
+    api/
+      pulse-waitlist/      ✅ POST — upsert email dans `pulse_waitlist` (service role, idempotent, onConflict: 'email')
+      partner/me/          ✅ GET — profil partenaire par API key (`x-zik4u-key` header)
+      partner/checkout/    ✅ POST — Stripe Checkout pour plans partenaires (génère `zik4u_live_` provisoire)
+      partner/webhook/     ✅ POST — Stripe webhook — active clé API + envoie email Resend post-paiement
+      partner/intelligence/artist/   ✅ GET — artist intelligence (params: artist, days)
+      partner/intelligence/virality/ ✅ GET — virality leaderboard (param: limit)
   components/
     landing/
       CreatorCard.tsx      ✅ Card search result (avatar, artistes, prix, hover, badge "✦ Featured")
@@ -189,13 +196,17 @@ Décliné sur tous les tunnels :
 - **URL prod hardcodée interdite** : jamais `https://zik4u.com/...` dans le code — utiliser des chemins relatifs `/...` ou `process.env.NEXT_PUBLIC_SITE_URL`
 - **Landing page** : pas de stats fictives — utiliser un badge "Early access" honnête
 - **Landing footer partner link** : lien discret "For labels & researchers →" dans le footer de la landing (`src/app/page.tsx`), après les liens Privacy/Terms. Couleur `rgba(255,255,255,0.25)` → `#00D4FF` au hover. PAS un bouton nav — `onMouseEnter`/`onMouseLeave` inline style
+- **`/partner/dashboard`** : `'use client'` + `force-dynamic`. API key stockée dans `localStorage` clé `zik4u_partner_key`. Validation côté client : `apiKey.startsWith('zik4u_live_')`. Calls parallèles `/api/partner/me` + `/api/partner/intelligence/virality` via `loadData()`. Pas d'auth Supabase — auth par clé API uniquement.
+- **`/api/partner/checkout`** : génère d'abord une clé `zik4u_live_` provisoire, crée un Stripe Checkout avec `metadata.api_key`. Le webhook `/api/partner/webhook` active la clé après paiement.
+- **`/api/partner/webhook`** : désactiver le body parsing Next.js avec `export const config = { api: { bodyParser: false } }` — requis pour vérification signature Stripe.
+- **`/api/pulse-waitlist`** : utilise `createServiceClient()` (service role) car la table `pulse_waitlist` n'a pas de RLS anon — insert depuis un visiteur non connecté.
 
 ## Pages — état actuel
 
 | Route | Statut | Description |
 |---|---|---|
 | `/` | ✅ | Landing triple-door (Listener / Creator / Fan), taglines "For real", early access badge, lien footer discret → /partner |
-| `/listeners` | ✅ | Tunnel listener — hero gradient + FEATURES (4 items) + store CTAs |
+| `/listeners` | ✅ | Tunnel listener — hero gradient + FEATURES (4 items) + section Pulse Teaser (form email waitlist → `/api/pulse-waitlist`) + store CTAs |
 | `/creators` | ✅ | Hero, 6 benefits, 3 tiers suggérés, 4 steps, sticky CTA mobile |
 | `/fans` | ✅ | Search créateurs, WHAT_YOU_GET pills, store CTAs |
 | `/users` | ✅ | Alias ancienne URL — conservée pour liens existants |
@@ -211,7 +222,7 @@ Décliné sur tous les tunnels :
 | `/robots.txt` | ✅ | Crawl autorisé, /subscribe/ et /api/ exclus |
 | `/not-found` (404) | ✅ | "This track doesn't exist." + boutons Back / Find a creator |
 | `/partner` | ✅ | Page Partner enrichie — hero, demo report interactif (3 tabs), 6 features, ROI calculator, 4 plans ($0/$499/$1299/Enterprise), contact form Formspree |
-| `/partner/dashboard` | ✅ | Dashboard partenaire demo — virality leaderboard, search, period selector, upgrade CTA |
+| `/partner/dashboard` | ✅ | Dashboard partenaire — API key auth screen (`zik4u_live_` + localStorage), virality leaderboard 7d/30d/90d, artist deep-dive search, company name + plan badge, sign out |
 | `/opengraph-image` | ✅ | OG PNG généré edge (1200×630, logo gradient + tagline) |
 | `/icon` | ✅ | Favicon généré edge (32×32, "Z4" gradient) |
 
