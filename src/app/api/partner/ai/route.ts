@@ -1,5 +1,5 @@
 import { type NextRequest } from 'next/server';
-import { createServiceClient } from '@/lib/supabase-server';
+import { createPartnerClient } from '@/lib/supabase-server';
 
 export const dynamic = 'force-dynamic';
 
@@ -35,7 +35,7 @@ interface ChatMessage {
 async function buildContext(
   apiKey: string,
   question: string,
-  supabase: ReturnType<typeof createServiceClient>
+  supabase: ReturnType<typeof createPartnerClient>
 ): Promise<string> {
   // Extraire un nom d'artiste de la question si présent
   const artistMatch = question.match(
@@ -83,8 +83,7 @@ async function buildContext(
 }
 
 export async function POST(request: NextRequest) {
-  const apiKey =
-    request.headers.get('x-zik4u-key') ?? request.nextUrl.searchParams.get('api_key');
+  const apiKey = request.headers.get('x-zik4u-key');
 
   if (!apiKey) {
     return Response.json({ error: 'API key required' }, { status: 401 });
@@ -102,7 +101,7 @@ export async function POST(request: NextRequest) {
     return Response.json({ error: 'question is required' }, { status: 400 });
   }
 
-  const supabase = createServiceClient();
+  const supabase = createPartnerClient();
 
   // Vérifier et incrémenter le quota
   const { data: quota } = await supabase.rpc('check_and_increment_ai_quota', {

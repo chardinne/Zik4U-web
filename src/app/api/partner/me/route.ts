@@ -1,17 +1,16 @@
 import { type NextRequest } from 'next/server';
-import { createServiceClient } from '@/lib/supabase-server';
+import { createPartnerClient } from '@/lib/supabase-server';
 
 export const dynamic = 'force-dynamic';
 
 export async function GET(request: NextRequest) {
-  const apiKey = request.headers.get('x-zik4u-key') ??
-    request.nextUrl.searchParams.get('api_key');
+  const apiKey = request.headers.get('x-zik4u-key');
 
   if (!apiKey) {
     return Response.json({ error: 'API key required' }, { status: 401 });
   }
 
-  const supabase = createServiceClient();
+  const supabase = createPartnerClient();
   const { data } = await supabase
     .from('partner_requests')
     .select('company_name, contact_name, plan_requested, subscription_status, current_period_end, billing_period, approved_at, payment_activated')

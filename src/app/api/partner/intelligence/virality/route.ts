@@ -1,10 +1,10 @@
 import { type NextRequest } from 'next/server';
-import { createServiceClient } from '@/lib/supabase-server';
+import { createPartnerClient } from '@/lib/supabase-server';
 
 export const dynamic = 'force-dynamic';
 
 async function verifyApiKey(apiKey: string): Promise<{ valid: boolean; plan: string | null }> {
-  const supabase = createServiceClient();
+  const supabase = createPartnerClient();
   const { data } = await supabase
     .from('partner_requests')
     .select('plan_requested, subscription_status, api_key_active')
@@ -21,8 +21,7 @@ async function verifyApiKey(apiKey: string): Promise<{ valid: boolean; plan: str
 }
 
 export async function GET(request: NextRequest) {
-  const apiKey = request.headers.get('x-zik4u-key') ??
-    request.nextUrl.searchParams.get('api_key');
+  const apiKey = request.headers.get('x-zik4u-key');
 
   if (!apiKey) {
     return Response.json({ error: 'API key required' }, { status: 401 });
@@ -33,7 +32,7 @@ export async function GET(request: NextRequest) {
     return Response.json({ error: 'Invalid or inactive API key' }, { status: 401 });
   }
 
-  const supabase = createServiceClient();
+  const supabase = createPartnerClient();
   const limit = Math.min(
     parseInt(request.nextUrl.searchParams.get('limit') ?? '20'),
     plan === 'intelligence' || plan === 'enterprise' ? 100 : 20,
