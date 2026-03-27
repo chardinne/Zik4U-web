@@ -1,0 +1,71 @@
+# Zik4U
+
+> The social network built on what you actually listen to.
+
+Zik4U is a music social network that builds unified listening profiles by aggregating streams from Spotify, Apple Music, YouTube Music, SoundCloud, and local files. Users connect their streaming accounts and Zik4U captures listening metadata — track title, artist name, and rounded timestamp — to build a cross-platform musical identity.
+
+## Core concepts
+
+- **Listening identity**: A user's musical profile derived from their actual listening history across all platforms, not just self-reported preferences.
+- **Captation**: The process of detecting and recording listening events from connected streaming services. Metadata only — no audio, no platform IDs, no account data.
+- **Music compatibility**: A Jaccard similarity score computed from shared listening history between two users. Powers social discovery and connection recommendations.
+- **Creator system**: Users with verified musical influence can monetize their listening identity through tiered subscriptions. Fans subscribe to see what their favourite artist actually listens to.
+- **Pulse**: Live listening rooms where users with 10+ mutual followers can listen together in real time and share reactions.
+
+## Privacy model
+
+Zik4U follows the Last.fm scrobbling model established in 2003. We capture:
+- Track title
+- Artist name
+- Rounded timestamp (nearest minute)
+
+We never capture:
+- Audio streams
+- Platform user IDs
+- Playlist contents
+- Account credentials
+- Precise geolocation
+
+All listening data is anonymized before storage. Every play triggered from Zik4U deep-links back to the source platform — the stream and the royalty stay with the streaming service.
+
+GDPR basis: Art. 6(1)(a) explicit consent. Users can export or delete all data at any time.
+
+## B2B Intelligence Platform
+
+Zik4U offers aggregate, anonymized music intelligence to labels and researchers:
+- Pre-viral artist detection (cross-platform listening spikes)
+- Listener archetypes (7 types: explorer, loyalist, ritualist, social, nostalgic, focus, eclectic)
+- Emotional listening patterns (mood trajectories, peak hours, repeat signals)
+- Cross-platform audience analysis
+
+No individual user data is shared. All B2B data is aggregated and anonymized.
+
+## App
+
+- iOS: Available on the App Store (com.zik4u.app)
+- Android: Available on Google Play (com.zik4u.app)
+- Web: https://zik4u.com
+
+## Supported streaming platforms
+
+- Spotify (OAuth PKCE)
+- Apple Music (MusicKit)
+- YouTube Music (notification detection, no OAuth)
+- SoundCloud (OAuth PKCE)
+- Deezer (OAuth)
+- Local files
+
+## Legal
+
+- Privacy Policy: https://zik4u.com/legal/privacy
+- Terms of Service: https://zik4u.com/legal/terms
+- Streaming Partners Compliance: https://zik4u.com/streaming-partners
+- Company: Zik4U LLC, State of Florida, United States
+- Contact: privacy@zik4u.com
+
+## Technical
+
+- Backend: Supabase (PostgreSQL + Realtime + Edge Functions)
+- Mobile: React Native + Expo SDK 53
+- Web: Next.js (App Router)
+- Payments: RevenueCat (IAP) + Stripe (web)
