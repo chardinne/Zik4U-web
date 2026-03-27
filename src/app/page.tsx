@@ -361,6 +361,24 @@ export default function HomePage() {
         >
           For labels & researchers →
         </a>
+        <span style={{ color: 'rgba(255,255,255,0.15)' }}>·</span>
+        <a
+          href="/streaming-partners"
+          style={{
+            color: 'rgba(255,255,255,0.25)',
+            textDecoration: 'none',
+            fontSize: '13px',
+            transition: 'color 0.2s',
+          }}
+          onMouseEnter={e => {
+            (e.target as HTMLAnchorElement).style.color = '#00FFB2';
+          }}
+          onMouseLeave={e => {
+            (e.target as HTMLAnchorElement).style.color = 'rgba(255,255,255,0.25)';
+          }}
+        >
+          For streaming platforms →
+        </a>
       </div>
 
     </main>

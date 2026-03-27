@@ -932,6 +932,17 @@ export default function PartnerPage() {
           }}>
             Request access
           </button>
+          <a
+            href="/streaming-partners"
+            style={{
+              fontSize: 12, color: C.muted,
+              textDecoration: 'none', transition: 'color 0.2s',
+            }}
+            onMouseEnter={e => { (e.target as HTMLAnchorElement).style.color = C.mint; }}
+            onMouseLeave={e => { (e.target as HTMLAnchorElement).style.color = C.muted; }}
+          >
+            Streaming platforms →
+          </a>
         </div>
       </nav>
 
