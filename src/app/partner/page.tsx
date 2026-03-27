@@ -119,19 +119,22 @@ const PLANS = [
   {
     id:       'insight',
     name:     'Insight',
-    price:    '$499',
-    period:   '/month · $4,499/year',
+    price:    '$699',
+    period:   '/month · $6,990/year',
     desc:     'For independent labels and A&R teams.',
     color:    C.mint,
     features: [
       'Unlimited artist profiles',
       'Virality leaderboard (top 100)',
       'Emotional intensity score',
-      'Listener loyalty (30/60/90d)',
-      'Audience segmentation',
+      'Listener archetypes (7 profiles)',
+      'Loyalty retention (30/60/90d)',
+      'Discovery velocity',
+      'Fan engagement depth',
       'Crossover artists map',
       'CSV + JSON export',
       '90-day historical window',
+      '🧠 AI Analyst — 30 questions/month',
     ],
     cta:       'Get Insight',
     highlight: false,
@@ -139,19 +142,23 @@ const PLANS = [
   {
     id:       'intelligence',
     name:     'Intelligence',
-    price:    '$1,299',
-    period:   '/month · $11,999/year',
+    price:    '$1,999',
+    period:   '/month · $19,990/year',
     desc:     'For major labels and streaming platforms.',
     color:    C.purple,
     features: [
       'Everything in Insight',
-      'First Heard data',
+      'First Heard data (discovery priority)',
+      'Mood journey & emotional transitions',
+      'Audience demographics (opt-in)',
       'Weekly automated report',
+      'Real-time virality alerts',
       'Artist comparison tool',
       'Priority API access',
+      'Custom date ranges (365d)',
       'Dedicated onboarding',
-      'Custom date ranges',
-      'Real-time virality alerts',
+      'SLA + NDA',
+      '🧠 AI Analyst — 150 questions/month',
     ],
     cta:       'Get Intelligence',
     highlight: true,
@@ -166,11 +173,13 @@ const PLANS = [
     features: [
       'Everything in Intelligence',
       'Raw data API (streaming)',
+      'Emotional dataset export (research)',
       'Custom archetype models',
-      'Wellbeing & research data',
       'White-label reports',
+      'Wellbeing & research data',
       'SLA + NDA',
       'Dedicated analyst',
+      '🧠 AI Analyst — unlimited',
     ],
     cta:       'Contact us',
     highlight: false,
@@ -183,8 +192,8 @@ function ROICalculator() {
   const [dealSize, setDealSize]       = useState(100000);
   const [dealsPerYear, setDealsPerYear] = useState(3);
 
-  const annualCostInsight       = 4499;
-  const annualCostIntelligence  = 11999;
+  const annualCostInsight       = 6990;
+  const annualCostIntelligence  = 19990;
   const annualRevenue           = dealSize * dealsPerYear;
   const roiInsight       = Math.round(((annualRevenue * 0.15 - annualCostInsight)      / annualCostInsight)      * 100);
   const roiIntelligence  = Math.round(((annualRevenue * 0.25 - annualCostIntelligence) / annualCostIntelligence) * 100);
