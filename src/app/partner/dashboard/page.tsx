@@ -58,6 +58,19 @@ interface ArtistIntelligence {
   is_pre_viral?: boolean;
 }
 
+interface AIMessage {
+  role: 'user' | 'assistant';
+  content: string;
+  timestamp: number;
+}
+
+interface AIQuota {
+  used: number;
+  limit: number;
+  unlimited: boolean;
+  remaining: number | null;
+}
+
 type Screen = 'auth' | 'loading' | 'dashboard' | 'error';
 
 export default function PartnerDashboardPage() {
@@ -74,6 +87,11 @@ export default function PartnerDashboardPage() {
   const [artistResult, setArtistResult] = useState<ArtistIntelligence | null>(null);
   const [artistLoading, setArtistLoading] = useState(false);
   const [artistError, setArtistError]     = useState('');
+  const [aiMessages, setAiMessages] = useState<AIMessage[]>([]);
+  const [aiInput, setAiInput] = useState('');
+  const [aiLoading, setAiLoading] = useState(false);
+  const [aiError, setAiError] = useState('');
+  const [aiQuota, setAiQuota] = useState<AIQuota | null>(null);
 
   const loadData = useCallback(async (key: string, days: number) => {
     setScreen('loading');
@@ -153,6 +171,58 @@ export default function PartnerDashboardPage() {
       setArtistError(err instanceof Error ? err.message : 'Unknown error');
     } finally {
       setArtistLoading(false);
+    }
+  };
+
+  const AI_SUGGESTIONS = [
+    'Which artist on the leaderboard has the highest pre-viral potential right now?',
+    'What does a Deep Feeler audience mean for live event strategy?',
+    'Which artists should we be watching based on discovery velocity?',
+    "How does nocturnal listening pattern affect an artist's fanbase loyalty?",
+    'What crossover opportunities exist in the current leaderboard?',
+  ];
+
+  const sendAIQuestion = async (question?: string) => {
+    const q = (question ?? aiInput).trim();
+    if (!q || aiLoading) return;
+
+    const userMsg: AIMessage = { role: 'user', content: q, timestamp: Date.now() };
+    const newHistory = [...aiMessages, userMsg];
+    setAiMessages(newHistory);
+    setAiInput('');
+    setAiLoading(true);
+    setAiError('');
+
+    try {
+      const res = await fetch('/api/partner/ai', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'x-zik4u-key': apiKey,
+        },
+        body: JSON.stringify({
+          question: q,
+          history: newHistory.slice(-6).map(m => ({ role: m.role, content: m.content })),
+        }),
+      });
+
+      const data = await res.json() as { answer?: string; error?: string; quota?: AIQuota; upgrade_url?: string };
+
+      if (!res.ok) {
+        setAiError((data.error ?? 'Error') + (data.upgrade_url ? ' → zik4u.com/partner' : ''));
+      } else {
+        const assistantMsg: AIMessage = {
+          role: 'assistant',
+          content: data.answer ?? '',
+          timestamp: Date.now(),
+        };
+        setAiMessages([...newHistory, assistantMsg]);
+        if (data.quota) setAiQuota(data.quota);
+      }
+    } catch {
+      setAiError('Connection error. Please try again.');
+    } finally {
+      setAiLoading(false);
     }
   };
 
@@ -537,6 +607,225 @@ export default function PartnerDashboardPage() {
             </div>
           )}
         </div>
+
+        {/* ── AI Analyst ─────────────────────────────────────────── */}
+        <div style={{
+          background: C.card,
+          border: `1px solid rgba(123,47,255,0.25)`,
+          borderRadius: 20,
+          overflow: 'hidden',
+          marginTop: 24,
+        }}>
+          {/* Header */}
+          <div style={{
+            display: 'flex', alignItems: 'center', justifyContent: 'space-between',
+            padding: '16px 24px',
+            borderBottom: `1px solid rgba(123,47,255,0.15)`,
+            background: 'rgba(123,47,255,0.05)',
+          }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
+              <span style={{ fontSize: 18 }}>🧠</span>
+              <div>
+                <div style={{ fontWeight: 700, fontSize: 15 }}>AI Analyst</div>
+                <div style={{ fontSize: 11, color: C.muted, letterSpacing: '0.05em' }}>
+                  Ask anything about the data — powered by Claude
+                </div>
+              </div>
+            </div>
+            {aiQuota && (
+              <div style={{
+                fontSize: 11, fontWeight: 600,
+                color: aiQuota.unlimited ? C.mint :
+                  (aiQuota.remaining ?? 0) <= 5 ? C.pink : C.muted,
+                background: 'rgba(255,255,255,0.05)',
+                borderRadius: 20, padding: '4px 12px',
+                border: `1px solid rgba(255,255,255,0.08)`,
+              }}>
+                {aiQuota.unlimited ? '∞ unlimited' :
+                  `${aiQuota.remaining} / ${aiQuota.limit} questions left`}
+              </div>
+            )}
+          </div>
+
+          {/* Plan sans accès IA */}
+          {partner?.plan === 'discover' ? (
+            <div style={{ padding: 32, textAlign: 'center' as const }}>
+              <div style={{ fontSize: 32, marginBottom: 12 }}>🔒</div>
+              <div style={{ fontWeight: 700, marginBottom: 8 }}>AI Analyst requires Insight or Intelligence</div>
+              <div style={{ color: C.muted, fontSize: 13, marginBottom: 20 }}>
+                Ask unlimited questions to an AI trained on Zik4U data. Get actionable insights in seconds.
+              </div>
+              <button
+                onClick={() => router.push('/partner')}
+                style={{
+                  background: `linear-gradient(135deg, #7B2FFF, #FF3CAC)`,
+                  border: 'none', borderRadius: 10, padding: '10px 24px',
+                  color: '#fff', fontWeight: 700, fontSize: 13, cursor: 'pointer',
+                  fontFamily: 'Inter, system-ui, sans-serif',
+                }}
+              >
+                Upgrade to unlock →
+              </button>
+            </div>
+          ) : (
+            <div style={{ display: 'flex', flexDirection: 'column' as const }}>
+
+              {/* Messages */}
+              {aiMessages.length === 0 ? (
+                <div style={{ padding: '20px 24px' }}>
+                  <div style={{ fontSize: 12, color: C.muted, marginBottom: 12, letterSpacing: '0.08em', textTransform: 'uppercase' as const }}>
+                    Suggested questions
+                  </div>
+                  <div style={{ display: 'flex', flexDirection: 'column' as const, gap: 6 }}>
+                    {AI_SUGGESTIONS.map((s) => (
+                      <button
+                        key={s}
+                        onClick={() => void sendAIQuestion(s)}
+                        style={{
+                          background: 'rgba(123,47,255,0.06)',
+                          border: '1px solid rgba(123,47,255,0.15)',
+                          borderRadius: 8, padding: '10px 14px',
+                          color: 'rgba(255,255,255,0.7)', fontSize: 13,
+                          cursor: 'pointer', textAlign: 'left' as const,
+                          fontFamily: 'Inter, system-ui, sans-serif',
+                          transition: 'all 0.15s',
+                        }}
+                        onMouseEnter={e => {
+                          e.currentTarget.style.borderColor = 'rgba(123,47,255,0.4)';
+                          e.currentTarget.style.color = '#fff';
+                        }}
+                        onMouseLeave={e => {
+                          e.currentTarget.style.borderColor = 'rgba(123,47,255,0.15)';
+                          e.currentTarget.style.color = 'rgba(255,255,255,0.7)';
+                        }}
+                      >
+                        {s}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+              ) : (
+                <div style={{ maxHeight: 420, overflowY: 'auto', padding: '16px 24px', display: 'flex', flexDirection: 'column' as const, gap: 16 }}>
+                  {aiMessages.map((msg, i) => (
+                    <div key={i} style={{
+                      display: 'flex',
+                      flexDirection: msg.role === 'user' ? 'row-reverse' : 'row',
+                      gap: 10, alignItems: 'flex-start',
+                    }}>
+                      <div style={{
+                        width: 28, height: 28, borderRadius: '50%', flexShrink: 0,
+                        background: msg.role === 'user'
+                          ? 'linear-gradient(135deg, #00D4FF, #00FFB2)'
+                          : 'linear-gradient(135deg, #7B2FFF, #FF3CAC)',
+                        display: 'flex', alignItems: 'center', justifyContent: 'center',
+                        fontSize: 12, fontWeight: 700, color: '#fff',
+                      }}>
+                        {msg.role === 'user' ? 'You' : 'AI'}
+                      </div>
+                      <div style={{
+                        maxWidth: '80%',
+                        background: msg.role === 'user'
+                          ? 'rgba(0,212,255,0.08)'
+                          : 'rgba(123,47,255,0.08)',
+                        border: `1px solid ${msg.role === 'user' ? 'rgba(0,212,255,0.15)' : 'rgba(123,47,255,0.15)'}`,
+                        borderRadius: 12, padding: '10px 14px',
+                        fontSize: 13, lineHeight: 1.7,
+                        color: 'rgba(255,255,255,0.85)',
+                        whiteSpace: 'pre-wrap',
+                      }}>
+                        {msg.content}
+                      </div>
+                    </div>
+                  ))}
+                  {aiLoading && (
+                    <div style={{ display: 'flex', gap: 10, alignItems: 'flex-start' }}>
+                      <div style={{
+                        width: 28, height: 28, borderRadius: '50%',
+                        background: 'linear-gradient(135deg, #7B2FFF, #FF3CAC)',
+                        display: 'flex', alignItems: 'center', justifyContent: 'center',
+                        fontSize: 12, fontWeight: 700, color: '#fff',
+                      }}>AI</div>
+                      <div style={{
+                        background: 'rgba(123,47,255,0.08)',
+                        border: '1px solid rgba(123,47,255,0.15)',
+                        borderRadius: 12, padding: '12px 16px',
+                      }}>
+                        <div style={{ display: 'flex', gap: 4 }}>
+                          {[0, 1, 2].map(dot => (
+                            <div key={dot} style={{
+                              width: 6, height: 6, borderRadius: '50%',
+                              background: '#7B2FFF',
+                              animation: `aiPulse 1.2s ease-in-out ${dot * 0.2}s infinite`,
+                            }} />
+                          ))}
+                        </div>
+                      </div>
+                    </div>
+                  )}
+                </div>
+              )}
+
+              {/* Error */}
+              {aiError && (
+                <div style={{
+                  margin: '0 24px 12px',
+                  padding: '10px 14px',
+                  background: 'rgba(255,60,172,0.08)',
+                  border: '1px solid rgba(255,60,172,0.2)',
+                  borderRadius: 8, fontSize: 13, color: C.pink,
+                }}>
+                  {aiError}
+                </div>
+              )}
+
+              {/* Input */}
+              <div style={{
+                display: 'flex', gap: 8, padding: '12px 16px',
+                borderTop: `1px solid rgba(255,255,255,0.05)`,
+              }}>
+                <input
+                  value={aiInput}
+                  onChange={e => setAiInput(e.target.value)}
+                  onKeyDown={e => e.key === 'Enter' && !e.shiftKey && void sendAIQuestion()}
+                  placeholder="Ask about an artist, an audience, a trend..."
+                  disabled={aiLoading}
+                  style={{
+                    flex: 1, background: '#0A0A1A',
+                    border: '1px solid rgba(123,47,255,0.2)',
+                    borderRadius: 10, padding: '10px 14px',
+                    color: '#fff', fontSize: 13, outline: 'none',
+                    fontFamily: 'Inter, system-ui, sans-serif',
+                    opacity: aiLoading ? 0.6 : 1,
+                  }}
+                />
+                <button
+                  onClick={() => void sendAIQuestion()}
+                  disabled={aiLoading || !aiInput.trim()}
+                  style={{
+                    background: aiLoading || !aiInput.trim()
+                      ? 'rgba(123,47,255,0.2)'
+                      : 'linear-gradient(135deg, #7B2FFF, #FF3CAC)',
+                    border: 'none', borderRadius: 10, padding: '10px 16px',
+                    color: '#fff', fontWeight: 700, fontSize: 13,
+                    cursor: aiLoading || !aiInput.trim() ? 'not-allowed' : 'pointer',
+                    fontFamily: 'Inter, system-ui, sans-serif',
+                    transition: 'all 0.2s',
+                  }}
+                >
+                  {aiLoading ? '...' : '→'}
+                </button>
+              </div>
+
+              <style>{`
+                @keyframes aiPulse {
+                  0%, 100% { opacity: 0.3; transform: scale(0.8); }
+                  50% { opacity: 1; transform: scale(1); }
+                }
+              `}</style>
+            </div>
+          )}
+        </div>
+
       </div>
     </div>
   );
