@@ -797,8 +797,8 @@ function ContactForm({ defaultTier, billingPeriod = 'monthly', checkoutLoading =
           <select value={fields.plan_requested} onChange={set('plan_requested')}
             style={inp(!!errors.plan_requested)}>
             <option value="discover">Discover (Free)</option>
-            <option value="insight">Insight ($499/month)</option>
-            <option value="intelligence">Intelligence ($1,299/month)</option>
+            <option value="insight">Insight ($699/month)</option>
+            <option value="intelligence">Intelligence ($1,999/month)</option>
             <option value="enterprise">Enterprise (Custom)</option>
           </select>
           {errors.plan_requested && <p style={err}>{errors.plan_requested}</p>}
@@ -967,12 +967,12 @@ export default function PartnerPage() {
           </h1>
           <p style={{ fontSize: 18, color: C.muted, maxWidth: 580,
             margin: '0 auto 12px', lineHeight: 1.6 }}>
-            We capture what people <em>actually</em> listen to —
-            not what they curate. Virality signals, emotional intensity,
-            listener archetypes, first-heard data.
+            We capture what people <em>actually</em> listen to — not what they
+            curate, perform, or share. Every stream, every repeat, every 3AM listen.
+            Turned into intelligence no streaming platform can give you.
           </p>
           <p style={{ fontSize: 14, color: C.dim, fontStyle: 'italic' }}>
-            100% authentic listening data. No playlist bias. No streaming algorithm.
+            100% authentic behavioral data. No playlist bias. No algorithmic noise. No self-reporting.
           </p>
           <div style={{ display: 'flex', gap: 12, justifyContent: 'center', marginTop: 32 }}>
             <button onClick={() => scrollToForm('discover')} style={{
@@ -1008,6 +1008,74 @@ export default function PartnerPage() {
           <DemoReportCard />
         </motion.div>
 
+        {/* The data layer that didn't exist */}
+        <div style={{ marginBottom: 80 }}>
+          <div style={{ textAlign: 'center', marginBottom: 48 }}>
+            <h2 style={{ fontSize: 28, fontWeight: 900, marginBottom: 12 }}>
+              The data layer that didn&apos;t exist.
+            </h2>
+            <p style={{ color: C.muted, fontSize: 15, maxWidth: 580, margin: '0 auto' }}>
+              Spotify sees streams. Apple Music sees plays. We see the human being behind them —
+              their emotional state, their loyalty signal, their discovery moment.
+              That&apos;s the gap Zik4U fills.
+            </p>
+          </div>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 1,
+            background: 'rgba(255,255,255,0.06)', borderRadius: 16, overflow: 'hidden',
+            border: '1px solid rgba(255,255,255,0.06)' }}>
+            {[
+              {
+                who: 'Streaming platforms',
+                see: 'Stream count',
+                miss: 'Emotional depth',
+                color: C.muted,
+                highlight: false,
+              },
+              {
+                who: 'Social media',
+                see: 'Engagement metrics',
+                miss: 'Listening behavior',
+                color: C.muted,
+                highlight: false,
+              },
+              {
+                who: 'Zik4U Intelligence',
+                see: 'Both — and more',
+                miss: null,
+                color: C.mint,
+                highlight: true,
+              },
+            ].map((row) => (
+              <div key={row.who} style={{
+                background: row.highlight ? `${C.mint}08` : C.card,
+                padding: '28px 24px',
+                borderRight: '1px solid rgba(255,255,255,0.06)',
+              }}>
+                <div style={{ fontSize: 11, letterSpacing: '0.12em', textTransform: 'uppercase' as const,
+                  color: row.color, marginBottom: 16, fontWeight: 700 }}>
+                  {row.who}
+                </div>
+                {row.miss ? (
+                  <>
+                    <div style={{ fontSize: 14, marginBottom: 8 }}>
+                      <span style={{ color: C.mint }}>✓</span>
+                      <span style={{ color: 'rgba(255,255,255,0.6)', marginLeft: 8 }}>{row.see}</span>
+                    </div>
+                    <div style={{ fontSize: 14 }}>
+                      <span style={{ color: C.pink }}>✗</span>
+                      <span style={{ color: 'rgba(255,255,255,0.3)', marginLeft: 8 }}>{row.miss}</span>
+                    </div>
+                  </>
+                ) : (
+                  <div style={{ fontSize: 15, fontWeight: 700, color: C.mint }}>
+                    {row.see}
+                  </div>
+                )}
+              </div>
+            ))}
+          </div>
+        </div>
+
         {/* What you can&apos;t get anywhere else */}
         <div style={{ marginBottom: 80, textAlign: 'center' }}>
           <h2 style={{ fontSize: 28, fontWeight: 900, marginBottom: 8 }}>Data no one else has.</h2>
@@ -1030,6 +1098,8 @@ export default function PartnerPage() {
                 body: 'We log the exact moment each artist was first listened to on Zik4U. Historical proof of discovery — before anyone else knew.' },
               { emoji: '🎯', title: 'Loyalty Score', color: C.mint,
                 body: '30/60/90-day listener retention. Know if an artist builds a sticky fanbase or rides a wave of one-time discovery.' },
+              { emoji: '🧠', title: 'AI Analyst', color: C.purple,
+                body: 'Ask anything about the data in plain language. Powered by Claude. Gets answers in seconds that would take an analyst hours. Available on Insight and Intelligence plans.' },
             ].map(feat => (
               <div key={feat.title} style={{
                 background: C.card, border: `1px solid ${feat.color}22`,
@@ -1152,6 +1222,38 @@ export default function PartnerPage() {
                   }}>
                   {checkoutLoading && selectedPlan === plan.id ? 'Redirecting...' : plan.cta}
                 </button>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* Built for decisions, not dashboards */}
+        <div style={{ marginBottom: 64, textAlign: 'center' as const }}>
+          <h2 style={{ fontSize: 22, fontWeight: 900, marginBottom: 8 }}>
+            Built for decisions, not dashboards.
+          </h2>
+          <p style={{ color: C.muted, fontSize: 14, maxWidth: 520, margin: '0 auto 32px', lineHeight: 1.7 }}>
+            Every data point in Zik4U Intelligence is derived from real, consented listening behavior.
+            No panels. No surveys. No algorithmic inference.
+            What you see is what people actually do — when no one is watching.
+          </p>
+          <div style={{ display: 'flex', justifyContent: 'center', gap: 32, flexWrap: 'wrap' as const }}>
+            {[
+              { value: '100%', label: 'Authentic listening data' },
+              { value: 'GDPR', label: 'Art. 22 compliant profiling' },
+              { value: '7', label: 'Emotional archetypes' },
+              { value: '24h', label: 'Emotional snapshot frequency' },
+            ].map(stat => (
+              <div key={stat.label} style={{ textAlign: 'center' as const }}>
+                <div style={{ fontSize: 28, fontWeight: 900,
+                  background: `linear-gradient(90deg, ${C.cyan}, ${C.mint})`,
+                  WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent',
+                  backgroundClip: 'text' }}>
+                  {stat.value}
+                </div>
+                <div style={{ fontSize: 11, color: C.muted, marginTop: 4, letterSpacing: '0.05em' }}>
+                  {stat.label}
+                </div>
               </div>
             ))}
           </div>
