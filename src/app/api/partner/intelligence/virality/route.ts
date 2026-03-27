@@ -1,5 +1,6 @@
 import { type NextRequest } from 'next/server';
 import { createPartnerClient } from '@/lib/supabase-server';
+import { checkRateLimit } from '@/lib/rate-limit';
 
 export const dynamic = 'force-dynamic';
 
@@ -30,6 +31,22 @@ export async function GET(request: NextRequest) {
   const { valid, plan } = await verifyApiKey(apiKey);
   if (!valid) {
     return Response.json({ error: 'Invalid or inactive API key' }, { status: 401 });
+  }
+
+  const rateLimit = await checkRateLimit(apiKey, 'intelligence');
+  if (!rateLimit.allowed) {
+    return Response.json(
+      { error: 'Rate limit exceeded — 100 requests per hour', reset_at: rateLimit.resetAt },
+      {
+        status: 429,
+        headers: {
+          'X-RateLimit-Limit': '100',
+          'X-RateLimit-Remaining': '0',
+          'X-RateLimit-Reset': rateLimit.resetAt ?? '',
+          'Retry-After': '3600',
+        },
+      }
+    );
   }
 
   const supabase = createPartnerClient();

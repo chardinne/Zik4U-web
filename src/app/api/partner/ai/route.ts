@@ -1,5 +1,6 @@
 import { type NextRequest } from 'next/server';
 import { createPartnerClient } from '@/lib/supabase-server';
+import { checkRateLimit } from '@/lib/rate-limit';
 
 export const dynamic = 'force-dynamic';
 
@@ -132,6 +133,14 @@ export async function POST(request: NextRequest) {
       );
     }
     return Response.json({ error: 'Access denied' }, { status: 403 });
+  }
+
+  const rateLimit = await checkRateLimit(apiKey, 'ai');
+  if (!rateLimit.allowed) {
+    return Response.json(
+      { error: 'AI rate limit exceeded — 10 requests per hour', reset_at: rateLimit.resetAt },
+      { status: 429 }
+    );
   }
 
   // Construire le contexte Zik4U
