@@ -1,137 +1,18 @@
 'use client';
 
 import { useRouter } from 'next/navigation';
-import { motion, AnimatePresence } from 'framer-motion';
-import { useState } from 'react';
+import { motion } from 'framer-motion';
+import Link from 'next/link';
 
 const PLATFORMS = [
-  {
-    id: 'spotify',
-    name: 'Spotify',
-    color: '#1DB954',
-    title: 'Thank you, Spotify.',
-    body: `Spotify changed music forever. By making every song on earth accessible to everyone, you gave millions of people the freedom to explore, discover and fall in love with music they would never have found otherwise.\n\nZik4U exists because of what you built. We capture what people listen to on Spotify — their real, unfiltered musical identity — and we give that listening a social dimension it never had before.\n\nWe don't compete with what you do. We add the human layer on top: the connections, the emotions, the communities that form around shared music. Every stream on Spotify can now become a social act on Zik4U.\n\nWe see you as a foundation, not a rival. And we're grateful.`,
-  },
-  {
-    id: 'appleMusic',
-    name: 'Apple Music',
-    color: '#FC3C44',
-    title: 'Thank you, Apple Music.',
-    body: `Apple Music brought something rare to streaming: a genuine respect for artists and the integrity of their work. From editorial curation to lossless audio, you've always treated music as something worth caring about deeply.\n\nThat philosophy resonates with everything Zik4U stands for. We believe listening is an intimate act — and Apple Music users tend to listen that way too. Deeply, intentionally, with loyalty.\n\nWhen an Apple Music listener connects to Zik4U, we see that depth reflected in their data: longer sessions, stronger artist loyalty, more emotional intensity. You've cultivated an audience that takes music seriously.\n\nZik4U simply makes that seriousness visible — and social. Thank you for the infrastructure that makes it possible.`,
-  },
-  {
-    id: 'youtubeMusic',
-    name: 'YouTube Music',
-    color: '#FF0000',
-    title: 'Thank you, YouTube Music.',
-    body: `YouTube democratized music in a way no one else had: you made every artist, every genre, every era available — for free. That openness has shaped an entire generation of listeners who discovered music through you.\n\nYouTube Music carries that legacy forward with the full depth of the YouTube catalog behind it. It's where people discover the unexpected: a live session, a deep cut, an artist who hasn't been signed yet but will be.\n\nZik4U loves YouTube Music listeners for exactly that reason — they're explorers. Our data consistently shows YouTube Music users discovering more new artists per week than any other platform.\n\nYou built the world's biggest music discovery engine. We help people share what they find there. That feels like a natural partnership.`,
-  },
-  {
-    id: 'soundcloud',
-    name: 'SoundCloud',
-    color: '#FF5500',
-    title: 'Thank you, SoundCloud.',
-    body: `SoundCloud gave artists a voice before anyone else would listen. Before deals, before playlists, before algorithms — there was SoundCloud, and there was a bedroom producer uploading something raw and real at 2am.\n\nThat spirit of authenticity is in Zik4U's DNA. We were built on the belief that real listening — not curated, not performed, not filtered — is the most honest signal in music.\n\nSoundCloud listeners are often the first. The first to hear an artist before they chart. The first to share something no one else knows yet. Our "First Ear" feature — which tracks who discovered an artist first on Zik4U — was inspired by exactly that culture.\n\nThank you for proving that authenticity scales. We're building on that proof every day.`,
-  },
+  { id: 'spotify',       name: 'Spotify',       color: '#1DB954', slug: 'spotify'       },
+  { id: 'appleMusic',    name: 'Apple Music',   color: '#FC3C44', slug: 'apple-music'   },
+  { id: 'youtubeMusic',  name: 'YouTube Music', color: '#FF0000', slug: 'youtube-music' },
+  { id: 'soundcloud',    name: 'SoundCloud',    color: '#FF5500', slug: 'soundcloud'    },
 ] as const;
-
-type Platform = typeof PLATFORMS[number];
-
-function PlatformModal({ platform, onClose }: { platform: Platform; onClose: () => void }) {
-  return (
-    <AnimatePresence>
-      <motion.div
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        exit={{ opacity: 0 }}
-        onClick={onClose}
-        style={{
-          position: 'fixed', inset: 0, zIndex: 50,
-          background: 'rgba(0,0,0,0.8)', backdropFilter: 'blur(4px)',
-          display: 'flex', alignItems: 'center', justifyContent: 'center',
-          padding: 24,
-        }}
-      >
-        <motion.div
-          initial={{ opacity: 0, y: 24, scale: 0.97 }}
-          animate={{ opacity: 1, y: 0, scale: 1 }}
-          exit={{ opacity: 0, y: 24 }}
-          transition={{ type: 'spring', duration: 0.4 }}
-          onClick={e => e.stopPropagation()}
-          style={{
-            background: '#12122A',
-            border: `1px solid ${platform.color}30`,
-            borderRadius: 20,
-            padding: 'clamp(24px, 4vw, 40px)',
-            maxWidth: 520,
-            width: '100%',
-            maxHeight: '80vh',
-            overflowY: 'auto',
-          }}
-        >
-          {/* Close */}
-          <button
-            onClick={onClose}
-            style={{
-              float: 'right', background: 'none', border: 'none',
-              color: 'rgba(255,255,255,0.3)', fontSize: 20,
-              cursor: 'pointer', lineHeight: 1, padding: 0,
-            }}
-          >
-            ✕
-          </button>
-
-          {/* Platform name pill */}
-          <div style={{ marginBottom: 20 }}>
-            <span style={{
-              fontSize: 11, fontWeight: 700, letterSpacing: '0.15em',
-              color: platform.color, textTransform: 'uppercase',
-              background: `${platform.color}12`,
-              border: `1px solid ${platform.color}30`,
-              borderRadius: 999, padding: '4px 12px',
-            }}>
-              {platform.name}
-            </span>
-          </div>
-
-          {/* Title */}
-          <h2 style={{
-            fontSize: 'clamp(20px, 3vw, 26px)',
-            fontWeight: 900, color: '#fff',
-            lineHeight: 1.2, marginBottom: 20,
-          }}>
-            {platform.title}
-          </h2>
-
-          {/* Body */}
-          {platform.body.split('\n\n').map((para, i) => (
-            <p key={i} style={{
-              fontSize: 14, color: 'rgba(255,255,255,0.6)',
-              lineHeight: 1.8, margin: '0 0 16px',
-            }}>
-              {para}
-            </p>
-          ))}
-
-          {/* Footer */}
-          <div style={{
-            marginTop: 24, paddingTop: 20,
-            borderTop: '1px solid rgba(255,255,255,0.06)',
-            display: 'flex', alignItems: 'center', gap: 8,
-          }}>
-            <span style={{ fontSize: 13, color: 'rgba(255,255,255,0.3)' }}>
-              Zik4U adds. Never subtracts.
-            </span>
-          </div>
-        </motion.div>
-      </motion.div>
-    </AnimatePresence>
-  );
-}
 
 export default function HomePage() {
   const router = useRouter();
-  const [activePlatform, setActivePlatform] = useState<Platform | null>(null);
 
   return (
     <main style={{
@@ -144,14 +25,6 @@ export default function HomePage() {
       padding: '24px 20px',
       fontFamily: 'Inter, system-ui, sans-serif',
     }}>
-
-      {/* Modal */}
-      {activePlatform && (
-        <PlatformModal
-          platform={activePlatform}
-          onClose={() => setActivePlatform(null)}
-        />
-      )}
 
       {/* Logo */}
       <motion.div
@@ -304,7 +177,7 @@ export default function HomePage() {
         </span>
       </motion.div>
 
-      {/* Plateformes — remerciements cliquables */}
+      {/* Plateformes — liens vers pages dédiées */}
       <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
@@ -315,22 +188,21 @@ export default function HomePage() {
           works with
         </span>
         {PLATFORMS.map((p) => (
-          <button
+          <Link
             key={p.id}
-            onClick={() => setActivePlatform(p)}
+            href={`/works-with/${p.slug}`}
             style={{
-              background: 'none', border: 'none',
               fontSize: 13, fontWeight: 700,
               color: p.color, opacity: 0.6,
-              cursor: 'pointer', padding: '2px 6px',
+              textDecoration: 'none',
+              padding: '2px 6px',
               borderRadius: 6, transition: 'opacity 0.2s',
-              fontFamily: 'Inter, system-ui, sans-serif',
             }}
             onMouseEnter={e => (e.currentTarget.style.opacity = '1')}
             onMouseLeave={e => (e.currentTarget.style.opacity = '0.6')}
           >
             {p.name}
-          </button>
+          </Link>
         ))}
       </motion.div>
 
@@ -360,24 +232,6 @@ export default function HomePage() {
           onMouseLeave={e => { (e.target as HTMLAnchorElement).style.color = 'rgba(255,255,255,0.25)'; }}
         >
           For labels & researchers →
-        </a>
-        <span style={{ color: 'rgba(255,255,255,0.15)' }}>·</span>
-        <a
-          href="/streaming-partners"
-          style={{
-            color: 'rgba(255,255,255,0.25)',
-            textDecoration: 'none',
-            fontSize: '13px',
-            transition: 'color 0.2s',
-          }}
-          onMouseEnter={e => {
-            (e.target as HTMLAnchorElement).style.color = '#00FFB2';
-          }}
-          onMouseLeave={e => {
-            (e.target as HTMLAnchorElement).style.color = 'rgba(255,255,255,0.25)';
-          }}
-        >
-          For streaming platforms →
         </a>
       </div>
 

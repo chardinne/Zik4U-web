@@ -36,6 +36,10 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       changeFrequency: 'monthly',
       priority: 0.7,
     },
+    { url: `${BASE_URL}/works-with/spotify`,       lastModified: new Date(), changeFrequency: 'monthly' as const, priority: 0.7 },
+    { url: `${BASE_URL}/works-with/apple-music`,   lastModified: new Date(), changeFrequency: 'monthly' as const, priority: 0.7 },
+    { url: `${BASE_URL}/works-with/youtube-music`, lastModified: new Date(), changeFrequency: 'monthly' as const, priority: 0.7 },
+    { url: `${BASE_URL}/works-with/soundcloud`,    lastModified: new Date(), changeFrequency: 'monthly' as const, priority: 0.7 },
     {
       url: `${BASE_URL}/legal/privacy`,
       lastModified: new Date(),
