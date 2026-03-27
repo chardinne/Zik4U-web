@@ -34,8 +34,8 @@ const securityHeaders = [
       // Inline styles used extensively throughout the app
       "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com",
       "font-src 'self' https://fonts.gstatic.com",
-      // Supabase (DB + Auth + Realtime) + Stripe API
-      "connect-src 'self' https://*.supabase.co wss://*.supabase.co https://api.stripe.com https://checkout.stripe.com https://admin.zik4u.com",
+      // Supabase (DB + Auth + Realtime) + Stripe API + Claude AI (server-side partner analyst)
+      "connect-src 'self' https://*.supabase.co wss://*.supabase.co https://api.stripe.com https://checkout.stripe.com https://admin.zik4u.com https://api.anthropic.com",
       // Internal images + Unsplash demo creators + Supabase Storage
       "img-src 'self' https://images.unsplash.com https://*.supabase.co data: blob:",
       // Stripe checkout is opened via window.location.href, not iframe
