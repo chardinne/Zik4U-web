@@ -1,5 +1,5 @@
 import { type NextRequest } from 'next/server';
-import { createPartnerClient } from '@/lib/supabase-server';
+import { createServiceClient } from '@/lib/supabase-server';
 
 export const dynamic = 'force-dynamic';
 
@@ -10,7 +10,7 @@ export async function GET(request: NextRequest) {
     return Response.json({ error: 'API key required' }, { status: 401 });
   }
 
-  const supabase = createPartnerClient();
+  const supabase = createServiceClient();
   const { data } = await supabase
     .from('partner_requests')
     .select('company_name, contact_name, plan_requested, subscription_status, current_period_end, billing_period, approved_at, payment_activated')

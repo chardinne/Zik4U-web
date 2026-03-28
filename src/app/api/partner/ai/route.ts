@@ -1,5 +1,5 @@
 import { type NextRequest } from 'next/server';
-import { createPartnerClient } from '@/lib/supabase-server';
+import { createServiceClient } from '@/lib/supabase-server';
 import { checkRateLimit } from '@/lib/rate-limit';
 
 export const dynamic = 'force-dynamic';
@@ -36,7 +36,7 @@ interface ChatMessage {
 async function buildContext(
   apiKey: string,
   question: string,
-  supabase: ReturnType<typeof createPartnerClient>
+  supabase: ReturnType<typeof createServiceClient>
 ): Promise<string> {
   // Extraire un nom d'artiste de la question si présent
   const artistMatch = question.match(
@@ -102,7 +102,7 @@ export async function POST(request: NextRequest) {
     return Response.json({ error: 'question is required' }, { status: 400 });
   }
 
-  const supabase = createPartnerClient();
+  const supabase = createServiceClient();
 
   // Vérifier et incrémenter le quota
   const { data: quota } = await supabase.rpc('check_and_increment_ai_quota', {
