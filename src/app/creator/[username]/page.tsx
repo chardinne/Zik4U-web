@@ -1,418 +1,350 @@
-'use client';
-
-import { useEffect, useState } from 'react';
-import { useParams, useRouter } from 'next/navigation';
-import { motion } from 'framer-motion';
-import Image from 'next/image';
+import { notFound } from 'next/navigation';
 import { getCreatorProfile } from '@/lib/creators';
-import { TierCard } from '@/components/landing/TierCard';
-import { AuthModal } from '@/components/auth/AuthModal';
-import { supabase } from '@/lib/supabase';
-import type { CreatorProfile, CreatorTier } from '@/types';
-import type { User } from '@supabase/supabase-js';
+import { createServiceClient } from '@/lib/supabase-server';
+import { generatePageMetadata } from '@/lib/seo';
+import type { Metadata } from 'next';
 
-export default function CreatorProfilePage() {
-  const { username } = useParams<{ username: string }>();
-  const router = useRouter();
-  const [creator, setCreator] = useState<CreatorProfile | null>(null);
-  const [loading, setLoading] = useState(true);
-  const [notFound, setNotFound] = useState(false);
-  const [authOpen, setAuthOpen] = useState(false);
-  const [pendingTier, setPendingTier] = useState<CreatorTier | null>(null);
-  const [user, setUser] = useState<User | null>(null);
-  const [showStickyBar, setShowStickyBar] = useState(false);
+export const dynamic = 'force-dynamic';
 
-  useEffect(() => {
-    supabase.auth.getUser().then(({ data }) => setUser(data.user));
-    const { data: listener } = supabase.auth.onAuthStateChange((_, session) =>
-      setUser(session?.user ?? null)
-    );
-    return () => listener.subscription.unsubscribe();
-  }, []);
+interface Props {
+  params: Promise<{ username: string }>;
+}
 
-  useEffect(() => {
-    getCreatorProfile(username)
-      .then((data) => {
-        if (!data) setNotFound(true);
-        else setCreator(data);
-      })
-      .catch(() => setNotFound(true))
-      .finally(() => setLoading(false));
-  }, [username]);
+const APP_STORE_URL = 'https://apps.apple.com/app/zik4u/id6748722257';
+const PLAY_STORE_URL = 'https://play.google.com/store/apps/details?id=com.zik4u.app';
 
-  useEffect(() => {
-    const handleScroll = () => setShowStickyBar(window.scrollY > 300);
-    window.addEventListener('scroll', handleScroll, { passive: true });
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
+const C = {
+  bg: '#0A0A1A', card: '#12122A', border: 'rgba(255,255,255,0.08)',
+  cyan: '#00D4FF', mint: '#00FFB2', pink: '#FF3CAC',
+  purple: '#7B2FFF', gold: '#FFB800',
+  text: '#fff', muted: 'rgba(255,255,255,0.45)',
+};
 
-  const handleSubscribe = (tier: CreatorTier | null) => {
-    if (!user) {
-      setPendingTier(tier);
-      setAuthOpen(true);
-      return;
-    }
-    if (!tier) {
-      // Follow gratuit — rediriger vers la page succès
-      router.push(`/subscribe/success?creator=${creator?.id}&action=follow`);
-      return;
-    }
-    router.push(`/subscribe/${creator?.id}?tier=${tier.id}`);
-  };
+const MOOD_CONFIG: Record<string, { emoji: string; label: string; color: string }> = {
+  nocturne:    { emoji: '🌙', label: 'Nocturne',    color: C.purple },
+  explorateur: { emoji: '🌍', label: 'Exploration', color: C.cyan   },
+  high_energy: { emoji: '🔥', label: 'Énergie',     color: C.pink   },
+  feel_good:   { emoji: '☀️', label: 'Légèreté',    color: C.gold   },
+  melancolique:{ emoji: '💜', label: 'Mélancolie',  color: C.purple },
+  deep_focus:  { emoji: '🌊', label: 'Focus',        color: C.mint   },
+  obsession:   { emoji: '⚡', label: 'Obsession',   color: C.pink   },
+};
 
-  const handleAuthSuccess = () => {
-    setAuthOpen(false);
-    if (!pendingTier && creator) {
-      // Follow gratuit après auth
-      router.push(`/subscribe/success?creator=${creator.id}&action=follow`);
-      return;
-    }
-    if (pendingTier && creator) {
-      router.push(`/subscribe/${creator.id}?tier=${pendingTier.id}`);
-    }
-  };
+const ARCHETYPE_CONFIG: Record<string, { emoji: string; label: string }> = {
+  night_explorer:  { emoji: '🌙', label: 'Night Explorer'  },
+  morning_warrior: { emoji: '☀️', label: 'Morning Warrior' },
+  deep_feeler:     { emoji: '💜', label: 'Deep Feeler'     },
+  cultural_nomad:  { emoji: '🌍', label: 'Cultural Nomad'  },
+  obsessive_fan:   { emoji: '⚡', label: 'Obsessive Fan'   },
+  social_listener: { emoji: '👥', label: 'Social Listener' },
+  zen_drifter:     { emoji: '🌊', label: 'Zen Drifter'     },
+};
 
-  if (loading) {
-    return (
-      <main className="min-h-screen flex items-center justify-center" style={{ backgroundColor: '#0A0A1A' }}>
-        <div
-          className="w-10 h-10 rounded-full border-2 animate-spin"
-          style={{ borderColor: '#00D4FF', borderTopColor: 'transparent' }}
-        />
-      </main>
-    );
-  }
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
+  const { username } = await params;
+  const profile = await getCreatorProfile(username);
+  if (!profile) return generatePageMetadata('Creator not found', '', '/');
+  return generatePageMetadata(
+    `${profile.displayName} on Zik4U`,
+    `${profile.displayName}'s real music taste — live listening feed, exclusive drops. ${profile.totalSubscribers} subscribers.`,
+    `/creator/${username}`,
+  );
+}
 
-  if (notFound || !creator) {
-    return (
-      <main className="min-h-screen flex flex-col items-center justify-center gap-4" style={{ backgroundColor: '#0A0A1A' }}>
-        <p className="text-6xl">🎵</p>
-        <h1 className="text-2xl font-black text-white">Creator not found</h1>
-        <button
-          onClick={() => router.push('/fans')}
-          className="transition-colors hover:underline"
-          style={{ color: '#00D4FF' }}
-        >
-          Explore creators →
-        </button>
-      </main>
-    );
-  }
+export default async function CreatorPublicPage({ params }: Props) {
+  const { username } = await params;
+  const profile = await getCreatorProfile(username);
+  if (!profile) notFound();
 
-  const popularTierIndex = creator.tiers.length > 1 ? 1 : 0;
-  // On mobile, put popular tier first
-  const mobileTiers = creator.tiers.length > 0
-    ? [
-        creator.tiers[popularTierIndex],
-        ...creator.tiers.filter((_, i) => i !== popularTierIndex),
-      ]
-    : [];
-  const minPrice = creator.tiers.length > 0
-    ? Math.min(...creator.tiers.map((t) => t.priceWeb))
+  const supabase = createServiceClient();
+
+  // Écoutes récentes (les 5 dernières)
+  const { data: recentScrobbles } = await supabase
+    .from('scrobbles')
+    .select('track_title, artist_name, album_name, cover_art_url, played_at')
+    .eq('user_id', profile.id)
+    .order('played_at', { ascending: false })
+    .limit(5);
+
+  // Mood actuel
+  const { data: userData } = await supabase
+    .from('users')
+    .select('current_mood, mood_expires_at')
+    .eq('id', profile.id)
+    .single();
+
+  const currentMood = userData?.mood_expires_at &&
+    new Date(userData.mood_expires_at) > new Date()
+    ? userData.current_mood
     : null;
 
+  // Archétype
+  const { data: archetypeData } = await supabase
+    .from('listener_archetypes')
+    .select('archetype')
+    .eq('user_id', profile.id)
+    .single();
+
+  // Drops récents (posts exclusifs publics)
+  const { data: recentDrops } = await supabase
+    .from('posts')
+    .select('id, content, track_title, artist_name, cover_art_url, drop_mood, created_at, likes_count')
+    .eq('user_id', profile.id)
+    .eq('post_type', 'drop')
+    .order('created_at', { ascending: false })
+    .limit(3);
+
+  const mood = currentMood ? MOOD_CONFIG[currentMood as string] : null;
+  const archetype = archetypeData?.archetype
+    ? ARCHETYPE_CONFIG[archetypeData.archetype as string]
+    : null;
+  const nowPlaying = recentScrobbles?.[0];
+
   return (
-    <main className="min-h-screen pb-20 md:pb-0" style={{ backgroundColor: '#0A0A1A' }}>
+    <main style={{
+      minHeight: '100vh', backgroundColor: C.bg,
+      fontFamily: 'Inter, system-ui, sans-serif', color: C.text,
+    }}>
+      {/* Nav */}
+      <nav style={{
+        display: 'flex', alignItems: 'center', justifyContent: 'space-between',
+        padding: '20px 32px', maxWidth: 780, margin: '0 auto',
+      }}>
+        <a href="/" style={{
+          background: `linear-gradient(90deg, ${C.cyan}, ${C.mint}, ${C.pink})`,
+          WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent',
+          fontWeight: 900, fontSize: 20, letterSpacing: '0.2em', textDecoration: 'none',
+        }}>ZIK4U</a>
+        <a href="/fans" style={{
+          fontSize: 13, color: C.muted, textDecoration: 'none',
+        }}>Find more creators →</a>
+      </nav>
 
-      {/* Header */}
-      <header
-        className="flex items-center justify-between px-6 md:px-8 py-4 md:py-6"
-        style={{}}
-      >
-        <button
-          onClick={() => router.push('/')}
-          className="text-xl font-black tracking-widest gradient-text"
-        >
-          ZIK4U
-        </button>
-        <button
-          onClick={() => router.push('/fans')}
-          className="text-sm transition-colors hover:text-white"
-          style={{ color: 'rgba(255,255,255,0.4)' }}
-        >
-          ← Explore creators
-        </button>
-      </header>
+      <div style={{ maxWidth: 780, margin: '0 auto', padding: '24px 24px 80px' }}>
 
-      <div className="max-w-4xl mx-auto px-4 md:px-6 py-6 md:py-12">
-
-        {/* Creator hero — compact on mobile */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          className="flex items-center md:items-start gap-4 md:gap-8 mb-8 md:mb-16"
-        >
-          {/* Avatar — 64px mobile, 112px desktop */}
-          <div
-            className="w-16 h-16 md:w-28 md:h-28 rounded-full flex-shrink-0 flex items-center justify-center text-2xl md:text-4xl font-black overflow-hidden"
-            style={{ background: 'linear-gradient(135deg, #FF3CAC, #7B2FFF)' }}
-          >
-            {creator.avatarUrl ? (
-              <Image
-                src={creator.avatarUrl}
-                alt={creator.displayName}
-                width={112}
-                height={112}
-                className="rounded-full object-cover w-full h-full"
-              />
-            ) : (
-              creator.displayName.charAt(0).toUpperCase()
-            )}
-          </div>
-
-          {/* Info */}
-          <div className="flex-1 min-w-0">
-            {/* Name + badge on one line */}
-            <div className="flex items-center gap-2 mb-0.5 flex-wrap">
-              <h1 className="text-xl md:text-3xl font-black text-white truncate">{creator.displayName}</h1>
-              <span
-                className="text-xs font-bold px-2 py-0.5 rounded-full flex-shrink-0"
-                style={{ background: 'rgba(255,60,172,0.15)', color: '#FF3CAC' }}
-              >
-                CREATOR
-              </span>
+        {/* Hero */}
+        <div style={{ display: 'flex', alignItems: 'flex-start', gap: 20, marginBottom: 32 }}>
+          {profile.avatarUrl ? (
+            // eslint-disable-next-line @next/next/no-img-element
+            <img
+              src={profile.avatarUrl}
+              alt={profile.displayName}
+              style={{ width: 80, height: 80, borderRadius: '50%', objectFit: 'cover',
+                border: `2px solid ${mood?.color ?? C.border}` }}
+            />
+          ) : (
+            <div style={{
+              width: 80, height: 80, borderRadius: '50%',
+              background: `linear-gradient(135deg, ${C.pink}, ${C.purple})`,
+              display: 'flex', alignItems: 'center', justifyContent: 'center',
+              fontSize: 32, fontWeight: 900,
+            }}>
+              {profile.displayName.charAt(0).toUpperCase()}
             </div>
-            <p className="text-sm mb-2" style={{ color: 'rgba(255,255,255,0.4)' }}>
-              @{creator.username}
-            </p>
-
-            {/* Bio — 2 lines max on mobile */}
-            {creator.bio && (
-              <p
-                className="text-sm leading-relaxed mb-3 max-w-lg"
-                style={{
-                  color: 'rgba(255,255,255,0.7)',
-                  display: '-webkit-box',
-                  WebkitLineClamp: 2,
-                  WebkitBoxOrient: 'vertical',
-                  overflow: 'hidden',
-                }}
-              >
-                {creator.bio}
-              </p>
-            )}
-
-            {/* Stats */}
-            <div className="flex items-center gap-6 mb-4">
-              <div style={{ display: 'flex', alignItems: 'center', gap: 16, marginBottom: 12 }}>
-                <div>
-                  <span style={{ fontSize: 18, fontWeight: 900, color: '#fff' }}>
-                    {creator.totalSubscribers}
-                  </span>
-                  <span style={{
-                    fontSize: 12,
-                    color: 'rgba(255,255,255,0.4)',
-                    marginLeft: 4,
-                  }}>
-                    {creator.totalSubscribers === 1 ? 'subscriber' : 'subscribers'}
-                  </span>
-                </div>
-                {creator.tiers.length > 0 && (
-                  <div style={{
-                    fontSize: 12,
-                    color: 'rgba(255,255,255,0.4)',
-                    padding: '3px 10px',
-                    borderRadius: 999,
-                    background: 'rgba(255,255,255,0.05)',
-                  }}>
-                    From ${Math.min(...creator.tiers.map(t => t.priceWeb)).toFixed(2)}/mo
-                  </div>
-                )}
-              </div>
-            </div>
-
-            {/* Top artists — max 2 on mobile with horizontal scroll */}
-            {creator.topArtists.length > 0 && (
-              <div
-                className="flex gap-2 overflow-x-auto"
-                style={{ WebkitOverflowScrolling: 'touch', scrollbarWidth: 'none' }}
-              >
-                <span className="text-xs flex-shrink-0 self-center" style={{ color: 'rgba(255,255,255,0.4)' }}>
-                  Listens to:
-                </span>
-                {creator.topArtists.slice(0, 2).map((artist) => (
-                  <span
-                    key={artist}
-                    className="text-xs px-3 py-1 rounded-full flex-shrink-0 md:hidden"
-                    style={{ background: 'rgba(0,212,255,0.1)', color: '#00D4FF', whiteSpace: 'nowrap' }}
-                  >
-                    🎵 {artist}
-                  </span>
-                ))}
-                {creator.topArtists.map((artist) => (
-                  <span
-                    key={`full-${artist}`}
-                    className="text-xs px-3 py-1 rounded-full flex-shrink-0 hidden md:inline-block"
-                    style={{ background: 'rgba(0,212,255,0.1)', color: '#00D4FF', whiteSpace: 'nowrap' }}
-                  >
-                    🎵 {artist}
-                  </span>
-                ))}
-              </div>
-            )}
-          </div>
-        </motion.div>
-
-        {/* Tiers */}
-        {creator.tiers.length > 0 && (
-          <div style={{
-            display: 'flex',
-            gap: 8,
-            marginBottom: 32,
-            overflowX: 'auto',
-            WebkitOverflowScrolling: 'touch' as const,
-            scrollbarWidth: 'none' as const,
-          }}>
-            {[
-              { emoji: '📡', text: 'Real-time listening feed' },
-              { emoji: '🎵', text: 'Exclusive Drops' },
-              { emoji: '🃏', text: 'Fan Card' },
-            ].map(item => (
-              <div
-                key={item.text}
-                style={{
-                  display: 'flex',
-                  alignItems: 'center',
-                  gap: 6,
-                  padding: '8px 14px',
-                  borderRadius: 999,
-                  background: 'rgba(0,212,255,0.06)',
-                  border: '1px solid rgba(0,212,255,0.12)',
-                  whiteSpace: 'nowrap' as const,
-                  flexShrink: 0,
-                }}
-              >
-                <span style={{ fontSize: 14 }}>{item.emoji}</span>
+          )}
+          <div style={{ flex: 1 }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: 10, flexWrap: 'wrap' }}>
+              <h1 style={{ fontSize: 24, fontWeight: 900, margin: 0 }}>
+                {profile.displayName}
+              </h1>
+              {mood && (
                 <span style={{
-                  fontSize: 12,
-                  fontWeight: 600,
-                  color: 'rgba(255,255,255,0.6)',
+                  fontSize: 12, padding: '3px 10px',
+                  background: `${mood.color}15`,
+                  border: `1px solid ${mood.color}30`,
+                  borderRadius: 999, color: mood.color,
                 }}>
-                  {item.text}
+                  {mood.emoji} {mood.label}
                 </span>
+              )}
+            </div>
+            <p style={{ color: C.muted, fontSize: 13, margin: '4px 0 8px' }}>
+              @{profile.username}
+            </p>
+            <div style={{ display: 'flex', gap: 16, flexWrap: 'wrap' }}>
+              <span style={{ fontSize: 13, color: C.text }}>
+                <strong>{profile.totalSubscribers}</strong>
+                <span style={{ color: C.muted }}> subscribers</span>
+              </span>
+              {archetype && (
+                <span style={{ fontSize: 13, color: C.muted }}>
+                  {archetype.emoji} {archetype.label}
+                </span>
+              )}
+            </div>
+            {profile.bio && (
+              <p style={{ fontSize: 14, color: C.muted, marginTop: 10, lineHeight: 1.6 }}>
+                {profile.bio}
+              </p>
+            )}
+          </div>
+        </div>
+
+        {/* Écoute en cours */}
+        {nowPlaying && (
+          <div style={{
+            background: `linear-gradient(135deg, rgba(0,212,255,0.06), rgba(0,255,178,0.04))`,
+            border: `1px solid rgba(0,212,255,0.2)`,
+            borderRadius: 16, padding: 20, marginBottom: 20,
+          }}>
+            <p style={{ fontSize: 10, fontWeight: 700, letterSpacing: '0.15em',
+              color: C.cyan, textTransform: 'uppercase', marginBottom: 10 }}>
+              ▶ Recently played
+            </p>
+            <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
+              {(nowPlaying as any).cover_art_url && (
+                // eslint-disable-next-line @next/next/no-img-element
+                <img src={(nowPlaying as any).cover_art_url} alt=""
+                  style={{ width: 48, height: 48, borderRadius: 8, objectFit: 'cover' }} />
+              )}
+              <div>
+                <p style={{ fontWeight: 700, fontSize: 15, margin: 0 }}>
+                  {(nowPlaying as any).track_title}
+                </p>
+                <p style={{ fontSize: 13, color: C.muted, margin: '2px 0 0' }}>
+                  {(nowPlaying as any).artist_name}
+                </p>
               </div>
-            ))}
+            </div>
           </div>
         )}
-        {creator.tiers.length > 0 ? (
-          <>
-            <div className="text-center mb-6 md:mb-8">
-              <h2 style={{
-                fontSize: 'clamp(20px, 3vw, 28px)',
-                fontWeight: 900,
-                color: '#fff',
-                marginBottom: 6,
-              }}>
-                Get inside {creator.displayName}&apos;s musical world
-              </h2>
-              <p style={{ fontSize: 14, color: 'rgba(255,255,255,0.45)', marginBottom: 0 }}>
-                See what they actually listen to. In real time.
-              </p>
-            </div>
 
-            {/* Mobile: horizontal carousel, popular first */}
-            <div
-              className="md:hidden flex gap-4 overflow-x-auto pb-4 -mx-4 px-4"
-              style={{ scrollSnapType: 'x mandatory', WebkitOverflowScrolling: 'touch' }}
-            >
-              {mobileTiers.map((tier, index) => (
-                <div
-                  key={tier.id}
-                  style={{ minWidth: '85vw', scrollSnapAlign: 'start' }}
-                >
-                  <TierCard
-                    tier={tier}
-                    index={index}
-                    creatorId={creator.id}
-                    creatorName={creator.displayName}
-                    onSubscribe={handleSubscribe}
-                    isPopular={tier === creator.tiers[popularTierIndex]}
-                  />
+        {/* Top artistes */}
+        {profile.topArtists.length > 0 && (
+          <div style={{
+            background: C.card, borderRadius: 16, padding: 20,
+            border: `1px solid ${C.border}`, marginBottom: 20,
+          }}>
+            <p style={{ fontSize: 10, fontWeight: 700, letterSpacing: '0.15em',
+              color: C.muted, textTransform: 'uppercase', marginBottom: 12 }}>
+              Top Artists
+            </p>
+            <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>
+              {profile.topArtists.map(artist => (
+                <span key={artist} style={{
+                  padding: '5px 12px', background: 'rgba(255,255,255,0.05)',
+                  borderRadius: 999, fontSize: 13, border: `1px solid ${C.border}`,
+                }}>
+                  {artist}
+                </span>
+              ))}
+            </div>
+          </div>
+        )}
+
+        {/* Drops récents */}
+        {(recentDrops?.length ?? 0) > 0 && (
+          <div style={{ marginBottom: 24 }}>
+            <p style={{ fontSize: 10, fontWeight: 700, letterSpacing: '0.15em',
+              color: C.pink, textTransform: 'uppercase', marginBottom: 14 }}>
+              Latest Drops
+            </p>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
+              {(recentDrops ?? []).map((drop: any) => (
+                <div key={drop.id} style={{
+                  background: C.card, borderRadius: 14, padding: '14px 18px',
+                  border: `1px solid rgba(255,60,172,0.15)`,
+                  display: 'flex', alignItems: 'center', gap: 14,
+                }}>
+                  {drop.cover_art_url && (
+                    // eslint-disable-next-line @next/next/no-img-element
+                    <img src={drop.cover_art_url} alt=""
+                      style={{ width: 44, height: 44, borderRadius: 8, objectFit: 'cover' }} />
+                  )}
+                  <div style={{ flex: 1 }}>
+                    <p style={{ fontWeight: 700, fontSize: 14, margin: 0 }}>
+                      {drop.track_title ?? 'Drop'}
+                    </p>
+                    <p style={{ fontSize: 12, color: C.muted, margin: '2px 0 0' }}>
+                      {drop.artist_name}
+                      {drop.content ? ` — "${drop.content}"` : ''}
+                    </p>
+                  </div>
+                  <span style={{ fontSize: 12, color: C.muted }}>{drop.likes_count} ♥</span>
                 </div>
               ))}
             </div>
-
-            {/* Desktop: 3-col grid */}
-            <div className="hidden md:grid grid-cols-3 gap-6 mb-12">
-              {creator.tiers.map((tier, index) => (
-                <TierCard
-                  key={tier.id}
-                  tier={tier}
-                  index={index}
-                  creatorId={creator.id}
-                  creatorName={creator.displayName}
-                  onSubscribe={handleSubscribe}
-                  isPopular={index === popularTierIndex}
-                />
-              ))}
-            </div>
-          </>
-        ) : (
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            className="rounded-2xl p-8 text-center mb-12"
-            style={{ background: '#12122A', border: '1px solid rgba(0,212,255,0.1)' }}
-          >
-            <p className="text-3xl mb-3">🎵</p>
-            <h3 className="text-lg font-black text-white mb-2">
-              Follow {creator.displayName}
-            </h3>
-            <p className="text-textSecondary text-sm mb-6 max-w-sm mx-auto">
-              {creator.displayName} hasn&apos;t set up paid subscriptions yet.
-              Follow them for free and get notified when they launch.
+            <p style={{
+              fontSize: 12, color: C.muted, textAlign: 'center', marginTop: 10,
+              fontStyle: 'italic',
+            }}>
+              Subscribe to access all exclusive drops →
             </p>
-            <button
-              onClick={() => handleSubscribe(null)}
-              className="px-8 py-3 rounded-xl font-bold text-bg text-sm transition-all hover:scale-105"
-              style={{ background: 'linear-gradient(135deg, #00D4FF, #00FFB2)' }}
-            >
-              Follow for free →
-            </button>
-            <p className="text-xs text-textSecondary mt-3">
-              No payment required
-            </p>
-          </motion.div>
+          </div>
         )}
 
-        {/* Legal disclaimer */}
-        <p className="text-center text-xs mt-6 md:mt-0" style={{ color: 'rgba(255,255,255,0.3)' }}>
-          Payments processed securely by Stripe.
-          Cancel anytime. By subscribing you agree to our{' '}
-          <a href="/legal/terms" className="underline hover:text-white transition-colors">Terms</a>.
+        {/* Abonnement */}
+        {profile.tiers.length > 0 && (
+          <div style={{
+            background: `linear-gradient(135deg, rgba(255,60,172,0.06), rgba(123,47,255,0.04))`,
+            borderRadius: 20, padding: 28,
+            border: '1px solid rgba(255,60,172,0.15)',
+            marginBottom: 24, textAlign: 'center',
+          }}>
+            <h2 style={{ fontSize: 22, fontWeight: 900, marginBottom: 8 }}>
+              Subscribe to {profile.displayName}
+            </h2>
+            <p style={{ color: C.muted, fontSize: 14, marginBottom: 24, lineHeight: 1.6 }}>
+              Real-time listening feed · Exclusive Drops · Music compatibility score
+            </p>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 10, marginBottom: 20 }}>
+              {profile.tiers
+                .sort((a, b) => a.sortOrder - b.sortOrder)
+                .map(tier => (
+                  <div key={tier.id} style={{
+                    background: C.card, borderRadius: 12, padding: '16px 20px',
+                    border: `1px solid ${C.border}`,
+                    display: 'flex', justifyContent: 'space-between', alignItems: 'center',
+                  }}>
+                    <div style={{ textAlign: 'left' }}>
+                      <p style={{ fontWeight: 700, fontSize: 15, margin: 0 }}>{tier.name}</p>
+                      {tier.description && (
+                        <p style={{ fontSize: 12, color: C.muted, margin: '2px 0 0' }}>
+                          {tier.description}
+                        </p>
+                      )}
+                    </div>
+                    <div style={{ textAlign: 'right' }}>
+                      <p style={{ fontWeight: 900, fontSize: 18, color: C.mint, margin: 0 }}>
+                        ${tier.priceWeb.toFixed(2)}
+                      </p>
+                      <p style={{ fontSize: 11, color: C.muted, margin: 0 }}>/month</p>
+                    </div>
+                  </div>
+                ))}
+            </div>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
+              <a href={APP_STORE_URL} style={{
+                display: 'block', padding: '14px', borderRadius: 12,
+                background: `linear-gradient(135deg, ${C.pink}, ${C.purple})`,
+                color: C.text, fontWeight: 700, fontSize: 15, textDecoration: 'none',
+              }}>
+                Subscribe on iOS →
+              </a>
+              <a href={PLAY_STORE_URL} style={{
+                display: 'block', padding: '14px', borderRadius: 12,
+                background: C.card, border: `1px solid ${C.border}`,
+                color: C.text, fontWeight: 700, fontSize: 15, textDecoration: 'none',
+              }}>
+                Subscribe on Android →
+              </a>
+              <p style={{
+                fontSize: 11, color: 'rgba(255,255,255,0.25)',
+                textAlign: 'center', marginTop: 4,
+              }}>
+                ✓ Best price — direct web subscription
+              </p>
+            </div>
+          </div>
+        )}
+
+        {/* Footer */}
+        <p style={{ textAlign: 'center', color: C.muted, fontSize: 12 }}>
+          Powered by{' '}
+          <a href="/" style={{ color: C.cyan, textDecoration: 'none' }}>Zik4U</a>
+          {' '}— Your real music identity.
         </p>
-
       </div>
-
-      {/* Sticky subscribe bar — mobile only, after 300px scroll */}
-      {showStickyBar && creator.tiers.length > 0 && minPrice !== null && (
-        <motion.div
-          initial={{ y: 80, opacity: 0 }}
-          animate={{ y: 0, opacity: 1 }}
-          className="md:hidden fixed bottom-0 inset-x-0 z-50 px-4 py-3 flex items-center justify-between gap-3"
-          style={{ background: 'rgba(10,10,26,0.97)', borderTop: '1px solid rgba(255,255,255,0.08)', backdropFilter: 'blur(12px)' }}
-        >
-          <p className="text-sm text-white font-semibold">
-            From <span className="font-black">${minPrice.toFixed(2)}/mo</span>
-          </p>
-          <button
-            onClick={() => handleSubscribe(creator.tiers[popularTierIndex])}
-            className="flex-1 py-3 rounded-xl font-bold text-white text-sm"
-            style={{ background: 'linear-gradient(135deg, #FF3CAC, #7B2FFF)', minHeight: '44px' }}
-          >
-            Subscribe →
-          </button>
-        </motion.div>
-      )}
-
-      {/* Auth modal — bottom sheet on mobile */}
-      <AuthModal
-        isOpen={authOpen}
-        onClose={() => { setAuthOpen(false); setPendingTier(null); }}
-        onSuccess={handleAuthSuccess}
-        redirectMessage={`Sign in to subscribe to ${creator.displayName}`}
-      />
-
     </main>
   );
 }
