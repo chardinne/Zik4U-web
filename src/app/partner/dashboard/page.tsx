@@ -802,12 +802,20 @@ function AISection({
   }, [messages, loading]);
 
   const SUGGESTIONS = [
+    // Questions universelles (Discover)
     'Which artist on the leaderboard has the highest pre-viral potential right now?',
     'What does a Deep Feeler audience mean for live event and sync licensing strategy?',
-    'Which artists should we prioritize for signing based on discovery velocity?',
-    'How does nocturnal listening pattern affect long-term fanbase loyalty?',
-    'What crossover opportunities exist between the top 5 artists this month?',
-    'Compare the emotional profiles of the top 3 artists. Who has the most dedicated audience?',
+    // Questions émotionnelles (Insight+)
+    'What is the platform mood right now and what does it mean for release timing?',
+    'Which artists have the strongest emotional resonance based on repeat rate and session depth?',
+    'Compare the behavioral archetypes of the top 3 artists — which audience is most monetizable?',
+    // Questions synchronicité (Intelligence+)
+    'Which rare synchronicities detected in the last 6 hours represent the strongest signing signals?',
+    'What artists are other labels currently researching that we should be watching too?',
+    'Which artists are generating live listening sessions — what does that say about their community strength?',
+    // Questions stratégiques
+    'Based on First Heard data, which artist has the fastest discovery chain on the platform?',
+    'Which artists generate the most Echo responses — who triggers musical conversations?',
   ];
 
   const send = async (q?: string) => {

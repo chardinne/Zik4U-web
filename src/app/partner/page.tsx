@@ -112,6 +112,7 @@ const PLANS = [
       'Basic mood distribution',
       'Peak listening hour + day',
       '30-day window',
+      '🧠 AI Analyst — 10 questions/month (trial)',
     ],
     cta:       'Start free',
     highlight: false,
@@ -129,9 +130,11 @@ const PLANS = [
       'Emotional intensity score',
       'Listener archetypes (7 profiles)',
       'Loyalty retention (30/60/90d)',
-      'Discovery velocity',
+      'Discovery velocity + First Heard data',
       'Fan engagement depth',
       'Crossover artists map',
+      'Real-time platform mood',
+      'Social resonance signals (Echo, Fil Rouge)',
       'CSV + JSON export',
       '90-day historical window',
       '🧠 AI Analyst — 100 questions/month',
@@ -148,9 +151,11 @@ const PLANS = [
     color:    C.purple,
     features: [
       'Everything in Insight',
-      'First Heard data (discovery priority)',
+      'Rare synchronicities — early adopter signal',
       'Mood journey & emotional transitions',
-      'Audience demographics (opt-in)',
+      'Live listening sessions data (Pulse)',
+      'Industry radar — what labels are searching',
+      'Audience behavioral segments',
       'Weekly automated report',
       'Real-time virality alerts',
       'Artist comparison tool',
@@ -174,9 +179,11 @@ const PLANS = [
       'Everything in Intelligence',
       'Raw data API (streaming)',
       'Emotional dataset export (research)',
+      'Musical memory & ritual data',
       'Custom archetype models',
       'White-label reports',
       'Wellbeing & research data',
+      'Music Match behavioral data (opt-in)',
       'SLA + NDA',
       'Dedicated analyst',
       '🧠 AI Analyst — unlimited',
@@ -1198,6 +1205,17 @@ export default function PartnerPage() {
                   letterSpacing: '0.1em', textTransform: 'uppercase' as const, marginBottom: 8 }}>
                   {plan.name}
                 </div>
+                {plan.name === 'Discover' && (
+                  <div style={{
+                    display: 'inline-flex', alignItems: 'center', gap: 4,
+                    background: 'rgba(0,212,255,0.08)',
+                    border: '1px solid rgba(0,212,255,0.2)',
+                    borderRadius: 999, padding: '3px 10px',
+                    fontSize: 11, color: C.cyan, marginBottom: 8,
+                  }}>
+                    ✦ Includes 10 AI Analyst questions to try
+                  </div>
+                )}
                 <div style={{ marginBottom: 4 }}>
                   <span style={{ fontSize: 36, fontWeight: 900 }}>{plan.price}</span>
                   {plan.period && (
