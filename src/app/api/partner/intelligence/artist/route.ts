@@ -1,5 +1,5 @@
 import { type NextRequest } from 'next/server';
-import { createPartnerClient } from '@/lib/supabase-server';
+import { createPartnerClient, createServiceClient } from '@/lib/supabase-server';
 import { checkRateLimit } from '@/lib/rate-limit';
 
 export const dynamic = 'force-dynamic';
@@ -25,6 +25,23 @@ export async function GET(request: NextRequest) {
   if (!artist) {
     return Response.json({ error: 'artist parameter required' }, { status: 400 });
   }
+
+  // Log la recherche pour analytics admin
+  try {
+    const logClient = createServiceClient();
+    const { data: partnerData } = await logClient
+      .from('partner_requests')
+      .select('plan_requested')
+      .eq('api_key', apiKey)
+      .single();
+    const plan = partnerData?.plan_requested;
+    await logClient.from('partner_search_logs').insert({
+      api_key: apiKey,
+      artist_name: artist,
+      days,
+      plan: plan ?? 'discover',
+    });
+  } catch { /* non-bloquant */ }
 
   const supabase = createPartnerClient();
 
