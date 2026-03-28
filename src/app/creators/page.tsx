@@ -4,27 +4,147 @@ import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { motion } from 'framer-motion';
 
-const STEPS = [
+const APP_STORE_URL = 'https://apps.apple.com/app/zik4u/id6748722257';
+const PLAY_STORE_URL = 'https://play.google.com/store/apps/details?id=com.zik4u.app';
+
+const C = {
+  bg: '#0A0A1A', card: '#12122A', border: 'rgba(255,255,255,0.08)',
+  cyan: '#00D4FF', mint: '#00FFB2', pink: '#FF3CAC',
+  purple: '#7B2FFF', gold: '#FFB800',
+  text: '#fff', muted: 'rgba(255,255,255,0.5)',
+};
+
+const STORY_TEXT = `I just joined Zik4U. You can now see what I'm actually listening to, in real time.\nLink in bio 👇\n#Zik4U #Music`;
+
+const FEATURES_MONETIZE = [
   {
-    number: '01',
-    title: 'Connect your streaming services',
-    body: 'Spotify, Apple Music, YouTube Music. Automatic capture. No manual logging.',
+    emoji: '💰',
+    title: 'Abonnements mensuels',
+    body: 'Crée des tiers d\'abonnement. Tes fans paient pour accéder à ton feed réel, tes Drops exclusifs et ton profil complet. Paiement direct sur ton compte.',
+    color: C.mint,
   },
   {
-    number: '02',
-    title: 'Your fans subscribe to your Zik4U',
-    body: 'They see what you actually listen to. In real time. Not your curated feed. For real.',
+    emoji: '🎵',
+    title: 'Drops exclusifs',
+    body: '5 moods : Découverte, Obsession, Nostalgie, Réconfort, Bouleversant. Partage un titre avec ton ressenti — réservé à tes abonnés.',
+    color: C.pink,
   },
   {
-    number: '03',
-    title: 'You earn. Every month.',
-    body: 'Direct to your account. The more subscribers, the more you earn. Simple.',
+    emoji: '📊',
+    title: 'Creator Analytics',
+    body: 'Dashboard complet : revenus, nouveaux abonnés, compatibilité musicale avec ta communauté, tes titres qui performent le mieux.',
+    color: C.cyan,
+  },
+  {
+    emoji: '💳',
+    title: 'Paiements directs',
+    body: 'Via Trolley — virement bancaire automatique chaque mois. Seuil minimum $25. Tu gardes 70% des revenus d\'abonnement.',
+    color: C.gold,
   },
 ];
 
-const STORY_TEXT = `I just joined Zik4U. You can now see what I'm actually listening to, in real time.
-Link in bio 👇
-#Zik4U #Music`;
+const FEATURES_VISIBILITY = [
+  {
+    emoji: '🎁',
+    title: 'WrappedCreator',
+    body: '6 cartes partageables générées automatiquement : ton top titre, ton archétype, tes premières oreilles. Le levier viral de Zik4U. Tes fans les repartagent.',
+    color: C.pink,
+  },
+  {
+    emoji: '👂',
+    title: 'Première Oreille',
+    body: 'Badge visible sur ton profil : tu as découvert cet artiste avant tout le monde. Tes abonnés voient ton influence. Ça crédibilise ta curation.',
+    color: C.mint,
+  },
+  {
+    emoji: '🎯',
+    title: 'Score de compatibilité',
+    body: 'Chaque fan voit son score de compatibilité musicale avec toi. Ça crée un lien fort — ce n\'est pas juste un abonnement, c\'est une affinité.',
+    color: C.cyan,
+  },
+  {
+    emoji: '🔔',
+    title: 'Notifications push',
+    body: 'Quand tu publies un Drop, tes abonnés reçoivent une notification push immédiate. Pas d\'algorithme entre toi et ta communauté.',
+    color: C.purple,
+  },
+];
+
+const FEATURES_PRESENCE = [
+  {
+    emoji: '📡',
+    title: 'Feed d\'écoute live',
+    body: 'Tes fans voient ce que tu écoutes en temps réel. Pas ce que tu veux montrer — ce que tu écoutes vraiment. C\'est ça l\'authenticité.',
+    color: C.cyan,
+  },
+  {
+    emoji: '🎧',
+    title: 'Pulse — Rooms live',
+    body: 'Lance une session d\'écoute live avec ta communauté. Même titre, même moment, réactions en temps réel. Une expérience collective autour de ta musique.',
+    color: C.purple,
+  },
+  {
+    emoji: '🃏',
+    title: 'Profil public zik4u.com',
+    body: 'Chaque créateur a sa page publique zik4u.com/creator/[username]. Tes fans peuvent s\'abonner directement depuis le web.',
+    color: C.pink,
+  },
+];
+
+const STEPS = [
+  {
+    number: '01',
+    title: 'Connecte tes services de streaming',
+    body: 'Spotify, Apple Music, YouTube Music. Zik4U capture automatiquement ton écoute réelle. Pas de saisie manuelle.',
+    color: C.cyan,
+  },
+  {
+    number: '02',
+    title: 'Active le Creator Studio',
+    body: 'Crée tes tiers d\'abonnement, publie tes premiers Drops exclusifs, configure ton profil public. 10 minutes.',
+    color: C.mint,
+  },
+  {
+    number: '03',
+    title: 'Partage ton WrappedCreator',
+    body: 'Tes 6 cartes partageables sont générées automatiquement. Poste-les sur tes réseaux. Tes fans suivent le lien.',
+    color: C.pink,
+  },
+  {
+    number: '04',
+    title: 'Reçois tes revenus chaque mois',
+    body: 'Virement automatique. Tu gardes 70%. Le reste finance la plateforme et les coûts opérationnels.',
+    color: C.gold,
+  },
+];
+
+function FeatureCard({ emoji, title, body, color }: {
+  emoji: string; title: string; body: string; color: string;
+}) {
+  return (
+    <div style={{
+      background: C.card, border: `1px solid ${C.border}`,
+      borderRadius: 16, padding: 24,
+      borderTop: `2px solid ${color}`,
+      display: 'flex', flexDirection: 'column', gap: 10,
+    }}>
+      <span style={{ fontSize: 28 }}>{emoji}</span>
+      <h3 style={{ fontSize: 17, fontWeight: 800, color: C.text, margin: 0 }}>{title}</h3>
+      <p style={{ fontSize: 14, color: C.muted, lineHeight: 1.7, margin: 0 }}>{body}</p>
+    </div>
+  );
+}
+
+function SectionTitle({ children, color }: { children: string; color: string }) {
+  return (
+    <div style={{ marginBottom: 32 }}>
+      <p style={{ fontSize: 11, fontWeight: 700, letterSpacing: '0.18em', color, textTransform: 'uppercase', marginBottom: 8 }}>
+        {children}
+      </p>
+      <div style={{ width: 32, height: 2, background: color, borderRadius: 1 }} />
+    </div>
+  );
+}
 
 export default function CreatorsPage() {
   const router = useRouter();
@@ -37,391 +157,118 @@ export default function CreatorsPage() {
   };
 
   return (
-    <main style={{
-      minHeight: '100vh',
-      backgroundColor: '#0A0A1A',
-      fontFamily: 'Inter, system-ui, sans-serif',
-      color: '#fff',
-    }}>
+    <main style={{ minHeight: '100vh', backgroundColor: C.bg, fontFamily: 'Inter, system-ui, sans-serif', color: C.text }}>
 
       {/* Nav */}
-      <nav style={{
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'space-between',
-        padding: '20px 32px',
-        maxWidth: 1100,
-        margin: '0 auto',
-      }}>
-        <button
-          onClick={() => router.push('/')}
-          style={{
-            background: 'linear-gradient(90deg, #00D4FF, #00FFB2, #FF3CAC)',
-            WebkitBackgroundClip: 'text',
-            WebkitTextFillColor: 'transparent',
-            backgroundClip: 'text',
-            border: 'none',
-            fontSize: 20,
-            fontWeight: 900,
-            letterSpacing: '0.2em',
-            cursor: 'pointer',
-            fontFamily: 'Inter, system-ui, sans-serif',
-            padding: 0,
-          }}
-        >
+      <nav style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '20px 32px', maxWidth: 1100, margin: '0 auto' }}>
+        <button onClick={() => router.push('/')} style={{ background: `linear-gradient(90deg, ${C.cyan}, ${C.mint}, ${C.pink})`, WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', border: 'none', fontSize: 20, fontWeight: 900, letterSpacing: '0.2em', cursor: 'pointer', fontFamily: 'Inter, system-ui, sans-serif', padding: 0 }}>
           ZIK4U
         </button>
-        <button
-          onClick={() => router.push('/fans')}
-          style={{
-            background: 'none',
-            border: 'none',
-            fontSize: 14,
-            color: 'rgba(255,255,255,0.4)',
-            cursor: 'pointer',
-            fontFamily: 'Inter, system-ui, sans-serif',
-          }}
-          onMouseEnter={e => (e.currentTarget.style.color = '#fff')}
-          onMouseLeave={e => (e.currentTarget.style.color = 'rgba(255,255,255,0.4)')}
-        >
-          Find a Creator →
+        <button onClick={() => router.push('/fans')} style={{ background: 'none', border: 'none', fontSize: 14, color: C.muted, cursor: 'pointer', fontFamily: 'Inter, system-ui, sans-serif' }} onMouseEnter={e => (e.currentTarget.style.color = C.text)} onMouseLeave={e => (e.currentTarget.style.color = C.muted)}>
+          Trouver un créateur →
         </button>
       </nav>
 
-      <div style={{ maxWidth: 780, margin: '0 auto', padding: '40px 24px 120px' }}>
+      <div style={{ maxWidth: 900, margin: '0 auto', padding: '40px 24px 120px' }}>
 
-        {/* BLOC 1 — Hero */}
-        <motion.div
-          initial={{ opacity: 0, y: 40 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.7 }}
-          style={{ marginBottom: 100 }}
-        >
-          <p style={{
-            fontSize: 13,
-            fontWeight: 700,
-            letterSpacing: '0.15em',
-            color: '#FF3CAC',
-            textTransform: 'uppercase',
-            marginBottom: 24,
-          }}>
-            For Creators
+        {/* Hero */}
+        <motion.div initial={{ opacity: 0, y: 40 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7 }} style={{ marginBottom: 80 }}>
+          <p style={{ fontSize: 13, fontWeight: 700, letterSpacing: '0.15em', color: C.pink, textTransform: 'uppercase', marginBottom: 24 }}>
+            Pour les Créateurs
           </p>
-          <h1 style={{
-            fontSize: 'clamp(40px, 6vw, 80px)',
-            fontWeight: 900,
-            lineHeight: 1.0,
-            letterSpacing: '-0.03em',
-            marginBottom: 32,
-          }}>
-            Your fans are already asking.
-            <br />
-            <span style={{
-              background: 'linear-gradient(90deg, #FF3CAC, #7B2FFF)',
-              WebkitBackgroundClip: 'text',
-              WebkitTextFillColor: 'transparent',
-            }}>
-              What do you listen to? For real.
-            </span>
-            <br />
-            <span style={{ color: '#fff' }}>
-              Now you get paid for the answer.
+          <h1 style={{ fontSize: 'clamp(40px, 6vw, 76px)', fontWeight: 900, lineHeight: 1.0, letterSpacing: '-0.03em', marginBottom: 24 }}>
+            Ta musique réelle.{' '}
+            <span style={{ background: `linear-gradient(90deg, ${C.pink}, ${C.purple})`, WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>
+              Ta communauté réelle.
             </span>
           </h1>
-          <p style={{
-            fontSize: 20,
-            color: 'rgba(255,255,255,0.5)',
-            lineHeight: 1.7,
-            maxWidth: 560,
-          }}>
-            Every time someone asks &ldquo;what are you listening to?&rdquo; in your comments,
-            your DMs, your stories. That&apos;s money left on the table.
-            Zik4U closes that gap.
+          <p style={{ fontSize: 'clamp(16px, 2vw, 20px)', color: C.muted, lineHeight: 1.7, maxWidth: 580, marginBottom: 40 }}>
+            Pas d&apos;algorithme entre toi et tes fans. Pas de performance.
+            Tes abonnés suivent ce que tu écoutes vraiment — et paient pour ça.
+            70% des revenus te reviennent directement.
           </p>
-        </motion.div>
-
-        {/* BLOC 2 — 80/20 */}
-        <motion.div
-          initial={{ opacity: 0, y: 40 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.7 }}
-          style={{
-            marginBottom: 100,
-            padding: '64px 48px',
-            background: '#0D0D20',
-            borderRadius: 32,
-            textAlign: 'center',
-          }}
-        >
-          <div style={{
-            fontSize: 'clamp(100px, 18vw, 180px)',
-            fontWeight: 900,
-            lineHeight: 0.9,
-            background: 'linear-gradient(135deg, #FF3CAC, #7B2FFF)',
-            WebkitBackgroundClip: 'text',
-            WebkitTextFillColor: 'transparent',
-            marginBottom: 24,
-          }}>
-            80%
+          <div style={{ display: 'flex', gap: 12, flexWrap: 'wrap' }}>
+            <a href={APP_STORE_URL} style={{ padding: '14px 28px', background: `linear-gradient(135deg, ${C.pink}, ${C.purple})`, borderRadius: 12, color: C.text, fontWeight: 700, fontSize: 15, textDecoration: 'none' }}>
+              Devenir créateur — iOS →
+            </a>
+            <a href={PLAY_STORE_URL} style={{ padding: '14px 28px', background: C.card, border: `1px solid ${C.border}`, borderRadius: 12, color: C.text, fontWeight: 700, fontSize: 15, textDecoration: 'none' }}>
+              Devenir créateur — Android →
+            </a>
           </div>
-          <p style={{
-            fontSize: 'clamp(20px, 3vw, 28px)',
-            fontWeight: 700,
-            color: '#fff',
-            marginBottom: 12,
-          }}>
-            You keep eighty percent.
-          </p>
-          <p style={{
-            fontSize: 18,
-            color: 'rgba(255,255,255,0.4)',
-            lineHeight: 1.6,
-          }}>
-            We take twenty. That&apos;s the deal.
-            <br />
-            No hidden fees. No complicated splits. No surprises.
-          </p>
         </motion.div>
 
-        {/* BLOC 3 — 3 étapes */}
-        <motion.div
-          initial={{ opacity: 0, y: 40 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.7 }}
-          style={{ marginBottom: 100 }}
-        >
-          <h2 style={{
-            fontSize: 'clamp(28px, 4vw, 44px)',
-            fontWeight: 900,
-            marginBottom: 56,
-            letterSpacing: '-0.02em',
-          }}>
-            How it works.
-          </h2>
-          <div style={{ display: 'flex', flexDirection: 'column', gap: 48 }}>
-            {STEPS.map((step, i) => (
-              <motion.div
-                key={step.number}
-                initial={{ opacity: 0, x: -20 }}
-                whileInView={{ opacity: 1, x: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.5, delay: i * 0.1 }}
-                style={{ display: 'flex', gap: 32, alignItems: 'flex-start' }}
-              >
-                <span style={{
-                  fontSize: 13,
-                  fontWeight: 700,
-                  color: '#FF3CAC',
-                  letterSpacing: '0.1em',
-                  minWidth: 28,
-                  paddingTop: 4,
-                }}>
-                  {step.number}
-                </span>
+        {/* 4 étapes */}
+        <motion.section initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.6 }} style={{ marginBottom: 64 }}>
+          <SectionTitle color={C.pink}>Comment ça marche</SectionTitle>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
+            {STEPS.map((step) => (
+              <div key={step.number} style={{ display: 'flex', gap: 20, alignItems: 'flex-start', background: C.card, borderRadius: 16, padding: 20, border: `1px solid ${C.border}` }}>
+                <span style={{ fontSize: 32, fontWeight: 900, color: step.color, fontFamily: 'monospace', flexShrink: 0, lineHeight: 1 }}>{step.number}</span>
                 <div>
-                  <p style={{
-                    fontSize: 22,
-                    fontWeight: 700,
-                    color: '#fff',
-                    marginBottom: 8,
-                  }}>
-                    {step.title}
-                  </p>
-                  <p style={{
-                    fontSize: 16,
-                    color: 'rgba(255,255,255,0.4)',
-                    lineHeight: 1.6,
-                  }}>
-                    {step.body}
-                  </p>
+                  <h3 style={{ fontSize: 17, fontWeight: 800, margin: '0 0 6px', color: C.text }}>{step.title}</h3>
+                  <p style={{ fontSize: 14, color: C.muted, margin: 0, lineHeight: 1.7 }}>{step.body}</p>
                 </div>
-              </motion.div>
+              </div>
             ))}
           </div>
-        </motion.div>
+        </motion.section>
 
-        {/* BLOC 4 — Lien spécial */}
-        <motion.div
-          initial={{ opacity: 0, y: 40 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.7 }}
-          style={{ marginBottom: 100 }}
-        >
-          <h2 style={{
-            fontSize: 'clamp(28px, 4vw, 44px)',
-            fontWeight: 900,
-            marginBottom: 24,
-            letterSpacing: '-0.02em',
-          }}>
-            Your Zik4U profile
-            <br />
-            <span style={{
-              background: 'linear-gradient(90deg, #00D4FF, #00FFB2)',
-              WebkitBackgroundClip: 'text',
-              WebkitTextFillColor: 'transparent',
-            }}>
-              is your new link in bio.
-            </span>
-          </h2>
-          <p style={{
-            fontSize: 18,
-            color: 'rgba(255,255,255,0.45)',
-            lineHeight: 1.7,
-            maxWidth: 520,
-            marginBottom: 40,
-          }}>
-            One link. Your real music taste. Your exclusive drops.
-            Your subscriber community. Everything your fans want, in one place.
-          </p>
-          <div style={{
-            display: 'inline-flex',
-            alignItems: 'center',
-            gap: 12,
-            padding: '14px 24px',
-            background: '#12122A',
-            borderRadius: 12,
-            border: '1px solid rgba(0,212,255,0.15)',
-          }}>
-            <span style={{ fontSize: 15, color: 'rgba(255,255,255,0.3)' }}>
-              zik4u.com/creator/
-            </span>
-            <span style={{
-              fontSize: 15,
-              fontWeight: 700,
-              background: 'linear-gradient(90deg, #00D4FF, #00FFB2)',
-              WebkitBackgroundClip: 'text',
-              WebkitTextFillColor: 'transparent',
-            }}>
-              yourname
-            </span>
+        {/* Monétisation */}
+        <motion.section initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.6 }} style={{ marginBottom: 64 }}>
+          <SectionTitle color={C.gold}>Monétisation</SectionTitle>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))', gap: 16 }}>
+            {FEATURES_MONETIZE.map(f => <FeatureCard key={f.title} {...f} />)}
           </div>
-        </motion.div>
+        </motion.section>
 
-        {/* BLOC 5 — Story CTA */}
-        <motion.div
-          initial={{ opacity: 0, y: 40 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.7 }}
-          style={{
-            marginBottom: 100,
-            padding: '48px',
-            background: '#0D0D20',
-            borderRadius: 32,
-          }}
-        >
-          <p style={{
-            fontSize: 13,
-            fontWeight: 700,
-            letterSpacing: '0.15em',
-            color: '#00FFB2',
-            textTransform: 'uppercase',
-            marginBottom: 20,
-          }}>
-            Tell your community
-          </p>
-          <h2 style={{
-            fontSize: 'clamp(24px, 3.5vw, 38px)',
-            fontWeight: 900,
-            marginBottom: 16,
-            letterSpacing: '-0.02em',
-            lineHeight: 1.15,
-          }}>
-            Your fans don&apos;t know you&apos;re here yet.
-            <br />
-            One story changes that.
-          </h2>
-          <p style={{
-            fontSize: 16,
-            color: 'rgba(255,255,255,0.4)',
-            marginBottom: 32,
-            lineHeight: 1.6,
-          }}>
-            Post this on Instagram or TikTok. Your community will follow.
-          </p>
-          <div style={{
-            background: '#0A0A1A',
-            borderRadius: 16,
-            padding: '24px',
-            marginBottom: 20,
-            border: '1px solid rgba(255,255,255,0.06)',
-          }}>
-            <p style={{
-              fontSize: 15,
-              color: 'rgba(255,255,255,0.7)',
-              lineHeight: 1.8,
-              whiteSpace: 'pre-line',
-              margin: 0,
-            }}>
-              {STORY_TEXT}
-            </p>
+        {/* Visibilité */}
+        <motion.section initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.6 }} style={{ marginBottom: 64 }}>
+          <SectionTitle color={C.mint}>Visibilité &amp; viralité</SectionTitle>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))', gap: 16 }}>
+            {FEATURES_VISIBILITY.map(f => <FeatureCard key={f.title} {...f} />)}
           </div>
-          <button
-            onClick={handleCopy}
-            style={{
-              padding: '14px 28px',
-              background: copied
-                ? 'linear-gradient(135deg, #00FFB2, #00D4FF)'
-                : '#1A1A35',
-              border: '1px solid rgba(255,255,255,0.1)',
-              borderRadius: 12,
-              cursor: 'pointer',
-              fontSize: 14,
-              fontWeight: 700,
-              color: copied ? '#0A0A1A' : '#fff',
-              fontFamily: 'Inter, system-ui, sans-serif',
-              transition: 'all 0.2s',
-            }}
-          >
-            {copied ? '✓ Copied!' : 'Copy this text'}
+        </motion.section>
+
+        {/* Présence live */}
+        <motion.section initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.6 }} style={{ marginBottom: 64 }}>
+          <SectionTitle color={C.purple}>Présence live</SectionTitle>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))', gap: 16 }}>
+            {FEATURES_PRESENCE.map(f => <FeatureCard key={f.title} {...f} />)}
+          </div>
+        </motion.section>
+
+        {/* Social proof — copier le post */}
+        <motion.div initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.6 }} style={{ background: `linear-gradient(135deg, rgba(255,60,172,0.06), rgba(123,47,255,0.04))`, borderRadius: 20, padding: 32, border: `1px solid rgba(255,60,172,0.15)`, marginBottom: 48 }}>
+          <p style={{ fontSize: 12, fontWeight: 700, letterSpacing: '0.15em', color: C.pink, textTransform: 'uppercase', marginBottom: 16 }}>
+            Annonce à ta communauté
+          </p>
+          <pre style={{ fontFamily: 'Inter, system-ui, sans-serif', fontSize: 14, lineHeight: 1.7, color: 'rgba(255,255,255,0.7)', whiteSpace: 'pre-wrap', marginBottom: 16 }}>
+            {STORY_TEXT}
+          </pre>
+          <button onClick={handleCopy} style={{ background: copied ? 'rgba(0,255,178,0.1)' : C.card, border: `1px solid ${copied ? C.mint : C.border}`, borderRadius: 8, padding: '10px 20px', color: copied ? C.mint : C.muted, fontSize: 13, cursor: 'pointer', fontFamily: 'Inter, system-ui, sans-serif' }}>
+            {copied ? '✓ Copié !' : 'Copier le post →'}
           </button>
         </motion.div>
 
-        {/* BLOC 6 — CTA final */}
-        <motion.div
-          initial={{ opacity: 0, y: 40 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.7 }}
-          style={{ textAlign: 'center' }}
-        >
-          <h2 style={{
-            fontSize: 'clamp(28px, 4vw, 48px)',
-            fontWeight: 900,
-            marginBottom: 16,
-            letterSpacing: '-0.02em',
-          }}>
-            Ready to monetize
-            <br />
-            your real taste?
+        {/* CTA final */}
+        <motion.div initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.6 }} style={{ textAlign: 'center', padding: '64px 32px', background: `linear-gradient(135deg, rgba(255,60,172,0.06), rgba(123,47,255,0.04))`, borderRadius: 24, border: `1px solid rgba(255,60,172,0.15)` }}>
+          <h2 style={{ fontSize: 'clamp(28px, 4vw, 48px)', fontWeight: 900, marginBottom: 16 }}>
+            Ton premier abonné{' '}
+            <span style={{ background: `linear-gradient(90deg, ${C.pink}, ${C.purple})`, WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>
+              peut être aujourd&apos;hui.
+            </span>
           </h2>
-          <p style={{
-            fontSize: 16,
-            color: 'rgba(255,255,255,0.4)',
-            marginBottom: 40,
-          }}>
-            Set up your profile in minutes. Your first subscriber could be today.
+          <p style={{ color: C.muted, fontSize: 16, marginBottom: 32, maxWidth: 440, margin: '0 auto 32px' }}>
+            Gratuit. Setup en 10 minutes.
           </p>
-          <button
-            onClick={() => router.push('/become-creator')}
-            style={{
-              padding: '18px 48px',
-              background: 'linear-gradient(135deg, #FF3CAC, #7B2FFF)',
-              border: 'none',
-              borderRadius: 16,
-              cursor: 'pointer',
-              fontSize: 17,
-              fontWeight: 800,
-              color: '#fff',
-              fontFamily: 'Inter, system-ui, sans-serif',
-              letterSpacing: '-0.01em',
-            }}
-          >
-            Become a Creator →
-          </button>
+          <div style={{ display: 'flex', gap: 12, justifyContent: 'center', flexWrap: 'wrap' }}>
+            <a href={APP_STORE_URL} style={{ padding: '14px 32px', background: `linear-gradient(135deg, ${C.pink}, ${C.purple})`, borderRadius: 12, color: C.text, fontWeight: 700, fontSize: 15, textDecoration: 'none' }}>
+              Télécharger — iOS
+            </a>
+            <a href={PLAY_STORE_URL} style={{ padding: '14px 32px', background: C.card, border: `1px solid ${C.border}`, borderRadius: 12, color: C.text, fontWeight: 700, fontSize: 15, textDecoration: 'none' }}>
+              Télécharger — Android
+            </a>
+          </div>
         </motion.div>
 
       </div>
