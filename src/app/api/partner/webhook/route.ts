@@ -140,6 +140,36 @@ export async function POST(request: NextRequest) {
       })
       .eq('id', partnerRequestId);
 
+    // Enregistrer dans financial_events pour la comptabilité
+    const planAmounts: Record<string, number> = {
+      insight:      699.00,
+      intelligence: 1999.00,
+      enterprise:   0, // custom
+    };
+    const grossAmount = planAmounts[partnerReq?.plan_requested ?? ''] ?? 0;
+    // Stripe prend ~2.9% + $0.30
+    const stripeFees = grossAmount > 0
+      ? Math.round((grossAmount * 0.029 + 0.30) * 100) / 100
+      : 0;
+    const netAmount = Math.round((grossAmount - stripeFees) * 100) / 100;
+
+    if (grossAmount > 0) {
+      await supabase.from('financial_events').insert({
+        event_type:         'b2b_subscription',
+        source:             'stripe_b2b',
+        amount_usd:         grossAmount,
+        platform_share_usd: netAmount,  // 100% pour Zik4U
+        creator_share_usd:  0,
+        fees_usd:           stripeFees,
+        net_usd:            netAmount,
+        partner_request_id: partnerRequestId,
+        external_id:        session.id,
+        payment_channel:    'b2b',
+        plan:               partnerReq?.plan_requested ?? null,
+        created_at:         new Date().toISOString(),
+      });
+    }
+
     // Envoyer l'email d'activation
     if (partnerReq?.contact_email && partnerReq?.api_key) {
       await sendActivationEmail(
@@ -162,6 +192,39 @@ export async function POST(request: NextRequest) {
         current_period_end:   updatedPeriodEnd ? new Date(updatedPeriodEnd * 1000).toISOString() : null,
       })
       .eq('stripe_subscription_id', subscription.id);
+
+    // Renouvellement B2B
+    if (subscription.status === 'active') {
+      const { data: pr } = await supabase
+        .from('partner_requests')
+        .select('plan_requested, contact_email')
+        .eq('stripe_subscription_id', subscription.id)
+        .single();
+
+      if (pr) {
+        const planAmounts: Record<string, number> = {
+          insight: 699.00, intelligence: 1999.00, enterprise: 0,
+        };
+        const gross = planAmounts[pr.plan_requested ?? ''] ?? 0;
+        const fees  = gross > 0
+          ? Math.round((gross * 0.029 + 0.30) * 100) / 100 : 0;
+        if (gross > 0) {
+          await supabase.from('financial_events').insert({
+            event_type:         'b2b_renewal',
+            source:             'stripe_b2b',
+            amount_usd:         gross,
+            platform_share_usd: Math.round((gross - fees) * 100) / 100,
+            creator_share_usd:  0,
+            fees_usd:           fees,
+            net_usd:            Math.round((gross - fees) * 100) / 100,
+            partner_request_id: null,
+            external_id:        subscription.id,
+            payment_channel:    'b2b',
+            plan:               pr.plan_requested,
+          });
+        }
+      }
+    }
   }
 
   if (event.type === 'customer.subscription.deleted') {
