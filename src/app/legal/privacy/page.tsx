@@ -6,9 +6,9 @@ export const metadata = generatePageMetadata(
   '/legal/privacy',
 );
 
-const LAST_UPDATED = 'March 23, 2026';
+const LAST_UPDATED = 'March 28, 2026';
 const CONTACT_EMAIL = 'privacy@zik4u.com';
-const COMPANY = 'Zik4U LLC';
+const COMPANY = 'Zik4U Inc.';
 const SITE_URL = 'https://zik4u.com';
 
 export default function PrivacyPolicyPage() {
@@ -54,7 +54,7 @@ export default function PrivacyPolicyPage() {
               use, disclose, and safeguard your personal information when you use our Service.
             </p>
             <p style={{ marginTop: '12px' }}>
-              Zik4U LLC is a limited liability company registered in the State of Florida, United States.
+              Zik4U Inc. is a corporation registered in the State of Florida, United States.
             </p>
             <p style={{ marginTop: '12px' }}>
               For privacy inquiries, contact us at:{' '}
@@ -316,6 +316,79 @@ export default function PrivacyPolicyPage() {
               You may opt out of emotional profiling at any time in Settings → Privacy.
               Opting out will disable personalized digest notifications but will not affect
               core app functionality.
+            </p>
+          </section>
+
+          {/* 8c */}
+          <section>
+            <h2 style={{ fontSize: '22px', fontWeight: 700, color: '#FFFFFF', marginBottom: '16px' }}>
+              8c. Music Match — Rencontre par la Musique
+            </h2>
+            <p style={{ marginBottom: '12px' }}>
+              Music Match is an optional feature that allows users to discover other members
+              with compatible music tastes for social or romantic connections.
+              This feature is <strong style={{ color: '#FFFFFF' }}>strictly opt-in</strong> and
+              disabled by default.
+            </p>
+            <h3 style={{ fontSize: '16px', fontWeight: 700, color: '#FFFFFF', marginBottom: '8px', marginTop: '16px' }}>
+              Data collected for Music Match
+            </h3>
+            <ul style={{ paddingLeft: '20px', display: 'flex', flexDirection: 'column', gap: '8px', marginBottom: '12px' }}>
+              <li>
+                <strong style={{ color: '#FFFFFF' }}>Relationship status</strong> — declared
+                voluntarily by the user (&ldquo;single&rdquo;, &ldquo;open&rdquo;, &ldquo;taken&rdquo;,
+                or &ldquo;undisclosed&rdquo;). Visible on your profile only if you activate Music Match.
+              </li>
+              <li>
+                <strong style={{ color: '#FFFFFF' }}>Music Match preference (dating_opt_in)</strong> — a
+                boolean flag indicating that you consent to appear in and see Music Match results.
+                Off by default. Modifiable at any time in Settings → Privacy.
+              </li>
+              <li>
+                <strong style={{ color: '#FFFFFF' }}>Music compatibility data</strong> — your
+                listening history (already collected for core app functionality) is used to
+                compute compatibility scores with other opted-in users.
+              </li>
+            </ul>
+            <h3 style={{ fontSize: '16px', fontWeight: 700, color: '#FFFFFF', marginBottom: '8px', marginTop: '16px' }}>
+              Legal basis (GDPR)
+            </h3>
+            <p style={{ marginBottom: '12px' }}>
+              Processing of Music Match data is based on{' '}
+              <strong style={{ color: '#FFFFFF' }}>explicit consent</strong> (GDPR Art. 6(1)(a)
+              and Art. 9(2)(a) for relationship status data, which constitutes sensitive personal
+              data under EU law). This consent is obtained via a double opt-in mechanism:
+            </p>
+            <ol style={{ paddingLeft: '20px', display: 'flex', flexDirection: 'column', gap: '8px', marginBottom: '12px' }}>
+              <li>Voluntarily setting your relationship status to &ldquo;single&rdquo; or &ldquo;open&rdquo;.</li>
+              <li>Explicitly enabling the Music Match toggle in Settings → Privacy.</li>
+            </ol>
+            <h3 style={{ fontSize: '16px', fontWeight: 700, color: '#FFFFFF', marginBottom: '8px', marginTop: '16px' }}>
+              Data sharing and visibility
+            </h3>
+            <ul style={{ paddingLeft: '20px', display: 'flex', flexDirection: 'column', gap: '8px', marginBottom: '12px' }}>
+              <li>Your profile may appear in Music Match results visible to other opted-in users.</li>
+              <li>Your relationship status is <strong style={{ color: '#FFFFFF' }}>never</strong> shared with B2B partners or third parties.</li>
+              <li>Your dating preference flag is <strong style={{ color: '#FFFFFF' }}>never</strong> exposed via our Partner Intelligence API.</li>
+              <li>No location data is used or shared in Music Match.</li>
+            </ul>
+            <h3 style={{ fontSize: '16px', fontWeight: 700, color: '#FFFFFF', marginBottom: '8px', marginTop: '16px' }}>
+              Age requirement
+            </h3>
+            <p style={{ marginBottom: '12px' }}>
+              Music Match is available only to users aged{' '}
+              <strong style={{ color: '#FFFFFF' }}>17 years or older</strong>.
+              By activating Music Match, you confirm that you meet this age requirement.
+            </p>
+            <h3 style={{ fontSize: '16px', fontWeight: 700, color: '#FFFFFF', marginBottom: '8px', marginTop: '16px' }}>
+              How to disable
+            </h3>
+            <p>
+              You can disable Music Match at any time by going to{' '}
+              <strong style={{ color: '#FFFFFF' }}>Settings → Privacy → Music Match</strong> and
+              toggling it off. Upon disabling, your profile is immediately removed from all
+              Music Match results. Your relationship status can also be set to
+              &ldquo;undisclosed&rdquo; at any time.
             </p>
           </section>
 

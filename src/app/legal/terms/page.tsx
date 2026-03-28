@@ -6,7 +6,7 @@ export const metadata = generatePageMetadata(
   '/legal/terms',
 );
 
-const LAST_UPDATED = 'March 23, 2026';
+const LAST_UPDATED = 'March 28, 2026';
 const CONTACT_EMAIL = 'legal@zik4u.com';
 const SITE_URL = 'https://zik4u.com';
 
@@ -113,6 +113,51 @@ export default function TermsOfServicePage() {
             </ul>
             <p style={{ marginTop: '12px' }}>
               Violation of these rules may result in immediate account suspension or termination, with or without warning.
+            </p>
+          </section>
+
+          {/* 4b */}
+          <section>
+            <h2 style={{ fontSize: '22px', fontWeight: 700, color: '#FFFFFF', marginBottom: '16px' }}>
+              Music Match — Terms of Use
+            </h2>
+            <p style={{ marginBottom: '12px' }}>
+              Music Match is an optional feature enabling users to discover other members
+              based on music compatibility for social or romantic connections.
+            </p>
+            <h3 style={{ fontSize: '16px', fontWeight: 700, color: '#FFFFFF', marginBottom: '8px', marginTop: '16px' }}>
+              Eligibility
+            </h3>
+            <ul style={{ paddingLeft: '20px', display: 'flex', flexDirection: 'column', gap: '8px', marginBottom: '12px' }}>
+              <li>You must be at least <strong style={{ color: '#FFFFFF' }}>17 years old</strong> to activate Music Match.</li>
+              <li>You must have a verified Zik4U account in good standing.</li>
+              <li>You must activate Music Match explicitly via Settings → Privacy (double opt-in required).</li>
+            </ul>
+            <h3 style={{ fontSize: '16px', fontWeight: 700, color: '#FFFFFF', marginBottom: '8px', marginTop: '16px' }}>
+              Acceptable use
+            </h3>
+            <ul style={{ paddingLeft: '20px', display: 'flex', flexDirection: 'column', gap: '8px', marginBottom: '12px' }}>
+              <li>Music Match is intended for genuine social and romantic connections.</li>
+              <li>You may not use Music Match to harass, stalk, or intimidate other users.</li>
+              <li>You may not create fake profiles or misrepresent your identity or relationship status.</li>
+              <li>You may not use Music Match for commercial solicitation or spam.</li>
+              <li>You may not attempt to extract personal data from other users through Music Match.</li>
+            </ul>
+            <h3 style={{ fontSize: '16px', fontWeight: 700, color: '#FFFFFF', marginBottom: '8px', marginTop: '16px' }}>
+              Safety
+            </h3>
+            <p style={{ marginBottom: '12px' }}>
+              We provide blocking and reporting tools. Any user can block another user at any time,
+              which immediately removes them from all Music Match results and prevents all contact.
+              Abuse of the Music Match feature may result in immediate account suspension.
+            </p>
+            <h3 style={{ fontSize: '16px', fontWeight: 700, color: '#FFFFFF', marginBottom: '8px', marginTop: '16px' }}>
+              Disclaimer
+            </h3>
+            <p>
+              Zik4U does not guarantee romantic or social outcomes from Music Match.
+              We are not responsible for interactions that take place outside of the Zik4U platform.
+              Always exercise caution and good judgment when meeting people online.
             </p>
           </section>
 
