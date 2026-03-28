@@ -9,12 +9,62 @@ import type { SearchResult } from '@/types';
 const APP_STORE_URL = 'https://apps.apple.com/app/zik4u/id6748722257';
 const PLAY_STORE_URL = 'https://play.google.com/store/apps/details?id=com.zik4u.app';
 
+const C = {
+  bg: '#0A0A1A', card: '#12122A', border: 'rgba(255,255,255,0.08)',
+  cyan: '#00D4FF', mint: '#00FFB2', pink: '#FF3CAC',
+  purple: '#7B2FFF', gold: '#FFB800',
+  text: '#fff', muted: 'rgba(255,255,255,0.5)',
+};
+
 const WHAT_YOU_GET = [
-  { emoji: '📡', text: "Real-time listening feed. What they play. For real." },
-  { emoji: '🎵', text: "Exclusive Drops: tracks they share only with subscribers" },
-  { emoji: '🎯', text: "Music compatibility score between you and your creator" },
-  { emoji: '🃏', text: "Fan Card: shareable proof you're part of their world" },
+  {
+    emoji: '📡',
+    title: 'Feed d\'écoute réel',
+    body: 'Vois ce que ton créateur écoute en temps réel. Pas sa playlist curatée. Ce qu\'il met le matin, ce qu\'il écoute la nuit. La vérité.',
+    color: C.cyan,
+  },
+  {
+    emoji: '🎵',
+    title: 'Drops exclusifs',
+    body: '5 moods : Découverte, Obsession, Nostalgie, Réconfort, Bouleversant. Partage un titre avec son ressenti — réservé à toi.',
+    color: C.pink,
+  },
+  {
+    emoji: '🎯',
+    title: 'Score de compatibilité',
+    body: 'Ton score de compatibilité musicale avec le créateur. Calculé sur vos vraies écoutes communes. Tu ne lis plus juste son feed — tu mesures votre affinité.',
+    color: C.mint,
+  },
+  {
+    emoji: '🃏',
+    title: 'Fan Card',
+    body: 'Une carte personnalisée : ton score, tes artistes en commun, ton rang parmi ses fans. Partageable. Preuve vivante de ton appartenance.',
+    color: C.purple,
+  },
+  {
+    emoji: '🎧',
+    title: 'Pulse — Écouter ensemble',
+    body: 'Rejoins une room d\'écoute live lancée par le créateur. Même titre, même moment, réactions en temps réel. Une expérience collective.',
+    color: C.purple,
+  },
+  {
+    emoji: '🔔',
+    title: 'Notifications push',
+    body: 'Quand ton créateur publie un Drop ou lance une session Pulse, tu reçois une notification immédiate. Aucun algorithme ne filtre.',
+    color: C.gold,
+  },
 ];
+
+function SectionTitle({ children, color }: { children: string; color: string }) {
+  return (
+    <div style={{ marginBottom: 32 }}>
+      <p style={{ fontSize: 11, fontWeight: 700, letterSpacing: '0.18em', color, textTransform: 'uppercase', marginBottom: 8 }}>
+        {children}
+      </p>
+      <div style={{ width: 32, height: 2, background: color, borderRadius: 1 }} />
+    </div>
+  );
+}
 
 export default function FansPage() {
   const router = useRouter();
@@ -44,387 +94,120 @@ export default function FansPage() {
   }, [query]);
 
   return (
-    <main style={{
-      minHeight: '100vh',
-      backgroundColor: '#0A0A1A',
-      fontFamily: 'Inter, system-ui, sans-serif',
-      color: '#fff',
-    }}>
+    <main style={{ minHeight: '100vh', backgroundColor: C.bg, fontFamily: 'Inter, system-ui, sans-serif', color: C.text }}>
 
       {/* Nav */}
-      <nav style={{
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'space-between',
-        padding: '20px 32px',
-        maxWidth: 1100,
-        margin: '0 auto',
-      }}>
-        <button
-          onClick={() => router.push('/')}
-          style={{
-            border: 'none',
-            fontSize: 20,
-            fontWeight: 900,
-            letterSpacing: '0.2em',
-            background: 'linear-gradient(90deg, #00D4FF, #00FFB2, #FF3CAC)',
-            WebkitBackgroundClip: 'text',
-            WebkitTextFillColor: 'transparent',
-            cursor: 'pointer',
-          }}
-        >
+      <nav style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '20px 32px', maxWidth: 1100, margin: '0 auto' }}>
+        <button onClick={() => router.push('/')} style={{ background: `linear-gradient(90deg, ${C.cyan}, ${C.mint}, ${C.pink})`, WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', border: 'none', fontSize: 20, fontWeight: 900, letterSpacing: '0.2em', cursor: 'pointer', fontFamily: 'Inter, system-ui, sans-serif', padding: 0 }}>
           ZIK4U
         </button>
-        <button
-          onClick={() => router.push('/creators')}
-          style={{
-            background: 'none',
-            border: 'none',
-            fontSize: 14,
-            color: 'rgba(255,255,255,0.4)',
-            cursor: 'pointer',
-            fontFamily: 'Inter, system-ui, sans-serif',
-          }}
-          onMouseEnter={e => (e.currentTarget.style.color = '#fff')}
-          onMouseLeave={e => (e.currentTarget.style.color = 'rgba(255,255,255,0.4)')}
-        >
-          Are you a creator? →
+        <button onClick={() => router.push('/creators')} style={{ background: 'none', border: 'none', fontSize: 14, color: C.muted, cursor: 'pointer', fontFamily: 'Inter, system-ui, sans-serif' }} onMouseEnter={e => (e.currentTarget.style.color = C.text)} onMouseLeave={e => (e.currentTarget.style.color = C.muted)}>
+          Tu es créateur ? →
         </button>
       </nav>
 
-      <div style={{ maxWidth: 780, margin: '0 auto', padding: '40px 24px 120px' }}>
+      <div style={{ maxWidth: 900, margin: '0 auto', padding: '40px 24px 120px' }}>
 
-        {/* BLOC 1 — Hero */}
-        <motion.div
-          initial={{ opacity: 0, y: 40 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.7 }}
-          style={{ marginBottom: 64 }}
-        >
-          <p style={{
-            fontSize: 13,
-            fontWeight: 700,
-            letterSpacing: '0.15em',
-            color: '#00FFB2',
-            textTransform: 'uppercase',
-            marginBottom: 24,
-          }}>
-            For Fans
+        {/* Hero */}
+        <motion.div initial={{ opacity: 0, y: 40 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7 }} style={{ marginBottom: 64 }}>
+          <p style={{ fontSize: 13, fontWeight: 700, letterSpacing: '0.15em', color: C.mint, textTransform: 'uppercase', marginBottom: 24 }}>
+            Pour les Fans
           </p>
-          <h1 style={{
-            fontSize: 'clamp(40px, 6vw, 76px)',
-            fontWeight: 900,
-            lineHeight: 1.0,
-            letterSpacing: '-0.03em',
-            marginBottom: 24,
-          }}>
-            Your favorite creator
-            <br />
-            <span style={{
-              background: 'linear-gradient(90deg, #00FFB2, #00D4FF)',
-              WebkitBackgroundClip: 'text',
-              WebkitTextFillColor: 'transparent',
-            }}>
-              is on Zik4U.
+          <h1 style={{ fontSize: 'clamp(40px, 6vw, 76px)', fontWeight: 900, lineHeight: 1.0, letterSpacing: '-0.03em', marginBottom: 24 }}>
+            Suis ce qu&apos;ils écoutent.{' '}
+            <span style={{ background: `linear-gradient(90deg, ${C.mint}, ${C.cyan})`, WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>
+              Pour de vrai.
             </span>
           </h1>
-          <p style={{
-            fontSize: 20,
-            color: 'rgba(255,255,255,0.5)',
-            lineHeight: 1.7,
-            maxWidth: 480,
-          }}>
-            See what they listen to.{' '}
-            <span style={{ color: '#00FFB2', fontWeight: 700 }}>For real.</span>
-            {' '}Before anyone else.
+          <p style={{ fontSize: 'clamp(16px, 2vw, 20px)', color: C.muted, lineHeight: 1.7, maxWidth: 580, marginBottom: 40 }}>
+            Pas la playlist qu&apos;ils veulent te montrer.
+            Ce qu&apos;ils mettent le matin, la nuit, quand personne ne regarde.
+            Et mesure votre affinité musicale réelle.
           </p>
         </motion.div>
 
-        {/* BLOC 2 — Recherche */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5, delay: 0.2 }}
-          style={{ marginBottom: 48 }}
-        >
-          <div style={{ position: 'relative' }}>
-            <input
-              type="text"
-              placeholder="Search a creator by name..."
-              value={query}
-              onChange={e => setQuery(e.target.value)}
-              style={{
-                width: '100%',
-                padding: '20px 24px',
-                background: '#12122A',
-                border: '1px solid rgba(255,255,255,0.08)',
-                borderRadius: 16,
-                fontSize: 17,
-                color: '#fff',
-                fontFamily: 'Inter, system-ui, sans-serif',
-                outline: 'none',
-                boxSizing: 'border-box',
-              }}
-              onFocus={e => (e.currentTarget.style.borderColor = 'rgba(0,212,255,0.3)')}
-              onBlur={e => (e.currentTarget.style.borderColor = 'rgba(255,255,255,0.08)')}
-            />
-            {searching && (
-              <div style={{
-                position: 'absolute',
-                right: 20,
-                top: '50%',
-                transform: 'translateY(-50%)',
-                width: 18,
-                height: 18,
-                border: '2px solid rgba(0,212,255,0.3)',
-                borderTopColor: '#00D4FF',
-                borderRadius: '50%',
-                animation: 'spin 0.8s linear infinite',
-              }} />
-            )}
+        {/* Ce que tu obtiens */}
+        <motion.section initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.6 }} style={{ marginBottom: 64 }}>
+          <SectionTitle color={C.mint}>Ce que tu obtiens</SectionTitle>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))', gap: 16 }}>
+            {WHAT_YOU_GET.map(item => (
+              <div key={item.title} style={{ background: C.card, border: `1px solid ${C.border}`, borderRadius: 16, padding: 24, borderTop: `2px solid ${item.color}`, display: 'flex', flexDirection: 'column', gap: 10 }}>
+                <span style={{ fontSize: 28 }}>{item.emoji}</span>
+                <h3 style={{ fontSize: 17, fontWeight: 800, color: C.text, margin: 0 }}>{item.title}</h3>
+                <p style={{ fontSize: 14, color: C.muted, lineHeight: 1.7, margin: 0 }}>{item.body}</p>
+              </div>
+            ))}
           </div>
-        </motion.div>
+        </motion.section>
 
-        {/* BLOC 3 — Résultats */}
-        <div style={{ marginBottom: 100 }}>
-          {loading ? (
-            <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
-              {[1, 2, 3].map(i => (
-                <div key={i} style={{
-                  height: 80,
-                  background: '#12122A',
-                  borderRadius: 16,
-                  opacity: 0.4,
-                }} />
-              ))}
-            </div>
+        {/* Recherche créateurs */}
+        <motion.section initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.6 }} style={{ marginBottom: 64 }}>
+          <SectionTitle color={C.cyan}>Trouve ton créateur</SectionTitle>
+
+          <input
+            type="text"
+            value={query}
+            onChange={e => setQuery(e.target.value)}
+            placeholder="Rechercher un créateur..."
+            style={{ width: '100%', boxSizing: 'border-box', padding: '14px 18px', background: C.card, border: `1px solid ${C.border}`, borderRadius: 12, color: C.text, fontSize: 15, outline: 'none', marginBottom: 20, fontFamily: 'Inter, system-ui, sans-serif' }}
+          />
+
+          {loading || searching ? (
+            <div style={{ textAlign: 'center', padding: 40, color: C.muted }}>Chargement...</div>
           ) : creators.length === 0 ? (
-            <p style={{ color: 'rgba(255,255,255,0.3)', textAlign: 'center', padding: '40px 0' }}>
-              No creator found for &ldquo;{query}&rdquo;
-            </p>
+            <div style={{ textAlign: 'center', padding: 40, color: C.muted }}>
+              {query ? 'Aucun créateur trouvé.' : 'Aucun créateur pour le moment.'}
+            </div>
           ) : (
-            <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
-              {creators.map((creator, i) => (
-                <motion.div
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(200px, 1fr))', gap: 16 }}>
+              {creators.map(creator => (
+                <button
                   key={creator.id}
-                  initial={{ opacity: 0, y: 10 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.3, delay: i * 0.05 }}
                   onClick={() => router.push(`/creator/${creator.username}`)}
-                  style={{
-                    display: 'flex',
-                    alignItems: 'center',
-                    gap: 16,
-                    padding: '20px 24px',
-                    background: '#12122A',
-                    borderRadius: 16,
-                    cursor: 'pointer',
-                    border: '1px solid rgba(255,255,255,0.04)',
-                    transition: 'border-color 0.2s',
-                  }}
-                  onMouseEnter={e => (e.currentTarget.style.borderColor = 'rgba(0,212,255,0.2)')}
-                  onMouseLeave={e => (e.currentTarget.style.borderColor = 'rgba(255,255,255,0.04)')}
+                  style={{ background: C.card, border: `1px solid ${C.border}`, borderRadius: 16, padding: 20, cursor: 'pointer', textAlign: 'left', fontFamily: 'Inter, system-ui, sans-serif', transition: 'border-color 0.15s' }}
+                  onMouseEnter={e => (e.currentTarget.style.borderColor = C.mint)}
+                  onMouseLeave={e => (e.currentTarget.style.borderColor = C.border)}
                 >
-                  {creator.avatarUrl ? (
-                    // eslint-disable-next-line @next/next/no-img-element
-                    <img
-                      src={creator.avatarUrl}
-                      alt={creator.displayName}
-                      width={48}
-                      height={48}
-                      style={{ borderRadius: '50%', objectFit: 'cover', flexShrink: 0 }}
-                    />
-                  ) : (
-                    <div style={{
-                      width: 48,
-                      height: 48,
-                      borderRadius: '50%',
-                      background: 'linear-gradient(135deg, #FF3CAC, #7B2FFF)',
-                      display: 'flex',
-                      alignItems: 'center',
-                      justifyContent: 'center',
-                      fontSize: 20,
-                      flexShrink: 0,
-                    }}>
-                      🎵
+                  {creator.avatarUrl && (
+                    <img src={creator.avatarUrl} alt={creator.username} style={{ width: 48, height: 48, borderRadius: '50%', marginBottom: 12, objectFit: 'cover' }} />
+                  )}
+                  <div style={{ fontWeight: 700, fontSize: 15, color: C.text, marginBottom: 4 }}>
+                    {creator.displayName ?? creator.username}
+                  </div>
+                  <div style={{ fontSize: 12, color: C.muted }}>@{creator.username}</div>
+                  {creator.subscriberCount !== undefined && (
+                    <div style={{ fontSize: 11, color: C.mint, marginTop: 8 }}>
+                      {creator.subscriberCount} abonné{creator.subscriberCount > 1 ? 's' : ''}
                     </div>
                   )}
-                  <div style={{ flex: 1, minWidth: 0 }}>
-                    <p style={{
-                      fontSize: 16,
-                      fontWeight: 700,
-                      color: '#fff',
-                      margin: 0,
-                      marginBottom: 4,
-                    }}>
-                      {creator.displayName}
-                    </p>
-                    {creator.topArtists.length > 0 && (
-                      <p style={{
-                        fontSize: 13,
-                        color: 'rgba(255,255,255,0.35)',
-                        margin: 0,
-                        overflow: 'hidden',
-                        textOverflow: 'ellipsis',
-                        whiteSpace: 'nowrap',
-                      }}>
-                        {creator.topArtists.slice(0, 3).join(' · ')}
-                      </p>
-                    )}
-                  </div>
-                  {creator.isFeatured && (
-                    <span style={{
-                      fontSize: 10,
-                      fontWeight: 700,
-                      color: '#fff',
-                      background: 'linear-gradient(135deg, #FF3CAC, #7B2FFF)',
-                      padding: '3px 10px',
-                      borderRadius: 999,
-                      flexShrink: 0,
-                    }}>
-                      ✦ Featured
-                    </span>
-                  )}
-                  <span style={{
-                    fontSize: 18,
-                    color: 'rgba(255,255,255,0.2)',
-                    flexShrink: 0,
-                  }}>
-                    →
-                  </span>
-                </motion.div>
+                </button>
               ))}
             </div>
           )}
-        </div>
+        </motion.section>
 
-        {/* BLOC 4 — Ce que tu obtiens */}
-        <motion.div
-          initial={{ opacity: 0, y: 40 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.7 }}
-          style={{ marginBottom: 100 }}
-        >
-          <h2 style={{
-            fontSize: 'clamp(24px, 3.5vw, 40px)',
-            fontWeight: 900,
-            marginBottom: 40,
-            letterSpacing: '-0.02em',
-          }}>
-            When you subscribe, you get:
-          </h2>
-          <div style={{ display: 'flex', flexDirection: 'column', gap: 24 }}>
-            {WHAT_YOU_GET.map((item, i) => (
-              <motion.div
-                key={i}
-                initial={{ opacity: 0, x: -16 }}
-                whileInView={{ opacity: 1, x: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.4, delay: i * 0.08 }}
-                style={{ display: 'flex', gap: 20, alignItems: 'flex-start' }}
-              >
-                <span style={{ fontSize: 24, minWidth: 32 }}>{item.emoji}</span>
-                <p style={{
-                  fontSize: 17,
-                  color: 'rgba(255,255,255,0.65)',
-                  lineHeight: 1.5,
-                  margin: 0,
-                }}>
-                  {item.text}
-                </p>
-              </motion.div>
-            ))}
-          </div>
-        </motion.div>
-
-        {/* BLOC 5 — CTA download */}
-        <motion.div
-          initial={{ opacity: 0, y: 40 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.7 }}
-          style={{ textAlign: 'center' }}
-        >
-          <h2 style={{
-            fontSize: 'clamp(24px, 3.5vw, 40px)',
-            fontWeight: 900,
-            marginBottom: 12,
-            letterSpacing: '-0.02em',
-          }}>
-            Subscribe on web.
-            <br />
-            <span style={{
-              background: 'linear-gradient(90deg, #00FFB2, #00D4FF)',
-              WebkitBackgroundClip: 'text',
-              WebkitTextFillColor: 'transparent',
-            }}>
-              Listen on the app.
+        {/* CTA download */}
+        <motion.div initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.6 }} style={{ textAlign: 'center', padding: '64px 32px', background: `linear-gradient(135deg, rgba(0,255,178,0.06), rgba(0,212,255,0.04))`, borderRadius: 24, border: `1px solid rgba(0,255,178,0.15)` }}>
+          <h2 style={{ fontSize: 'clamp(28px, 4vw, 44px)', fontWeight: 900, marginBottom: 16 }}>
+            Rejoins-les{' '}
+            <span style={{ background: `linear-gradient(90deg, ${C.mint}, ${C.cyan})`, WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>
+              sur Zik4U.
             </span>
           </h2>
-          <p style={{
-            fontSize: 16,
-            color: 'rgba(255,255,255,0.4)',
-            marginBottom: 40,
-          }}>
-            Download Zik4U. Free, always.
+          <p style={{ color: C.muted, fontSize: 16, marginBottom: 32, maxWidth: 400, margin: '0 auto 32px' }}>
+            Télécharge l&apos;app pour t&apos;abonner et accéder aux Drops exclusifs.
           </p>
-          <div style={{
-            display: 'flex',
-            flexDirection: 'column',
-            gap: 16,
-            maxWidth: 320,
-            margin: '0 auto',
-          }}>
-            <a
-              href={APP_STORE_URL}
-              style={{
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                gap: 12,
-                padding: '18px 32px',
-                background: '#fff',
-                borderRadius: 16,
-                textDecoration: 'none',
-                fontSize: 16,
-                fontWeight: 700,
-                color: '#0A0A1A',
-              }}
-            >
-              <span style={{ fontSize: 22 }}>🍎</span>
-              Download on App Store
+          <div style={{ display: 'flex', gap: 12, justifyContent: 'center', flexWrap: 'wrap' }}>
+            <a href={APP_STORE_URL} style={{ padding: '14px 32px', background: `linear-gradient(135deg, ${C.mint}, ${C.cyan})`, borderRadius: 12, color: '#0A0A1A', fontWeight: 700, fontSize: 15, textDecoration: 'none' }}>
+              Télécharger — iOS
             </a>
-            <a
-              href={PLAY_STORE_URL}
-              style={{
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                gap: 12,
-                padding: '18px 32px',
-                background: 'linear-gradient(135deg, #00D4FF, #00FFB2)',
-                borderRadius: 16,
-                textDecoration: 'none',
-                fontSize: 16,
-                fontWeight: 700,
-                color: '#0A0A1A',
-              }}
-            >
-              <span style={{ fontSize: 22 }}>▶</span>
-              Get it on Google Play
+            <a href={PLAY_STORE_URL} style={{ padding: '14px 32px', background: C.card, border: `1px solid ${C.border}`, borderRadius: 12, color: C.text, fontWeight: 700, fontSize: 15, textDecoration: 'none' }}>
+              Télécharger — Android
             </a>
           </div>
         </motion.div>
 
       </div>
-
-      <style>{`
-        @keyframes spin {
-          to { transform: translateY(-50%) rotate(360deg); }
-        }
-      `}</style>
-
     </main>
   );
 }

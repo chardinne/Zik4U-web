@@ -28,4 +28,5 @@ export interface SearchResult {
   isCreator: boolean;
   isFeatured: boolean;
   minTierPrice: number | null;
+  subscriberCount?: number;
 }
