@@ -607,6 +607,17 @@ export default function SubscribePage() {
                   </span>
                 </div>
               </div>
+
+              {/* Badge web vs store */}
+              <div style={{
+                display: 'inline-flex', alignItems: 'center', gap: 6,
+                background: 'rgba(0,255,178,0.08)',
+                border: '1px solid rgba(0,255,178,0.2)',
+                borderRadius: 999, padding: '4px 12px',
+                fontSize: 12, color: '#00FFB2', marginTop: 8,
+              }}>
+                ✓ Meilleur prix — abonnement web direct
+              </div>
             </div>
 
             {/* Error */}
@@ -648,6 +659,10 @@ export default function SubscribePage() {
             </motion.button>
 
             <style>{`@keyframes spin { to { transform: rotate(360deg); } }`}</style>
+
+            <p style={{ fontSize: 11, color: 'rgba(255,255,255,0.3)', textAlign: 'center', marginTop: 8 }}>
+              L&apos;abonnement via App Store ou Google Play est majoré de 15% en raison des frais des stores.
+            </p>
 
             {/* Trust signals */}
             <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px', fontSize: '12px', color: 'rgba(255,255,255,0.4)', flexWrap: 'wrap' }}>

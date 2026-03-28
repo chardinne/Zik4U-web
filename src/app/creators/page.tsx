@@ -20,7 +20,7 @@ const FEATURES_MONETIZE = [
   {
     emoji: '💰',
     title: 'Abonnements mensuels',
-    body: 'Crée des tiers d\'abonnement. Tes fans paient pour accéder à ton feed réel, tes Drops exclusifs et ton profil complet. Paiement direct sur ton compte.',
+    body: 'Tu gardes 80% de chaque abonnement. Zik4U prend 20%. Paiement direct chaque mois via Trolley. Les abonnements web sont au prix juste — les stores majorent de 15% de leur côté.',
     color: C.mint,
   },
   {
