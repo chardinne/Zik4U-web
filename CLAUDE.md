@@ -48,8 +48,9 @@ src/
       partner/me/          ✅ GET — profil partenaire par API key (`x-zik4u-key` header)
       partner/checkout/    ✅ POST — Stripe Checkout pour plans partenaires (génère `zik4u_live_` provisoire)
       partner/webhook/     ✅ POST — Stripe webhook — active clé API + envoie email Resend post-paiement
-      partner/intelligence/artist/   ✅ GET — artist intelligence (params: artist, days)
+      partner/intelligence/artist/   ✅ GET — artist intelligence (params: artist, days) + log dans partner_search_logs (fire-and-forget service role)
       partner/intelligence/virality/ ✅ GET — virality leaderboard (param: limit)
+      partner/ai/                    ✅ POST — AI Analyst (Claude API claude-sonnet-4-20250514, quota check_and_increment_ai_quota, rate limit 10/h)
   components/
     landing/
       CreatorCard.tsx      ✅ Card search result (avatar, artistes, prix, hover, badge "✦ Featured")
@@ -61,15 +62,20 @@ src/
                               boutons "Essential only" / "Accept", lien /legal/privacy#cookies
     ui/                    ⏳ Composants réutilisables (à construire)
   lib/
-    supabase.ts            ✅ Client Supabase
+    supabase.ts            ✅ Client Supabase (browser)
+    supabase-server.ts     ✅ createServiceClient() (service role — /me /ai /checkout /webhook /pulse-waitlist)
+                              createPartnerClient() (anon key — /intelligence/* avec auth RPC-side)
     creators.ts            ✅ searchCreators, getFeaturedCreators, getCreatorProfile
     stripe.ts              ✅ createCheckoutSession → Edge Function create-stripe-checkout
-    seo.ts                 ✅ defaultMetadata, generatePageMetadata, generateCreatorMetadata
+    rate-limit.ts          ✅ checkRateLimit(apiKey, endpoint) → RPC check_rate_limit — 100/h intelligence, 10/h AI — fallback { allowed: true } si erreur DB
+    seo.ts                 ✅ defaultMetadata, generatePageMetadata, generateCreatorMetadata, generatePlatformMetadata(platform)
                               openGraph.images + twitter.images → '/opengraph-image' (pas og-image.png)
+                              PLATFORM_META : spotify / apple-music / youtube-music / soundcloud
   types/
     index.ts               ✅ CreatorProfile, CreatorTier, SearchResult (+ isFeatured: boolean)
 public/
   og-image.svg             (remplacé par opengraph-image.tsx — conservé pour compatibilité)
+  llms.txt                 ✅ Description produit AI-readable (llmstxt.org standard) — indexé par LLMs
 ```
 
 ## Design System
@@ -178,6 +184,22 @@ Décliné sur tous les tunnels :
 - **isFeatured** : champ boolean ajouté à SearchResult (src/types/index.ts)
 - **mapToSearchResult** : mappe is_featured depuis la jointure users
 
+## SEO & AI Discovery
+
+- **`manifest.ts`** : `src/app/manifest.ts` — Next.js `MetadataRoute.Manifest`, PWA (name/short_name/theme_color #00D4FF/background_color #0A0A1A)
+- **`llms.txt`** : `public/llms.txt` — standard llmstxt.org — description produit pour LLMs (privacy model, B2B intelligence, stack, legal)
+- **JSON-LD Schema.org** : dans `layout.tsx` via `<script>` inline avec `__html` — `@graph` WebSite + Organization + MobileApplication — ajout via outil `Edit` (le hook sécurité bloque l'outil `Write` sur ce pattern)
+- **Smart App Banner** : `<meta name="apple-itunes-app" content="app-id=6748722257">` + `<meta name="google-play-app" content="app-id=com.zik4u.app">` + `<link rel="alternate" android-app://...>` dans `<head>` de `layout.tsx`
+- **`robots.ts`** : règles explicites par agent — GPTBot/ChatGPT-User/Google-Extended/PerplexityBot/ClaudeBot/anthropic-ai/Amazonbot autorisés (accès `/`, disallow `/api/`), Omgilibot bloqué entièrement (`disallow: '/'`)
+- **Layouts SEO** : créer un `layout.tsx` Server Component pour chaque segment nécessitant une metadata scoped (ex: `/works-with/[platform]/layout.tsx` avec `generateMetadata({ params })` qui `await params`)
+
+## Sécurité Partner API
+
+- **`createPartnerClient()`** (anon key) : routes `/api/partner/intelligence/*` — l'auth est gérée côté DB via RPCs SECURITY DEFINER (`partner_get_virality_leaderboard`, `partner_get_artist_intelligence`) qui vérifient la clé API en interne. Code PostgreSQL `42501` → HTTP 401.
+- **`createServiceClient()`** (service role) : routes `/api/partner/me`, `/api/partner/ai`, `/api/partner/checkout`, `/api/partner/webhook`, `/api/pulse-waitlist` — vérification manuelle JS de la clé.
+- **Rate limiting** : `checkRateLimit(apiKey, endpoint)` dans `src/lib/rate-limit.ts` — appeler AVANT tout traitement métier. Retourne `{ allowed, remaining, resetAt }`.
+- **ANTHROPIC_API_KEY** : utilisé dans `/api/partner/ai/route.ts` — jamais exposé côté client (pas de `NEXT_PUBLIC_`).
+
 ## Gotchas supplémentaires
 - **`sitemap.ts`** : importer `supabase` (export nommé de `supabase.ts`), pas `createClient`
 - **`sitemap.ts`** : génère aussi les routes /card/{username} depuis profiles (limit 500)
@@ -200,6 +222,10 @@ Décliné sur tous les tunnels :
 - **`/api/partner/checkout`** : génère d'abord une clé `zik4u_live_` provisoire, crée un Stripe Checkout avec `metadata.api_key`. Le webhook `/api/partner/webhook` active la clé après paiement.
 - **`/api/partner/webhook`** : App Router — body lu via `request.text()`, pas de `export const config = { api: { bodyParser: false } }` (pattern Pages Router uniquement, inutile et trompeur en App Router).
 - **`/api/pulse-waitlist`** : utilise `createServiceClient()` (service role) car la table `pulse_waitlist` n'a pas de RLS anon — insert depuis un visiteur non connecté.
+- **`/partner/dashboard`** architecture Pro : `AuthScreen` (validation `zik4u_live_` prefix + localStorage `zik4u_partner_key`), `Sidebar` fixe 220px, 5 sections composants séparés. `handleArtistSelect()` : `setSection('artists')` puis `setTimeout(() => dispatchEvent(new CustomEvent('zik4u:artist-select', { detail: name })), 50)` — délai 50ms pour laisser `ArtistsSection` se monter et attacher son listener.
+- **Watchlist** : clé localStorage `zik4u_watchlist` (string[]). AI history : `zik4u_ai_history` (50 derniers messages, objet `{ role, content }`).
+- **Period selector** : `'7d' | '30d' | '90d'` — passé comme query param `days` vers `/api/partner/intelligence/virality`. Recalculé en jours : `{ '7d': 7, '30d': 30, '90d': 90 }`.
+- **`partner_search_logs`** : table Supabase loggant toutes les recherches artistes — RLS service_role only. Alimentée de manière fire-and-forget dans la route API (lookup plan via `partner_requests` + insert). Ne jamais attendre ce log pour répondre.
 
 ## Pages — état actuel
 
@@ -222,7 +248,7 @@ Décliné sur tous les tunnels :
 | `/robots.txt` | ✅ | Crawl autorisé, /subscribe/ et /api/ exclus |
 | `/not-found` (404) | ✅ | "This track doesn't exist." + boutons Back / Find a creator |
 | `/partner` | ✅ | Page Partner enrichie — hero, demo report interactif (3 tabs), 6 features, ROI calculator, 4 plans ($0/$499/$1299/Enterprise), contact form Formspree |
-| `/partner/dashboard` | ✅ | Dashboard partenaire — API key auth screen (`zik4u_live_` + localStorage), virality leaderboard 7d/30d/90d, artist deep-dive search, company name + plan badge, sign out |
+| `/partner/dashboard` | ✅ | Dashboard Pro — sidebar fixe 5 sections (Overview/Virality/Artists/AI/Account), watchlist, AI Analyst persistant (50 msgs), period selector 7d/30d/90d, filtre pré-viral, sort, cross-section via CustomEvent |
 | `/opengraph-image` | ✅ | OG PNG généré edge (1200×630, logo gradient + tagline) |
 | `/icon` | ✅ | Favicon généré edge (32×32, "Z4" gradient) |
 
@@ -231,8 +257,11 @@ Décliné sur tous les tunnels :
 NEXT_PUBLIC_SUPABASE_URL=https://eirkzsbjlwmflwhqihiw.supabase.co
 NEXT_PUBLIC_SUPABASE_ANON_KEY=<à configurer>
 NEXT_PUBLIC_SITE_URL=http://localhost:3000   # https://zik4u.com en prod
-STRIPE_SECRET_KEY=<à configurer>            # non utilisé côté client — pour futures API routes
-STRIPE_WEBHOOK_SECRET=<à configurer>        # non utilisé côté client — pour futures API routes
+STRIPE_SECRET_KEY=<à configurer>
+STRIPE_WEBHOOK_SECRET=<à configurer>
+SUPABASE_SERVICE_ROLE_KEY=<à configurer>    # createServiceClient() — jamais exposé côté client
+RESEND_API_KEY=<à configurer>               # Emails partenaires
+ANTHROPIC_API_KEY=<à configurer>            # AI Analyst — /api/partner/ai/ — jamais NEXT_PUBLIC_
 ```
 
 ## Commandes
