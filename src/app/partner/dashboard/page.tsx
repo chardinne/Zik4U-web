@@ -588,6 +588,17 @@ function ArtistsSection({
   const [loading, setLoading] = useState(false);
   const [error, setError]     = useState('');
 
+  useEffect(() => {
+    const handler = (e: Event) => {
+      const name = (e as CustomEvent<string>).detail;
+      setQuery(name);
+      void search(name);
+    };
+    window.addEventListener('zik4u:artist-select', handler);
+    return () => window.removeEventListener('zik4u:artist-select', handler);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
   const search = async (q?: string) => {
     const name = (q ?? query).trim();
     if (!name) return;
