@@ -7,35 +7,169 @@ import { motion } from 'framer-motion';
 const APP_STORE_URL = 'https://apps.apple.com/app/zik4u/id6748722257';
 const PLAY_STORE_URL = 'https://play.google.com/store/apps/details?id=com.zik4u.app';
 
-const FEATURES = [
+const C = {
+  bg: '#0A0A1A', card: '#12122A', border: 'rgba(255,255,255,0.08)',
+  cyan: '#00D4FF', mint: '#00FFB2', pink: '#FF3CAC',
+  purple: '#7B2FFF', gold: '#FFB800',
+  text: '#fff', muted: 'rgba(255,255,255,0.5)',
+};
+
+const FEATURES_IDENTITY = [
   {
-    emoji: '🎯',
-    title: 'Music Compatibility Score',
-    body: "Match with people who listen exactly like you. 0 to 100%. Real data, not algorithmic guessing.",
+    emoji: '🎵',
+    title: 'Ton identité musicale réelle',
+    body: 'Connecte Spotify, Apple Music, YouTube Music. Chaque écoute construit ton profil automatiquement. Pas de curation. Pas de performance. La vérité.',
+    color: C.cyan,
   },
   {
     emoji: '🃏',
     title: 'Now Card',
-    body: "Generate your Now Card — a live snapshot of your musical identity. Share it on TikTok, Instagram. Watch people ask 'what app is this?'",
+    body: 'Un snapshot live de ton identité musicale aujourd\'hui. Partage-le sur Instagram, TikTok. Les gens demandent "c\'est quoi cette app ?".',
+    color: C.mint,
   },
   {
-    emoji: '📡',
-    title: 'Real Listening Feed',
-    body: 'A social feed where every post is a real listen. No curation. No performance. Just truth.',
+    emoji: '🌙',
+    title: 'Ton archétype musical',
+    body: '7 profils — Night Explorer, Deep Feeler, Cultural Nomad, Obsessive Fan... Calculé sur tes vraies écoutes. Affiché sur ton profil.',
+    color: C.purple,
   },
   {
-    emoji: '🔥',
-    title: 'Listening Streaks',
-    body: "Stay consistent. See your friends' streaks. Music as a daily habit, together.",
+    emoji: '📅',
+    title: 'Weekly Insights',
+    body: 'Chaque semaine : ton titre de la semaine, tes découvertes, ton score émotionnel. Le résumé de ce que ta musique dit de toi.',
+    color: C.cyan,
+  },
+  {
+    emoji: '🎁',
+    title: 'Zik4U Wrapped',
+    body: '6 cartes partageables qui résument ton année musicale. Ton top artiste, ton mood dominant, tes premières oreilles. Plus honnête que Spotify.',
+    color: C.pink,
   },
 ];
 
-function PulseTeaser() {
+const FEATURES_SOCIAL = [
+  {
+    emoji: '🎯',
+    title: 'Music Compatibility Score',
+    body: 'Un score de 0 à 100% entre toi et n\'importe qui. Basé sur vos vraies écoutes communes des 30 derniers jours. Pas une approximation algorithmique.',
+    color: C.mint,
+  },
+  {
+    emoji: '📡',
+    title: 'Feed d\'écoute réel',
+    body: 'Un feed social où chaque post est une vraie écoute. Tu vois ce que tes amis écoutent maintenant. Pas ce qu\'ils veulent que tu croies.',
+    color: C.cyan,
+  },
+  {
+    emoji: '✦',
+    title: 'Le Signal',
+    body: 'Partage ton mood musical du moment en un tap — 🌙 Nocturne, 🔥 Énergie, 💜 Mélancolie... Visible 3h sur ton profil. Tes amis le voient dans leurs Stories.',
+    color: C.gold,
+  },
+  {
+    emoji: '〜',
+    title: 'La Vague',
+    body: 'Tu écoutes quelque chose qui te touche. Un tap — le titre part dans le feed instantanément. Zéro friction. Zéro construction.',
+    color: C.cyan,
+  },
+  {
+    emoji: '〜',
+    title: "L'Écho",
+    body: 'Réponds à une écoute par une écoute. Sous chaque post, au lieu d\'un commentaire texte — envoie le titre que ça te fait penser. Une conversation sans mots.',
+    color: C.mint,
+  },
+];
+
+const FEATURES_CONNECTION = [
+  {
+    emoji: '🎵',
+    title: 'Music Match',
+    body: 'Rencontre des gens qui écoutent comme toi. Pour de vrai. Pas basé sur ta photo. Basé sur ce que tu écoutes à 3h du matin. Opt-in, 17+.',
+    color: C.pink,
+  },
+  {
+    emoji: '✨',
+    title: 'Synchronicité rare',
+    body: 'Quand toi et quelqu\'un d\'autre écoutez le même titre obscur le même jour — Zik4U vous le dit. Vous êtes 12 sur la plateforme à l\'avoir entendu.',
+    color: C.purple,
+  },
+  {
+    emoji: '🔴',
+    title: 'Le Fil Rouge',
+    body: 'Quand tu as une synchronicité avec quelqu\'un, un fil de conversation de 7 jours s\'ouvre autour de cet artiste. La conversation naît de la musique.',
+    color: C.pink,
+  },
+  {
+    emoji: '🎧',
+    title: 'Pulse — Écouter ensemble',
+    body: 'Crée une room d\'écoute live avec tes amis. Même titre, même moment, réactions en temps réel. Ou invite une seule personne pour un moment privé à deux.',
+    color: C.purple,
+  },
+];
+
+const FEATURES_MEMORY = [
+  {
+    emoji: '🌱',
+    title: 'Première Oreille',
+    body: 'Tu as découvert un artiste avant tout le monde ? Zik4U te badge. Tu peux voir combien de personnes tu as influencé depuis.',
+    color: C.mint,
+  },
+  {
+    emoji: '📈',
+    title: 'Portrait Évolutif',
+    body: '12 mois d\'archetypes musicaux sur une timeline. Tu vois comment ta musique a évolué — et ce que ça révèle sur toi.',
+    color: C.cyan,
+  },
+  {
+    emoji: '🔁',
+    title: 'Rituels d\'écoute',
+    body: 'Zik4U détecte tes patterns récurrents. "Ton rituel du vendredi : jazz nocturne depuis 6 semaines." Nommés, pas surveillés.',
+    color: C.purple,
+  },
+  {
+    emoji: '💌',
+    title: 'Ta Lettre Musicale',
+    body: 'Une fois par an, à la date de ton inscription, Zik4U génère une lettre écrite à partir de tes données. Pas des stats — ce que ta musique a voulu te dire.',
+    color: C.pink,
+  },
+];
+
+function FeatureCard({ emoji, title, body, color }: {
+  emoji: string; title: string; body: string; color: string;
+}) {
+  return (
+    <div style={{
+      background: C.card, border: `1px solid ${C.border}`,
+      borderRadius: 16, padding: '24px',
+      borderTop: `2px solid ${color}`,
+      display: 'flex', flexDirection: 'column', gap: 10,
+    }}>
+      <span style={{ fontSize: 28 }}>{emoji}</span>
+      <h3 style={{ fontSize: 17, fontWeight: 800, color: C.text, margin: 0 }}>{title}</h3>
+      <p style={{ fontSize: 14, color: C.muted, lineHeight: 1.7, margin: 0 }}>{body}</p>
+    </div>
+  );
+}
+
+function SectionTitle({ children, color }: { children: string; color: string }) {
+  return (
+    <div style={{ marginBottom: 32 }}>
+      <p style={{
+        fontSize: 11, fontWeight: 700, letterSpacing: '0.18em',
+        color, textTransform: 'uppercase', marginBottom: 8,
+      }}>{children}</p>
+      <div style={{ width: 32, height: 2, background: color, borderRadius: 1 }} />
+    </div>
+  );
+}
+
+export default function ListenersPage() {
+  const router = useRouter();
   const [email, setEmail] = useState('');
   const [submitted, setSubmitted] = useState(false);
   const [loading, setLoading] = useState(false);
 
-  const handleSubmit = async () => {
+  const handleWaitlist = async () => {
     if (!email.trim() || loading) return;
     setLoading(true);
     try {
@@ -50,411 +184,102 @@ function PulseTeaser() {
   };
 
   return (
-    <div style={{
-      background: 'linear-gradient(135deg, rgba(123,47,255,0.08), rgba(0,212,255,0.06))',
-      border: '1px solid rgba(123,47,255,0.2)',
-      borderRadius: 24,
-      padding: 'clamp(32px, 5vw, 56px)',
-      textAlign: 'center',
-      position: 'relative',
-      overflow: 'hidden',
-    }}>
-      {/* Glow background */}
-      <div style={{
-        position: 'absolute', top: -60, left: '50%',
-        transform: 'translateX(-50%)',
-        width: 300, height: 300, borderRadius: '50%',
-        background: 'radial-gradient(circle, rgba(123,47,255,0.15), transparent 70%)',
-        pointerEvents: 'none',
-      }} />
-
-      <p style={{
-        fontSize: 12, fontWeight: 700, letterSpacing: '0.2em',
-        color: '#7B2FFF', textTransform: 'uppercase', marginBottom: 16,
-      }}>
-        Coming soon
-      </p>
-
-      <h2 style={{
-        fontSize: 'clamp(32px, 5vw, 56px)',
-        fontWeight: 900, lineHeight: 1.05,
-        letterSpacing: '-0.02em', marginBottom: 16,
-      }}>
-        Listen together.{' '}
-        <span style={{
-          background: 'linear-gradient(90deg, #7B2FFF, #FF3CAC)',
-          WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent',
-        }}>
-          In sync.
-        </span>
-      </h2>
-
-      <p style={{
-        fontSize: 18, color: 'rgba(255,255,255,0.5)',
-        lineHeight: 1.7, maxWidth: 480, margin: '0 auto 32px',
-      }}>
-        Pulse — live listening rooms with your friends.
-        Same song. Same moment. Real reactions.
-        <br />
-        <span style={{ color: 'rgba(255,255,255,0.3)', fontSize: 14 }}>
-          Unlocks when you reach 10 mutual followers.
-        </span>
-      </p>
-
-      {submitted ? (
-        <div style={{
-          display: 'inline-flex', alignItems: 'center', gap: 8,
-          background: 'rgba(0,255,178,0.1)', border: '1px solid rgba(0,255,178,0.3)',
-          borderRadius: 999, padding: '12px 24px',
-          fontSize: 14, fontWeight: 600, color: '#00FFB2',
-        }}>
-          ✓ You&apos;re on the list. We&apos;ll notify you at launch.
-        </div>
-      ) : (
-        <div style={{
-          display: 'flex', gap: 8, maxWidth: 400,
-          margin: '0 auto', flexWrap: 'wrap', justifyContent: 'center',
-        }}>
-          <input
-            type="email"
-            value={email}
-            onChange={e => setEmail(e.target.value)}
-            onKeyDown={e => e.key === 'Enter' && void handleSubmit()}
-            placeholder="your@email.com"
-            style={{
-              flex: 1, minWidth: 200,
-              background: 'rgba(255,255,255,0.05)',
-              border: '1px solid rgba(123,47,255,0.3)',
-              borderRadius: 12, padding: '12px 16px',
-              color: '#fff', fontSize: 14, outline: 'none',
-              fontFamily: 'Inter, system-ui, sans-serif',
-            }}
-          />
-          <button
-            onClick={() => void handleSubmit()}
-            disabled={loading || !email.trim()}
-            style={{
-              padding: '12px 24px', borderRadius: 12, border: 'none',
-              background: 'linear-gradient(135deg, #7B2FFF, #FF3CAC)',
-              color: '#fff', fontWeight: 700, fontSize: 14,
-              cursor: loading ? 'not-allowed' : 'pointer',
-              opacity: loading ? 0.7 : 1,
-              fontFamily: 'Inter, system-ui, sans-serif',
-              whiteSpace: 'nowrap' as const,
-            }}
-          >
-            {loading ? '...' : 'Notify me →'}
-          </button>
-        </div>
-      )}
-
-      <p style={{
-        marginTop: 24, fontSize: 12,
-        color: 'rgba(255,255,255,0.2)',
-      }}>
-        Already have Zik4U?{' '}
-        <a href="zik4u://home" style={{ color: '#7B2FFF', textDecoration: 'none' }}>
-          Invite friends to unlock Pulse →
-        </a>
-      </p>
-    </div>
-  );
-}
-
-export default function ListenersPage() {
-  const router = useRouter();
-
-  return (
-    <main style={{
-      minHeight: '100vh',
-      backgroundColor: '#0A0A1A',
-      fontFamily: 'Inter, system-ui, sans-serif',
-      color: '#fff',
-    }}>
+    <main style={{ minHeight: '100vh', backgroundColor: C.bg, fontFamily: 'Inter, system-ui, sans-serif', color: C.text }}>
 
       {/* Nav */}
-      <nav style={{
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'space-between',
-        padding: '20px 32px',
-        maxWidth: 1100,
-        margin: '0 auto',
-      }}>
-        <button
-          onClick={() => router.push('/')}
-          style={{
-            background: 'linear-gradient(90deg, #00D4FF, #00FFB2, #FF3CAC)',
-            WebkitBackgroundClip: 'text',
-            WebkitTextFillColor: 'transparent',
-            backgroundClip: 'text',
-            border: 'none',
-            fontSize: 20,
-            fontWeight: 900,
-            letterSpacing: '0.2em',
-            cursor: 'pointer',
-            fontFamily: 'Inter, system-ui, sans-serif',
-            padding: 0,
-          }}
-        >
+      <nav style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '20px 32px', maxWidth: 1100, margin: '0 auto' }}>
+        <button onClick={() => router.push('/')} style={{ background: `linear-gradient(90deg, ${C.cyan}, ${C.mint}, ${C.pink})`, WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', border: 'none', fontSize: 20, fontWeight: 900, letterSpacing: '0.2em', cursor: 'pointer', fontFamily: 'Inter, system-ui, sans-serif', padding: 0 }}>
           ZIK4U
         </button>
-        <button
-          onClick={() => router.push('/creators')}
-          style={{
-            background: 'none',
-            border: 'none',
-            fontSize: 14,
-            color: 'rgba(255,255,255,0.4)',
-            cursor: 'pointer',
-            fontFamily: 'Inter, system-ui, sans-serif',
-          }}
-          onMouseEnter={e => (e.currentTarget.style.color = '#fff')}
-          onMouseLeave={e => (e.currentTarget.style.color = 'rgba(255,255,255,0.4)')}
-        >
-          Are you a creator? →
-        </button>
+        <div style={{ display: 'flex', gap: 24 }}>
+          <button onClick={() => router.push('/creators')} style={{ background: 'none', border: 'none', fontSize: 14, color: C.muted, cursor: 'pointer', fontFamily: 'Inter, system-ui, sans-serif' }} onMouseEnter={e => (e.currentTarget.style.color = C.text)} onMouseLeave={e => (e.currentTarget.style.color = C.muted)}>
+            Créateurs →
+          </button>
+          <button onClick={() => router.push('/fans')} style={{ background: 'none', border: 'none', fontSize: 14, color: C.muted, cursor: 'pointer', fontFamily: 'Inter, system-ui, sans-serif' }} onMouseEnter={e => (e.currentTarget.style.color = C.text)} onMouseLeave={e => (e.currentTarget.style.color = C.muted)}>
+            Fans →
+          </button>
+        </div>
       </nav>
 
-      <div style={{ maxWidth: 780, margin: '0 auto', padding: '40px 24px 120px' }}>
+      <div style={{ maxWidth: 900, margin: '0 auto', padding: '40px 24px 120px' }}>
 
-        {/* BLOC 1 — Hero */}
-        <motion.div
-          initial={{ opacity: 0, y: 40 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.7 }}
-          style={{ marginBottom: 100 }}
-        >
-          <p style={{
-            fontSize: 13,
-            fontWeight: 700,
-            letterSpacing: '0.15em',
-            color: '#00D4FF',
-            textTransform: 'uppercase',
-            marginBottom: 24,
-          }}>
-            Free. Always.
+        {/* Hero */}
+        <motion.div initial={{ opacity: 0, y: 40 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7 }} style={{ marginBottom: 80 }}>
+          <p style={{ fontSize: 13, fontWeight: 700, letterSpacing: '0.15em', color: C.cyan, textTransform: 'uppercase', marginBottom: 24 }}>
+            Pour les Listeners
           </p>
-          <h1 style={{
-            fontSize: 'clamp(40px, 6vw, 80px)',
-            fontWeight: 900,
-            lineHeight: 1.0,
-            letterSpacing: '-0.03em',
-            marginBottom: 32,
-          }}>
-            What are they listening to.
-            <br />
-            <span style={{
-              background: 'linear-gradient(90deg, #00D4FF, #00FFB2)',
-              WebkitBackgroundClip: 'text',
-              WebkitTextFillColor: 'transparent',
-            }}>
-              For real.
+          <h1 style={{ fontSize: 'clamp(40px, 6vw, 76px)', fontWeight: 900, lineHeight: 1.0, letterSpacing: '-0.03em', marginBottom: 24 }}>
+            Tu es ce que tu écoutes.{' '}
+            <span style={{ background: `linear-gradient(90deg, ${C.cyan}, ${C.mint})`, WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>
+              Vraiment.
             </span>
           </h1>
-          <p style={{
-            fontSize: 20,
-            color: 'rgba(255,255,255,0.5)',
-            lineHeight: 1.7,
-            maxWidth: 520,
-          }}>
-            Not their public playlist. Not their curated feed.
-            Their 2am rotation. Their pre-show ritual.
-            Their guilty pleasure on repeat.
+          <p style={{ fontSize: 'clamp(16px, 2vw, 20px)', color: C.muted, lineHeight: 1.7, maxWidth: 580, marginBottom: 40 }}>
+            Zik4U capture ce que tu écoutes réellement — pas ce que tu veux montrer.
+            Et construit à partir de là des connexions, des insights, et une identité
+            que personne d'autre ne peut fabriquer.
           </p>
-        </motion.div>
-
-        {/* BLOC 2 — Features */}
-        <motion.div
-          initial={{ opacity: 0, y: 40 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.7 }}
-          style={{ marginBottom: 100 }}
-        >
-          <div style={{ display: 'flex', flexDirection: 'column', gap: 48 }}>
-            {FEATURES.map((f, i) => (
-              <motion.div
-                key={f.title}
-                initial={{ opacity: 0, x: -20 }}
-                whileInView={{ opacity: 1, x: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.5, delay: i * 0.08 }}
-                style={{ display: 'flex', gap: 28, alignItems: 'flex-start' }}
-              >
-                <span style={{ fontSize: 32, minWidth: 40 }}>{f.emoji}</span>
-                <div>
-                  <p style={{
-                    fontSize: 22,
-                    fontWeight: 700,
-                    color: '#fff',
-                    marginBottom: 8,
-                  }}>
-                    {f.title}
-                  </p>
-                  <p style={{
-                    fontSize: 16,
-                    color: 'rgba(255,255,255,0.4)',
-                    lineHeight: 1.6,
-                  }}>
-                    {f.body}
-                  </p>
-                </div>
-              </motion.div>
-            ))}
+          <div style={{ display: 'flex', gap: 12, flexWrap: 'wrap' }}>
+            <a href={APP_STORE_URL} style={{ display: 'inline-flex', alignItems: 'center', gap: 8, padding: '14px 28px', background: `linear-gradient(135deg, ${C.cyan}, ${C.mint})`, borderRadius: 12, color: '#0A0A1A', fontWeight: 700, fontSize: 15, textDecoration: 'none' }}>
+               App Store →
+            </a>
+            <a href={PLAY_STORE_URL} style={{ display: 'inline-flex', alignItems: 'center', gap: 8, padding: '14px 28px', background: C.card, border: `1px solid ${C.border}`, borderRadius: 12, color: C.text, fontWeight: 700, fontSize: 15, textDecoration: 'none' }}>
+               Google Play →
+            </a>
           </div>
         </motion.div>
 
-        {/* BLOC 3 — Now Card visual teaser */}
-        <motion.div
-          initial={{ opacity: 0, y: 40 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.7 }}
-          style={{ marginBottom: 100 }}
-        >
-          <div style={{
-            background: 'linear-gradient(135deg, #7B2FFF, #FF3CAC)',
-            borderRadius: 32,
-            padding: '48px',
-            position: 'relative',
-            overflow: 'hidden',
-          }}>
-            <div style={{
-              position: 'absolute',
-              top: -40,
-              right: -40,
-              width: 200,
-              height: 200,
-              background: 'rgba(255,255,255,0.04)',
-              borderRadius: '50%',
-            }} />
-            <p style={{
-              fontSize: 13,
-              fontWeight: 700,
-              letterSpacing: '0.15em',
-              color: 'rgba(255,255,255,0.5)',
-              textTransform: 'uppercase',
-              marginBottom: 16,
-            }}>
-              Now Card
-            </p>
-            <h2 style={{
-              fontSize: 'clamp(24px, 3.5vw, 40px)',
-              fontWeight: 900,
-              lineHeight: 1.15,
-              marginBottom: 16,
-              letterSpacing: '-0.02em',
-            }}>
-              Your music.
-              <br />
-              Shareable in one tap.
-            </h2>
-            <p style={{
-              fontSize: 16,
-              color: 'rgba(255,255,255,0.6)',
-              lineHeight: 1.6,
-              maxWidth: 400,
-            }}>
-              Generate your Now Card. Share it on Instagram, TikTok, anywhere.
-              Let your real taste speak for itself.
-            </p>
+        {/* Section 1 — Identité */}
+        <motion.section initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.6 }} style={{ marginBottom: 64 }}>
+          <SectionTitle color={C.cyan}>Ton identité musicale</SectionTitle>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))', gap: 16 }}>
+            {FEATURES_IDENTITY.map(f => <FeatureCard key={f.title} {...f} />)}
           </div>
-        </motion.div>
+        </motion.section>
 
-        {/* BLOC PULSE — teaser */}
-        <motion.div
-          initial={{ opacity: 0, y: 40 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.7 }}
-          style={{ marginBottom: 100 }}
-        >
-          <PulseTeaser />
-        </motion.div>
+        {/* Section 2 — Social */}
+        <motion.section initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.6 }} style={{ marginBottom: 64 }}>
+          <SectionTitle color={C.mint}>Le social de l&apos;instant</SectionTitle>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))', gap: 16 }}>
+            {FEATURES_SOCIAL.map(f => <FeatureCard key={f.title} {...f} />)}
+          </div>
+        </motion.section>
 
-        {/* BLOC 4 — CTA stores */}
-        <motion.div
-          initial={{ opacity: 0, y: 40 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.7 }}
-          style={{ textAlign: 'center' }}
-        >
-          <h2 style={{
-            fontSize: 'clamp(28px, 4vw, 48px)',
-            fontWeight: 900,
-            marginBottom: 12,
-            letterSpacing: '-0.02em',
-          }}>
-            Free. Forever.
+        {/* Section 3 — Connexion */}
+        <motion.section initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.6 }} style={{ marginBottom: 64 }}>
+          <SectionTitle color={C.purple}>Connexions réelles</SectionTitle>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))', gap: 16 }}>
+            {FEATURES_CONNECTION.map(f => <FeatureCard key={f.title} {...f} />)}
+          </div>
+        </motion.section>
+
+        {/* Section 4 — Mémoire */}
+        <motion.section initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.6 }} style={{ marginBottom: 64 }}>
+          <SectionTitle color={C.pink}>Ta mémoire musicale</SectionTitle>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))', gap: 16 }}>
+            {FEATURES_MEMORY.map(f => <FeatureCard key={f.title} {...f} />)}
+          </div>
+        </motion.section>
+
+        {/* CTA final */}
+        <motion.div initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.6 }} style={{ textAlign: 'center', padding: '64px 32px', background: `linear-gradient(135deg, rgba(0,212,255,0.06), rgba(0,255,178,0.04))`, borderRadius: 24, border: `1px solid ${C.border}` }}>
+          <h2 style={{ fontSize: 'clamp(28px, 4vw, 48px)', fontWeight: 900, marginBottom: 16 }}>
+            Prêt à découvrir{' '}
+            <span style={{ background: `linear-gradient(90deg, ${C.cyan}, ${C.mint})`, WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>
+              qui tu es vraiment ?
+            </span>
           </h2>
-          <p style={{
-            fontSize: 16,
-            color: 'rgba(255,255,255,0.4)',
-            marginBottom: 40,
-          }}>
-            Download the app. Start listening. Start connecting.
+          <p style={{ color: C.muted, fontSize: 16, marginBottom: 32, maxWidth: 440, margin: '0 auto 32px' }}>
+            Gratuit. Aucune carte requise.
           </p>
-          <div style={{
-            display: 'flex',
-            flexDirection: 'column',
-            gap: 16,
-            maxWidth: 320,
-            margin: '0 auto',
-          }}>
-            <a
-              href={APP_STORE_URL}
-              style={{
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                gap: 12,
-                padding: '18px 32px',
-                background: '#fff',
-                borderRadius: 16,
-                textDecoration: 'none',
-                fontSize: 16,
-                fontWeight: 700,
-                color: '#0A0A1A',
-              }}
-            >
-              <span style={{ fontSize: 22 }}>🍎</span>
-              Download on App Store
+          <div style={{ display: 'flex', gap: 12, justifyContent: 'center', flexWrap: 'wrap' }}>
+            <a href={APP_STORE_URL} style={{ padding: '14px 32px', background: `linear-gradient(135deg, ${C.cyan}, ${C.mint})`, borderRadius: 12, color: '#0A0A1A', fontWeight: 700, fontSize: 15, textDecoration: 'none' }}>
+              Télécharger — iOS
             </a>
-            <a
-              href={PLAY_STORE_URL}
-              style={{
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                gap: 12,
-                padding: '18px 32px',
-                background: 'linear-gradient(135deg, #00D4FF, #00FFB2)',
-                borderRadius: 16,
-                textDecoration: 'none',
-                fontSize: 16,
-                fontWeight: 700,
-                color: '#0A0A1A',
-              }}
-            >
-              <span style={{ fontSize: 22 }}>▶</span>
-              Get it on Google Play
+            <a href={PLAY_STORE_URL} style={{ padding: '14px 32px', background: C.card, border: `1px solid ${C.border}`, borderRadius: 12, color: C.text, fontWeight: 700, fontSize: 15, textDecoration: 'none' }}>
+              Télécharger — Android
             </a>
           </div>
-          <p style={{
-            marginTop: 24,
-            fontSize: 13,
-            color: 'rgba(255,255,255,0.2)',
-          }}>
-            Already have Zik4U?{' '}
-            <a
-              href="zik4u://home"
-              style={{ color: '#00D4FF', textDecoration: 'none' }}
-            >
-              Open the app →
-            </a>
-          </p>
         </motion.div>
 
       </div>
