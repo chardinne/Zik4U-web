@@ -241,8 +241,8 @@ Décliné sur tous les tunnels :
 | `/subscribe/[creatorId]` | ✅ | Auth check, avatar créateur réel, order summary, billing toggle mensuel/annuel, redirect Stripe |
 | `/subscribe/success` | ✅ | Succès paiement, `<a>` App Store / Play Store avec vrais liens, "Explore creators →" |
 | `/subscribe/cancel` | ✅ | "Changed your mind?", "Explore other creators →" → /fans |
-| `/legal/privacy` | ✅ | Privacy Policy GDPR/CCPA (Server Component, 11 sections) — SCCs, B2B data disclosure, emotional retention, DPC contact. `LAST_UPDATED = 'March 23, 2026'` |
-| `/legal/terms` | ✅ | Terms of Service (Server Component, 12 sections) — revenue share chiffré, IAP refunds clarifiés, clause EU consommateurs. `LAST_UPDATED = 'March 23, 2026'` |
+| `/legal/privacy` | ✅ | Privacy Policy GDPR/CCPA (Server Component, 12 sections) — SCCs, B2B data disclosure, emotional retention, DPC contact, section 8c Music Match (Art. 6(1)(a) + Art. 9(2)(a) — statut relationnel = donnée sensible UE). `LAST_UPDATED = 'March 28, 2026'`. `COMPANY = 'Zik4U Inc.'` |
+| `/legal/terms` | ✅ | Terms of Service (Server Component, 13 sections) — revenue share chiffré, IAP refunds clarifiés, clause EU consommateurs, section Music Match (17+, double opt-in, usages interdits, disclaimer). `LAST_UPDATED = 'March 28, 2026'`. `COMPANY = 'Zik4U Inc.'` |
 | `/card/[username]` | ✅ | Share-to-install, OG metadata dynamique, mood + track + streak |
 | `/sitemap.xml` | ✅ | Routes statiques + créateurs + /card/ pages (limit 500) |
 | `/robots.txt` | ✅ | Crawl autorisé, /subscribe/ et /api/ exclus |
