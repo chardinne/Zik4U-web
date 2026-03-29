@@ -1,8 +1,8 @@
 'use client';
 
-import { useEffect, useState, useRef } from 'react';
+import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { motion, useScroll, useTransform, AnimatePresence } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
 import Link from 'next/link';
 
 const APP_STORE_URL  = 'https://apps.apple.com/app/zik4u/id6748722257';
@@ -374,10 +374,6 @@ function CTACard({ href, label, tagline, pain, gradient, textColor, border }: {
 // ── Main ──────────────────────────────────────────────────────────────────────
 
 export default function HomePage() {
-  const { scrollY } = useScroll();
-  const heroOpacity = useTransform(scrollY, [0, 400], [1, 0]);
-  const heroScale   = useTransform(scrollY, [0, 400], [1, 0.96]);
-
   const leftScreens  = [<ScreenProfile key="p" />, <ScreenPulse key="pu" />, <ScreenWrapped key="w" />];
   const rightScreens = [<ScreenNowCard key="n" />, <ScreenCompatibility key="c" />, <ScreenFeed key="f" />];
 
@@ -405,7 +401,7 @@ export default function HomePage() {
       </nav>
 
       {/* ── HERO ── */}
-      <motion.section style={{ opacity:heroOpacity, scale:heroScale }}>
+      <section>
         <div style={{ minHeight:'100vh', display:'flex', flexDirection:'column', alignItems:'center', justifyContent:'center', padding:'120px 24px 80px', position:'relative' }}>
           {/* Ambient glow */}
           <div style={{ position:'absolute', top:'20%', left:'50%', transform:'translateX(-50%)', width:600, height:600, background:`radial-gradient(ellipse, ${C.purple}18, transparent 70%)`, pointerEvents:'none' }} />
@@ -479,13 +475,13 @@ export default function HomePage() {
             ↓
           </motion.div>
         </div>
-      </motion.section>
+      </section>
 
       {/* ── APP SCREENS SHOWCASE ── */}
       <section style={{ padding:'80px 0', position:'relative', overflow:'hidden', background:`linear-gradient(180deg, transparent, rgba(123,47,255,0.03), transparent)` }}>
 
         {/* ── VERSION DESKTOP (≥ 900px) — 3 colonnes ── */}
-        <div className="showcase-desktop" style={{ display:'flex', alignItems:'stretch', gap:0, minHeight:700 }}>
+        <div className="screens-desktop" style={{ display:'flex', alignItems:'stretch', gap:0, minHeight:700 }}>
 
           {/* Colonne gauche — scroll UP */}
           <div style={{ flex:'0 0 260px', padding:'0 20px' }}>
@@ -529,7 +525,7 @@ export default function HomePage() {
         </div>
 
         {/* ── VERSION MOBILE (< 900px) — 1 colonne centrale ── */}
-        <div className="showcase-mobile" style={{ display:'none', flexDirection:'column', alignItems:'center', padding:'0 24px', gap:40 }}>
+        <div className="screens-mobile" style={{ display:'none', flexDirection:'column', alignItems:'center', padding:'0 24px', gap:40 }}>
 
           {/* Texte conviction */}
           <motion.div initial={{ opacity:0, y:20 }} whileInView={{ opacity:1, y:0 }} viewport={{ once:true }} style={{ textAlign:'center', maxWidth:420 }}>
@@ -547,7 +543,7 @@ export default function HomePage() {
           </motion.div>
 
           {/* Scroll horizontal d'écrans sur mobile */}
-          <div style={{ width:'100%', overflowX:'auto', WebkitOverflowScrolling:'touch' as React.CSSProperties['WebkitOverflowScrolling'], scrollbarWidth:'none' as React.CSSProperties['scrollbarWidth'] }}>
+          <div style={{ overflowX:'auto' as const, WebkitOverflowScrolling:'touch' as any }}>
             <div style={{ display:'flex', gap:16, padding:'0 24px', width:'max-content' }}>
               {[...leftScreens, ...rightScreens].map((screen, i) => (
                 <motion.div key={i}

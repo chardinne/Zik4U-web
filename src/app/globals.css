@@ -33,12 +33,13 @@ body {
   background-clip: text;
 }
 
-@media (max-width: 900px) {
-  .showcase-desktop { display: none !important; }
-  .showcase-mobile  { display: flex !important; }
+@media (max-width: 860px) {
+  .screens-desktop { display: none !important; }
+  .screens-mobile  { display: flex !important; }
 }
 
-@media (max-width: 640px) {
-  nav { padding: 14px 16px !important; }
-  .nav-links a:not([href*="app"]) { display: none; }
+@media (max-width: 600px) {
+  .nav-links > a:not([href*="app.apple"]):not([href*="play.google"]) {
+    display: none;
+  }
 }
