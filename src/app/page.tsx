@@ -389,7 +389,7 @@ export default function HomePage() {
         <span style={{ fontSize:20, fontWeight:900, letterSpacing:'0.2em', background:`linear-gradient(90deg, ${C.cyan}, ${C.mint}, ${C.pink})`, WebkitBackgroundClip:'text', WebkitTextFillColor:'transparent' }}>
           ZIK4U
         </span>
-        <div style={{ display:'flex', gap:24, alignItems:'center' }}>
+        <div className="nav-links" style={{ display:'flex', gap:24, alignItems:'center' }}>
           {[{label:'Listeners',href:'/listeners'},{label:'Creators',href:'/creators'},{label:'Fans',href:'/fans'}].map(l => (
             <Link key={l.href} href={l.href}
               style={{ fontSize:13, color:C.dim, textDecoration:'none', fontWeight:500 }}
@@ -419,8 +419,11 @@ export default function HomePage() {
 
           {/* Headline */}
           <motion.div initial={{ opacity:0, y:20 }} animate={{ opacity:1, y:0 }} transition={{ delay:0.3, duration:0.6 }} style={{ textAlign:'center', marginBottom:32 }}>
-            <h1 style={{ fontSize:'clamp(13px, 1.8vw, 17px)', fontWeight:500, color:C.muted, letterSpacing:'0.1em', textTransform:'uppercase', margin:'0 0 20px' }}>
-              The social network built on what you actually listen to
+            <h1 style={{ fontSize:'clamp(16px, 2.2vw, 22px)', fontWeight:700, color:'#fff', letterSpacing:'0.02em', margin:'0 0 20px', lineHeight:1.4 }}>
+              The social network built on{' '}
+              <span style={{ background:`linear-gradient(90deg, ${C.pink}, ${C.purple})`, WebkitBackgroundClip:'text', WebkitTextFillColor:'transparent' }}>
+                what you actually listen to
+              </span>
             </h1>
             <div style={{ fontSize:'clamp(64px, 12vw, 140px)', fontWeight:900, lineHeight:0.9, letterSpacing:'-0.04em', background:`linear-gradient(135deg, ${C.cyan}, ${C.mint} 40%, ${C.pink})`, WebkitBackgroundClip:'text', WebkitTextFillColor:'transparent', marginBottom:6 }}>
               FOR
@@ -432,14 +435,20 @@ export default function HomePage() {
 
           {/* Sub */}
           <motion.p initial={{ opacity:0 }} animate={{ opacity:1 }} transition={{ delay:0.5 }}
-            style={{ fontSize:'clamp(15px, 2vw, 18px)', color:C.muted, textAlign:'center', maxWidth:480, lineHeight:1.7, marginBottom:60, margin:'0 0 60px' }}>
+            style={{ fontSize:'clamp(16px, 2vw, 20px)', color:'rgba(255,255,255,0.75)', textAlign:'center', maxWidth:520, lineHeight:1.8, margin:'0 0 60px' }}>
             Not your curated playlist. Not your public profile.<br />
-            Your <strong style={{ color:C.text }}>real</strong> listening identity. Live, shared, monetized.
+            Your{' '}
+            <strong style={{ color:C.pink, fontWeight:800 }}>real</strong>
+            {' '}listening identity.{' '}
+            <span style={{ color:C.mint }}>Live</span>,{' '}
+            <span style={{ color:C.cyan }}>shared</span>,{' '}
+            <span style={{ color:'#FFB800' }}>monetized</span>.
           </motion.p>
 
           {/* Now Card */}
           <motion.div initial={{ opacity:0, y:30 }} animate={{ opacity:1, y:0 }} transition={{ delay:0.6, duration:0.7 }} style={{ width:'100%', maxWidth:380, marginBottom:48 }}>
-            <div style={{ fontSize:11, fontWeight:700, letterSpacing:'0.15em', color:C.muted, textAlign:'center', marginBottom:16, textTransform:'uppercase' }}>
+            <div style={{ fontSize:11, fontWeight:700, letterSpacing:'0.15em', color:C.pink, textAlign:'center', marginBottom:16, textTransform:'uppercase' }}>
+              <motion.span animate={{ opacity:[1,0,1] }} transition={{ duration:1.5, repeat:Infinity }} style={{ marginRight:6 }}>●</motion.span>
               Live right now on Zik4U
             </div>
             <NowCardLive />
@@ -474,24 +483,19 @@ export default function HomePage() {
 
       {/* ── APP SCREENS SHOWCASE ── */}
       <section style={{ padding:'80px 0', position:'relative', overflow:'hidden', background:`linear-gradient(180deg, transparent, rgba(123,47,255,0.03), transparent)` }}>
-        <div style={{ display:'flex', alignItems:'stretch', gap:0, minHeight:700 }}>
 
-          {/* Left column — scroll UP */}
+        {/* ── VERSION DESKTOP (≥ 900px) — 3 colonnes ── */}
+        <div className="showcase-desktop" style={{ display:'flex', alignItems:'stretch', gap:0, minHeight:700 }}>
+
+          {/* Colonne gauche — scroll UP */}
           <div style={{ flex:'0 0 260px', padding:'0 20px' }}>
             <ScrollColumn screens={leftScreens} direction="up" speed={55} />
           </div>
 
-          {/* Centre — conviction text */}
+          {/* Centre */}
           <div style={{ flex:1, display:'flex', flexDirection:'column', justifyContent:'center', alignItems:'center', padding:'40px 32px', textAlign:'center', minWidth:0 }}>
-            <motion.div
-              initial={{ opacity:0, y:20 }}
-              whileInView={{ opacity:1, y:0 }}
-              viewport={{ once:true }}
-              style={{ maxWidth:420 }}
-            >
-              <div style={{ fontSize:11, fontWeight:700, letterSpacing:'0.2em', color:C.cyan, textTransform:'uppercase', marginBottom:20 }}>
-                What it looks like
-              </div>
+            <motion.div initial={{ opacity:0, y:20 }} whileInView={{ opacity:1, y:0 }} viewport={{ once:true }} style={{ maxWidth:420 }}>
+              <div style={{ fontSize:11, fontWeight:700, letterSpacing:'0.2em', color:C.cyan, textTransform:'uppercase', marginBottom:20 }}>What it looks like</div>
               <h2 style={{ fontSize:'clamp(26px, 3.5vw, 40px)', fontWeight:900, lineHeight:1.1, margin:'0 0 24px', letterSpacing:'-0.02em' }}>
                 Music as a<br />
                 <span style={{ background:`linear-gradient(90deg, ${C.cyan}, ${C.mint})`, WebkitBackgroundClip:'text', WebkitTextFillColor:'transparent' }}>living identity.</span>
@@ -502,11 +506,7 @@ export default function HomePage() {
                   { emoji:'⚡', text:'Live Pulse rooms. Strangers listening to the same track at the same moment.' },
                   { emoji:'🎯', text:'Real compatibility. Built from shared listening, not shared taste statements.' },
                 ].map((item,i) => (
-                  <motion.div key={i}
-                    initial={{ opacity:0, x:-10 }}
-                    whileInView={{ opacity:1, x:0 }}
-                    viewport={{ once:true }}
-                    transition={{ delay:i*0.15 }}
+                  <motion.div key={i} initial={{ opacity:0, x:-10 }} whileInView={{ opacity:1, x:0 }} viewport={{ once:true }} transition={{ delay:i*0.15 }}
                     style={{ display:'flex', gap:12, alignItems:'flex-start', textAlign:'left', background:C.card, borderRadius:14, padding:'12px 14px', border:`1px solid ${C.border}` }}>
                     <span style={{ fontSize:18, flexShrink:0, marginTop:1 }}>{item.emoji}</span>
                     <span style={{ fontSize:13, color:C.muted, lineHeight:1.6 }}>{item.text}</span>
@@ -516,19 +516,67 @@ export default function HomePage() {
               <div style={{ padding:'16px 0', borderTop:`1px solid ${C.border}`, borderBottom:`1px solid ${C.border}` }}>
                 <div style={{ fontSize:'clamp(18px, 2.5vw, 26px)', fontWeight:900, letterSpacing:'-0.01em' }}>
                   Not curated.{' '}
-                  <span style={{ background:`linear-gradient(90deg, ${C.pink}, ${C.purple})`, WebkitBackgroundClip:'text', WebkitTextFillColor:'transparent' }}>
-                    For real.
-                  </span>
+                  <span style={{ background:`linear-gradient(90deg, ${C.pink}, ${C.purple})`, WebkitBackgroundClip:'text', WebkitTextFillColor:'transparent' }}>For real.</span>
                 </div>
               </div>
             </motion.div>
           </div>
 
-          {/* Right column — scroll DOWN */}
+          {/* Colonne droite — scroll DOWN */}
           <div style={{ flex:'0 0 260px', padding:'0 20px' }}>
             <ScrollColumn screens={rightScreens} direction="down" speed={55} />
           </div>
         </div>
+
+        {/* ── VERSION MOBILE (< 900px) — 1 colonne centrale ── */}
+        <div className="showcase-mobile" style={{ display:'none', flexDirection:'column', alignItems:'center', padding:'0 24px', gap:40 }}>
+
+          {/* Texte conviction */}
+          <motion.div initial={{ opacity:0, y:20 }} whileInView={{ opacity:1, y:0 }} viewport={{ once:true }} style={{ textAlign:'center', maxWidth:420 }}>
+            <div style={{ fontSize:11, fontWeight:700, letterSpacing:'0.2em', color:C.cyan, textTransform:'uppercase', marginBottom:16 }}>What it looks like</div>
+            <h2 style={{ fontSize:28, fontWeight:900, lineHeight:1.1, margin:'0 0 20px' }}>
+              Music as a{' '}
+              <span style={{ background:`linear-gradient(90deg, ${C.cyan}, ${C.mint})`, WebkitBackgroundClip:'text', WebkitTextFillColor:'transparent' }}>living identity.</span>
+            </h2>
+            <div style={{ padding:'14px 0', borderTop:`1px solid ${C.border}`, borderBottom:`1px solid ${C.border}`, marginBottom:24 }}>
+              <div style={{ fontSize:22, fontWeight:900 }}>
+                Not curated.{' '}
+                <span style={{ background:`linear-gradient(90deg, ${C.pink}, ${C.purple})`, WebkitBackgroundClip:'text', WebkitTextFillColor:'transparent' }}>For real.</span>
+              </div>
+            </div>
+          </motion.div>
+
+          {/* Scroll horizontal d'écrans sur mobile */}
+          <div style={{ width:'100%', overflowX:'auto', WebkitOverflowScrolling:'touch' as React.CSSProperties['WebkitOverflowScrolling'], scrollbarWidth:'none' as React.CSSProperties['scrollbarWidth'] }}>
+            <div style={{ display:'flex', gap:16, padding:'0 24px', width:'max-content' }}>
+              {[...leftScreens, ...rightScreens].map((screen, i) => (
+                <motion.div key={i}
+                  initial={{ opacity:0, y:20 }}
+                  whileInView={{ opacity:1, y:0 }}
+                  viewport={{ once:true }}
+                  transition={{ delay:i*0.1 }}
+                >
+                  {screen}
+                </motion.div>
+              ))}
+            </div>
+          </div>
+
+          {/* 3 points conviction */}
+          <div style={{ display:'flex', flexDirection:'column', gap:12, width:'100%', maxWidth:400 }}>
+            {[
+              { emoji:'🧬', text:'Your real archetype — computed from behavior, not self-description.' },
+              { emoji:'⚡', text:'Live Pulse rooms. Strangers listening to the same track simultaneously.' },
+              { emoji:'🎯', text:'Real compatibility. Built from shared listening, not taste statements.' },
+            ].map((item,i) => (
+              <div key={i} style={{ display:'flex', gap:12, alignItems:'flex-start', background:C.card, borderRadius:14, padding:'12px 14px', border:`1px solid ${C.border}` }}>
+                <span style={{ fontSize:16, flexShrink:0, marginTop:1 }}>{item.emoji}</span>
+                <span style={{ fontSize:13, color:C.muted, lineHeight:1.6 }}>{item.text}</span>
+              </div>
+            ))}
+          </div>
+        </div>
+
       </section>
 
       {/* ── 3 PORTES CTA ── */}
