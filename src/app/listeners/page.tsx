@@ -146,7 +146,7 @@ function FeatureCard({ emoji, title, body, color }: {
     }}>
       <span style={{ fontSize: 28 }}>{emoji}</span>
       <h3 style={{ fontSize: 20, fontWeight: 800, color: C.text, margin: 0 }}>{title}</h3>
-      <p style={{ fontSize: 17, color: C.muted, lineHeight: 1.7, margin: 0 }}>{body}</p>
+      <p style={{ fontSize: 21, color: C.muted, lineHeight: 1.7, margin: 0 }}>{body}</p>
     </div>
   );
 }
@@ -155,7 +155,7 @@ function SectionTitle({ children, color }: { children: string; color: string }) 
   return (
     <div style={{ marginBottom: 32 }}>
       <p style={{
-        fontSize: 11, fontWeight: 700, letterSpacing: '0.18em',
+        fontSize: 15, fontWeight: 700, letterSpacing: '0.18em',
         color, textTransform: 'uppercase', marginBottom: 8,
       }}>{children}</p>
       <div style={{ width: 32, height: 2, background: color, borderRadius: 1 }} />
@@ -201,7 +201,7 @@ export default function ListenersPage() {
           <button onClick={() => router.push('/creators')}
             style={{ background:`linear-gradient(135deg, #FF3CAC, #7B2FFF)`,
               border:'none', borderRadius:20, padding:'7px 14px',
-              fontSize:15, fontWeight:700, color:'#fff',
+              fontSize:19, fontWeight:700, color:'#fff',
               cursor:'pointer', fontFamily:'Inter, system-ui, sans-serif' }}>
             Créateurs
           </button>
@@ -209,7 +209,7 @@ export default function ListenersPage() {
             style={{ background:'rgba(255,255,255,0.07)',
               border:'1px solid rgba(255,255,255,0.12)',
               borderRadius:20, padding:'7px 14px',
-              fontSize:15, fontWeight:700, color:'#fff',
+              fontSize:19, fontWeight:700, color:'#fff',
               cursor:'pointer', fontFamily:'Inter, system-ui, sans-serif' }}>
             Fans
           </button>
@@ -221,7 +221,7 @@ export default function ListenersPage() {
         {/* Hero */}
         <motion.div initial={{ opacity:0, y:30 }} animate={{ opacity:1, y:0 }}
           transition={{ duration:0.6 }} style={{ marginBottom:56 }}>
-          <p style={{ fontSize:15, fontWeight:700, letterSpacing:'0.18em',
+          <p style={{ fontSize:19, fontWeight:700, letterSpacing:'0.18em',
             color:'#00D4FF', textTransform:'uppercase', marginBottom:16 }}>
             Pour les Listeners
           </p>
@@ -299,14 +299,14 @@ export default function ListenersPage() {
               qui tu es vraiment ?
             </span>
           </h2>
-          <p style={{ color: C.muted, fontSize: 16, marginBottom: 32, maxWidth: 440, margin: '0 auto 32px' }}>
+          <p style={{ color: C.muted, fontSize: 20, marginBottom: 32, maxWidth: 440, margin: '0 auto 32px' }}>
             Gratuit. Aucune carte requise.
           </p>
           <div style={{ display: 'flex', gap: 12, justifyContent: 'center', flexWrap: 'wrap' }}>
-            <a href={APP_STORE_URL} style={{ padding: '14px 32px', background: `linear-gradient(135deg, ${C.cyan}, ${C.mint})`, borderRadius: 12, color: '#0A0A1A', fontWeight: 700, fontSize: 15, textDecoration: 'none' }}>
+            <a href={APP_STORE_URL} style={{ padding: '14px 32px', background: `linear-gradient(135deg, ${C.cyan}, ${C.mint})`, borderRadius: 12, color: '#0A0A1A', fontWeight: 700, fontSize: 19, textDecoration: 'none' }}>
               Télécharger — iOS
             </a>
-            <a href={PLAY_STORE_URL} style={{ padding: '14px 32px', background: C.card, border: `1px solid ${C.border}`, borderRadius: 12, color: C.text, fontWeight: 700, fontSize: 15, textDecoration: 'none' }}>
+            <a href={PLAY_STORE_URL} style={{ padding: '14px 32px', background: C.card, border: `1px solid ${C.border}`, borderRadius: 12, color: C.text, fontWeight: 700, fontSize: 19, textDecoration: 'none' }}>
               Télécharger — Android
             </a>
           </div>
@@ -319,7 +319,7 @@ export default function ListenersPage() {
           whileInView={{ opacity:1, y:0 }} viewport={{ once:true }}
           style={{ textAlign:'center', padding:'48px 0 80px',
             borderTop:'1px solid rgba(255,255,255,0.06)', marginTop:40 }}>
-          <div style={{ fontSize:'clamp(22px, 4vw, 32px)', fontWeight:900,
+          <div style={{ fontSize:'clamp(28px, 4vw, 32px)', fontWeight:900,
             marginBottom:8, lineHeight:1.2 }}>
             Prêt à écouter{' '}
             <span style={{ background:`linear-gradient(90deg, #00D4FF, #00FFB2)`,
@@ -327,7 +327,7 @@ export default function ListenersPage() {
               pour de vrai ?
             </span>
           </div>
-          <p style={{ color:'rgba(255,255,255,0.45)', fontSize:15,
+          <p style={{ color:'rgba(255,255,255,0.45)', fontSize:19,
             marginBottom:28, lineHeight:1.6 }}>
             Rejoins Zik4U. Ton identité musicale t&apos;attend.
           </p>
@@ -337,14 +337,14 @@ export default function ListenersPage() {
               style={{ padding:'15px 28px',
                 background:`linear-gradient(135deg, #00D4FF, #00FFB2)`,
                 borderRadius:12, color:'#0A0A1A', fontWeight:800,
-                fontSize:15, textDecoration:'none' }}>
+                fontSize:19, textDecoration:'none' }}>
               App Store →
             </a>
             <a href="https://play.google.com/store/apps/details?id=com.zik4u.app"
               style={{ padding:'15px 28px', background:'#12122A',
                 border:'1px solid rgba(255,255,255,0.1)',
                 borderRadius:12, color:'#fff', fontWeight:800,
-                fontSize:15, textDecoration:'none' }}>
+                fontSize:19, textDecoration:'none' }}>
               Google Play →
             </a>
           </div>

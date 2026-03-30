@@ -130,7 +130,7 @@ function FeatureCard({ emoji, title, body, color }: {
     }}>
       <span style={{ fontSize: 28 }}>{emoji}</span>
       <h3 style={{ fontSize: 20, fontWeight: 800, color: C.text, margin: 0 }}>{title}</h3>
-      <p style={{ fontSize: 17, color: C.muted, lineHeight: 1.7, margin: 0 }}>{body}</p>
+      <p style={{ fontSize: 21, color: C.muted, lineHeight: 1.7, margin: 0 }}>{body}</p>
     </div>
   );
 }
@@ -138,7 +138,7 @@ function FeatureCard({ emoji, title, body, color }: {
 function SectionTitle({ children, color }: { children: string; color: string }) {
   return (
     <div style={{ marginBottom: 32 }}>
-      <p style={{ fontSize: 11, fontWeight: 700, letterSpacing: '0.18em', color, textTransform: 'uppercase', marginBottom: 8 }}>
+      <p style={{ fontSize: 15, fontWeight: 700, letterSpacing: '0.18em', color, textTransform: 'uppercase', marginBottom: 8 }}>
         {children}
       </p>
       <div style={{ width: 32, height: 2, background: color, borderRadius: 1 }} />
@@ -175,7 +175,7 @@ export default function CreatorsPage() {
             style={{ background:'rgba(255,255,255,0.07)',
               border:'1px solid rgba(255,255,255,0.12)',
               borderRadius:20, padding:'7px 14px',
-              fontSize:15, fontWeight:700, color:'#fff',
+              fontSize:19, fontWeight:700, color:'#fff',
               cursor:'pointer', fontFamily:'Inter, system-ui, sans-serif' }}>
             Listeners
           </button>
@@ -183,7 +183,7 @@ export default function CreatorsPage() {
             style={{ background:'rgba(255,255,255,0.07)',
               border:'1px solid rgba(255,255,255,0.12)',
               borderRadius:20, padding:'7px 14px',
-              fontSize:15, fontWeight:700, color:'#fff',
+              fontSize:19, fontWeight:700, color:'#fff',
               cursor:'pointer', fontFamily:'Inter, system-ui, sans-serif' }}>
             Fans
           </button>
@@ -194,7 +194,7 @@ export default function CreatorsPage() {
 
         {/* Hero */}
         <motion.div initial={{ opacity: 0, y: 40 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7 }} style={{ marginBottom: 80 }}>
-          <p style={{ fontSize: 13, fontWeight: 700, letterSpacing: '0.15em', color: C.pink, textTransform: 'uppercase', marginBottom: 24 }}>
+          <p style={{ fontSize: 17, fontWeight: 700, letterSpacing: '0.15em', color: C.pink, textTransform: 'uppercase', marginBottom: 24 }}>
             Pour les Créateurs
           </p>
           <h1 style={{ fontSize: 'clamp(36px, 8vw, 76px)', fontWeight: 900, lineHeight: 1.0, letterSpacing: '-0.03em', marginBottom: 24 }}>
@@ -213,10 +213,10 @@ export default function CreatorsPage() {
             </strong>
           </p>
           <div style={{ display: 'flex', gap: 12, flexWrap: 'wrap' }}>
-            <a href={APP_STORE_URL} style={{ padding: '14px 28px', background: `linear-gradient(135deg, ${C.pink}, ${C.purple})`, borderRadius: 12, color: C.text, fontWeight: 700, fontSize: 15, textDecoration: 'none' }}>
+            <a href={APP_STORE_URL} style={{ padding: '14px 28px', background: `linear-gradient(135deg, ${C.pink}, ${C.purple})`, borderRadius: 12, color: C.text, fontWeight: 700, fontSize: 19, textDecoration: 'none' }}>
               Devenir créateur — iOS →
             </a>
-            <a href={PLAY_STORE_URL} style={{ padding: '14px 28px', background: C.card, border: `1px solid ${C.border}`, borderRadius: 12, color: C.text, fontWeight: 700, fontSize: 15, textDecoration: 'none' }}>
+            <a href={PLAY_STORE_URL} style={{ padding: '14px 28px', background: C.card, border: `1px solid ${C.border}`, borderRadius: 12, color: C.text, fontWeight: 700, fontSize: 19, textDecoration: 'none' }}>
               Devenir créateur — Android →
             </a>
           </div>
@@ -231,7 +231,7 @@ export default function CreatorsPage() {
                 <span style={{ fontSize: 32, fontWeight: 900, color: step.color, fontFamily: 'monospace', flexShrink: 0, lineHeight: 1 }}>{step.number}</span>
                 <div>
                   <h3 style={{ fontSize: 20, fontWeight: 800, margin: '0 0 6px', color: C.text }}>{step.title}</h3>
-                  <p style={{ fontSize: 17, color: C.muted, margin: 0, lineHeight: 1.7 }}>{step.body}</p>
+                  <p style={{ fontSize: 21, color: C.muted, margin: 0, lineHeight: 1.7 }}>{step.body}</p>
                 </div>
               </div>
             ))}
@@ -264,13 +264,13 @@ export default function CreatorsPage() {
 
         {/* Social proof — copier le post */}
         <motion.div initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.6 }} style={{ background: `linear-gradient(135deg, rgba(255,60,172,0.06), rgba(123,47,255,0.04))`, borderRadius: 20, padding: 32, border: `1px solid rgba(255,60,172,0.15)`, marginBottom: 48 }}>
-          <p style={{ fontSize: 15, fontWeight: 700, letterSpacing: '0.15em', color: C.pink, textTransform: 'uppercase', marginBottom: 16 }}>
+          <p style={{ fontSize: 19, fontWeight: 700, letterSpacing: '0.15em', color: C.pink, textTransform: 'uppercase', marginBottom: 16 }}>
             Annonce à ta communauté
           </p>
           <pre style={{ fontFamily: 'Inter, system-ui, sans-serif', fontSize: 18, lineHeight: 1.7, color: 'rgba(255,255,255,0.7)', whiteSpace: 'pre-wrap', marginBottom: 16 }}>
             {STORY_TEXT}
           </pre>
-          <button onClick={handleCopy} style={{ background: copied ? 'rgba(0,255,178,0.1)' : C.card, border: `1px solid ${copied ? C.mint : C.border}`, borderRadius: 8, padding: '10px 20px', color: copied ? C.mint : C.muted, fontSize: 13, cursor: 'pointer', fontFamily: 'Inter, system-ui, sans-serif' }}>
+          <button onClick={handleCopy} style={{ background: copied ? 'rgba(0,255,178,0.1)' : C.card, border: `1px solid ${copied ? C.mint : C.border}`, borderRadius: 8, padding: '10px 20px', color: copied ? C.mint : C.muted, fontSize: 17, cursor: 'pointer', fontFamily: 'Inter, system-ui, sans-serif' }}>
             {copied ? '✓ Copié !' : 'Copier le post →'}
           </button>
         </motion.div>
@@ -283,14 +283,14 @@ export default function CreatorsPage() {
               peut être aujourd&apos;hui.
             </span>
           </h2>
-          <p style={{ color: C.muted, fontSize: 16, marginBottom: 32, maxWidth: 440, margin: '0 auto 32px' }}>
+          <p style={{ color: C.muted, fontSize: 20, marginBottom: 32, maxWidth: 440, margin: '0 auto 32px' }}>
             Gratuit. Setup en 10 minutes.
           </p>
           <div style={{ display: 'flex', gap: 12, justifyContent: 'center', flexWrap: 'wrap' }}>
-            <a href={APP_STORE_URL} style={{ padding: '14px 32px', background: `linear-gradient(135deg, ${C.pink}, ${C.purple})`, borderRadius: 12, color: C.text, fontWeight: 700, fontSize: 15, textDecoration: 'none' }}>
+            <a href={APP_STORE_URL} style={{ padding: '14px 32px', background: `linear-gradient(135deg, ${C.pink}, ${C.purple})`, borderRadius: 12, color: C.text, fontWeight: 700, fontSize: 19, textDecoration: 'none' }}>
               Télécharger — iOS
             </a>
-            <a href={PLAY_STORE_URL} style={{ padding: '14px 32px', background: C.card, border: `1px solid ${C.border}`, borderRadius: 12, color: C.text, fontWeight: 700, fontSize: 15, textDecoration: 'none' }}>
+            <a href={PLAY_STORE_URL} style={{ padding: '14px 32px', background: C.card, border: `1px solid ${C.border}`, borderRadius: 12, color: C.text, fontWeight: 700, fontSize: 19, textDecoration: 'none' }}>
               Télécharger — Android
             </a>
           </div>
@@ -302,7 +302,7 @@ export default function CreatorsPage() {
           whileInView={{ opacity:1, y:0 }} viewport={{ once:true }}
           style={{ textAlign:'center', padding:'48px 0 80px',
             borderTop:'1px solid rgba(255,255,255,0.06)', marginTop:40 }}>
-          <div style={{ fontSize:'clamp(22px, 4vw, 32px)', fontWeight:900,
+          <div style={{ fontSize:'clamp(28px, 4vw, 32px)', fontWeight:900,
             marginBottom:8, lineHeight:1.2 }}>
             Lance-toi.{' '}
             <span style={{ background:`linear-gradient(90deg, #FF3CAC, #7B2FFF)`,
@@ -310,7 +310,7 @@ export default function CreatorsPage() {
               For real.
             </span>
           </div>
-          <p style={{ color:'rgba(255,255,255,0.45)', fontSize:15,
+          <p style={{ color:'rgba(255,255,255,0.45)', fontSize:19,
             marginBottom:28 }}>
             Ton Creator Studio t&apos;attend. Gratuit pour commencer.
           </p>
@@ -320,14 +320,14 @@ export default function CreatorsPage() {
               style={{ padding:'15px 28px',
                 background:`linear-gradient(135deg, #FF3CAC, #7B2FFF)`,
                 borderRadius:12, color:'#fff', fontWeight:800,
-                fontSize:15, textDecoration:'none' }}>
+                fontSize:19, textDecoration:'none' }}>
               App Store →
             </a>
             <a href="https://play.google.com/store/apps/details?id=com.zik4u.app"
               style={{ padding:'15px 28px', background:'#12122A',
                 border:'1px solid rgba(255,255,255,0.1)',
                 borderRadius:12, color:'#fff', fontWeight:800,
-                fontSize:15, textDecoration:'none' }}>
+                fontSize:19, textDecoration:'none' }}>
               Google Play →
             </a>
           </div>

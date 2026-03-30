@@ -18,7 +18,8 @@
 }
 
 html {
-  font-size: 18px;
+  font-size: 20px;
+  zoom: 1.25;
 }
 
 html, body {
