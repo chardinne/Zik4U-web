@@ -441,18 +441,20 @@ export default function HomePage() {
           <span style={{ color:'#FFB800' }}>monetized</span>.
         </motion.p>
 
-        {/* 3 tunnels d'acquisition */}
-        <motion.div
-          initial={{ opacity:0, y:16 }}
-          animate={{ opacity:1, y:0 }}
-          transition={{ delay:0.5 }}
-          style={{ display:'flex', flexDirection:'column', gap:10, marginBottom:64 }}>
+      </div>
+
+      {/* 3 tunnels d'acquisition */}
+      <motion.div
+        initial={{ opacity:0, y:16 }}
+        animate={{ opacity:1, y:0 }}
+        transition={{ delay:0.5 }}
+        style={{ display:'flex', flexDirection:'column', gap:0, marginBottom:64 }}>
 
           {/* LISTENERS */}
           <a href="/listeners" style={{ textDecoration:'none', display:'block', margin:'0 0 10px' }}>
-            <div style={{
+            <div className="tunnel-inner" style={{
               background:'linear-gradient(135deg, #00D4FF, #00FFB2)',
-              borderRadius:0, padding:'28px 20px', cursor:'pointer',
+              borderRadius:20, padding:'32px 20px', cursor:'pointer',
             }}>
               <div style={{
                 display:'inline-block',
@@ -485,9 +487,9 @@ export default function HomePage() {
 
           {/* CREATORS */}
           <a href="/creators" style={{ textDecoration:'none', display:'block', margin:'0 0 10px' }}>
-            <div style={{
+            <div className="tunnel-inner" style={{
               background:'linear-gradient(135deg, #FF3CAC, #7B2FFF)',
-              borderRadius:0, padding:'28px 20px', cursor:'pointer',
+              borderRadius:20, padding:'32px 20px', cursor:'pointer',
             }}>
               <div style={{
                 display:'inline-block',
@@ -519,10 +521,10 @@ export default function HomePage() {
 
           {/* FANS */}
           <a href="/fans" style={{ textDecoration:'none', display:'block', margin:'0 0 10px' }}>
-            <div style={{
+            <div className="tunnel-inner" style={{
               background:'#12122A',
               border:'1px solid rgba(255,255,255,0.1)',
-              borderRadius:0, padding:'28px 20px', cursor:'pointer',
+              borderRadius:20, padding:'32px 20px', cursor:'pointer',
             }}>
               <div style={{
                 display:'inline-block',
@@ -552,9 +554,7 @@ export default function HomePage() {
             </div>
           </a>
 
-        </motion.div>
-
-      </div>
+      </motion.div>
 
       {/* ── FEATURES ── */}
       <div style={{ maxWidth:680, margin:'0 auto', padding:'0 0 64px' }} className="main-container">
