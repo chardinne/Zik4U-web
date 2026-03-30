@@ -337,20 +337,55 @@ export default function HomePage() {
     <main style={{ backgroundColor:C.bg, fontFamily:'Inter, system-ui, sans-serif', color:C.text, overflowX:'hidden' }}>
 
       {/* ── NAV ── */}
-      <nav style={{ position:'fixed', top:0, left:0, right:0, zIndex:100, display:'flex', justifyContent:'space-between', alignItems:'center', padding:'16px 28px', background:'rgba(10,10,26,0.9)', backdropFilter:'blur(20px)', borderBottom:`1px solid rgba(255,255,255,0.05)` }}>
-        <span style={{ fontSize:19, fontWeight:900, letterSpacing:'0.22em', background:`linear-gradient(90deg, ${C.cyan}, ${C.mint}, ${C.pink})`, WebkitBackgroundClip:'text', WebkitTextFillColor:'transparent' }}>
+      <nav style={{
+        position:'fixed', top:0, left:0, right:0, zIndex:100,
+        display:'flex', justifyContent:'space-between', alignItems:'center',
+        padding:'14px 16px',
+        background:'rgba(10,10,26,0.92)',
+        backdropFilter:'blur(20px)',
+        borderBottom:'1px solid rgba(255,255,255,0.05)',
+      }}>
+        <span style={{
+          fontSize:17, fontWeight:900, letterSpacing:'0.22em',
+          background:'linear-gradient(90deg, #00D4FF, #00FFB2, #FF3CAC)',
+          WebkitBackgroundClip:'text', WebkitTextFillColor:'transparent',
+        }}>
           ZIK4U
         </span>
-        <div className="nav-links" style={{ display:'flex', gap:22, alignItems:'center' }}>
-          {[{label:'Listeners',href:'/listeners'},{label:'Creators',href:'/creators'},{label:'Fans',href:'/fans'}].map(l => (
-            <Link key={l.href} href={l.href}
-              style={{ fontSize:13, color:C.dim, textDecoration:'none', fontWeight:500, transition:'color 0.2s' }}
-              onMouseEnter={e => (e.currentTarget.style.color=C.text)}
-              onMouseLeave={e => (e.currentTarget.style.color=C.dim)}>
-              {l.label}
-            </Link>
-          ))}
-          <a href={APP_STORE_URL} style={{ fontSize:12, fontWeight:700, color:'#0A0A1A', background:`linear-gradient(90deg, ${C.cyan}, ${C.mint})`, padding:'8px 18px', borderRadius:999, textDecoration:'none', whiteSpace:'nowrap' }}>
+        <div style={{ display:'flex', gap:6, alignItems:'center' }}>
+          <a href="/listeners" style={{
+            fontSize:12, fontWeight:700, color:'rgba(255,255,255,0.6)',
+            textDecoration:'none', padding:'6px 10px',
+            borderRadius:8,
+          }}
+            onMouseEnter={e => (e.currentTarget.style.color='#fff')}
+            onMouseLeave={e => (e.currentTarget.style.color='rgba(255,255,255,0.6)')}>
+            Listeners
+          </a>
+          <a href="/creators" style={{
+            fontSize:12, fontWeight:700, color:'rgba(255,255,255,0.6)',
+            textDecoration:'none', padding:'6px 10px',
+            borderRadius:8,
+          }}
+            onMouseEnter={e => (e.currentTarget.style.color='#fff')}
+            onMouseLeave={e => (e.currentTarget.style.color='rgba(255,255,255,0.6)')}>
+            Creators
+          </a>
+          <a href="/fans" style={{
+            fontSize:12, fontWeight:700, color:'rgba(255,255,255,0.6)',
+            textDecoration:'none', padding:'6px 10px',
+            borderRadius:8,
+          }}
+            onMouseEnter={e => (e.currentTarget.style.color='#fff')}
+            onMouseLeave={e => (e.currentTarget.style.color='rgba(255,255,255,0.6)')}>
+            Fans
+          </a>
+          <a href="https://apps.apple.com/app/zik4u/id6748722257" style={{
+            fontSize:11, fontWeight:700, color:'#0A0A1A',
+            background:'linear-gradient(90deg, #00D4FF, #00FFB2)',
+            padding:'7px 14px', borderRadius:999, textDecoration:'none',
+            whiteSpace:'nowrap', marginLeft:4,
+          }}>
             Get the app
           </a>
         </div>
@@ -364,29 +399,46 @@ export default function HomePage() {
         {/* Headline */}
         <motion.div initial={{ opacity:0, y:20 }} animate={{ opacity:1, y:0 }} transition={{ delay:0.2 }}
           style={{ textAlign:'center', marginBottom:20 }}>
-          <h1 style={{ fontSize:'clamp(22px, 5vw, 32px)', fontWeight:700, lineHeight:1.4, margin:'0 0 16px', color:C.text, letterSpacing:'-0.01em' }}>
-            Le réseau social construit sur{' '}
-            <span style={{ background:`linear-gradient(90deg, #FF3CAC, #7B2FFF)`,
+          <h1 style={{
+            fontSize:'clamp(20px, 5vw, 30px)', fontWeight:700,
+            lineHeight:1.4, margin:'0 0 14px', color:'#F0F0FF',
+            letterSpacing:'-0.01em',
+          }}>
+            The social network built on{' '}
+            <span style={{
+              background:'linear-gradient(90deg, #FF3CAC, #7B2FFF)',
               WebkitBackgroundClip:'text', WebkitTextFillColor:'transparent',
-              fontWeight:800 }}>
-              ce que tu écoutes vraiment
+              fontWeight:800,
+            }}>
+              what you actually listen to
             </span>
           </h1>
-          {/* FOR REAL — sobre, compact */}
-          <div style={{ fontSize:'clamp(40px, 7vw, 72px)', fontWeight:900, lineHeight:1, letterSpacing:'-0.03em', background:`linear-gradient(135deg, ${C.cyan}, ${C.mint} 40%, ${C.pink})`, WebkitBackgroundClip:'text', WebkitTextFillColor:'transparent', marginBottom:4 }}>
+          {/* FOR REAL */}
+          <div style={{
+            fontSize:'clamp(40px, 10vw, 72px)', fontWeight:900,
+            lineHeight:1, letterSpacing:'-0.03em',
+            background:'linear-gradient(135deg, #00D4FF, #00FFB2 40%, #FF3CAC)',
+            WebkitBackgroundClip:'text', WebkitTextFillColor:'transparent',
+            marginBottom:4,
+          }}>
             For real.
           </div>
         </motion.div>
 
         {/* Sous-titre */}
         <motion.p initial={{ opacity:0 }} animate={{ opacity:1 }} transition={{ delay:0.35 }}
-          style={{ fontSize:'clamp(17px, 4vw, 20px)', color:'rgba(255,255,255,0.68)', textAlign:'center', lineHeight:1.75, margin:'0 0 40px' }}>
-          Pas ta playlist curatée. Pas ton profil public.<br />
-          Ton identité musicale{' '}
-          <strong style={{ color:'#FF3CAC', fontWeight:800 }}>réelle</strong>.{' '}
-          <span style={{ color:'#00FFB2' }}>Vécue</span>,{' '}
-          <span style={{ color:'#00D4FF' }}>partagée</span>,{' '}
-          <span style={{ color:'#FFB800' }}>monétisée</span>.
+          style={{
+            fontSize:'clamp(16px, 4vw, 19px)',
+            color:'rgba(255,255,255,0.65)',
+            textAlign:'center', lineHeight:1.75, margin:'0 0 40px',
+          }}>
+          Not your curated playlist. Not your public profile.<br />
+          Your{' '}
+          <strong style={{ color:'#FF3CAC', fontWeight:800 }}>real</strong>
+          {' '}listening identity.{' '}
+          <span style={{ color:'#00FFB2' }}>Live</span>,{' '}
+          <span style={{ color:'#00D4FF' }}>shared</span>,{' '}
+          <span style={{ color:'#FFB800' }}>monetized</span>.
         </motion.p>
 
         {/* 3 tunnels d'acquisition */}
@@ -394,90 +446,108 @@ export default function HomePage() {
           initial={{ opacity:0, y:16 }}
           animate={{ opacity:1, y:0 }}
           transition={{ delay:0.5 }}
-          style={{ display:'flex', flexDirection:'column', gap:0, marginBottom:64 }}>
+          style={{ display:'flex', flexDirection:'column', gap:10, marginBottom:64 }}>
 
-          {/* LISTENER */}
-          <a href="/listeners" style={{ textDecoration:'none', display:'block',
-            borderRadius:20, overflow:'hidden', marginBottom:12 }}>
+          {/* LISTENERS */}
+          <a href="/listeners" style={{ textDecoration:'none', display:'block' }}>
             <div style={{
-              background:`linear-gradient(135deg, #00D4FF, #00FFB2)`,
-              padding:'28px 24px', cursor:'pointer',
-              position:'relative',
+              background:'linear-gradient(135deg, #00D4FF, #00FFB2)',
+              borderRadius:20, padding:'28px 24px', cursor:'pointer',
             }}>
-              <div style={{ fontSize:10, fontWeight:800, letterSpacing:'0.2em',
-                color:'rgba(10,10,26,0.5)', textTransform:'uppercase',
-                marginBottom:8 }}>
-                Listener
+              <div style={{
+                display:'inline-block',
+                fontSize:13, fontWeight:900, letterSpacing:'0.12em',
+                color:'rgba(10,10,26,0.9)', textTransform:'uppercase',
+                background:'rgba(10,10,26,0.15)',
+                padding:'4px 12px', borderRadius:999, marginBottom:14,
+              }}>
+                LISTENERS
               </div>
-              <div style={{ fontSize:22, fontWeight:900, color:'#0A0A1A',
-                lineHeight:1.15, marginBottom:6 }}>
-                Tu écoutes.<br />Tu découvres.
+              <div style={{
+                fontSize:'clamp(22px, 5vw, 28px)', fontWeight:900,
+                color:'#0A0A1A', lineHeight:1.15, marginBottom:8,
+              }}>
+                You listen.<br />You discover.
               </div>
-              <div style={{ fontSize:14, color:'rgba(10,10,26,0.6)',
-                lineHeight:1.6, marginBottom:14, maxWidth:380 }}>
-                Trouve les personnes qui écoutent comme toi.
-                Pas comme elles disent écouter.
-                Ton identité musicale réelle.
+              <div style={{
+                fontSize:15, color:'rgba(10,10,26,0.65)',
+                lineHeight:1.65, marginBottom:16, maxWidth:360,
+              }}>
+                Find people who listen the way you do.
+                Not the way they say they do.
+                Your real music identity, live.
               </div>
-              <div style={{ fontSize:14, fontWeight:700, color:'#0A0A1A' }}>
-                Découvrir →
+              <div style={{ fontSize:14, fontWeight:800, color:'#0A0A1A' }}>
+                Explore →
               </div>
             </div>
           </a>
 
-          {/* CREATOR */}
-          <a href="/creators" style={{ textDecoration:'none', display:'block',
-            borderRadius:20, overflow:'hidden', marginBottom:12 }}>
+          {/* CREATORS */}
+          <a href="/creators" style={{ textDecoration:'none', display:'block' }}>
             <div style={{
-              background:`linear-gradient(135deg, #FF3CAC, #7B2FFF)`,
-              padding:'28px 24px', cursor:'pointer',
+              background:'linear-gradient(135deg, #FF3CAC, #7B2FFF)',
+              borderRadius:20, padding:'28px 24px', cursor:'pointer',
             }}>
-              <div style={{ fontSize:10, fontWeight:800, letterSpacing:'0.2em',
-                color:'rgba(255,255,255,0.5)', textTransform:'uppercase',
-                marginBottom:8 }}>
-                Creator
+              <div style={{
+                display:'inline-block',
+                fontSize:13, fontWeight:900, letterSpacing:'0.12em',
+                color:'rgba(255,255,255,0.9)', textTransform:'uppercase',
+                background:'rgba(255,255,255,0.15)',
+                padding:'4px 12px', borderRadius:999, marginBottom:14,
+              }}>
+                CREATORS
               </div>
-              <div style={{ fontSize:22, fontWeight:900, color:'#fff',
-                lineHeight:1.15, marginBottom:6 }}>
-                Tu crées.<br />Tu monétises.
+              <div style={{
+                fontSize:'clamp(22px, 5vw, 28px)', fontWeight:900,
+                color:'#fff', lineHeight:1.15, marginBottom:8,
+              }}>
+                You create.<br />You monetize.
               </div>
-              <div style={{ fontSize:14, color:'rgba(255,255,255,0.65)',
-                lineHeight:1.6, marginBottom:14, maxWidth:380 }}>
-                Tes abonnés suivent ce que tu écoutes vraiment.
-                70 % des revenus te reviennent directement.
-                Chaque mois.
+              <div style={{
+                fontSize:15, color:'rgba(255,255,255,0.7)',
+                lineHeight:1.65, marginBottom:16, maxWidth:360,
+              }}>
+                Your subscribers follow what you actually listen to.
+                70 % of revenue goes directly to you. Every month.
               </div>
-              <div style={{ fontSize:14, fontWeight:700, color:'#fff' }}>
-                Devenir créateur →
+              <div style={{ fontSize:14, fontWeight:800, color:'#fff' }}>
+                Become a creator →
               </div>
             </div>
           </a>
 
-          {/* FAN */}
-          <a href="/fans" style={{ textDecoration:'none', display:'block',
-            borderRadius:20, overflow:'hidden' }}>
+          {/* FANS */}
+          <a href="/fans" style={{ textDecoration:'none', display:'block' }}>
             <div style={{
               background:'#12122A',
               border:'1px solid rgba(255,255,255,0.1)',
-              padding:'28px 24px', cursor:'pointer',
+              borderRadius:20, padding:'28px 24px', cursor:'pointer',
             }}>
-              <div style={{ fontSize:10, fontWeight:800, letterSpacing:'0.2em',
-                color:'rgba(255,255,255,0.35)', textTransform:'uppercase',
-                marginBottom:8 }}>
-                Fan
+              <div style={{
+                display:'inline-block',
+                fontSize:13, fontWeight:900, letterSpacing:'0.12em',
+                color:'rgba(255,255,255,0.7)', textTransform:'uppercase',
+                background:'rgba(255,255,255,0.08)',
+                padding:'4px 12px', borderRadius:999, marginBottom:14,
+              }}>
+                FANS
               </div>
-              <div style={{ fontSize:22, fontWeight:900, color:'#fff',
-                lineHeight:1.15, marginBottom:6 }}>
-                Tu suis.<br />Tu connectes.
+              <div style={{
+                fontSize:'clamp(22px, 5vw, 28px)', fontWeight:900,
+                color:'#fff', lineHeight:1.15, marginBottom:8,
+              }}>
+                You follow.<br />You connect.
               </div>
-              <div style={{ fontSize:14, color:'rgba(255,255,255,0.5)',
-                lineHeight:1.6, marginBottom:14, maxWidth:380 }}>
-                Pas leur playlist curatée. Ce qu&apos;ils écoutent
-                vraiment à 2h du matin. For real.
+              <div style={{
+                fontSize:15, color:'rgba(255,255,255,0.5)',
+                lineHeight:1.65, marginBottom:16, maxWidth:360,
+              }}>
+                Not their curated playlist.
+                What they actually play at 2am. For real.
               </div>
-              <div style={{ fontSize:14, fontWeight:700,
-                color:'rgba(255,255,255,0.7)' }}>
-                Trouver un créateur →
+              <div style={{ fontSize:14, fontWeight:800, color:'rgba(255,255,255,0.7)' }}>
+                Find a creator →
               </div>
             </div>
           </a>
@@ -495,24 +565,24 @@ export default function HomePage() {
           style={{ fontSize:11, fontWeight:700, letterSpacing:'0.22em',
             color:'rgba(255,255,255,0.3)', textTransform:'uppercase',
             textAlign:'center', marginBottom:36 }}>
-          Pourquoi c&apos;est différent
+          Why it&apos;s different
         </motion.p>
         <div style={{ display:'flex', flexDirection:'column' }}>
           {[
             {
               color:'#00D4FF',
-              title:'Ton vrai archétype.',
-              text:'7 profils comportementaux calculés sur comment tu écoutes réellement, pas ce que tu prétends aimer.',
+              title:'Your real archetype.',
+              text:'7 behavioral profiles computed from how you actually listen. Not what you claim to like.',
             },
             {
               color:'#FF3CAC',
-              title:'Pulse rooms en direct.',
-              text:'Des inconnus qui écoutent le même titre au même moment. Une expérience collective, sans filtre.',
+              title:'Live Pulse rooms.',
+              text:'Strangers listening to the same track at the same moment. Collective, unfiltered.',
             },
             {
               color:'#00FFB2',
-              title:'Une compatibilité réelle.',
-              text:'87 % signifie que vous avez tous les deux écouté le même titre de FKJ à 2h du matin. Pas juste "j\'aime le jazz moi aussi".',
+              title:'Real compatibility.',
+              text:'87% means you both played the same FKJ track at 2am. Not just "I like jazz too".',
             },
           ].map((item, i) => (
             <motion.div key={i}
