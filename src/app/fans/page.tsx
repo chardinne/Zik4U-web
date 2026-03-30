@@ -112,14 +112,14 @@ export default function FansPage() {
             style={{ background:'rgba(255,255,255,0.07)',
               border:'1px solid rgba(255,255,255,0.12)',
               borderRadius:20, padding:'7px 14px',
-              fontSize:12, fontWeight:700, color:'#fff',
+              fontSize:15, fontWeight:700, color:'#fff',
               cursor:'pointer', fontFamily:'Inter, system-ui, sans-serif' }}>
             Listeners
           </button>
           <button onClick={() => router.push('/creators')}
             style={{ background:`linear-gradient(135deg, #FF3CAC, #7B2FFF)`,
               border:'none', borderRadius:20, padding:'7px 14px',
-              fontSize:12, fontWeight:700, color:'#fff',
+              fontSize:15, fontWeight:700, color:'#fff',
               cursor:'pointer', fontFamily:'Inter, system-ui, sans-serif' }}>
             Créateurs
           </button>
@@ -133,7 +133,7 @@ export default function FansPage() {
           <p style={{ fontSize: 13, fontWeight: 700, letterSpacing: '0.15em', color: C.mint, textTransform: 'uppercase', marginBottom: 24 }}>
             Pour les Fans
           </p>
-          <h1 style={{ fontSize: 'clamp(40px, 6vw, 76px)', fontWeight: 900, lineHeight: 1.0, letterSpacing: '-0.03em', marginBottom: 24 }}>
+          <h1 style={{ fontSize: 'clamp(36px, 8vw, 76px)', fontWeight: 900, lineHeight: 1.0, letterSpacing: '-0.03em', marginBottom: 24 }}>
             Suis ce qu&apos;ils écoutent.{' '}
             <span style={{ background: `linear-gradient(90deg, ${C.mint}, ${C.cyan})`, WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>
               Pour de vrai.
@@ -155,14 +155,14 @@ export default function FansPage() {
               style={{ padding:'14px 24px',
                 background:`linear-gradient(135deg, #00FFB2, #00D4FF)`,
                 borderRadius:12, color:'#0A0A1A', fontWeight:800,
-                fontSize:14, textDecoration:'none' }}>
+                fontSize:18, textDecoration:'none' }}>
               Télécharger — iOS →
             </a>
             <a href="https://play.google.com/store/apps/details?id=com.zik4u.app"
               style={{ padding:'14px 24px', background:'#12122A',
                 border:'1px solid rgba(255,255,255,0.1)',
                 borderRadius:12, color:'#fff', fontWeight:800,
-                fontSize:14, textDecoration:'none' }}>
+                fontSize:18, textDecoration:'none' }}>
               Télécharger — Android →
             </a>
           </div>
@@ -175,8 +175,8 @@ export default function FansPage() {
             {WHAT_YOU_GET.map(item => (
               <div key={item.title} style={{ background: C.card, border: `1px solid ${C.border}`, borderRadius: 16, padding: 24, borderTop: `2px solid ${item.color}`, display: 'flex', flexDirection: 'column', gap: 10 }}>
                 <span style={{ fontSize: 28 }}>{item.emoji}</span>
-                <h3 style={{ fontSize: 17, fontWeight: 800, color: C.text, margin: 0 }}>{item.title}</h3>
-                <p style={{ fontSize: 14, color: C.muted, lineHeight: 1.7, margin: 0 }}>{item.body}</p>
+                <h3 style={{ fontSize: 20, fontWeight: 800, color: C.text, margin: 0 }}>{item.title}</h3>
+                <p style={{ fontSize: 17, color: C.muted, lineHeight: 1.7, margin: 0 }}>{item.body}</p>
               </div>
             ))}
           </div>
@@ -216,7 +216,7 @@ export default function FansPage() {
                   <div style={{ fontWeight: 700, fontSize: 15, color: C.text, marginBottom: 4 }}>
                     {creator.displayName ?? creator.username}
                   </div>
-                  <div style={{ fontSize: 12, color: C.muted }}>@{creator.username}</div>
+                  <div style={{ fontSize: 15, color: C.muted }}>@{creator.username}</div>
                   {creator.subscriberCount !== undefined && (
                     <div style={{ fontSize: 11, color: C.mint, marginTop: 8 }}>
                       {creator.subscriberCount} abonné{creator.subscriberCount > 1 ? 's' : ''}

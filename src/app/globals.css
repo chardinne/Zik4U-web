@@ -8,14 +8,17 @@
   --color-bg: #0A0A1A;
   --color-bg-card: #12122A;
   --color-bg-hover: #1A1A35;
-
   --background-image-gradient-brand: linear-gradient(135deg, #00D4FF, #00FFB2, #FF3CAC);
   --background-image-gradient-creator: linear-gradient(135deg, #FF3CAC, #7B2FFF);
   --background-image-gradient-user: linear-gradient(135deg, #00D4FF, #00FFB2);
 }
 
-* {
+*, *::before, *::after {
   box-sizing: border-box;
+}
+
+html {
+  font-size: 18px;
 }
 
 html, body {
@@ -23,11 +26,15 @@ html, body {
   padding: 0;
   width: 100%;
   overflow-x: hidden;
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
 }
 
 body {
   background-color: #0A0A1A;
   color: #FFFFFF;
+  font-family: Inter, system-ui, sans-serif;
+  line-height: 1.6;
 }
 
 .gradient-text {
@@ -50,18 +57,9 @@ body {
   .screens-mobile  { display: flex !important; }
 }
 
-/* ── Nav mobile ── */
-@media (max-width: 600px) {
-  .nav-links > a:not([href*="app.apple"]):not([href*="play.google"]) {
-    display: none;
-  }
-}
-
 /* ── Tunnel cards full-bleed on mobile ── */
 @media (max-width: 600px) {
   .tunnel-card-inner {
     border-radius: 0 !important;
-    margin-left: -1px;
-    margin-right: -1px;
   }
 }

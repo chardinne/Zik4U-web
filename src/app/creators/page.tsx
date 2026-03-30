@@ -129,8 +129,8 @@ function FeatureCard({ emoji, title, body, color }: {
       display: 'flex', flexDirection: 'column', gap: 10,
     }}>
       <span style={{ fontSize: 28 }}>{emoji}</span>
-      <h3 style={{ fontSize: 17, fontWeight: 800, color: C.text, margin: 0 }}>{title}</h3>
-      <p style={{ fontSize: 14, color: C.muted, lineHeight: 1.7, margin: 0 }}>{body}</p>
+      <h3 style={{ fontSize: 20, fontWeight: 800, color: C.text, margin: 0 }}>{title}</h3>
+      <p style={{ fontSize: 17, color: C.muted, lineHeight: 1.7, margin: 0 }}>{body}</p>
     </div>
   );
 }
@@ -175,7 +175,7 @@ export default function CreatorsPage() {
             style={{ background:'rgba(255,255,255,0.07)',
               border:'1px solid rgba(255,255,255,0.12)',
               borderRadius:20, padding:'7px 14px',
-              fontSize:12, fontWeight:700, color:'#fff',
+              fontSize:15, fontWeight:700, color:'#fff',
               cursor:'pointer', fontFamily:'Inter, system-ui, sans-serif' }}>
             Listeners
           </button>
@@ -183,7 +183,7 @@ export default function CreatorsPage() {
             style={{ background:'rgba(255,255,255,0.07)',
               border:'1px solid rgba(255,255,255,0.12)',
               borderRadius:20, padding:'7px 14px',
-              fontSize:12, fontWeight:700, color:'#fff',
+              fontSize:15, fontWeight:700, color:'#fff',
               cursor:'pointer', fontFamily:'Inter, system-ui, sans-serif' }}>
             Fans
           </button>
@@ -197,7 +197,7 @@ export default function CreatorsPage() {
           <p style={{ fontSize: 13, fontWeight: 700, letterSpacing: '0.15em', color: C.pink, textTransform: 'uppercase', marginBottom: 24 }}>
             Pour les Créateurs
           </p>
-          <h1 style={{ fontSize: 'clamp(40px, 6vw, 76px)', fontWeight: 900, lineHeight: 1.0, letterSpacing: '-0.03em', marginBottom: 24 }}>
+          <h1 style={{ fontSize: 'clamp(36px, 8vw, 76px)', fontWeight: 900, lineHeight: 1.0, letterSpacing: '-0.03em', marginBottom: 24 }}>
             Ta musique réelle.{' '}
             <span style={{ background: `linear-gradient(90deg, ${C.pink}, ${C.purple})`, WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>
               Ta communauté réelle.
@@ -230,8 +230,8 @@ export default function CreatorsPage() {
               <div key={step.number} style={{ display: 'flex', gap: 20, alignItems: 'flex-start', background: C.card, borderRadius: 16, padding: 20, border: `1px solid ${C.border}` }}>
                 <span style={{ fontSize: 32, fontWeight: 900, color: step.color, fontFamily: 'monospace', flexShrink: 0, lineHeight: 1 }}>{step.number}</span>
                 <div>
-                  <h3 style={{ fontSize: 17, fontWeight: 800, margin: '0 0 6px', color: C.text }}>{step.title}</h3>
-                  <p style={{ fontSize: 14, color: C.muted, margin: 0, lineHeight: 1.7 }}>{step.body}</p>
+                  <h3 style={{ fontSize: 20, fontWeight: 800, margin: '0 0 6px', color: C.text }}>{step.title}</h3>
+                  <p style={{ fontSize: 17, color: C.muted, margin: 0, lineHeight: 1.7 }}>{step.body}</p>
                 </div>
               </div>
             ))}
@@ -264,10 +264,10 @@ export default function CreatorsPage() {
 
         {/* Social proof — copier le post */}
         <motion.div initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.6 }} style={{ background: `linear-gradient(135deg, rgba(255,60,172,0.06), rgba(123,47,255,0.04))`, borderRadius: 20, padding: 32, border: `1px solid rgba(255,60,172,0.15)`, marginBottom: 48 }}>
-          <p style={{ fontSize: 12, fontWeight: 700, letterSpacing: '0.15em', color: C.pink, textTransform: 'uppercase', marginBottom: 16 }}>
+          <p style={{ fontSize: 15, fontWeight: 700, letterSpacing: '0.15em', color: C.pink, textTransform: 'uppercase', marginBottom: 16 }}>
             Annonce à ta communauté
           </p>
-          <pre style={{ fontFamily: 'Inter, system-ui, sans-serif', fontSize: 14, lineHeight: 1.7, color: 'rgba(255,255,255,0.7)', whiteSpace: 'pre-wrap', marginBottom: 16 }}>
+          <pre style={{ fontFamily: 'Inter, system-ui, sans-serif', fontSize: 18, lineHeight: 1.7, color: 'rgba(255,255,255,0.7)', whiteSpace: 'pre-wrap', marginBottom: 16 }}>
             {STORY_TEXT}
           </pre>
           <button onClick={handleCopy} style={{ background: copied ? 'rgba(0,255,178,0.1)' : C.card, border: `1px solid ${copied ? C.mint : C.border}`, borderRadius: 8, padding: '10px 20px', color: copied ? C.mint : C.muted, fontSize: 13, cursor: 'pointer', fontFamily: 'Inter, system-ui, sans-serif' }}>

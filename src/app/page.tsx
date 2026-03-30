@@ -400,7 +400,7 @@ export default function HomePage() {
         <motion.div initial={{ opacity:0, y:20 }} animate={{ opacity:1, y:0 }} transition={{ delay:0.2 }}
           style={{ textAlign:'center', marginBottom:20, padding:'0 20px', maxWidth:600, margin:'0 auto 20px' }}>
           <h1 style={{
-            fontSize:'clamp(20px, 5vw, 30px)', fontWeight:700,
+            fontSize:'clamp(24px, 6vw, 36px)', fontWeight:700,
             lineHeight:1.4, margin:'0 0 14px', color:'#F0F0FF',
             letterSpacing:'-0.01em',
           }}>
@@ -415,7 +415,7 @@ export default function HomePage() {
           </h1>
           {/* FOR REAL */}
           <div style={{
-            fontSize:'clamp(40px, 10vw, 72px)', fontWeight:900,
+            fontSize:'clamp(48px, 12vw, 80px)', fontWeight:900,
             lineHeight:1, letterSpacing:'-0.03em',
             background:'linear-gradient(135deg, #00D4FF, #00FFB2 40%, #FF3CAC)',
             WebkitBackgroundClip:'text', WebkitTextFillColor:'transparent',
@@ -428,7 +428,7 @@ export default function HomePage() {
         {/* Sous-titre */}
         <motion.p initial={{ opacity:0 }} animate={{ opacity:1 }} transition={{ delay:0.35 }}
           style={{
-            fontSize:'clamp(16px, 4vw, 19px)',
+            fontSize:'clamp(18px, 4.5vw, 22px)',
             color:'rgba(255,255,255,0.65)',
             textAlign:'center', lineHeight:1.75, margin:'0 0 40px',
             padding:'0 20px',
@@ -455,11 +455,11 @@ export default function HomePage() {
           <a href="/listeners" style={{ textDecoration:'none', display:'block' }}>
             <div style={{
               background:'linear-gradient(135deg, #00D4FF, #00FFB2)',
-              borderRadius:20, padding:'28px 20px', cursor:'pointer',
+              borderRadius:20, padding:'32px 24px', cursor:'pointer',
             }} className="tunnel-card-inner">
               <div style={{
                 display:'inline-block',
-                fontSize:13, fontWeight:900, letterSpacing:'0.12em',
+                fontSize:15, fontWeight:900, letterSpacing:'0.12em',
                 color:'rgba(10,10,26,0.9)', textTransform:'uppercase',
                 background:'rgba(10,10,26,0.15)',
                 padding:'4px 12px', borderRadius:999, marginBottom:14,
@@ -467,20 +467,20 @@ export default function HomePage() {
                 LISTENERS
               </div>
               <div style={{
-                fontSize:'clamp(22px, 5vw, 28px)', fontWeight:900,
+                fontSize:'clamp(26px, 6vw, 32px)', fontWeight:900,
                 color:'#0A0A1A', lineHeight:1.15, marginBottom:8,
               }}>
                 You listen.<br />You discover.
               </div>
               <div style={{
-                fontSize:16, color:'rgba(10,10,26,0.65)',
+                fontSize:18, color:'rgba(10,10,26,0.65)',
                 lineHeight:1.65, marginBottom:16,
               }}>
                 Find people who listen the way you do.
                 Not the way they say they do.
                 Your real music identity, live.
               </div>
-              <div style={{ fontSize:14, fontWeight:800, color:'#0A0A1A' }}>
+              <div style={{ fontSize:17, fontWeight:800, color:'#0A0A1A' }}>
                 Explore →
               </div>
             </div>
@@ -490,11 +490,11 @@ export default function HomePage() {
           <a href="/creators" style={{ textDecoration:'none', display:'block' }}>
             <div style={{
               background:'linear-gradient(135deg, #FF3CAC, #7B2FFF)',
-              borderRadius:20, padding:'28px 20px', cursor:'pointer',
+              borderRadius:20, padding:'32px 24px', cursor:'pointer',
             }} className="tunnel-card-inner">
               <div style={{
                 display:'inline-block',
-                fontSize:13, fontWeight:900, letterSpacing:'0.12em',
+                fontSize:15, fontWeight:900, letterSpacing:'0.12em',
                 color:'rgba(255,255,255,0.9)', textTransform:'uppercase',
                 background:'rgba(255,255,255,0.15)',
                 padding:'4px 12px', borderRadius:999, marginBottom:14,
@@ -502,19 +502,19 @@ export default function HomePage() {
                 CREATORS
               </div>
               <div style={{
-                fontSize:'clamp(22px, 5vw, 28px)', fontWeight:900,
+                fontSize:'clamp(26px, 6vw, 32px)', fontWeight:900,
                 color:'#fff', lineHeight:1.15, marginBottom:8,
               }}>
                 You create.<br />You monetize.
               </div>
               <div style={{
-                fontSize:16, color:'rgba(255,255,255,0.7)',
+                fontSize:18, color:'rgba(255,255,255,0.7)',
                 lineHeight:1.65, marginBottom:16,
               }}>
                 Your subscribers follow what you actually listen to.
                 70% of revenue goes directly to you. Every month.
               </div>
-              <div style={{ fontSize:14, fontWeight:800, color:'#fff' }}>
+              <div style={{ fontSize:17, fontWeight:800, color:'#fff' }}>
                 Become a creator →
               </div>
             </div>
@@ -525,11 +525,11 @@ export default function HomePage() {
             <div style={{
               background:'#12122A',
               border:'1px solid rgba(255,255,255,0.1)',
-              borderRadius:20, padding:'28px 20px', cursor:'pointer',
+              borderRadius:20, padding:'32px 24px', cursor:'pointer',
             }} className="tunnel-card-inner">
               <div style={{
                 display:'inline-block',
-                fontSize:13, fontWeight:900, letterSpacing:'0.12em',
+                fontSize:15, fontWeight:900, letterSpacing:'0.12em',
                 color:'rgba(255,255,255,0.7)', textTransform:'uppercase',
                 background:'rgba(255,255,255,0.08)',
                 padding:'4px 12px', borderRadius:999, marginBottom:14,
@@ -537,19 +537,19 @@ export default function HomePage() {
                 FANS
               </div>
               <div style={{
-                fontSize:'clamp(22px, 5vw, 28px)', fontWeight:900,
+                fontSize:'clamp(26px, 6vw, 32px)', fontWeight:900,
                 color:'#fff', lineHeight:1.15, marginBottom:8,
               }}>
                 You follow.<br />You connect.
               </div>
               <div style={{
-                fontSize:16, color:'rgba(255,255,255,0.5)',
+                fontSize:18, color:'rgba(255,255,255,0.5)',
                 lineHeight:1.65, marginBottom:16,
               }}>
                 Not their curated playlist.
                 What they actually play at 2am. For real.
               </div>
-              <div style={{ fontSize:14, fontWeight:800, color:'rgba(255,255,255,0.7)' }}>
+              <div style={{ fontSize:17, fontWeight:800, color:'rgba(255,255,255,0.7)' }}>
                 Find a creator →
               </div>
             </div>
@@ -599,11 +599,11 @@ export default function HomePage() {
               }}>
               <div style={{ width:28, height:3, background:item.color,
                 borderRadius:2, marginBottom:12 }} />
-              <div style={{ fontSize:20, fontWeight:900, color:'#F0F0FF',
+              <div style={{ fontSize:22, fontWeight:900, color:'#F0F0FF',
                 lineHeight:1.2, marginBottom:8 }}>
                 {item.title}
               </div>
-              <div style={{ fontSize:16, color:'rgba(255,255,255,0.55)',
+              <div style={{ fontSize:18, color:'rgba(255,255,255,0.6)',
                 lineHeight:1.7 }}>
                 {item.text}
               </div>

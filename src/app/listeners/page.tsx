@@ -145,8 +145,8 @@ function FeatureCard({ emoji, title, body, color }: {
       display: 'flex', flexDirection: 'column', gap: 10,
     }}>
       <span style={{ fontSize: 28 }}>{emoji}</span>
-      <h3 style={{ fontSize: 17, fontWeight: 800, color: C.text, margin: 0 }}>{title}</h3>
-      <p style={{ fontSize: 14, color: C.muted, lineHeight: 1.7, margin: 0 }}>{body}</p>
+      <h3 style={{ fontSize: 20, fontWeight: 800, color: C.text, margin: 0 }}>{title}</h3>
+      <p style={{ fontSize: 17, color: C.muted, lineHeight: 1.7, margin: 0 }}>{body}</p>
     </div>
   );
 }
@@ -201,7 +201,7 @@ export default function ListenersPage() {
           <button onClick={() => router.push('/creators')}
             style={{ background:`linear-gradient(135deg, #FF3CAC, #7B2FFF)`,
               border:'none', borderRadius:20, padding:'7px 14px',
-              fontSize:12, fontWeight:700, color:'#fff',
+              fontSize:15, fontWeight:700, color:'#fff',
               cursor:'pointer', fontFamily:'Inter, system-ui, sans-serif' }}>
             Créateurs
           </button>
@@ -209,7 +209,7 @@ export default function ListenersPage() {
             style={{ background:'rgba(255,255,255,0.07)',
               border:'1px solid rgba(255,255,255,0.12)',
               borderRadius:20, padding:'7px 14px',
-              fontSize:12, fontWeight:700, color:'#fff',
+              fontSize:15, fontWeight:700, color:'#fff',
               cursor:'pointer', fontFamily:'Inter, system-ui, sans-serif' }}>
             Fans
           </button>
@@ -221,7 +221,7 @@ export default function ListenersPage() {
         {/* Hero */}
         <motion.div initial={{ opacity:0, y:30 }} animate={{ opacity:1, y:0 }}
           transition={{ duration:0.6 }} style={{ marginBottom:56 }}>
-          <p style={{ fontSize:12, fontWeight:700, letterSpacing:'0.18em',
+          <p style={{ fontSize:15, fontWeight:700, letterSpacing:'0.18em',
             color:'#00D4FF', textTransform:'uppercase', marginBottom:16 }}>
             Pour les Listeners
           </p>
@@ -245,7 +245,7 @@ export default function ListenersPage() {
               style={{ padding:'14px 24px',
                 background:`linear-gradient(135deg, #00D4FF, #00FFB2)`,
                 borderRadius:12, color:'#0A0A1A', fontWeight:800,
-                fontSize:14, textDecoration:'none', flexShrink:0 }}>
+                fontSize:18, textDecoration:'none', flexShrink:0 }}>
               Télécharger — iOS →
             </a>
             <a href="https://play.google.com/store/apps/details?id=com.zik4u.app"
@@ -253,7 +253,7 @@ export default function ListenersPage() {
                 background:'#12122A',
                 border:'1px solid rgba(255,255,255,0.1)',
                 borderRadius:12, color:'#fff', fontWeight:800,
-                fontSize:14, textDecoration:'none', flexShrink:0 }}>
+                fontSize:18, textDecoration:'none', flexShrink:0 }}>
               Télécharger — Android →
             </a>
           </div>
