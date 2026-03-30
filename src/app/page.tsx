@@ -98,7 +98,7 @@ function NowCardLive() {
 
 function PhoneFrame({ children, shadow }: { children: ReactNode; shadow?: string }) {
   return (
-    <div style={{ width:200, height:390, background:C.bg, borderRadius:32, overflow:'hidden', border:'1px solid rgba(255,255,255,0.1)', boxShadow:shadow??'0 24px 64px rgba(0,0,0,0.5)', display:'flex', flexDirection:'column', flexShrink:0, position:'relative' }}>
+    <div style={{ width:'100%', maxWidth:280, height:420, background:'#0A0A1A', borderRadius:32, overflow:'hidden', border:'1px solid rgba(255,255,255,0.1)', boxShadow:shadow??'0 24px 64px rgba(0,0,0,0.5)', display:'flex', flexDirection:'column', flexShrink:0, position:'relative' }}>
       <div style={{ position:'absolute', top:10, left:'50%', transform:'translateX(-50%)', width:60, height:5, background:'rgba(255,255,255,0.1)', borderRadius:3, zIndex:10 }} />
       <div style={{ height:22, flexShrink:0 }} />
       {children}
@@ -290,9 +290,9 @@ function ScreenCompatibility() {
 
 function ScrollColumn({ screens, direction }: { screens: ReactNode[]; direction: 'up'|'down' }) {
   const doubled = [...screens, ...screens];
-  const itemH = 390 + 24;
+  const itemH = 420 + 24;
   return (
-    <div style={{ height:500, overflow:'hidden', maskImage:'linear-gradient(to bottom, transparent 0%, black 15%, black 85%, transparent 100%)', WebkitMaskImage:'linear-gradient(to bottom, transparent 0%, black 15%, black 85%, transparent 100%)' }}>
+    <div style={{ height:560, overflow:'hidden', maskImage:'linear-gradient(to bottom, transparent 0%, black 15%, black 85%, transparent 100%)', WebkitMaskImage:'linear-gradient(to bottom, transparent 0%, black 15%, black 85%, transparent 100%)' }}>
       <motion.div
         animate={{ y: direction==='up' ? [0, -(screens.length * itemH)] : [-(screens.length * itemH), 0] }}
         transition={{ duration:screens.length * 16, repeat:Infinity, ease:'linear' }}
@@ -470,7 +470,7 @@ export default function HomePage() {
                 You listen.<br />You discover.
               </div>
               <div style={{
-                fontSize:15, color:'rgba(10,10,26,0.65)',
+                fontSize:16, color:'rgba(10,10,26,0.65)',
                 lineHeight:1.65, marginBottom:16, maxWidth:360,
               }}>
                 Find people who listen the way you do.
@@ -505,11 +505,11 @@ export default function HomePage() {
                 You create.<br />You monetize.
               </div>
               <div style={{
-                fontSize:15, color:'rgba(255,255,255,0.7)',
+                fontSize:16, color:'rgba(255,255,255,0.7)',
                 lineHeight:1.65, marginBottom:16, maxWidth:360,
               }}>
                 Your subscribers follow what you actually listen to.
-                70 % of revenue goes directly to you. Every month.
+                70% of revenue goes directly to you. Every month.
               </div>
               <div style={{ fontSize:14, fontWeight:800, color:'#fff' }}>
                 Become a creator →
@@ -540,7 +540,7 @@ export default function HomePage() {
                 You follow.<br />You connect.
               </div>
               <div style={{
-                fontSize:15, color:'rgba(255,255,255,0.5)',
+                fontSize:16, color:'rgba(255,255,255,0.5)',
                 lineHeight:1.65, marginBottom:16, maxWidth:360,
               }}>
                 Not their curated playlist.
@@ -598,11 +598,11 @@ export default function HomePage() {
               }}>
               <div style={{ width:28, height:3, background:item.color,
                 borderRadius:2, marginBottom:12 }} />
-              <div style={{ fontSize:18, fontWeight:900, color:'#F0F0FF',
+              <div style={{ fontSize:20, fontWeight:900, color:'#F0F0FF',
                 lineHeight:1.2, marginBottom:8 }}>
                 {item.title}
               </div>
-              <div style={{ fontSize:15, color:'rgba(255,255,255,0.5)',
+              <div style={{ fontSize:16, color:'rgba(255,255,255,0.55)',
                 lineHeight:1.7 }}>
                 {item.text}
               </div>
@@ -639,15 +639,14 @@ export default function HomePage() {
           </div>
         </div>
 
-        {/* Mobile — scroll horizontal */}
-        <div className="screens-mobile" style={{ display:'none', overflowX:'auto', WebkitOverflowScrolling:'touch' as any, padding:'4px 24px 12px', position:'relative', zIndex:1 }}>
-          <div style={{ display:'flex', gap:16, width:'max-content' }}>
-            {[<ScreenProfile key="p" />, <ScreenNowCard key="n" />, <ScreenPulse key="pu" />, <ScreenCompatibility key="c" />].map((screen, i) => (
-              <motion.div key={i} initial={{ opacity:0, y:16 }} whileInView={{ opacity:1, y:0 }} viewport={{ once:true }} transition={{ delay:i*0.08 }}>
-                {screen}
-              </motion.div>
-            ))}
-          </div>
+        {/* Mobile — stack vertical */}
+        <div className="screens-mobile" style={{ display:'none', flexDirection:'column', alignItems:'center', gap:20, padding:'4px 24px 12px', position:'relative', zIndex:1 }}>
+          {[<ScreenProfile key="p" />, <ScreenNowCard key="n" />].map((screen, i) => (
+            <motion.div key={i} initial={{ opacity:0, y:16 }} whileInView={{ opacity:1, y:0 }} viewport={{ once:true }} transition={{ delay:i*0.08 }}
+              style={{ width:'100%', maxWidth:340, display:'flex', justifyContent:'center' }}>
+              {screen}
+            </motion.div>
+          ))}
         </div>
       </div>
 
