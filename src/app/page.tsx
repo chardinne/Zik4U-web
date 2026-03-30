@@ -394,11 +394,11 @@ export default function HomePage() {
       {/* ════════════════════════════════════════════════════
           BLOC UNIQUE — tout tient ensemble, pas de sections
           ════════════════════════════════════════════════════ */}
-      <div style={{ maxWidth:680, margin:'0 auto', paddingTop:80 }} className="main-container">
+      <div style={{ paddingTop:80 }}>
 
         {/* Headline */}
         <motion.div initial={{ opacity:0, y:20 }} animate={{ opacity:1, y:0 }} transition={{ delay:0.2 }}
-          style={{ textAlign:'center', marginBottom:20 }}>
+          style={{ textAlign:'center', marginBottom:20, padding:'0 20px', maxWidth:600, margin:'0 auto 20px' }}>
           <h1 style={{
             fontSize:'clamp(20px, 5vw, 30px)', fontWeight:700,
             lineHeight:1.4, margin:'0 0 14px', color:'#F0F0FF',
@@ -431,6 +431,7 @@ export default function HomePage() {
             fontSize:'clamp(16px, 4vw, 19px)',
             color:'rgba(255,255,255,0.65)',
             textAlign:'center', lineHeight:1.75, margin:'0 0 40px',
+            padding:'0 20px',
           }}>
           Not your curated playlist. Not your public profile.<br />
           Your{' '}
@@ -445,17 +446,17 @@ export default function HomePage() {
 
       {/* 3 tunnels d'acquisition */}
       <motion.div
-        initial={{ opacity:0, y:16 }}
-        animate={{ opacity:1, y:0 }}
-        transition={{ delay:0.5 }}
-        style={{ display:'flex', flexDirection:'column', gap:0, marginBottom:64 }}>
+          initial={{ opacity:0, y:16 }}
+          animate={{ opacity:1, y:0 }}
+          transition={{ delay:0.5 }}
+          style={{ display:'flex', flexDirection:'column', gap:0, marginBottom:64 }}>
 
           {/* LISTENERS */}
-          <a href="/listeners" style={{ textDecoration:'none', display:'block', margin:'0 0 10px' }}>
-            <div className="tunnel-inner" style={{
+          <a href="/listeners" style={{ textDecoration:'none', display:'block' }}>
+            <div style={{
               background:'linear-gradient(135deg, #00D4FF, #00FFB2)',
-              borderRadius:20, padding:'32px 20px', cursor:'pointer',
-            }}>
+              borderRadius:20, padding:'28px 20px', cursor:'pointer',
+            }} className="tunnel-card-inner">
               <div style={{
                 display:'inline-block',
                 fontSize:13, fontWeight:900, letterSpacing:'0.12em',
@@ -486,11 +487,11 @@ export default function HomePage() {
           </a>
 
           {/* CREATORS */}
-          <a href="/creators" style={{ textDecoration:'none', display:'block', margin:'0 0 10px' }}>
-            <div className="tunnel-inner" style={{
+          <a href="/creators" style={{ textDecoration:'none', display:'block' }}>
+            <div style={{
               background:'linear-gradient(135deg, #FF3CAC, #7B2FFF)',
-              borderRadius:20, padding:'32px 20px', cursor:'pointer',
-            }}>
+              borderRadius:20, padding:'28px 20px', cursor:'pointer',
+            }} className="tunnel-card-inner">
               <div style={{
                 display:'inline-block',
                 fontSize:13, fontWeight:900, letterSpacing:'0.12em',
@@ -520,12 +521,12 @@ export default function HomePage() {
           </a>
 
           {/* FANS */}
-          <a href="/fans" style={{ textDecoration:'none', display:'block', margin:'0 0 10px' }}>
-            <div className="tunnel-inner" style={{
+          <a href="/fans" style={{ textDecoration:'none', display:'block' }}>
+            <div style={{
               background:'#12122A',
               border:'1px solid rgba(255,255,255,0.1)',
-              borderRadius:20, padding:'32px 20px', cursor:'pointer',
-            }}>
+              borderRadius:20, padding:'28px 20px', cursor:'pointer',
+            }} className="tunnel-card-inner">
               <div style={{
                 display:'inline-block',
                 fontSize:13, fontWeight:900, letterSpacing:'0.12em',
@@ -557,7 +558,7 @@ export default function HomePage() {
       </motion.div>
 
       {/* ── FEATURES ── */}
-      <div style={{ maxWidth:680, margin:'0 auto', padding:'0 0 64px' }} className="main-container">
+      <div style={{ padding:'0 20px 64px', maxWidth:640, margin:'0 auto' }}>
         <motion.p
           initial={{ opacity:0, y:12 }}
           whileInView={{ opacity:1, y:0 }}

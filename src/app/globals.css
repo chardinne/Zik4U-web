@@ -14,6 +14,17 @@
   --background-image-gradient-user: linear-gradient(135deg, #00D4FF, #00FFB2);
 }
 
+* {
+  box-sizing: border-box;
+}
+
+html, body {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  overflow-x: hidden;
+}
+
 body {
   background-color: #0A0A1A;
   color: #FFFFFF;
@@ -33,37 +44,24 @@ body {
   background-clip: text;
 }
 
+/* ── Screens showcase responsive ── */
 @media (max-width: 860px) {
   .screens-desktop { display: none !important; }
   .screens-mobile  { display: flex !important; }
 }
 
+/* ── Nav mobile ── */
 @media (max-width: 600px) {
   .nav-links > a:not([href*="app.apple"]):not([href*="play.google"]) {
     display: none;
   }
 }
 
-/* Layout mobile */
-.main-container {
-  padding-left: 16px;
-  padding-right: 16px;
-}
-
-/* Mobile tunnel cards — full bleed */
+/* ── Tunnel cards full-bleed on mobile ── */
 @media (max-width: 600px) {
-  .tunnel-inner {
+  .tunnel-card-inner {
     border-radius: 0 !important;
-    margin-left: 0 !important;
-    margin-right: 0 !important;
-  }
-}
-
-/* Reset main-container sur mobile */
-@media (max-width: 600px) {
-  .main-container {
-    padding-left: 0 !important;
-    padding-right: 0 !important;
-    max-width: 100% !important;
+    margin-left: -1px;
+    margin-right: -1px;
   }
 }
