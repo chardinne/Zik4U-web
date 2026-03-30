@@ -43,3 +43,23 @@ body {
     display: none;
   }
 }
+
+/* Layout mobile */
+.main-container {
+  padding-left: 16px;
+  padding-right: 16px;
+}
+
+@media (max-width: 480px) {
+  .main-container {
+    padding-left: 0;
+    padding-right: 0;
+  }
+}
+
+/* Tunnels pleine largeur sur mobile */
+@media (max-width: 480px) {
+  .tunnel-card {
+    border-radius: 0 !important;
+  }
+}

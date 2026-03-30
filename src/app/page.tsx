@@ -394,7 +394,7 @@ export default function HomePage() {
       {/* ════════════════════════════════════════════════════
           BLOC UNIQUE — tout tient ensemble, pas de sections
           ════════════════════════════════════════════════════ */}
-      <div style={{ maxWidth:680, margin:'0 auto', padding:'0 16px', paddingTop:80 }}>
+      <div style={{ maxWidth:680, margin:'0 auto', paddingTop:80 }} className="main-container">
 
         {/* Headline */}
         <motion.div initial={{ opacity:0, y:20 }} animate={{ opacity:1, y:0 }} transition={{ delay:0.2 }}
@@ -449,10 +449,10 @@ export default function HomePage() {
           style={{ display:'flex', flexDirection:'column', gap:10, marginBottom:64 }}>
 
           {/* LISTENERS */}
-          <a href="/listeners" style={{ textDecoration:'none', display:'block' }}>
+          <a href="/listeners" style={{ textDecoration:'none', display:'block', margin:'0 0 10px' }}>
             <div style={{
               background:'linear-gradient(135deg, #00D4FF, #00FFB2)',
-              borderRadius:20, padding:'28px 24px', cursor:'pointer',
+              borderRadius:0, padding:'28px 20px', cursor:'pointer',
             }}>
               <div style={{
                 display:'inline-block',
@@ -471,7 +471,7 @@ export default function HomePage() {
               </div>
               <div style={{
                 fontSize:16, color:'rgba(10,10,26,0.65)',
-                lineHeight:1.65, marginBottom:16, maxWidth:360,
+                lineHeight:1.65, marginBottom:16,
               }}>
                 Find people who listen the way you do.
                 Not the way they say they do.
@@ -484,10 +484,10 @@ export default function HomePage() {
           </a>
 
           {/* CREATORS */}
-          <a href="/creators" style={{ textDecoration:'none', display:'block' }}>
+          <a href="/creators" style={{ textDecoration:'none', display:'block', margin:'0 0 10px' }}>
             <div style={{
               background:'linear-gradient(135deg, #FF3CAC, #7B2FFF)',
-              borderRadius:20, padding:'28px 24px', cursor:'pointer',
+              borderRadius:0, padding:'28px 20px', cursor:'pointer',
             }}>
               <div style={{
                 display:'inline-block',
@@ -506,7 +506,7 @@ export default function HomePage() {
               </div>
               <div style={{
                 fontSize:16, color:'rgba(255,255,255,0.7)',
-                lineHeight:1.65, marginBottom:16, maxWidth:360,
+                lineHeight:1.65, marginBottom:16,
               }}>
                 Your subscribers follow what you actually listen to.
                 70% of revenue goes directly to you. Every month.
@@ -518,11 +518,11 @@ export default function HomePage() {
           </a>
 
           {/* FANS */}
-          <a href="/fans" style={{ textDecoration:'none', display:'block' }}>
+          <a href="/fans" style={{ textDecoration:'none', display:'block', margin:'0 0 10px' }}>
             <div style={{
               background:'#12122A',
               border:'1px solid rgba(255,255,255,0.1)',
-              borderRadius:20, padding:'28px 24px', cursor:'pointer',
+              borderRadius:0, padding:'28px 20px', cursor:'pointer',
             }}>
               <div style={{
                 display:'inline-block',
@@ -541,7 +541,7 @@ export default function HomePage() {
               </div>
               <div style={{
                 fontSize:16, color:'rgba(255,255,255,0.5)',
-                lineHeight:1.65, marginBottom:16, maxWidth:360,
+                lineHeight:1.65, marginBottom:16,
               }}>
                 Not their curated playlist.
                 What they actually play at 2am. For real.
@@ -557,7 +557,7 @@ export default function HomePage() {
       </div>
 
       {/* ── FEATURES ── */}
-      <div style={{ maxWidth:680, margin:'0 auto', padding:'0 20px 64px' }}>
+      <div style={{ maxWidth:680, margin:'0 auto', padding:'0 0 64px' }} className="main-container">
         <motion.p
           initial={{ opacity:0, y:12 }}
           whileInView={{ opacity:1, y:0 }}
@@ -640,7 +640,7 @@ export default function HomePage() {
         </div>
 
         {/* Mobile — stack vertical */}
-        <div className="screens-mobile" style={{ display:'none', flexDirection:'column', alignItems:'center', gap:20, padding:'4px 24px 12px', position:'relative', zIndex:1 }}>
+        <div className="screens-mobile" style={{ display:'none', flexDirection:'column', alignItems:'center', gap:20, padding:'4px 16px 12px', position:'relative', zIndex:1 }}>
           {[<ScreenProfile key="p" />, <ScreenNowCard key="n" />].map((screen, i) => (
             <motion.div key={i} initial={{ opacity:0, y:16 }} whileInView={{ opacity:1, y:0 }} viewport={{ once:true }} transition={{ delay:i*0.08 }}
               style={{ width:'100%', maxWidth:340, display:'flex', justifyContent:'center' }}>
@@ -671,22 +671,73 @@ export default function HomePage() {
       </div>
 
       {/* ── WORKS WITH ── */}
-      <div style={{ textAlign:'center', padding:'0 24px 72px' }}>
-        <p style={{ fontSize:11, color:C.dim, letterSpacing:'0.18em', textTransform:'uppercase', marginBottom:20 }}>Works with</p>
-        <div style={{ display:'flex', gap:24, justifyContent:'center', flexWrap:'wrap' }}>
-          {[
-            { name:'Spotify',       color:'#1DB954', href:'/works-with/spotify'       },
-            { name:'Apple Music',   color:'#FC3C44', href:'/works-with/apple-music'   },
-            { name:'YouTube Music', color:'#FF0000', href:'/works-with/youtube-music' },
-            { name:'SoundCloud',    color:'#FF5500', href:'/works-with/soundcloud'    },
-          ].map(p => (
-            <Link key={p.name} href={p.href}
-              style={{ fontSize:17, fontWeight:700, color:p.color, opacity:0.65, textDecoration:'none', transition:'opacity 0.2s' }}
-              onMouseEnter={e => (e.currentTarget.style.opacity='1')}
-              onMouseLeave={e => (e.currentTarget.style.opacity='0.65')}>
-              {p.name}
-            </Link>
-          ))}
+      <div style={{ textAlign:'center', padding:'0 20px 72px' }}>
+        <p style={{ fontSize:11, color:'rgba(255,255,255,0.2)',
+          letterSpacing:'0.18em', textTransform:'uppercase',
+          marginBottom:28 }}>Works with</p>
+        <div style={{ display:'flex', gap:16, justifyContent:'center',
+          flexWrap:'wrap', alignItems:'center' }}>
+
+          {/* Spotify */}
+          <a href="/works-with/spotify" style={{ display:'flex',
+            alignItems:'center', gap:8, textDecoration:'none',
+            padding:'10px 16px', borderRadius:12,
+            background:'rgba(29,185,84,0.08)',
+            border:'1px solid rgba(29,185,84,0.2)',
+            transition:'opacity 0.2s', opacity:0.8 }}
+            onMouseEnter={e => (e.currentTarget.style.opacity='1')}
+            onMouseLeave={e => (e.currentTarget.style.opacity='0.8')}>
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="#1DB954">
+              <path d="M12 0C5.4 0 0 5.4 0 12s5.4 12 12 12 12-5.4 12-12S18.66 0 12 0zm5.521 17.34c-.24.359-.66.48-1.021.24-2.82-1.74-6.36-2.101-10.561-1.141-.418.122-.779-.179-.899-.539-.12-.421.18-.78.54-.9 4.56-1.021 8.52-.6 11.64 1.32.42.18.479.659.301 1.02zm1.44-3.3c-.301.42-.841.6-1.262.3-3.239-1.98-8.159-2.58-11.939-1.38-.479.12-1.02-.12-1.14-.6-.12-.48.12-1.021.6-1.141C9.6 9.9 15 10.561 18.72 12.84c.361.181.54.78.241 1.2zm.12-3.36C15.24 8.4 8.82 8.16 5.16 9.301c-.6.179-1.2-.181-1.38-.721-.18-.601.18-1.2.72-1.381 4.26-1.26 11.28-1.02 15.721 1.621.539.3.719 1.02.419 1.56-.299.421-1.02.599-1.559.3z"/>
+            </svg>
+            <span style={{ fontSize:16, fontWeight:700, color:'#1DB954' }}>Spotify</span>
+          </a>
+
+          {/* Apple Music */}
+          <a href="/works-with/apple-music" style={{ display:'flex',
+            alignItems:'center', gap:8, textDecoration:'none',
+            padding:'10px 16px', borderRadius:12,
+            background:'rgba(252,60,68,0.08)',
+            border:'1px solid rgba(252,60,68,0.2)',
+            transition:'opacity 0.2s', opacity:0.8 }}
+            onMouseEnter={e => (e.currentTarget.style.opacity='1')}
+            onMouseLeave={e => (e.currentTarget.style.opacity='0.8')}>
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="#FC3C44">
+              <path d="M23.994 6.124a9.23 9.23 0 00-.24-2.19c-.317-1.31-1.062-2.31-2.18-3.043a5.022 5.022 0 00-1.877-.726 10.496 10.496 0 00-1.564-.15c-.04-.003-.083-.01-.124-.013H5.986c-.152.01-.303.017-.455.026C4.786.07 4.043.15 3.34.428 2.004.958 1.04 1.88.475 3.208A4.95 4.95 0 00.05 4.783c-.004.052-.007.104-.01.156v14.12c.016.229.027.457.058.684.135 1.056.504 2.01 1.136 2.83.766 1.007 1.775 1.63 3.004 1.905.39.086.787.126 1.187.14.047.002.094.007.14.007H18.65c.37-.014.738-.052 1.098-.126 1.285-.267 2.32-.933 3.092-1.95.467-.627.783-1.323.917-2.076.108-.597.145-1.2.148-1.804V6.34c-.002-.072-.005-.144-.01-.216zm-10.55 12.565c-.66.46-1.413.65-2.21.53-.785-.117-1.427-.49-1.9-1.12-.398-.526-.574-1.12-.573-1.773.002-.684.193-1.294.57-1.837.528-.77 1.27-1.22 2.203-1.296.428-.035.845.022 1.245.178V8.7l-5.05 1.053v7.73c0 .127-.015.254-.03.38-.075.582-.368 1.043-.853 1.376-.378.26-.803.39-1.255.387-.226-.003-.45-.034-.667-.105-.742-.238-1.25-.892-1.28-1.676a1.916 1.916 0 01.433-1.292c.345-.408.79-.635 1.3-.72.3-.05.605-.033.898.06V11.63l7.027-1.466v6.853c-.008.78-.26 1.444-.857 1.672z"/>
+            </svg>
+            <span style={{ fontSize:16, fontWeight:700, color:'#FC3C44' }}>Apple Music</span>
+          </a>
+
+          {/* YouTube Music */}
+          <a href="/works-with/youtube-music" style={{ display:'flex',
+            alignItems:'center', gap:8, textDecoration:'none',
+            padding:'10px 16px', borderRadius:12,
+            background:'rgba(255,0,0,0.08)',
+            border:'1px solid rgba(255,0,0,0.18)',
+            transition:'opacity 0.2s', opacity:0.8 }}
+            onMouseEnter={e => (e.currentTarget.style.opacity='1')}
+            onMouseLeave={e => (e.currentTarget.style.opacity='0.8')}>
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="#FF0000">
+              <path d="M12 0C5.376 0 0 5.376 0 12s5.376 12 12 12 12-5.376 12-12S18.624 0 12 0zm0 19.104c-3.924 0-7.104-3.18-7.104-7.104S8.076 4.896 12 4.896s7.104 3.18 7.104 7.104-3.18 7.104-7.104 7.104zm0-13.332c-3.432 0-6.228 2.796-6.228 6.228S8.568 18.228 12 18.228s6.228-2.796 6.228-6.228S15.432 5.772 12 5.772zM9.684 15.54V8.46L15.816 12 9.684 15.54z"/>
+            </svg>
+            <span style={{ fontSize:16, fontWeight:700, color:'#FF0000' }}>YT Music</span>
+          </a>
+
+          {/* SoundCloud */}
+          <a href="/works-with/soundcloud" style={{ display:'flex',
+            alignItems:'center', gap:8, textDecoration:'none',
+            padding:'10px 16px', borderRadius:12,
+            background:'rgba(255,85,0,0.08)',
+            border:'1px solid rgba(255,85,0,0.2)',
+            transition:'opacity 0.2s', opacity:0.8 }}
+            onMouseEnter={e => (e.currentTarget.style.opacity='1')}
+            onMouseLeave={e => (e.currentTarget.style.opacity='0.8')}>
+            <svg width="22" height="14" viewBox="0 0 40 20" fill="#FF5500">
+              <path d="M0 14.5c0 1.4 1.1 2.5 2.4 2.5.6 0 1.2-.2 1.6-.6V9.8C3.6 9.4 3 9.2 2.4 9.2 1.1 9.2 0 10.3 0 14.5zm5.5 2.5h1.6V8.8c-.5-.3-1-.5-1.6-.5v8.7zm3.2 0h1.6V7.2c-.5.1-1 .3-1.6.6v9.2zm3.2 0h1.6V6.4c-.5.2-1 .5-1.6.8v9.8zm3.2 0h1.6V5.8c-.5.3-1 .6-1.6 1v10.2zm3.2.1c.1 0 .1 0 0 0h1.7V3.5c-.2 0-.5-.1-.7-.1-.3 0-.6 0-.9.1l-.1 13.5zm3.3-.1h1.6V3.1c-.5.1-1.1.3-1.6.6V17zm3.2 0h1.6V2.8c-.5.1-1.1.2-1.6.4V17zm3.2 0H28V2.5c-.5 0-1.1.1-1.6.2V17zm3.2 0h1.6V2.3h-.1c-.5 0-1 0-1.5.1V17zm5.3-10.6c-.2 0-.5 0-.7.1C31.4 3 28.4.5 24.8.5c-1 0-1.9.2-2.8.6V17h10.8c2.5 0 4.5-2 4.5-4.5s-2-4.6-4.5-4.6c-.3 0-.7 0-1 .1.1-.2.1-.4.1-.6 0-1.7-1.3-3-3-3z"/>
+            </svg>
+            <span style={{ fontSize:16, fontWeight:700, color:'#FF5500' }}>SoundCloud</span>
+          </a>
+
         </div>
       </div>
 
