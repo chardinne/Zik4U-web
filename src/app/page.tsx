@@ -332,12 +332,6 @@ export default function HomePage() {
   const leftScreens  = [<ScreenProfile key="p" />, <ScreenPulse key="pu" />];
   const rightScreens = [<ScreenNowCard key="n" />, <ScreenCompatibility key="c" />];
 
-  // Features pilliers
-  const FEATURES = [
-    { emoji:'🧬', title:'Your real archetype',  text:'7 behavioral profiles computed from how you actually listen — not what you say.', color:C.cyan },
-    { emoji:'⚡', title:'Live Pulse rooms',      text:'Join strangers listening to the same track at the same moment. Collective experience.', color:C.pink },
-    { emoji:'🎯', title:'Real compatibility',    text:'87% match means you both played the same FKJ track at 2am. Not "I like jazz too."', color:C.mint },
-  ];
 
   return (
     <main style={{ backgroundColor:C.bg, fontFamily:'Inter, system-ui, sans-serif', color:C.text, overflowX:'hidden' }}>
@@ -365,7 +359,7 @@ export default function HomePage() {
       {/* ════════════════════════════════════════════════════
           BLOC UNIQUE — tout tient ensemble, pas de sections
           ════════════════════════════════════════════════════ */}
-      <div style={{ maxWidth:720, margin:'0 auto', padding:'0 24px', paddingTop:100 }}>
+      <div style={{ maxWidth:680, margin:'0 auto', padding:'0 20px', paddingTop:100 }}>
 
         {/* Badge */}
         <motion.div initial={{ opacity:0, y:-10 }} animate={{ opacity:1, y:0 }} transition={{ delay:0.1 }}
@@ -424,24 +418,68 @@ export default function HomePage() {
 
       </div>
 
-      {/* ── FEATURES — 3 pilliers ── */}
-      <div style={{ maxWidth:720, margin:'0 auto', padding:'0 24px 64px' }}>
-        <motion.div initial={{ opacity:0, y:16 }} whileInView={{ opacity:1, y:0 }} viewport={{ once:true }}
-          style={{ textAlign:'center', marginBottom:32 }}>
-          <div style={{ fontSize:11, fontWeight:700, letterSpacing:'0.22em', color:C.muted, textTransform:'uppercase', marginBottom:12 }}>Why it's different</div>
-        </motion.div>
-        <div style={{ display:'flex', flexDirection:'column', gap:12 }}>
-          {FEATURES.map((item, i) => (
+      {/* ── FEATURES ── */}
+      <div style={{ maxWidth:680, margin:'0 auto', padding:'0 24px 64px' }}>
+        <motion.p
+          initial={{ opacity:0, y:12 }}
+          whileInView={{ opacity:1, y:0 }}
+          viewport={{ once:true }}
+          style={{ fontSize:11, fontWeight:700, letterSpacing:'0.22em',
+            color:'rgba(255,255,255,0.35)', textTransform:'uppercase',
+            textAlign:'center', marginBottom:32 }}>
+          Why it&apos;s different
+        </motion.p>
+        <div style={{ display:'flex', flexDirection:'column', gap:2 }}>
+          {[
+            {
+              emoji:'🧬', color:'#00D4FF',
+              title:'Your real archetype.',
+              sub:'For real.',
+              text:'7 behavioral profiles computed from how you actually listen — not what you say you like.',
+            },
+            {
+              emoji:'⚡', color:'#FF3CAC',
+              title:'Live Pulse rooms.',
+              sub:'For real.',
+              text:'Strangers listening to the same track at the same moment. Collective experience, unfiltered.',
+            },
+            {
+              emoji:'🎯', color:'#00FFB2',
+              title:'Real compatibility.',
+              sub:'For real.',
+              text:'87% means you both played the same FKJ track at 2am. Not "I like jazz too."',
+            },
+          ].map((item, i) => (
             <motion.div key={i}
-              initial={{ opacity:0, y:12 }}
+              initial={{ opacity:0, y:10 }}
               whileInView={{ opacity:1, y:0 }}
               viewport={{ once:true }}
               transition={{ delay:i*0.1 }}
-              style={{ background:C.card, borderRadius:16, padding:'16px 18px', border:`1px solid ${C.border}`, borderLeft:`3px solid ${item.color}`, display:'flex', gap:14, alignItems:'flex-start' }}>
-              <span style={{ fontSize:22, flexShrink:0, marginTop:1 }}>{item.emoji}</span>
-              <div>
-                <div style={{ fontSize:15, fontWeight:800, color:C.text, marginBottom:5 }}>{item.title}</div>
-                <div style={{ fontSize:13, color:C.muted, lineHeight:1.65 }}>{item.text}</div>
+              style={{
+                display:'flex', gap:16, alignItems:'flex-start',
+                padding:'20px 0',
+                borderBottom: i < 2 ? '1px solid rgba(255,255,255,0.06)' : 'none',
+              }}>
+              <span style={{ fontSize:28, flexShrink:0, lineHeight:1, paddingTop:3 }}>
+                {item.emoji}
+              </span>
+              <div style={{ flex:1 }}>
+                <div style={{ fontSize:17, fontWeight:900, color:'#F0F0FF',
+                  lineHeight:1.2, marginBottom:4 }}>
+                  {item.title}{' '}
+                  <span style={{
+                    background:`linear-gradient(90deg, ${item.color}, #FF3CAC)`,
+                    WebkitBackgroundClip:'text',
+                    WebkitTextFillColor:'transparent',
+                    fontStyle:'italic',
+                  }}>
+                    {item.sub}
+                  </span>
+                </div>
+                <div style={{ fontSize:14, color:'rgba(255,255,255,0.5)',
+                  lineHeight:1.65 }}>
+                  {item.text}
+                </div>
               </div>
             </motion.div>
           ))}

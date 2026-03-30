@@ -186,45 +186,75 @@ export default function ListenersPage() {
   return (
     <main style={{ minHeight: '100vh', backgroundColor: C.bg, fontFamily: 'Inter, system-ui, sans-serif', color: C.text }}>
 
-      {/* Nav */}
-      <nav style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '20px 32px', maxWidth: 1100, margin: '0 auto' }}>
-        <button onClick={() => router.push('/')} style={{ background: `linear-gradient(90deg, ${C.cyan}, ${C.mint}, ${C.pink})`, WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', border: 'none', fontSize: 20, fontWeight: 900, letterSpacing: '0.2em', cursor: 'pointer', fontFamily: 'Inter, system-ui, sans-serif', padding: 0 }}>
+      <nav style={{ display:'flex', alignItems:'center',
+        justifyContent:'space-between', padding:'16px 20px',
+        maxWidth:900, margin:'0 auto' }}>
+        <button onClick={() => router.push('/')}
+          style={{ background:`linear-gradient(90deg, #00D4FF, #00FFB2, #FF3CAC)`,
+            WebkitBackgroundClip:'text', WebkitTextFillColor:'transparent',
+            border:'none', fontSize:20, fontWeight:900,
+            letterSpacing:'0.2em', cursor:'pointer',
+            fontFamily:'Inter, system-ui, sans-serif', padding:0 }}>
           ZIK4U
         </button>
-        <div style={{ display: 'flex', gap: 24 }}>
-          <button onClick={() => router.push('/creators')} style={{ background: 'none', border: 'none', fontSize: 14, color: C.muted, cursor: 'pointer', fontFamily: 'Inter, system-ui, sans-serif' }} onMouseEnter={e => (e.currentTarget.style.color = C.text)} onMouseLeave={e => (e.currentTarget.style.color = C.muted)}>
-            Créateurs →
+        <div style={{ display:'flex', gap:8 }}>
+          <button onClick={() => router.push('/creators')}
+            style={{ background:`linear-gradient(135deg, #FF3CAC, #7B2FFF)`,
+              border:'none', borderRadius:20, padding:'7px 14px',
+              fontSize:12, fontWeight:700, color:'#fff',
+              cursor:'pointer', fontFamily:'Inter, system-ui, sans-serif' }}>
+            Créateurs
           </button>
-          <button onClick={() => router.push('/fans')} style={{ background: 'none', border: 'none', fontSize: 14, color: C.muted, cursor: 'pointer', fontFamily: 'Inter, system-ui, sans-serif' }} onMouseEnter={e => (e.currentTarget.style.color = C.text)} onMouseLeave={e => (e.currentTarget.style.color = C.muted)}>
-            Fans →
+          <button onClick={() => router.push('/fans')}
+            style={{ background:'rgba(255,255,255,0.07)',
+              border:'1px solid rgba(255,255,255,0.12)',
+              borderRadius:20, padding:'7px 14px',
+              fontSize:12, fontWeight:700, color:'#fff',
+              cursor:'pointer', fontFamily:'Inter, system-ui, sans-serif' }}>
+            Fans
           </button>
         </div>
       </nav>
 
-      <div style={{ maxWidth: 900, margin: '0 auto', padding: '40px 24px 120px' }}>
+      <div style={{ maxWidth: 900, margin: '0 auto', padding: '24px 20px 80px' }}>
 
         {/* Hero */}
-        <motion.div initial={{ opacity: 0, y: 40 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7 }} style={{ marginBottom: 80 }}>
-          <p style={{ fontSize: 13, fontWeight: 700, letterSpacing: '0.15em', color: C.cyan, textTransform: 'uppercase', marginBottom: 24 }}>
+        <motion.div initial={{ opacity:0, y:30 }} animate={{ opacity:1, y:0 }}
+          transition={{ duration:0.6 }} style={{ marginBottom:56 }}>
+          <p style={{ fontSize:12, fontWeight:700, letterSpacing:'0.18em',
+            color:'#00D4FF', textTransform:'uppercase', marginBottom:16 }}>
             Pour les Listeners
           </p>
-          <h1 style={{ fontSize: 'clamp(40px, 6vw, 76px)', fontWeight: 900, lineHeight: 1.0, letterSpacing: '-0.03em', marginBottom: 24 }}>
+          <h1 style={{ fontSize:'clamp(34px, 6vw, 68px)', fontWeight:900,
+            lineHeight:1.05, letterSpacing:'-0.03em', marginBottom:12 }}>
             Tu es ce que tu écoutes.{' '}
-            <span style={{ background: `linear-gradient(90deg, ${C.cyan}, ${C.mint})`, WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>
-              Vraiment.
+            <span style={{ background:`linear-gradient(90deg, #00D4FF, #00FFB2)`,
+              WebkitBackgroundClip:'text', WebkitTextFillColor:'transparent' }}>
+              Pour de vrai.
             </span>
           </h1>
-          <p style={{ fontSize: 'clamp(16px, 2vw, 20px)', color: C.muted, lineHeight: 1.7, maxWidth: 580, marginBottom: 40 }}>
-            Zik4U capture ce que tu écoutes réellement — pas ce que tu veux montrer.
-            Et construit à partir de là des connexions, des insights, et une identité
-            que personne d'autre ne peut fabriquer.
+          <p style={{ fontSize:'clamp(15px, 2vw, 18px)',
+            color:'rgba(255,255,255,0.55)', lineHeight:1.7,
+            maxWidth:520, marginBottom:32 }}>
+            Pas ta playlist curatée. Pas ton profil public.<br />
+            Ton identité musicale réelle — vécue, partagée, mesurée.{' '}
+            <strong style={{ color:'#00FFB2', fontWeight:700 }}>For real.</strong>
           </p>
-          <div style={{ display: 'flex', gap: 12, flexWrap: 'wrap' }}>
-            <a href={APP_STORE_URL} style={{ display: 'inline-flex', alignItems: 'center', gap: 8, padding: '14px 28px', background: `linear-gradient(135deg, ${C.cyan}, ${C.mint})`, borderRadius: 12, color: '#0A0A1A', fontWeight: 700, fontSize: 15, textDecoration: 'none' }}>
-               App Store →
+          <div style={{ display:'flex', gap:10, flexWrap:'wrap' }}>
+            <a href="https://apps.apple.com/app/zik4u/id6748722257"
+              style={{ padding:'14px 24px',
+                background:`linear-gradient(135deg, #00D4FF, #00FFB2)`,
+                borderRadius:12, color:'#0A0A1A', fontWeight:800,
+                fontSize:14, textDecoration:'none', flexShrink:0 }}>
+              Télécharger — iOS →
             </a>
-            <a href={PLAY_STORE_URL} style={{ display: 'inline-flex', alignItems: 'center', gap: 8, padding: '14px 28px', background: C.card, border: `1px solid ${C.border}`, borderRadius: 12, color: C.text, fontWeight: 700, fontSize: 15, textDecoration: 'none' }}>
-               Google Play →
+            <a href="https://play.google.com/store/apps/details?id=com.zik4u.app"
+              style={{ padding:'14px 24px',
+                background:'#12122A',
+                border:'1px solid rgba(255,255,255,0.1)',
+                borderRadius:12, color:'#fff', fontWeight:800,
+                fontSize:14, textDecoration:'none', flexShrink:0 }}>
+              Télécharger — Android →
             </a>
           </div>
         </motion.div>
@@ -232,7 +262,7 @@ export default function ListenersPage() {
         {/* Section 1 — Identité */}
         <motion.section initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.6 }} style={{ marginBottom: 64 }}>
           <SectionTitle color={C.cyan}>Ton identité musicale</SectionTitle>
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))', gap: 16 }}>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: 16 }}>
             {FEATURES_IDENTITY.map(f => <FeatureCard key={f.title} {...f} />)}
           </div>
         </motion.section>
@@ -240,7 +270,7 @@ export default function ListenersPage() {
         {/* Section 2 — Social */}
         <motion.section initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.6 }} style={{ marginBottom: 64 }}>
           <SectionTitle color={C.mint}>Le social de l&apos;instant</SectionTitle>
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))', gap: 16 }}>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: 16 }}>
             {FEATURES_SOCIAL.map(f => <FeatureCard key={f.title} {...f} />)}
           </div>
         </motion.section>
@@ -248,7 +278,7 @@ export default function ListenersPage() {
         {/* Section 3 — Connexion */}
         <motion.section initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.6 }} style={{ marginBottom: 64 }}>
           <SectionTitle color={C.purple}>Connexions réelles</SectionTitle>
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))', gap: 16 }}>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: 16 }}>
             {FEATURES_CONNECTION.map(f => <FeatureCard key={f.title} {...f} />)}
           </div>
         </motion.section>
@@ -256,7 +286,7 @@ export default function ListenersPage() {
         {/* Section 4 — Mémoire */}
         <motion.section initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.6 }} style={{ marginBottom: 64 }}>
           <SectionTitle color={C.pink}>Ta mémoire musicale</SectionTitle>
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))', gap: 16 }}>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: 16 }}>
             {FEATURES_MEMORY.map(f => <FeatureCard key={f.title} {...f} />)}
           </div>
         </motion.section>
@@ -283,6 +313,42 @@ export default function ListenersPage() {
         </motion.div>
 
       </div>
+
+        {/* CTA final */}
+        <motion.div initial={{ opacity:0, y:20 }}
+          whileInView={{ opacity:1, y:0 }} viewport={{ once:true }}
+          style={{ textAlign:'center', padding:'48px 0 80px',
+            borderTop:'1px solid rgba(255,255,255,0.06)', marginTop:40 }}>
+          <div style={{ fontSize:'clamp(22px, 4vw, 32px)', fontWeight:900,
+            marginBottom:8, lineHeight:1.2 }}>
+            Prêt à écouter{' '}
+            <span style={{ background:`linear-gradient(90deg, #00D4FF, #00FFB2)`,
+              WebkitBackgroundClip:'text', WebkitTextFillColor:'transparent' }}>
+              pour de vrai ?
+            </span>
+          </div>
+          <p style={{ color:'rgba(255,255,255,0.45)', fontSize:15,
+            marginBottom:28, lineHeight:1.6 }}>
+            Rejoins Zik4U. Ton identité musicale t&apos;attend.
+          </p>
+          <div style={{ display:'flex', gap:10, justifyContent:'center',
+            flexWrap:'wrap' }}>
+            <a href="https://apps.apple.com/app/zik4u/id6748722257"
+              style={{ padding:'15px 28px',
+                background:`linear-gradient(135deg, #00D4FF, #00FFB2)`,
+                borderRadius:12, color:'#0A0A1A', fontWeight:800,
+                fontSize:15, textDecoration:'none' }}>
+              App Store →
+            </a>
+            <a href="https://play.google.com/store/apps/details?id=com.zik4u.app"
+              style={{ padding:'15px 28px', background:'#12122A',
+                border:'1px solid rgba(255,255,255,0.1)',
+                borderRadius:12, color:'#fff', fontWeight:800,
+                fontSize:15, textDecoration:'none' }}>
+              Google Play →
+            </a>
+          </div>
+        </motion.div>
     </main>
   );
 }

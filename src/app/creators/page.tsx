@@ -159,17 +159,38 @@ export default function CreatorsPage() {
   return (
     <main style={{ minHeight: '100vh', backgroundColor: C.bg, fontFamily: 'Inter, system-ui, sans-serif', color: C.text }}>
 
-      {/* Nav */}
-      <nav style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '20px 32px', maxWidth: 1100, margin: '0 auto' }}>
-        <button onClick={() => router.push('/')} style={{ background: `linear-gradient(90deg, ${C.cyan}, ${C.mint}, ${C.pink})`, WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', border: 'none', fontSize: 20, fontWeight: 900, letterSpacing: '0.2em', cursor: 'pointer', fontFamily: 'Inter, system-ui, sans-serif', padding: 0 }}>
+      <nav style={{ display:'flex', alignItems:'center',
+        justifyContent:'space-between', padding:'16px 20px',
+        maxWidth:900, margin:'0 auto' }}>
+        <button onClick={() => router.push('/')}
+          style={{ background:`linear-gradient(90deg, #00D4FF, #00FFB2, #FF3CAC)`,
+            WebkitBackgroundClip:'text', WebkitTextFillColor:'transparent',
+            border:'none', fontSize:20, fontWeight:900,
+            letterSpacing:'0.2em', cursor:'pointer',
+            fontFamily:'Inter, system-ui, sans-serif', padding:0 }}>
           ZIK4U
         </button>
-        <button onClick={() => router.push('/fans')} style={{ background: 'none', border: 'none', fontSize: 14, color: C.muted, cursor: 'pointer', fontFamily: 'Inter, system-ui, sans-serif' }} onMouseEnter={e => (e.currentTarget.style.color = C.text)} onMouseLeave={e => (e.currentTarget.style.color = C.muted)}>
-          Trouver un créateur →
-        </button>
+        <div style={{ display:'flex', gap:8 }}>
+          <button onClick={() => router.push('/listeners')}
+            style={{ background:'rgba(255,255,255,0.07)',
+              border:'1px solid rgba(255,255,255,0.12)',
+              borderRadius:20, padding:'7px 14px',
+              fontSize:12, fontWeight:700, color:'#fff',
+              cursor:'pointer', fontFamily:'Inter, system-ui, sans-serif' }}>
+            Listeners
+          </button>
+          <button onClick={() => router.push('/fans')}
+            style={{ background:'rgba(255,255,255,0.07)',
+              border:'1px solid rgba(255,255,255,0.12)',
+              borderRadius:20, padding:'7px 14px',
+              fontSize:12, fontWeight:700, color:'#fff',
+              cursor:'pointer', fontFamily:'Inter, system-ui, sans-serif' }}>
+            Fans
+          </button>
+        </div>
       </nav>
 
-      <div style={{ maxWidth: 900, margin: '0 auto', padding: '40px 24px 120px' }}>
+      <div style={{ maxWidth: 900, margin: '0 auto', padding: '24px 20px 80px' }}>
 
         {/* Hero */}
         <motion.div initial={{ opacity: 0, y: 40 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7 }} style={{ marginBottom: 80 }}>
@@ -182,10 +203,14 @@ export default function CreatorsPage() {
               Ta communauté réelle.
             </span>
           </h1>
-          <p style={{ fontSize: 'clamp(16px, 2vw, 20px)', color: C.muted, lineHeight: 1.7, maxWidth: 580, marginBottom: 40 }}>
-            Pas d&apos;algorithme entre toi et tes fans. Pas de performance.
-            Tes abonnés suivent ce que tu écoutes vraiment — et paient pour ça.
-            70% des revenus te reviennent directement.
+          <p style={{ fontSize:'clamp(15px, 2vw, 18px)',
+            color:'rgba(255,255,255,0.55)', lineHeight:1.7,
+            maxWidth:520, marginBottom:32 }}>
+            Pas d&apos;algorithme entre toi et tes fans.
+            Tes abonnés suivent ce que tu écoutes vraiment.<br />
+            <strong style={{ color:'#FF3CAC', fontWeight:700 }}>
+              70% des revenus. For real.
+            </strong>
           </p>
           <div style={{ display: 'flex', gap: 12, flexWrap: 'wrap' }}>
             <a href={APP_STORE_URL} style={{ padding: '14px 28px', background: `linear-gradient(135deg, ${C.pink}, ${C.purple})`, borderRadius: 12, color: C.text, fontWeight: 700, fontSize: 15, textDecoration: 'none' }}>
@@ -216,7 +241,7 @@ export default function CreatorsPage() {
         {/* Monétisation */}
         <motion.section initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.6 }} style={{ marginBottom: 64 }}>
           <SectionTitle color={C.gold}>Monétisation</SectionTitle>
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))', gap: 16 }}>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: 16 }}>
             {FEATURES_MONETIZE.map(f => <FeatureCard key={f.title} {...f} />)}
           </div>
         </motion.section>
@@ -224,7 +249,7 @@ export default function CreatorsPage() {
         {/* Visibilité */}
         <motion.section initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.6 }} style={{ marginBottom: 64 }}>
           <SectionTitle color={C.mint}>Visibilité &amp; viralité</SectionTitle>
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))', gap: 16 }}>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: 16 }}>
             {FEATURES_VISIBILITY.map(f => <FeatureCard key={f.title} {...f} />)}
           </div>
         </motion.section>
@@ -232,7 +257,7 @@ export default function CreatorsPage() {
         {/* Présence live */}
         <motion.section initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.6 }} style={{ marginBottom: 64 }}>
           <SectionTitle color={C.purple}>Présence live</SectionTitle>
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))', gap: 16 }}>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: 16 }}>
             {FEATURES_PRESENCE.map(f => <FeatureCard key={f.title} {...f} />)}
           </div>
         </motion.section>
@@ -272,6 +297,41 @@ export default function CreatorsPage() {
         </motion.div>
 
       </div>
+
+        <motion.div initial={{ opacity:0, y:20 }}
+          whileInView={{ opacity:1, y:0 }} viewport={{ once:true }}
+          style={{ textAlign:'center', padding:'48px 0 80px',
+            borderTop:'1px solid rgba(255,255,255,0.06)', marginTop:40 }}>
+          <div style={{ fontSize:'clamp(22px, 4vw, 32px)', fontWeight:900,
+            marginBottom:8, lineHeight:1.2 }}>
+            Lance-toi.{' '}
+            <span style={{ background:`linear-gradient(90deg, #FF3CAC, #7B2FFF)`,
+              WebkitBackgroundClip:'text', WebkitTextFillColor:'transparent' }}>
+              For real.
+            </span>
+          </div>
+          <p style={{ color:'rgba(255,255,255,0.45)', fontSize:15,
+            marginBottom:28 }}>
+            Ton Creator Studio t&apos;attend. Gratuit pour commencer.
+          </p>
+          <div style={{ display:'flex', gap:10, justifyContent:'center',
+            flexWrap:'wrap' }}>
+            <a href="https://apps.apple.com/app/zik4u/id6748722257"
+              style={{ padding:'15px 28px',
+                background:`linear-gradient(135deg, #FF3CAC, #7B2FFF)`,
+                borderRadius:12, color:'#fff', fontWeight:800,
+                fontSize:15, textDecoration:'none' }}>
+              App Store →
+            </a>
+            <a href="https://play.google.com/store/apps/details?id=com.zik4u.app"
+              style={{ padding:'15px 28px', background:'#12122A',
+                border:'1px solid rgba(255,255,255,0.1)',
+                borderRadius:12, color:'#fff', fontWeight:800,
+                fontSize:15, textDecoration:'none' }}>
+              Google Play →
+            </a>
+          </div>
+        </motion.div>
     </main>
   );
 }
