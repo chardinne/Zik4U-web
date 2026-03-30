@@ -359,24 +359,17 @@ export default function HomePage() {
       {/* ════════════════════════════════════════════════════
           BLOC UNIQUE — tout tient ensemble, pas de sections
           ════════════════════════════════════════════════════ */}
-      <div style={{ maxWidth:680, margin:'0 auto', padding:'0 20px', paddingTop:100 }}>
-
-        {/* Badge */}
-        <motion.div initial={{ opacity:0, y:-10 }} animate={{ opacity:1, y:0 }} transition={{ delay:0.1 }}
-          style={{ display:'flex', justifyContent:'center', paddingTop:40, paddingBottom:40 }}>
-          <span style={{ fontSize:11, fontWeight:700, letterSpacing:'0.22em', color:C.cyan, textTransform:'uppercase', background:'rgba(0,212,255,0.07)', padding:'7px 20px', borderRadius:999, border:`1px solid rgba(0,212,255,0.22)`, display:'inline-flex', alignItems:'center', gap:7 }}>
-            <motion.span animate={{ opacity:[1,0.3,1] }} transition={{ duration:1.6, repeat:Infinity }}>●</motion.span>
-            Early Access — Join Now
-          </span>
-        </motion.div>
+      <div style={{ maxWidth:680, margin:'0 auto', padding:'0 16px', paddingTop:80 }}>
 
         {/* Headline */}
         <motion.div initial={{ opacity:0, y:20 }} animate={{ opacity:1, y:0 }} transition={{ delay:0.2 }}
           style={{ textAlign:'center', marginBottom:20 }}>
-          <h1 style={{ fontSize:'clamp(20px, 3vw, 28px)', fontWeight:700, lineHeight:1.4, margin:'0 0 16px', color:C.text, letterSpacing:'-0.01em' }}>
-            The social network built on{' '}
-            <span style={{ background:`linear-gradient(90deg, ${C.pink}, ${C.purple})`, WebkitBackgroundClip:'text', WebkitTextFillColor:'transparent', fontWeight:800 }}>
-              what you actually listen to
+          <h1 style={{ fontSize:'clamp(22px, 5vw, 32px)', fontWeight:700, lineHeight:1.4, margin:'0 0 16px', color:C.text, letterSpacing:'-0.01em' }}>
+            Le réseau social construit sur{' '}
+            <span style={{ background:`linear-gradient(90deg, #FF3CAC, #7B2FFF)`,
+              WebkitBackgroundClip:'text', WebkitTextFillColor:'transparent',
+              fontWeight:800 }}>
+              ce que tu écoutes vraiment
             </span>
           </h1>
           {/* FOR REAL — sobre, compact */}
@@ -387,67 +380,139 @@ export default function HomePage() {
 
         {/* Sous-titre */}
         <motion.p initial={{ opacity:0 }} animate={{ opacity:1 }} transition={{ delay:0.35 }}
-          style={{ fontSize:'clamp(16px, 2vw, 19px)', color:'rgba(255,255,255,0.68)', textAlign:'center', lineHeight:1.75, margin:'0 0 40px' }}>
-          Not your curated playlist. Not your public profile.<br />
-          Your{' '}<strong style={{ color:C.pink, fontWeight:800 }}>real</strong>{' '}listening identity.{' '}
-          <span style={{ color:C.mint }}>Live</span>,{' '}
-          <span style={{ color:C.cyan }}>shared</span>,{' '}
-          <span style={{ color:C.gold }}>monetized</span>.
+          style={{ fontSize:'clamp(17px, 4vw, 20px)', color:'rgba(255,255,255,0.68)', textAlign:'center', lineHeight:1.75, margin:'0 0 40px' }}>
+          Pas ta playlist curatée. Pas ton profil public.<br />
+          Ton identité musicale{' '}
+          <strong style={{ color:'#FF3CAC', fontWeight:800 }}>réelle</strong>.{' '}
+          <span style={{ color:'#00FFB2' }}>Vécue</span>,{' '}
+          <span style={{ color:'#00D4FF' }}>partagée</span>,{' '}
+          <span style={{ color:'#FFB800' }}>monétisée</span>.
         </motion.p>
 
-        {/* Label live — sans carte en dessous */}
-        <motion.div initial={{ opacity:0 }} animate={{ opacity:1 }} transition={{ delay:0.45 }}
-          style={{ display:'flex', justifyContent:'center', marginBottom:48 }}>
-          <span style={{ fontSize:11, fontWeight:700, letterSpacing:'0.16em', textTransform:'uppercase', display:'inline-flex', alignItems:'center', gap:6, color:C.pink }}>
-            <motion.span animate={{ opacity:[1,0.3,1] }} transition={{ duration:1.6, repeat:Infinity }} style={{ fontSize:8 }}>●</motion.span>
-            Live right now on Zik4U
-          </span>
-        </motion.div>
+        {/* 3 tunnels d'acquisition */}
+        <motion.div
+          initial={{ opacity:0, y:16 }}
+          animate={{ opacity:1, y:0 }}
+          transition={{ delay:0.5 }}
+          style={{ display:'flex', flexDirection:'column', gap:0, marginBottom:64 }}>
 
-        {/* 3 CTAs */}
-        <motion.div initial={{ opacity:0, y:16 }} animate={{ opacity:1, y:0 }} transition={{ delay:0.5 }}
-          style={{ display:'flex', flexDirection:'column', gap:12, marginBottom:64 }}>
-          {[
-            { href:'/listeners', label:'Listener', tagline:'Your taste is your identity.',  pain:'Find people who listen like you listen — not like they say they do.', gradient:`linear-gradient(135deg, ${C.cyan}, ${C.mint})`,   textColor:'#0A0A1A' },
-            { href:'/creators',  label:'Creator',  tagline:'Your listens are worth money.', pain:'Monetize your real music identity. Not followers — your data.',         gradient:`linear-gradient(135deg, ${C.pink}, ${C.purple})`, textColor:'#fff' },
-            { href:'/fans',      label:'Fan',       tagline:'Know your artist. For real.',  pain:"Not their PR. What they actually put on at 2am.",                      gradient:undefined, textColor:'#fff', border:`1px solid ${C.border}` },
-          ].map(cta => (
-            <CTACard key={cta.href} href={cta.href} label={cta.label} tagline={cta.tagline} pain={cta.pain} gradient={cta.gradient} textColor={cta.textColor} border={'border' in cta ? cta.border : undefined} />
-          ))}
+          {/* LISTENER */}
+          <a href="/listeners" style={{ textDecoration:'none', display:'block',
+            borderRadius:20, overflow:'hidden', marginBottom:12 }}>
+            <div style={{
+              background:`linear-gradient(135deg, #00D4FF, #00FFB2)`,
+              padding:'28px 24px', cursor:'pointer',
+              position:'relative',
+            }}>
+              <div style={{ fontSize:10, fontWeight:800, letterSpacing:'0.2em',
+                color:'rgba(10,10,26,0.5)', textTransform:'uppercase',
+                marginBottom:8 }}>
+                Listener
+              </div>
+              <div style={{ fontSize:22, fontWeight:900, color:'#0A0A1A',
+                lineHeight:1.15, marginBottom:6 }}>
+                Tu écoutes.<br />Tu découvres.
+              </div>
+              <div style={{ fontSize:14, color:'rgba(10,10,26,0.6)',
+                lineHeight:1.6, marginBottom:14, maxWidth:380 }}>
+                Trouve les personnes qui écoutent comme toi.
+                Pas comme elles disent écouter.
+                Ton identité musicale réelle.
+              </div>
+              <div style={{ fontSize:14, fontWeight:700, color:'#0A0A1A' }}>
+                Découvrir →
+              </div>
+            </div>
+          </a>
+
+          {/* CREATOR */}
+          <a href="/creators" style={{ textDecoration:'none', display:'block',
+            borderRadius:20, overflow:'hidden', marginBottom:12 }}>
+            <div style={{
+              background:`linear-gradient(135deg, #FF3CAC, #7B2FFF)`,
+              padding:'28px 24px', cursor:'pointer',
+            }}>
+              <div style={{ fontSize:10, fontWeight:800, letterSpacing:'0.2em',
+                color:'rgba(255,255,255,0.5)', textTransform:'uppercase',
+                marginBottom:8 }}>
+                Creator
+              </div>
+              <div style={{ fontSize:22, fontWeight:900, color:'#fff',
+                lineHeight:1.15, marginBottom:6 }}>
+                Tu crées.<br />Tu monétises.
+              </div>
+              <div style={{ fontSize:14, color:'rgba(255,255,255,0.65)',
+                lineHeight:1.6, marginBottom:14, maxWidth:380 }}>
+                Tes abonnés suivent ce que tu écoutes vraiment.
+                70 % des revenus te reviennent directement.
+                Chaque mois.
+              </div>
+              <div style={{ fontSize:14, fontWeight:700, color:'#fff' }}>
+                Devenir créateur →
+              </div>
+            </div>
+          </a>
+
+          {/* FAN */}
+          <a href="/fans" style={{ textDecoration:'none', display:'block',
+            borderRadius:20, overflow:'hidden' }}>
+            <div style={{
+              background:'#12122A',
+              border:'1px solid rgba(255,255,255,0.1)',
+              padding:'28px 24px', cursor:'pointer',
+            }}>
+              <div style={{ fontSize:10, fontWeight:800, letterSpacing:'0.2em',
+                color:'rgba(255,255,255,0.35)', textTransform:'uppercase',
+                marginBottom:8 }}>
+                Fan
+              </div>
+              <div style={{ fontSize:22, fontWeight:900, color:'#fff',
+                lineHeight:1.15, marginBottom:6 }}>
+                Tu suis.<br />Tu connectes.
+              </div>
+              <div style={{ fontSize:14, color:'rgba(255,255,255,0.5)',
+                lineHeight:1.6, marginBottom:14, maxWidth:380 }}>
+                Pas leur playlist curatée. Ce qu&apos;ils écoutent
+                vraiment à 2h du matin. For real.
+              </div>
+              <div style={{ fontSize:14, fontWeight:700,
+                color:'rgba(255,255,255,0.7)' }}>
+                Trouver un créateur →
+              </div>
+            </div>
+          </a>
+
         </motion.div>
 
       </div>
 
       {/* ── FEATURES ── */}
-      <div style={{ maxWidth:680, margin:'0 auto', padding:'0 24px 64px' }}>
+      <div style={{ maxWidth:680, margin:'0 auto', padding:'0 20px 64px' }}>
         <motion.p
           initial={{ opacity:0, y:12 }}
           whileInView={{ opacity:1, y:0 }}
           viewport={{ once:true }}
           style={{ fontSize:11, fontWeight:700, letterSpacing:'0.22em',
-            color:'rgba(255,255,255,0.35)', textTransform:'uppercase',
-            textAlign:'center', marginBottom:32 }}>
-          Why it&apos;s different
+            color:'rgba(255,255,255,0.3)', textTransform:'uppercase',
+            textAlign:'center', marginBottom:36 }}>
+          Pourquoi c&apos;est différent
         </motion.p>
-        <div style={{ display:'flex', flexDirection:'column', gap:2 }}>
+        <div style={{ display:'flex', flexDirection:'column' }}>
           {[
             {
-              emoji:'🧬', color:'#00D4FF',
-              title:'Your real archetype.',
-              sub:'For real.',
-              text:'7 behavioral profiles computed from how you actually listen — not what you say you like.',
+              color:'#00D4FF',
+              title:'Ton vrai archétype.',
+              text:'7 profils comportementaux calculés sur comment tu écoutes réellement, pas ce que tu prétends aimer.',
             },
             {
-              emoji:'⚡', color:'#FF3CAC',
-              title:'Live Pulse rooms.',
-              sub:'For real.',
-              text:'Strangers listening to the same track at the same moment. Collective experience, unfiltered.',
+              color:'#FF3CAC',
+              title:'Pulse rooms en direct.',
+              text:'Des inconnus qui écoutent le même titre au même moment. Une expérience collective, sans filtre.',
             },
             {
-              emoji:'🎯', color:'#00FFB2',
-              title:'Real compatibility.',
-              sub:'For real.',
-              text:'87% means you both played the same FKJ track at 2am. Not "I like jazz too."',
+              color:'#00FFB2',
+              title:'Une compatibilité réelle.',
+              text:'87 % signifie que vous avez tous les deux écouté le même titre de FKJ à 2h du matin. Pas juste "j\'aime le jazz moi aussi".',
             },
           ].map((item, i) => (
             <motion.div key={i}
@@ -456,30 +521,20 @@ export default function HomePage() {
               viewport={{ once:true }}
               transition={{ delay:i*0.1 }}
               style={{
-                display:'flex', gap:16, alignItems:'flex-start',
-                padding:'20px 0',
-                borderBottom: i < 2 ? '1px solid rgba(255,255,255,0.06)' : 'none',
+                padding:'22px 0',
+                borderBottom: i < 2
+                  ? '1px solid rgba(255,255,255,0.06)'
+                  : 'none',
               }}>
-              <span style={{ fontSize:28, flexShrink:0, lineHeight:1, paddingTop:3 }}>
-                {item.emoji}
-              </span>
-              <div style={{ flex:1 }}>
-                <div style={{ fontSize:17, fontWeight:900, color:'#F0F0FF',
-                  lineHeight:1.2, marginBottom:4 }}>
-                  {item.title}{' '}
-                  <span style={{
-                    background:`linear-gradient(90deg, ${item.color}, #FF3CAC)`,
-                    WebkitBackgroundClip:'text',
-                    WebkitTextFillColor:'transparent',
-                    fontStyle:'italic',
-                  }}>
-                    {item.sub}
-                  </span>
-                </div>
-                <div style={{ fontSize:14, color:'rgba(255,255,255,0.5)',
-                  lineHeight:1.65 }}>
-                  {item.text}
-                </div>
+              <div style={{ width:28, height:3, background:item.color,
+                borderRadius:2, marginBottom:12 }} />
+              <div style={{ fontSize:18, fontWeight:900, color:'#F0F0FF',
+                lineHeight:1.2, marginBottom:8 }}>
+                {item.title}
+              </div>
+              <div style={{ fontSize:15, color:'rgba(255,255,255,0.5)',
+                lineHeight:1.7 }}>
+                {item.text}
               </div>
             </motion.div>
           ))}

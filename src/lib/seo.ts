@@ -50,6 +50,11 @@ export const defaultMetadata: Metadata = {
     creator: '@zik4u',
     site: '@zik4u',
   },
+  viewport: {
+    width: 'device-width',
+    initialScale: 1,
+    maximumScale: 1,
+  },
   robots: {
     index: true,
     follow: true,
