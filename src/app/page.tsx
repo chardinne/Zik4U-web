@@ -449,17 +449,17 @@ export default function HomePage() {
           initial={{ opacity:0, y:16 }}
           animate={{ opacity:1, y:0 }}
           transition={{ delay:0.5 }}
-          style={{ display:'flex', flexDirection:'column', gap:0, marginBottom:64 }}>
+          style={{ display:'flex', flexDirection:'column', gap:12, padding:'0 16px', marginBottom:64 }}>
 
           {/* LISTENERS */}
           <a href="/listeners" style={{ textDecoration:'none', display:'block' }}>
             <div style={{
               background:'linear-gradient(135deg, #00D4FF, #00FFB2)',
-              borderRadius:20, padding:'32px 24px', cursor:'pointer',
+              borderRadius:28, padding:'32px 24px', cursor:'pointer',
             }} className="tunnel-card-inner">
               <div style={{
                 display:'inline-block',
-                fontSize:19, fontWeight:900, letterSpacing:'0.12em',
+                fontSize:15, fontWeight:900, letterSpacing:'0.12em',
                 color:'rgba(10,10,26,0.9)', textTransform:'uppercase',
                 background:'rgba(10,10,26,0.15)',
                 padding:'4px 12px', borderRadius:999, marginBottom:14,
@@ -467,20 +467,20 @@ export default function HomePage() {
                 LISTENERS
               </div>
               <div style={{
-                fontSize:'clamp(26px, 6vw, 32px)', fontWeight:900,
+                fontSize:24, fontWeight:900,
                 color:'#0A0A1A', lineHeight:1.15, marginBottom:8,
               }}>
                 You listen.<br />You discover.
               </div>
               <div style={{
-                fontSize:18, color:'rgba(10,10,26,0.65)',
+                fontSize:16, color:'rgba(10,10,26,0.65)',
                 lineHeight:1.65, marginBottom:16,
               }}>
                 Find people who listen the way you do.
                 Not the way they say they do.
                 Your real music identity, live.
               </div>
-              <div style={{ fontSize:21, fontWeight:800, color:'#0A0A1A' }}>
+              <div style={{ fontSize:17, fontWeight:800, color:'#0A0A1A' }}>
                 Explore →
               </div>
             </div>
@@ -490,11 +490,11 @@ export default function HomePage() {
           <a href="/creators" style={{ textDecoration:'none', display:'block' }}>
             <div style={{
               background:'linear-gradient(135deg, #FF3CAC, #7B2FFF)',
-              borderRadius:20, padding:'32px 24px', cursor:'pointer',
+              borderRadius:28, padding:'32px 24px', cursor:'pointer',
             }} className="tunnel-card-inner">
               <div style={{
                 display:'inline-block',
-                fontSize:19, fontWeight:900, letterSpacing:'0.12em',
+                fontSize:15, fontWeight:900, letterSpacing:'0.12em',
                 color:'rgba(255,255,255,0.9)', textTransform:'uppercase',
                 background:'rgba(255,255,255,0.15)',
                 padding:'4px 12px', borderRadius:999, marginBottom:14,
@@ -502,19 +502,19 @@ export default function HomePage() {
                 CREATORS
               </div>
               <div style={{
-                fontSize:'clamp(26px, 6vw, 32px)', fontWeight:900,
+                fontSize:24, fontWeight:900,
                 color:'#fff', lineHeight:1.15, marginBottom:8,
               }}>
                 You create.<br />You monetize.
               </div>
               <div style={{
-                fontSize:18, color:'rgba(255,255,255,0.7)',
+                fontSize:16, color:'rgba(255,255,255,0.7)',
                 lineHeight:1.65, marginBottom:16,
               }}>
                 Your subscribers follow what you actually listen to.
                 70% of revenue goes directly to you. Every month.
               </div>
-              <div style={{ fontSize:21, fontWeight:800, color:'#fff' }}>
+              <div style={{ fontSize:17, fontWeight:800, color:'#fff' }}>
                 Become a creator →
               </div>
             </div>
@@ -525,11 +525,11 @@ export default function HomePage() {
             <div style={{
               background:'#12122A',
               border:'1px solid rgba(255,255,255,0.1)',
-              borderRadius:20, padding:'32px 24px', cursor:'pointer',
+              borderRadius:28, padding:'32px 24px', cursor:'pointer',
             }} className="tunnel-card-inner">
               <div style={{
                 display:'inline-block',
-                fontSize:19, fontWeight:900, letterSpacing:'0.12em',
+                fontSize:15, fontWeight:900, letterSpacing:'0.12em',
                 color:'rgba(255,255,255,0.7)', textTransform:'uppercase',
                 background:'rgba(255,255,255,0.08)',
                 padding:'4px 12px', borderRadius:999, marginBottom:14,
@@ -537,19 +537,19 @@ export default function HomePage() {
                 FANS
               </div>
               <div style={{
-                fontSize:'clamp(26px, 6vw, 32px)', fontWeight:900,
+                fontSize:24, fontWeight:900,
                 color:'#fff', lineHeight:1.15, marginBottom:8,
               }}>
                 You follow.<br />You connect.
               </div>
               <div style={{
-                fontSize:18, color:'rgba(255,255,255,0.5)',
+                fontSize:16, color:'rgba(255,255,255,0.5)',
                 lineHeight:1.65, marginBottom:16,
               }}>
                 Not their curated playlist.
                 What they actually play at 2am. For real.
               </div>
-              <div style={{ fontSize:21, fontWeight:800, color:'rgba(255,255,255,0.7)' }}>
+              <div style={{ fontSize:17, fontWeight:800, color:'rgba(255,255,255,0.7)' }}>
                 Find a creator →
               </div>
             </div>
