@@ -404,13 +404,9 @@ export default function HomePage() {
             lineHeight:1.4, margin:'0 0 14px', color:'#F0F0FF',
             letterSpacing:'-0.01em',
           }}>
-            The social network built on{' '}
-            <span style={{
-              background:'linear-gradient(90deg, #FF3CAC, #7B2FFF)',
-              WebkitBackgroundClip:'text', WebkitTextFillColor:'transparent',
-              fontWeight:800,
-            }}>
-              what you actually listen to
+            Your music identity,{' '}
+            <span style={{ background:'linear-gradient(90deg, #FF3CAC, #7B2FFF)', WebkitBackgroundClip:'text', WebkitTextFillColor:'transparent', fontWeight:800 }}>
+              live and authentic.
             </span>
           </h1>
           {/* FOR REAL */}
@@ -433,12 +429,9 @@ export default function HomePage() {
             textAlign:'center', lineHeight:1.75, margin:'0 0 40px',
             padding:'0 20px',
           }}>
-          Not your curated playlist. Not your public profile.<br />
-          Your{' '}
-          <strong style={{ color:'#FF3CAC', fontWeight:800 }}>real</strong>
-          {' '}listening identity.{' '}
-          <span style={{ color:'#00FFB2' }}>Live</span>,{' '}
-          <span style={{ color:'#00D4FF' }}>shared</span>,{' '}
+          What you really listen to. Who listens like you.{' '}
+          <strong style={{ color:'#FF3CAC', fontWeight:800 }}>Discovered</strong>,{' '}
+          <span style={{ color:'#00FFB2' }}>shared</span>,{' '}
           <span style={{ color:'#FFB800' }}>monetized</span>.
         </motion.p>
 
@@ -449,13 +442,13 @@ export default function HomePage() {
           initial={{ opacity:0, y:16 }}
           animate={{ opacity:1, y:0 }}
           transition={{ delay:0.5 }}
-          style={{ display:'flex', flexDirection:'column', gap:12, padding:'0 16px', marginBottom:64 }}>
+          style={{ display:'flex', flexDirection:'column', gap:16, padding:'0 16px', marginBottom:64 }}>
 
           {/* LISTENERS */}
           <a href="/listeners" style={{ textDecoration:'none', display:'block' }}>
             <div style={{
               background:'linear-gradient(135deg, #00D4FF, #00FFB2)',
-              borderRadius:28, padding:'32px 24px', cursor:'pointer',
+              borderRadius:40, padding:'28px 22px', cursor:'pointer',
             }} className="tunnel-card-inner">
               <div style={{
                 display:'inline-block',
@@ -481,7 +474,7 @@ export default function HomePage() {
                 Your real music identity, live.
               </div>
               <div style={{ fontSize:17, fontWeight:800, color:'#0A0A1A' }}>
-                Explore →
+                Find your music tribe →
               </div>
             </div>
           </a>
@@ -490,7 +483,7 @@ export default function HomePage() {
           <a href="/creators" style={{ textDecoration:'none', display:'block' }}>
             <div style={{
               background:'linear-gradient(135deg, #FF3CAC, #7B2FFF)',
-              borderRadius:28, padding:'32px 24px', cursor:'pointer',
+              borderRadius:40, padding:'28px 22px', cursor:'pointer',
             }} className="tunnel-card-inner">
               <div style={{
                 display:'inline-block',
@@ -523,9 +516,9 @@ export default function HomePage() {
           {/* FANS */}
           <a href="/fans" style={{ textDecoration:'none', display:'block' }}>
             <div style={{
-              background:'#12122A',
-              border:'1px solid rgba(255,255,255,0.1)',
-              borderRadius:28, padding:'32px 24px', cursor:'pointer',
+              background:'linear-gradient(135deg, #1a1a3a, #12122A)',
+              border:'1.5px solid rgba(255,255,255,0.22)',
+              borderRadius:40, padding:'28px 22px', cursor:'pointer',
             }} className="tunnel-card-inner">
               <div style={{
                 display:'inline-block',
@@ -550,7 +543,7 @@ export default function HomePage() {
                 What they actually play at 2am. For real.
               </div>
               <div style={{ fontSize:17, fontWeight:800, color:'rgba(255,255,255,0.7)' }}>
-                Find a creator →
+                Follow their real taste →
               </div>
             </div>
           </a>
