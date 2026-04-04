@@ -1,0 +1,58 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#0A0A1A"/>
+      <stop offset="100%" style="stop-color:#12122A"/>
+    </linearGradient>
+    <linearGradient id="grad1" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#00D4FF"/>
+      <stop offset="50%" style="stop-color:#00FFB2"/>
+      <stop offset="100%" style="stop-color:#FF3CAC"/>
+    </linearGradient>
+    <linearGradient id="grad2" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#FF3CAC"/>
+      <stop offset="100%" style="stop-color:#7B2FFF"/>
+    </linearGradient>
+    <filter id="glow">
+      <feGaussianBlur stdDeviation="8" result="blur"/>
+      <feComposite in="SourceGraphic" in2="blur" operator="over"/>
+    </filter>
+  </defs>
+
+  <!-- Background -->
+  <rect width="1200" height="630" fill="url(#bg)"/>
+
+  <!-- Decorative blobs -->
+  <circle cx="150" cy="150" r="200" fill="#00D4FF" opacity="0.06"/>
+  <circle cx="1050" cy="480" r="250" fill="#7B2FFF" opacity="0.08"/>
+  <circle cx="900" cy="120" r="150" fill="#FF3CAC" opacity="0.06"/>
+
+  <!-- Grid lines subtle -->
+  <line x1="0" y1="315" x2="1200" y2="315" stroke="#FFFFFF" stroke-opacity="0.03" stroke-width="1"/>
+  <line x1="600" y1="0" x2="600" y2="630" stroke="#FFFFFF" stroke-opacity="0.03" stroke-width="1"/>
+
+  <!-- Logo mark — music note stylized -->
+  <g transform="translate(490, 140)">
+    <!-- Gradient bar accent -->
+    <rect x="0" y="0" width="220" height="4" rx="2" fill="url(#grad1)"/>
+  </g>
+
+  <!-- ZIK4U wordmark -->
+  <text x="600" y="270" font-family="Arial Black, Arial, sans-serif" font-weight="900" font-size="96" fill="white" text-anchor="middle" letter-spacing="-2">ZIK4U</text>
+
+  <!-- Gradient underline for tagline -->
+  <rect x="420" y="295" width="360" height="3" rx="1.5" fill="url(#grad1)"/>
+
+  <!-- Tagline -->
+  <text x="600" y="360" font-family="Arial, sans-serif" font-size="28" fill="white" text-anchor="middle" opacity="0.85">Your Music. Your Identity.</text>
+
+  <!-- Sub description -->
+  <text x="600" y="415" font-family="Arial, sans-serif" font-size="20" fill="white" text-anchor="middle" opacity="0.55">Discover creators who listen like you.</text>
+
+  <!-- CTA pill -->
+  <rect x="450" y="455" width="300" height="52" rx="26" fill="url(#grad2)" opacity="0.9"/>
+  <text x="600" y="488" font-family="Arial, sans-serif" font-weight="700" font-size="18" fill="white" text-anchor="middle">Start listening →</text>
+
+  <!-- Bottom watermark -->
+  <text x="600" y="590" font-family="Arial, sans-serif" font-size="14" fill="white" text-anchor="middle" opacity="0.3">zik4u.com</text>
+</svg>

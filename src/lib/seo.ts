@@ -25,7 +25,7 @@ export const defaultMetadata: Metadata = {
   ],
   authors: [{ name: 'Zik4U' }],
   creator: 'Zik4U',
-  publisher: 'Zik4U LLC',
+  publisher: 'Zik4U Inc.',
   openGraph: {
     type: 'website',
     siteName: 'Zik4U',
@@ -72,6 +72,16 @@ export const defaultMetadata: Metadata = {
     apple: '/apple-touch-icon.png',
   },
   manifest: '/manifest.webmanifest',
+  other: {
+    'al:ios:url': 'zik4u://',
+    'al:ios:app_store_id': '6748722257',
+    'al:ios:app_name': 'Zik4U',
+    'al:android:url': 'zik4u://',
+    'al:android:package': 'com.zik4u.app',
+    'al:android:app_name': 'Zik4U',
+    'al:web:url': 'https://zik4u.com',
+    'al:web:should_fallback': 'true',
+  },
 };
 
 export function generatePageMetadata(

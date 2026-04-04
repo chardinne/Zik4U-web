@@ -61,11 +61,25 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <head>
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <meta name="theme-color" content="#0A0A1A" />
+        {/* Store-ready meta */}
+        <meta name="application-name" content="Zik4U" />
+        <meta name="mobile-web-app-capable" content="yes" />
+        <meta name="apple-mobile-web-app-capable" content="yes" />
+        <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+        <meta name="apple-mobile-web-app-title" content="Zik4U" />
+        <meta name="format-detection" content="telephone=no" />
+        <meta name="msapplication-TileColor" content="#0A0A1A" />
         {/* Smart App Banner — iOS Safari */}
-        <meta name="apple-itunes-app" content="app-id=6743844386, app-argument=zik4u://" />
+        <meta name="apple-itunes-app" content="app-id=6748722257, app-argument=zik4u://" />
         {/* Android App Banner */}
         <meta name="google-play-app" content="app-id=com.zik4u.app" />
         <link rel="alternate" href="android-app://com.zik4u.app/zik4u//" />
+        {/* Hreflang — geo targeting */}
+        <link rel="alternate" hrefLang="en" href="https://zik4u.com" />
+        <link rel="alternate" hrefLang="en-US" href="https://zik4u.com" />
+        <link rel="alternate" hrefLang="en-GB" href="https://zik4u.com" />
+        <link rel="alternate" hrefLang="fr" href="https://zik4u.com" />
+        <link rel="alternate" hrefLang="x-default" href="https://zik4u.com" />
         {/* Schema.org JSON-LD — static constant, no user data, official Next.js pattern */}
         {/* eslint-disable-next-line react/no-danger */}
         <script
