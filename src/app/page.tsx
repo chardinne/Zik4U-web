@@ -328,40 +328,6 @@ function CTACard({ href, label, tagline, pain, gradient, textColor, border }: {
 
 // ── Live Equalizer ────────────────────────────────────────────────────────────
 
-function LiveEqualizer() {
-  const bars = [0.4,0.7,1,0.5,0.9,0.3,0.8,0.6,1,0.4,0.75,0.55,0.9,0.35,0.8,0.65,1,0.45,0.7,0.5,0.85,0.4,0.95,0.6,0.75,0.3,0.9,0.5,0.7,0.45];
-  const colors = ['#00D4FF','#00FFB2','#FF3CAC','#7B2FFF','#FFB800'];
-  return (
-    <div style={{
-      display:'flex', alignItems:'center', justifyContent:'center',
-      gap:3, height:48, padding:'0 20px', margin:'24px auto 0',
-      maxWidth:360,
-    }}>
-      {bars.map((h, i) => (
-        <motion.div
-          key={i}
-          animate={{ scaleY:[h, h*0.2, h*0.8, h*0.1, h] }}
-          transition={{
-            duration: 0.8 + (i % 7) * 0.15,
-            repeat: Infinity,
-            ease: 'easeInOut',
-            delay: i * 0.04,
-          }}
-          style={{
-            width: 4,
-            height: 40,
-            borderRadius: 2,
-            background: colors[i % colors.length],
-            opacity: 0.7,
-            transformOrigin: 'center',
-            flexShrink: 0,
-          }}
-        />
-      ))}
-    </div>
-  );
-}
-
 // ── Live Ticker ───────────────────────────────────────────────────────────────
 
 const LIVE_FEEDS = [
@@ -534,7 +500,7 @@ export default function HomePage() {
           <a href="/listeners" style={{ textDecoration:'none', display:'block' }}>
             <div style={{
               background:'linear-gradient(135deg, #00D4FF, #00FFB2)',
-              borderRadius:40, padding:'28px 22px', cursor:'pointer',
+              borderRadius:56, padding:'28px 24px', cursor:'pointer',
             }} className="tunnel-card-inner">
               <div style={{
                 display:'inline-block',
@@ -569,7 +535,7 @@ export default function HomePage() {
           <a href="/creators" style={{ textDecoration:'none', display:'block' }}>
             <div style={{
               background:'linear-gradient(135deg, #FF3CAC, #7B2FFF)',
-              borderRadius:40, padding:'28px 22px', cursor:'pointer',
+              borderRadius:56, padding:'28px 24px', cursor:'pointer',
             }} className="tunnel-card-inner">
               <div style={{
                 display:'inline-block',
@@ -604,7 +570,7 @@ export default function HomePage() {
             <div style={{
               background:'linear-gradient(135deg, #1a1a3a, #12122A)',
               border:'1.5px solid rgba(255,255,255,0.22)',
-              borderRadius:40, padding:'28px 22px', cursor:'pointer',
+              borderRadius:56, padding:'28px 24px', cursor:'pointer',
             }} className="tunnel-card-inner">
               <div style={{
                 display:'inline-block',
@@ -638,34 +604,14 @@ export default function HomePage() {
 
       {/* ── EQUALIZER SECTION ── */}
       <div style={{ padding:'0 0 80px', overflow:'hidden' }}>
-        <motion.p
-          initial={{ opacity:0, y:12 }}
-          whileInView={{ opacity:1, y:0 }}
-          viewport={{ once:true }}
-          style={{
-            fontSize:15, fontWeight:700, letterSpacing:'0.22em',
-            color:'rgba(255,255,255,0.3)', textTransform:'uppercase',
-            textAlign:'center', marginBottom:48,
-            padding:'0 20px',
-          }}>
-          Your sound has a shape
-        </motion.p>
-
         {/* Equalizer pleine largeur — effet chaîne hifi */}
         <div style={{
           width:'100%',
-          background:'linear-gradient(180deg, rgba(10,10,26,0) 0%, rgba(18,18,42,0.8) 40%, rgba(18,18,42,0.8) 60%, rgba(10,10,26,0) 100%)',
+          background:'transparent',
           padding:'32px 0',
           position:'relative',
           overflow:'hidden',
         }}>
-          {/* Reflet miroir en bas */}
-          <div style={{
-            position:'absolute', bottom:32, left:0, right:0, height:60,
-            background:'linear-gradient(to top, rgba(10,10,26,0.9), transparent)',
-            zIndex:2, pointerEvents:'none',
-          }} />
-
           {/* Ligne centrale style VU-mètre */}
           <div style={{
             position:'absolute', top:'50%', left:0, right:0,
@@ -688,7 +634,7 @@ export default function HomePage() {
                   key={i}
                   animate={{
                     scaleY: [baseH, baseH * 0.15, baseH * 0.9, baseH * 0.3, baseH * 0.75, baseH * 0.1, baseH],
-                    opacity: [0.8, 0.4, 0.9, 0.3, 0.85, 0.4, 0.8],
+                    opacity: [1, 0.6, 1, 0.5, 1, 0.6, 1],
                   }}
                   transition={{
                     duration: 1.2 + (i % 11) * 0.13,
@@ -714,7 +660,7 @@ export default function HomePage() {
             display:'flex', alignItems:'center', justifyContent:'center',
             gap:2, height:48, padding:'0 12px',
             transform:'scaleY(-1)',
-            opacity:0.15,
+            opacity:0.2,
             position:'relative', zIndex:1,
             marginTop:4,
           }}>
