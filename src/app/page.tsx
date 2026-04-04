@@ -395,13 +395,20 @@ export default function HomePage() {
         backdropFilter:'blur(20px)',
         borderBottom:'1px solid rgba(255,255,255,0.05)',
       }}>
-        <span style={{
-          fontSize:21, fontWeight:900, letterSpacing:'0.22em',
-          background:'linear-gradient(90deg, #00D4FF, #00FFB2, #FF3CAC)',
-          WebkitBackgroundClip:'text', WebkitTextFillColor:'transparent',
-        }}>
-          ZIK4U
-        </span>
+        <div style={{ display:'flex', alignItems:'center', gap:8 }}>
+          <img
+            src="/zik4u-logo-512.svg"
+            alt="Zik4U"
+            width={28}
+            height={28}
+            style={{ borderRadius:'50%', display:'block' }}
+          />
+          <span style={{
+            fontSize:21, fontWeight:900, letterSpacing:'0.22em',
+            background:'linear-gradient(90deg, #00D4FF, #00FFB2, #FF3CAC)',
+            WebkitBackgroundClip:'text', WebkitTextFillColor:'transparent',
+          }}>ZIK4U</span>
+        </div>
         <div style={{ display:'flex', gap:6, alignItems:'center' }}>
           <a href="/listeners" style={{
             fontSize:16, fontWeight:700, color:'rgba(255,255,255,0.6)',
@@ -791,7 +798,16 @@ export default function HomePage() {
 
       {/* ── FOOTER ── */}
       <footer style={{ borderTop:`1px solid ${C.border}`, padding:'28px 24px', display:'flex', justifyContent:'space-between', alignItems:'center', flexWrap:'wrap', gap:16, maxWidth:1100, margin:'0 auto' }}>
-        <span style={{ fontSize:20, fontWeight:900, letterSpacing:'0.22em', background:`linear-gradient(90deg, ${C.cyan}, ${C.mint}, ${C.pink})`, WebkitBackgroundClip:'text', WebkitTextFillColor:'transparent' }}>ZIK4U</span>
+        <div style={{ display:'flex', alignItems:'center', gap:8 }}>
+          <img
+            src="/zik4u-logo-512.svg"
+            alt="Zik4U"
+            width={28}
+            height={28}
+            style={{ borderRadius:'50%', display:'block' }}
+          />
+          <span style={{ fontSize:20, fontWeight:900, letterSpacing:'0.22em', background:`linear-gradient(90deg, ${C.cyan}, ${C.mint}, ${C.pink})`, WebkitBackgroundClip:'text', WebkitTextFillColor:'transparent' }}>ZIK4U</span>
+        </div>
         <div style={{ display:'flex', gap:20, flexWrap:'wrap' }}>
           {[{label:'Privacy',href:'/legal/privacy'},{label:'Terms',href:'/legal/terms'},{label:'For labels & researchers',href:'/partner'}].map(l => (
             <a key={l.href} href={l.href}
