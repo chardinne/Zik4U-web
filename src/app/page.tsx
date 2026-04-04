@@ -326,6 +326,90 @@ function CTACard({ href, label, tagline, pain, gradient, textColor, border }: {
   );
 }
 
+// ── Live Equalizer ────────────────────────────────────────────────────────────
+
+function LiveEqualizer() {
+  const bars = [0.4,0.7,1,0.5,0.9,0.3,0.8,0.6,1,0.4,0.75,0.55,0.9,0.35,0.8,0.65,1,0.45,0.7,0.5,0.85,0.4,0.95,0.6,0.75,0.3,0.9,0.5,0.7,0.45];
+  const colors = ['#00D4FF','#00FFB2','#FF3CAC','#7B2FFF','#FFB800'];
+  return (
+    <div style={{
+      display:'flex', alignItems:'center', justifyContent:'center',
+      gap:3, height:48, padding:'0 20px', margin:'24px auto 0',
+      maxWidth:360,
+    }}>
+      {bars.map((h, i) => (
+        <motion.div
+          key={i}
+          animate={{ scaleY:[h, h*0.2, h*0.8, h*0.1, h] }}
+          transition={{
+            duration: 0.8 + (i % 7) * 0.15,
+            repeat: Infinity,
+            ease: 'easeInOut',
+            delay: i * 0.04,
+          }}
+          style={{
+            width: 4,
+            height: 40,
+            borderRadius: 2,
+            background: colors[i % colors.length],
+            opacity: 0.7,
+            transformOrigin: 'center',
+            flexShrink: 0,
+          }}
+        />
+      ))}
+    </div>
+  );
+}
+
+// ── Live Ticker ───────────────────────────────────────────────────────────────
+
+const LIVE_FEEDS = [
+  { emoji:'🌙', user:'@harmony', track:'ocean eyes', artist:'Billie Eilish', time:'maintenant', color:'#7B2FFF' },
+  { emoji:'🔥', user:'@marco', track:'HUMBLE.', artist:'Kendrick Lamar', time:'2 min', color:'#FF3CAC' },
+  { emoji:'🌊', user:'@luna', track:'Ylang Ylang', artist:'FKJ', time:'4 min', color:'#00D4FF' },
+  { emoji:'💜', user:'@sasha', track:'Pink + White', artist:'Frank Ocean', time:'6 min', color:'#9B59B6' },
+  { emoji:'⚡', user:'@tyler', track:'Lose Yourself', artist:'Eminem', time:'8 min', color:'#FFB800' },
+  { emoji:'🎵', user:'@priya', track:'PROVENZA', artist:'Karol G', time:'maintenant', color:'#00FFB2' },
+  { emoji:'🌙', user:'@alex', track:'Skinny Love', artist:'Bon Iver', time:'3 min', color:'#7B2FFF' },
+  { emoji:'🔥', user:'@zoe', track:'good 4 u', artist:'Olivia Rodrigo', time:'5 min', color:'#FF3CAC' },
+];
+
+function LiveTicker() {
+  const doubled = [...LIVE_FEEDS, ...LIVE_FEEDS];
+  return (
+    <div style={{
+      width:'100%', overflow:'hidden',
+      margin:'16px 0 32px',
+      maskImage:'linear-gradient(to right, transparent 0%, black 8%, black 92%, transparent 100%)',
+      WebkitMaskImage:'linear-gradient(to right, transparent 0%, black 8%, black 92%, transparent 100%)',
+    }}>
+      <motion.div
+        animate={{ x: ['0%', '-50%'] }}
+        transition={{ duration: 28, repeat: Infinity, ease: 'linear' }}
+        style={{ display:'flex', gap:0, width:'max-content' }}
+      >
+        {doubled.map((item, i) => (
+          <div key={i} style={{
+            display:'flex', alignItems:'center', gap:7,
+            padding:'8px 20px',
+            borderRight:'1px solid rgba(255,255,255,0.06)',
+            whiteSpace:'nowrap', flexShrink:0,
+          }}>
+            <span style={{ fontSize:15 }}>{item.emoji}</span>
+            <span style={{ fontSize:13, fontWeight:700, color:item.color }}>{item.user}</span>
+            <span style={{ fontSize:13, color:'rgba(255,255,255,0.5)' }}>écoute</span>
+            <span style={{ fontSize:13, fontWeight:700, color:'#F0F0FF' }}>{item.track}</span>
+            <span style={{ fontSize:13, color:'rgba(255,255,255,0.35)' }}>—</span>
+            <span style={{ fontSize:13, color:'rgba(255,255,255,0.5)' }}>{item.artist}</span>
+            <span style={{ fontSize:11, color:'rgba(255,255,255,0.25)', fontFamily:'monospace', marginLeft:4 }}>· {item.time}</span>
+          </div>
+        ))}
+      </motion.div>
+    </div>
+  );
+}
+
 // ── Main ──────────────────────────────────────────────────────────────────────
 
 export default function HomePage() {
@@ -434,6 +518,9 @@ export default function HomePage() {
           <span style={{ color:'#00FFB2' }}>shared</span>,{' '}
           <span style={{ color:'#FFB800' }}>monetized</span>.
         </motion.p>
+
+        <LiveEqualizer />
+        <LiveTicker />
 
       </div>
 
