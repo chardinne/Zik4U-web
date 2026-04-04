@@ -500,33 +500,29 @@ export default function HomePage() {
           <a href="/listeners" style={{ textDecoration:'none', display:'block' }}>
             <div style={{
               background:'linear-gradient(135deg, #00D4FF, #00FFB2)',
-              borderRadius:9999, padding:'28px 24px', cursor:'pointer',
+              borderRadius:32, padding:'36px 24px', cursor:'pointer',
+              textAlign:'center',
             }} className="tunnel-card-inner">
+              <div style={{ fontSize:52, marginBottom:16, lineHeight:1 }}>🎧</div>
               <div style={{
-                display:'inline-block',
-                fontSize:15, fontWeight:900, letterSpacing:'0.12em',
-                color:'rgba(10,10,26,0.9)', textTransform:'uppercase',
-                background:'rgba(10,10,26,0.15)',
-                padding:'4px 12px', borderRadius:999, marginBottom:14,
+                fontSize:13, fontWeight:900, letterSpacing:'0.2em',
+                color:'rgba(10,10,26,0.6)', textTransform:'uppercase',
+                marginBottom:10,
               }}>
                 LISTENERS
               </div>
               <div style={{
-                fontSize:24, fontWeight:900,
-                color:'#0A0A1A', lineHeight:1.15, marginBottom:8,
+                fontSize:22, fontWeight:900, color:'#0A0A1A',
+                lineHeight:1.2, marginBottom:16,
               }}>
-                You listen.<br />You discover.
+                Find your<br />music tribe.
               </div>
               <div style={{
-                fontSize:16, color:'rgba(10,10,26,0.65)',
-                lineHeight:1.65, marginBottom:16,
+                display:'inline-flex', alignItems:'center', gap:6,
+                background:'rgba(10,10,26,0.15)', borderRadius:999,
+                padding:'10px 22px',
               }}>
-                Find people who listen the way you do.
-                Not the way they say they do.
-                Your real music identity, live.
-              </div>
-              <div style={{ fontSize:17, fontWeight:800, color:'#0A0A1A' }}>
-                Find your music tribe →
+                <span style={{ fontSize:15, fontWeight:800, color:'#0A0A1A' }}>Explore →</span>
               </div>
             </div>
           </a>
@@ -535,32 +531,29 @@ export default function HomePage() {
           <a href="/creators" style={{ textDecoration:'none', display:'block' }}>
             <div style={{
               background:'linear-gradient(135deg, #FF3CAC, #7B2FFF)',
-              borderRadius:9999, padding:'28px 24px', cursor:'pointer',
+              borderRadius:32, padding:'36px 24px', cursor:'pointer',
+              textAlign:'center',
             }} className="tunnel-card-inner">
+              <div style={{ fontSize:52, marginBottom:16, lineHeight:1 }}>🎤</div>
               <div style={{
-                display:'inline-block',
-                fontSize:15, fontWeight:900, letterSpacing:'0.12em',
-                color:'rgba(255,255,255,0.9)', textTransform:'uppercase',
-                background:'rgba(255,255,255,0.15)',
-                padding:'4px 12px', borderRadius:999, marginBottom:14,
+                fontSize:13, fontWeight:900, letterSpacing:'0.2em',
+                color:'rgba(255,255,255,0.6)', textTransform:'uppercase',
+                marginBottom:10,
               }}>
                 CREATORS
               </div>
               <div style={{
-                fontSize:24, fontWeight:900,
-                color:'#fff', lineHeight:1.15, marginBottom:8,
+                fontSize:22, fontWeight:900, color:'#fff',
+                lineHeight:1.2, marginBottom:16,
               }}>
-                You create.<br />You monetize.
+                Monetize your<br />real taste.
               </div>
               <div style={{
-                fontSize:16, color:'rgba(255,255,255,0.7)',
-                lineHeight:1.65, marginBottom:16,
+                display:'inline-flex', alignItems:'center', gap:6,
+                background:'rgba(255,255,255,0.18)', borderRadius:999,
+                padding:'10px 22px',
               }}>
-                Your subscribers follow what you actually listen to.
-                70% of revenue goes directly to you. Every month.
-              </div>
-              <div style={{ fontSize:17, fontWeight:800, color:'#fff' }}>
-                Become a creator →
+                <span style={{ fontSize:15, fontWeight:800, color:'#fff' }}>Become a creator →</span>
               </div>
             </div>
           </a>
@@ -570,32 +563,30 @@ export default function HomePage() {
             <div style={{
               background:'linear-gradient(135deg, #1a1a3a, #12122A)',
               border:'1.5px solid rgba(255,255,255,0.22)',
-              borderRadius:9999, padding:'28px 24px', cursor:'pointer',
+              borderRadius:32, padding:'36px 24px', cursor:'pointer',
+              textAlign:'center',
             }} className="tunnel-card-inner">
+              <div style={{ fontSize:52, marginBottom:16, lineHeight:1 }}>🌟</div>
               <div style={{
-                display:'inline-block',
-                fontSize:15, fontWeight:900, letterSpacing:'0.12em',
-                color:'rgba(255,255,255,0.7)', textTransform:'uppercase',
-                background:'rgba(255,255,255,0.08)',
-                padding:'4px 12px', borderRadius:999, marginBottom:14,
+                fontSize:13, fontWeight:900, letterSpacing:'0.2em',
+                color:'rgba(255,255,255,0.45)', textTransform:'uppercase',
+                marginBottom:10,
               }}>
                 FANS
               </div>
               <div style={{
-                fontSize:24, fontWeight:900,
-                color:'#fff', lineHeight:1.15, marginBottom:8,
+                fontSize:22, fontWeight:900, color:'#fff',
+                lineHeight:1.2, marginBottom:16,
               }}>
-                You follow.<br />You connect.
+                Follow their<br />real taste.
               </div>
               <div style={{
-                fontSize:16, color:'rgba(255,255,255,0.5)',
-                lineHeight:1.65, marginBottom:16,
+                display:'inline-flex', alignItems:'center', gap:6,
+                background:'rgba(255,255,255,0.1)', borderRadius:999,
+                padding:'10px 22px',
+                border:'1px solid rgba(255,255,255,0.15)',
               }}>
-                Not their curated playlist.
-                What they actually play at 2am. For real.
-              </div>
-              <div style={{ fontSize:17, fontWeight:800, color:'rgba(255,255,255,0.7)' }}>
-                Follow their real taste →
+                <span style={{ fontSize:15, fontWeight:800, color:'rgba(255,255,255,0.8)' }}>Discover →</span>
               </div>
             </div>
           </a>
