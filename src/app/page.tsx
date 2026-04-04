@@ -500,7 +500,7 @@ export default function HomePage() {
           <a href="/listeners" style={{ textDecoration:'none', display:'block' }}>
             <div style={{
               background:'linear-gradient(135deg, #00D4FF, #00FFB2)',
-              borderRadius:56, padding:'28px 24px', cursor:'pointer',
+              borderRadius:9999, padding:'28px 24px', cursor:'pointer',
             }} className="tunnel-card-inner">
               <div style={{
                 display:'inline-block',
@@ -535,7 +535,7 @@ export default function HomePage() {
           <a href="/creators" style={{ textDecoration:'none', display:'block' }}>
             <div style={{
               background:'linear-gradient(135deg, #FF3CAC, #7B2FFF)',
-              borderRadius:56, padding:'28px 24px', cursor:'pointer',
+              borderRadius:9999, padding:'28px 24px', cursor:'pointer',
             }} className="tunnel-card-inner">
               <div style={{
                 display:'inline-block',
@@ -570,7 +570,7 @@ export default function HomePage() {
             <div style={{
               background:'linear-gradient(135deg, #1a1a3a, #12122A)',
               border:'1.5px solid rgba(255,255,255,0.22)',
-              borderRadius:56, padding:'28px 24px', cursor:'pointer',
+              borderRadius:9999, padding:'28px 24px', cursor:'pointer',
             }} className="tunnel-card-inner">
               <div style={{
                 display:'inline-block',
@@ -607,7 +607,7 @@ export default function HomePage() {
         {/* Equalizer pleine largeur — effet chaîne hifi */}
         <div style={{
           width:'100%',
-          background:'transparent',
+          background:'#0A0A1A',
           padding:'32px 0',
           position:'relative',
           overflow:'hidden',
@@ -634,7 +634,7 @@ export default function HomePage() {
                   key={i}
                   animate={{
                     scaleY: [baseH, baseH * 0.15, baseH * 0.9, baseH * 0.3, baseH * 0.75, baseH * 0.1, baseH],
-                    opacity: [1, 0.6, 1, 0.5, 1, 0.6, 1],
+                    opacity: [1, 0.7, 1, 0.6, 1, 0.7, 1],
                   }}
                   transition={{
                     duration: 1.2 + (i % 11) * 0.13,
@@ -644,7 +644,7 @@ export default function HomePage() {
                   }}
                   style={{
                     width: 3,
-                    height: 100,
+                    height: 120,
                     borderRadius: 2,
                     background: `linear-gradient(180deg, ${color}, ${color}44)`,
                     transformOrigin: 'center',
@@ -655,43 +655,6 @@ export default function HomePage() {
             })}
           </div>
 
-          {/* Reflet — barres inversées, opacité réduite */}
-          <div style={{
-            display:'flex', alignItems:'center', justifyContent:'center',
-            gap:2, height:48, padding:'0 12px',
-            transform:'scaleY(-1)',
-            opacity:0.2,
-            position:'relative', zIndex:1,
-            marginTop:4,
-          }}>
-            {Array.from({ length: 80 }, (_, i) => {
-              const colors = ['#00D4FF','#00D4FF','#00FFB2','#00FFB2','#FF3CAC','#7B2FFF','#FFB800','#00FFB2'];
-              const color = colors[i % colors.length];
-              const baseH = 0.2 + Math.abs(Math.sin(i * 0.35)) * 0.8;
-              return (
-                <motion.div
-                  key={i}
-                  animate={{
-                    scaleY: [baseH, baseH * 0.15, baseH * 0.9, baseH * 0.3, baseH],
-                  }}
-                  transition={{
-                    duration: 1.2 + (i % 11) * 0.13,
-                    repeat: Infinity,
-                    ease: 'easeInOut',
-                    delay: i * 0.025,
-                  }}
-                  style={{
-                    width: 3,
-                    height: 40,
-                    borderRadius: 2,
-                    background: color,
-                    transformOrigin: 'center',
-                    flexShrink: 0,
-                  }}
-                />
-              );
-            })}
-          </div>
         </div>
 
         {/* 3 features sous l'égaliseur */}
