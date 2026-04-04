@@ -1,0 +1,48 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
+  <defs>
+    <radialGradient id="gdot" cx="35%" cy="30%" r="65%">
+      <stop offset="0%" stop-color="#FF6EC7"/>
+      <stop offset="100%" stop-color="#CC0066"/>
+    </radialGradient>
+  </defs>
+
+  <!-- Fond noir absolu -->
+  <circle cx="256" cy="256" r="256" fill="#000000"/>
+
+  <!-- 25 sillons mélangés — espacement 8px, jamais même famille côte à côte
+       Palette : cyan=#00D4FF  mint=#00FFB2  gold=#FFB800  pink=#FF3CAC  purple=#7B2FFF
+       Séquence : cyan mint gold pink purple mint cyan gold pink purple cyan mint pink gold purple cyan pink mint purple gold cyan mint gold pink purple
+  -->
+  <circle cx="256" cy="256" r="249" fill="none" stroke="#00D4FF" stroke-width="2"/>
+  <circle cx="256" cy="256" r="241" fill="none" stroke="#00FFB2" stroke-width="2"/>
+  <circle cx="256" cy="256" r="233" fill="none" stroke="#FFB800" stroke-width="2"/>
+  <circle cx="256" cy="256" r="225" fill="none" stroke="#FF3CAC" stroke-width="2"/>
+  <circle cx="256" cy="256" r="217" fill="none" stroke="#7B2FFF" stroke-width="2"/>
+  <circle cx="256" cy="256" r="209" fill="none" stroke="#00FFB2" stroke-width="2"/>
+  <circle cx="256" cy="256" r="201" fill="none" stroke="#00D4FF" stroke-width="2"/>
+  <circle cx="256" cy="256" r="193" fill="none" stroke="#FFB800" stroke-width="2"/>
+  <circle cx="256" cy="256" r="185" fill="none" stroke="#FF3CAC" stroke-width="2"/>
+  <circle cx="256" cy="256" r="177" fill="none" stroke="#7B2FFF" stroke-width="2"/>
+  <circle cx="256" cy="256" r="169" fill="none" stroke="#00D4FF" stroke-width="2"/>
+  <circle cx="256" cy="256" r="161" fill="none" stroke="#00FFB2" stroke-width="2"/>
+  <circle cx="256" cy="256" r="153" fill="none" stroke="#FF3CAC" stroke-width="2"/>
+  <circle cx="256" cy="256" r="145" fill="none" stroke="#FFB800" stroke-width="2"/>
+  <circle cx="256" cy="256" r="137" fill="none" stroke="#7B2FFF" stroke-width="2"/>
+  <circle cx="256" cy="256" r="129" fill="none" stroke="#00D4FF" stroke-width="2"/>
+  <circle cx="256" cy="256" r="121" fill="none" stroke="#FF3CAC" stroke-width="2"/>
+  <circle cx="256" cy="256" r="113" fill="none" stroke="#00FFB2" stroke-width="2"/>
+  <circle cx="256" cy="256" r="105" fill="none" stroke="#7B2FFF" stroke-width="2"/>
+  <circle cx="256" cy="256" r="97"  fill="none" stroke="#FFB800" stroke-width="2"/>
+  <circle cx="256" cy="256" r="89"  fill="none" stroke="#00D4FF" stroke-width="2"/>
+  <circle cx="256" cy="256" r="81"  fill="none" stroke="#00FFB2" stroke-width="2"/>
+  <circle cx="256" cy="256" r="73"  fill="none" stroke="#FFB800" stroke-width="2"/>
+  <circle cx="256" cy="256" r="65"  fill="none" stroke="#7B2FFF" stroke-width="2"/>
+  <circle cx="256" cy="256" r="57"  fill="none" stroke="#FF3CAC" stroke-width="2"/>
+
+  <!-- Trou pink central — directement sans séparation -->
+  <circle cx="256" cy="256" r="48" fill="url(#gdot)"/>
+  <!-- Reflet lumineux -->
+  <ellipse cx="242" cy="242" rx="16" ry="12" fill="#FF9EDA" opacity="0.38" transform="rotate(-30 242 242)"/>
+  <!-- Trou noir centre -->
+  <circle cx="256" cy="256" r="13" fill="#000000"/>
+</svg>

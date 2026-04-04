@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 80" width="320" height="80">
+  <defs>
+    <radialGradient id="gdot" cx="35%" cy="30%" r="65%">
+      <stop offset="0%" stop-color="#FF6EC7"/>
+      <stop offset="100%" stop-color="#CC0066"/>
+    </radialGradient>
+    <linearGradient id="gtext" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#00D4FF"/>
+      <stop offset="50%" stop-color="#00FFB2"/>
+      <stop offset="100%" stop-color="#FF3CAC"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Icône vinyle 80px -->
+  <circle cx="40" cy="40" r="40" fill="#000000"/>
+  <circle cx="40" cy="40" r="37" fill="none" stroke="#00D4FF"  stroke-width="1.8"/>
+  <circle cx="40" cy="40" r="31" fill="none" stroke="#00FFB2"  stroke-width="1.8"/>
+  <circle cx="40" cy="40" r="25" fill="none" stroke="#FFB800"  stroke-width="1.8"/>
+  <circle cx="40" cy="40" r="19" fill="none" stroke="#FF3CAC"  stroke-width="1.8"/>
+  <circle cx="40" cy="40" r="13" fill="none" stroke="#7B2FFF"  stroke-width="1.8"/>
+  <circle cx="40" cy="40" r="8"  fill="none" stroke="#00D4FF"  stroke-width="1.8"/>
+  <circle cx="40" cy="40" r="6"  fill="url(#gdot)"/>
+  <circle cx="40" cy="40" r="2"  fill="#000000"/>
+
+  <!-- Texte ZIK4U -->
+  <text x="92" y="54" font-family="Inter, system-ui, -apple-system, sans-serif" font-size="42" font-weight="900" letter-spacing="-1" fill="url(#gtext)">ZIK4U</text>
+</svg>
