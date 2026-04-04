@@ -124,6 +124,14 @@ Les profils créateurs dynamiques utilisent `generateCreatorMetadata` dans `gene
 - `seo.ts` référence `/opengraph-image` (plus `/og-image.png`)
 - Import : `import { ImageResponse } from 'next/og'` (Next.js ≥13.3 — pas de `@vercel/og`)
 
+## Icônes PNG réelles — Générées depuis SVG
+- Fichier source : `public/zik4u-logo-512.svg` (logo vinyle)
+- Script : `scripts/convert-icons.mjs` — utilise `sharp` (`--legacy-peer-deps`)
+- Génère : `public/icon-512.png` (171K, maskable), `public/icon-192.png` (43K), `public/apple-touch-icon.png` (39K), `public/favicon-32.png` (2K)
+- Référencés dans : `layout.tsx` (`<link rel="apple-touch-icon">` + `<link rel="icon" sizes="32x32">`) et `manifest.ts` (array `icons`)
+- Logo vinyle img `28px` arrondi injecté dans la nav et le footer de `src/app/page.tsx`
+- Commande : `node scripts/convert-icons.mjs`
+
 ## Sécurité — next.config.ts (obligatoire en production)
 Security headers et `images.remotePatterns` doivent être configurés dans `next.config.ts` :
 - `async headers()` : X-Frame-Options DENY, X-Content-Type-Options nosniff, Referrer-Policy, Permissions-Policy, CSP
@@ -140,6 +148,17 @@ Security headers et `images.remotePatterns` doivent être configurés dans `next
 - **Types Supabase JS** : les joins `!inner` retournent des tableaux — utiliser `any` avec cast explicite
 - **`'use client'`** : obligatoire sur toutes les pages (Framer Motion + hooks)
 - **Tirets longs (—)** : interdits dans les textes visibles — remplacer par `.`, `:`, `,` ou `·`
+
+## Internationalisation — 100% anglais
+Depuis le Sprint Pré-lancement, **tous les textes visibles** du site sont en anglais.
+- `/fans/page.tsx`, `/listeners/page.tsx`, `/creators/page.tsx` : réécrits intégralement en anglais
+- `legal/privacy/page.tsx`, `legal/terms/page.tsx` : LLC → C Corp, section Music Match FR → EN
+- `subscribe/[creatorId]/page.tsx` : disclaimer store fees EN
+- `pay/success/page.tsx` : labels EN (Request confirmed / Drop unlocked / Pulse session confirmed / Tip sent)
+- `creator/[username]/page.tsx` : MOOD_CONFIG labels EN (Light / Melancholy)
+- `page.tsx` : LiveTicker `mood: 'Melancholy'` (était Mélancolie)
+- `seo.ts` : `publisher: 'Zik4U Inc.'` (était 'Zik4U LLC')
+- **Règle absolue** : zéro mot français dans le texte visible — les identifiants de code (ex: `explorateur`) ne comptent pas
 
 ## Copy — Tagline "For real"
 Le fil rouge copywriting du site est "For real" (authenticité des données d'écoute).
@@ -189,7 +208,10 @@ Décliné sur tous les tunnels :
 - **`manifest.ts`** : `src/app/manifest.ts` — Next.js `MetadataRoute.Manifest`, PWA (name/short_name/theme_color #00D4FF/background_color #0A0A1A)
 - **`llms.txt`** : `public/llms.txt` — standard llmstxt.org — description produit pour LLMs (privacy model, B2B intelligence, stack, legal)
 - **JSON-LD Schema.org** : dans `layout.tsx` via `<script>` inline avec `__html` — `@graph` WebSite + Organization + MobileApplication — ajout via outil `Edit` (le hook sécurité bloque l'outil `Write` sur ce pattern)
-- **Smart App Banner** : `<meta name="apple-itunes-app" content="app-id=6748722257">` + `<meta name="google-play-app" content="app-id=com.zik4u.app">` + `<link rel="alternate" android-app://...>` dans `<head>` de `layout.tsx`
+- **Smart App Banner** : `<meta name="apple-itunes-app" content="app-id=6748722257">` (corrigé : était 6743844386) + `<meta name="google-play-app" content="app-id=com.zik4u.app">` + `<link rel="alternate" android-app://...>` dans `<head>` de `layout.tsx`
+- **Store-ready meta tags** (7) : `application-name`, `mobile-web-app-capable`, `apple-mobile-web-app-capable`, `apple-mobile-web-app-status-bar-style`, `apple-mobile-web-app-title`, `format-detection`, `msapplication-TileColor` — ajoutés dans `layout.tsx`
+- **hreflang** : 5 `<link rel="alternate" hreflang="...">` (en / en-US / en-GB / fr / x-default) dans `layout.tsx` — ciblage géo multi-marché
+- **appLinks** : block `other` dans `seo.ts` — `al:ios:url`, `al:ios:app_store_id`, `al:android:url`, `al:android:package`, `al:web:url`, `al:web:should_fallback`
 - **`robots.ts`** : règles explicites par agent — GPTBot/ChatGPT-User/Google-Extended/PerplexityBot/ClaudeBot/anthropic-ai/Amazonbot autorisés (accès `/`, disallow `/api/`), Omgilibot bloqué entièrement (`disallow: '/'`)
 - **Layouts SEO** : créer un `layout.tsx` Server Component pour chaque segment nécessitant une metadata scoped (ex: `/works-with/[platform]/layout.tsx` avec `generateMetadata({ params })` qui `await params`)
 
@@ -280,7 +302,7 @@ git commit --allow-empty -m "chore: trigger Vercel redeploy"  # Forcer un redepl
       (procédure complète : docs/HOSTINGER_VERCEL_DNS.md)
 - [ ] Vercel : configurer NEXT_PUBLIC_SUPABASE_ANON_KEY en prod
 
-### Post-LLC
+### Post-C Corp
 - [ ] Mettre à jour APP_STORE_URL dans /card/[username]/page.tsx si l'ID change
 - [ ] A/B test landing : mesurer conversion listener vs creator vs fan
 - [ ] Composants ui/ réutilisables si duplication détectée
