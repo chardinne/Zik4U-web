@@ -74,6 +74,9 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         {/* Android App Banner */}
         <meta name="google-play-app" content="app-id=com.zik4u.app" />
         <link rel="alternate" href="android-app://com.zik4u.app/zik4u//" />
+        {/* Icons */}
+        <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png" />
+        <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
         {/* Hreflang — geo targeting */}
         <link rel="alternate" hrefLang="en" href="https://zik4u.com" />
         <link rel="alternate" hrefLang="en-US" href="https://zik4u.com" />
