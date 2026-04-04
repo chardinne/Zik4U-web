@@ -24,8 +24,8 @@ const MOOD_CONFIG: Record<string, { emoji: string; label: string; color: string 
   nocturne:    { emoji: '🌙', label: 'Nocturne',    color: C.purple },
   explorateur: { emoji: '🌍', label: 'Exploration', color: C.cyan   },
   high_energy: { emoji: '🔥', label: 'Énergie',     color: C.pink   },
-  feel_good:   { emoji: '☀️', label: 'Légèreté',    color: C.gold   },
-  melancolique:{ emoji: '💜', label: 'Mélancolie',  color: C.purple },
+  feel_good:   { emoji: '☀️', label: 'Light',       color: C.gold   },
+  melancolique:{ emoji: '💜', label: 'Melancholy',  color: C.purple },
   deep_focus:  { emoji: '🌊', label: 'Focus',        color: C.mint   },
   obsession:   { emoji: '⚡', label: 'Obsession',   color: C.pink   },
 };

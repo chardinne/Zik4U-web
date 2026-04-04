@@ -62,7 +62,7 @@ export default function TermsOfServicePage() {
               to use the Service.
             </p>
             <p style={{ marginTop: '12px' }}>
-              Zik4U LLC is a limited liability company registered in the State of Florida, United States.
+              Zik4U Inc. is a corporation registered in the State of Florida, United States.
             </p>
           </section>
 

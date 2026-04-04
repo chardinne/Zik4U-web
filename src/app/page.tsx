@@ -30,7 +30,7 @@ const NOW_CARDS = [
   { time:'23h47', track:'ocean eyes',    artist:'Billie Eilish',  mood:'Nocturne',    emoji:'🌙', color:C.purple,  grad:['#1a0533','#0A0A1A'] as [string,string] },
   { time:'08h12', track:'HUMBLE.',       artist:'Kendrick Lamar', mood:'High Energy', emoji:'🔥', color:C.pink,    grad:['#2d0a00','#0A0A1A'] as [string,string] },
   { time:'14h33', track:'Ylang Ylang',   artist:'FKJ',            mood:'Deep Focus',  emoji:'🌊', color:C.cyan,    grad:['#001a2d','#0A0A1A'] as [string,string] },
-  { time:'02h18', track:'Pink + White',  artist:'Frank Ocean',    mood:'Mélancolie',  emoji:'💜', color:'#9B59B6', grad:['#0d001a','#0A0A1A'] as [string,string] },
+  { time:'02h18', track:'Pink + White',  artist:'Frank Ocean',    mood:'Melancholy',  emoji:'💜', color:'#9B59B6', grad:['#0d001a','#0A0A1A'] as [string,string] },
   { time:'19h55', track:'Lose Yourself', artist:'Eminem',         mood:'Obsession',   emoji:'⚡', color:C.gold,    grad:['#1a1000','#0A0A1A'] as [string,string] },
 ];
 

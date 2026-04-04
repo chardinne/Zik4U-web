@@ -616,7 +616,7 @@ export default function SubscribePage() {
                 borderRadius: 999, padding: '4px 12px',
                 fontSize: 12, color: '#00FFB2', marginTop: 8,
               }}>
-                ✓ Meilleur prix — abonnement web direct
+                ✓ Best price — direct web subscription
               </div>
             </div>
 
@@ -661,7 +661,7 @@ export default function SubscribePage() {
             <style>{`@keyframes spin { to { transform: rotate(360deg); } }`}</style>
 
             <p style={{ fontSize: 11, color: 'rgba(255,255,255,0.3)', textAlign: 'center', marginTop: 8 }}>
-              L&apos;abonnement via App Store ou Google Play est majoré de 15% en raison des frais des stores.
+              Subscribing via App Store or Google Play includes a 15% store fee. Subscribe here for the best price.
             </p>
 
             {/* Trust signals */}

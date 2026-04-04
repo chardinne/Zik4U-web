@@ -4,12 +4,12 @@ export default function PaySuccessPage({
   searchParams: { payment_id?: string; type?: string };
 }) {
   const typeLabels: Record<string, string> = {
-    request:       'Ta demande est confirmée',
-    drop_unlock:   'Drop débloqué',
-    pulse_session: 'Session Pulse confirmée',
-    tip:           'Tip envoyé',
+    request:       'Request confirmed',
+    drop_unlock:   'Drop unlocked',
+    pulse_session: 'Pulse session confirmed',
+    tip:           'Tip sent',
   };
-  const label = typeLabels[searchParams.type ?? ''] ?? 'Paiement confirmé';
+  const label = typeLabels[searchParams.type ?? ''] ?? 'Payment confirmed';
 
   return (
     <div style={{
@@ -23,14 +23,14 @@ export default function PaySuccessPage({
         {label}
       </h1>
       <p style={{ color: 'rgba(255,255,255,0.5)', textAlign: 'center', maxWidth: 400 }}>
-        Retourne dans l&apos;app Zik4U pour accéder à ton contenu.
+        Go back to the Zik4U app to access your content.
       </p>
       <a href="/" style={{
         marginTop: 8, padding: '12px 28px', borderRadius: 10,
         background: 'linear-gradient(135deg, #00D4FF, #00FFB2)',
         color: '#0A0A1A', fontWeight: 700, textDecoration: 'none',
       }}>
-        Retour à Zik4U →
+        Back to Zik4U →
       </a>
     </div>
   );

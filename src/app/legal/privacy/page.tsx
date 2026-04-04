@@ -203,7 +203,7 @@ export default function PrivacyPolicyPage() {
           <section>
             <h2 style={{ fontSize: '22px', fontWeight: 700, color: '#FFFFFF', marginBottom: '16px' }}>5b. International Data Transfers</h2>
             <p style={{ marginBottom: '12px' }}>
-              As a Florida LLC, some of your data is processed and stored in the United States. We comply with GDPR (EU users)
+              As a Florida C Corp, some of your data is processed and stored in the United States. We comply with GDPR (EU users)
               and CCPA (California users) requirements.
             </p>
             <p style={{ marginBottom: '12px' }}>
@@ -322,7 +322,7 @@ export default function PrivacyPolicyPage() {
           {/* 8c */}
           <section>
             <h2 style={{ fontSize: '22px', fontWeight: 700, color: '#FFFFFF', marginBottom: '16px' }}>
-              8c. Music Match — Rencontre par la Musique
+              8c. Music Match — Connect Through Music
             </h2>
             <p style={{ marginBottom: '12px' }}>
               Music Match is an optional feature that allows users to discover other members
