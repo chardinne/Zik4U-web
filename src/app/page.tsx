@@ -98,7 +98,7 @@ function NowCardLive() {
 
 function PhoneFrame({ children, shadow }: { children: ReactNode; shadow?: string }) {
   return (
-    <div style={{ width:'100%', maxWidth:280, height:420, background:'#0A0A1A', borderRadius:32, overflow:'hidden', border:'1px solid rgba(255,255,255,0.1)', boxShadow:shadow??'0 24px 64px rgba(0,0,0,0.5)', display:'flex', flexDirection:'column', flexShrink:0, position:'relative' }}>
+    <div style={{ width:'100%', maxWidth:360, height:480, background:'#0A0A1A', borderRadius:32, overflow:'hidden', border:'1px solid rgba(255,255,255,0.1)', boxShadow:shadow??'0 24px 64px rgba(0,0,0,0.5)', display:'flex', flexDirection:'column', flexShrink:0, position:'relative' }}>
       <div style={{ position:'absolute', top:10, left:'50%', transform:'translateX(-50%)', width:60, height:5, background:'rgba(255,255,255,0.1)', borderRadius:3, zIndex:10 }} />
       <div style={{ height:22, flexShrink:0 }} />
       {children}
@@ -290,9 +290,9 @@ function ScreenCompatibility() {
 
 function ScrollColumn({ screens, direction }: { screens: ReactNode[]; direction: 'up'|'down' }) {
   const doubled = [...screens, ...screens];
-  const itemH = 420 + 24;
+  const itemH = 480 + 24;
   return (
-    <div style={{ height:560, overflow:'hidden', maskImage:'linear-gradient(to bottom, transparent 0%, black 15%, black 85%, transparent 100%)', WebkitMaskImage:'linear-gradient(to bottom, transparent 0%, black 15%, black 85%, transparent 100%)' }}>
+    <div style={{ height:640, overflow:'hidden', maskImage:'linear-gradient(to bottom, transparent 0%, black 15%, black 85%, transparent 100%)', WebkitMaskImage:'linear-gradient(to bottom, transparent 0%, black 15%, black 85%, transparent 100%)' }}>
       <motion.div
         animate={{ y: direction==='up' ? [0, -(screens.length * itemH)] : [-(screens.length * itemH), 0] }}
         transition={{ duration:screens.length * 16, repeat:Infinity, ease:'linear' }}
@@ -500,30 +500,26 @@ export default function HomePage() {
           <a href="/listeners" style={{ textDecoration:'none', display:'block' }}>
             <div style={{
               background:'linear-gradient(135deg, #00D4FF, #00FFB2)',
-              borderRadius:32, padding:'36px 24px', cursor:'pointer',
-              textAlign:'center',
+              borderRadius:24, padding:'22px 24px', cursor:'pointer',
+              display:'flex', alignItems:'center', gap:20,
             }} className="tunnel-card-inner">
-              <div style={{ fontSize:52, marginBottom:16, lineHeight:1 }}>🎧</div>
-              <div style={{
-                fontSize:13, fontWeight:900, letterSpacing:'0.2em',
-                color:'rgba(10,10,26,0.6)', textTransform:'uppercase',
-                marginBottom:10,
-              }}>
-                LISTENERS
+              <div style={{ fontSize:64, lineHeight:1, flexShrink:0 }}>🎧</div>
+              <div style={{ flex:1, minWidth:0 }}>
+                <div style={{
+                  fontSize:11, fontWeight:900, letterSpacing:'0.25em',
+                  color:'rgba(10,10,26,0.55)', textTransform:'uppercase',
+                  marginBottom:4,
+                }}>LISTENERS</div>
+                <div style={{
+                  fontSize:20, fontWeight:900, color:'#0A0A1A',
+                  lineHeight:1.2, whiteSpace:'nowrap', overflow:'hidden',
+                  textOverflow:'ellipsis',
+                }}>Find your music tribe.</div>
               </div>
               <div style={{
-                fontSize:22, fontWeight:900, color:'#0A0A1A',
-                lineHeight:1.2, marginBottom:16,
-              }}>
-                Find your<br />music tribe.
-              </div>
-              <div style={{
-                display:'inline-flex', alignItems:'center', gap:6,
-                background:'rgba(10,10,26,0.15)', borderRadius:999,
-                padding:'10px 22px',
-              }}>
-                <span style={{ fontSize:15, fontWeight:800, color:'#0A0A1A' }}>Explore →</span>
-              </div>
+                fontSize:22, fontWeight:900, color:'rgba(10,10,26,0.6)',
+                flexShrink:0,
+              }}>→</div>
             </div>
           </a>
 
@@ -531,30 +527,26 @@ export default function HomePage() {
           <a href="/creators" style={{ textDecoration:'none', display:'block' }}>
             <div style={{
               background:'linear-gradient(135deg, #FF3CAC, #7B2FFF)',
-              borderRadius:32, padding:'36px 24px', cursor:'pointer',
-              textAlign:'center',
+              borderRadius:24, padding:'22px 24px', cursor:'pointer',
+              display:'flex', alignItems:'center', gap:20,
             }} className="tunnel-card-inner">
-              <div style={{ fontSize:52, marginBottom:16, lineHeight:1 }}>🎤</div>
-              <div style={{
-                fontSize:13, fontWeight:900, letterSpacing:'0.2em',
-                color:'rgba(255,255,255,0.6)', textTransform:'uppercase',
-                marginBottom:10,
-              }}>
-                CREATORS
+              <div style={{ fontSize:64, lineHeight:1, flexShrink:0 }}>🎤</div>
+              <div style={{ flex:1, minWidth:0 }}>
+                <div style={{
+                  fontSize:11, fontWeight:900, letterSpacing:'0.25em',
+                  color:'rgba(255,255,255,0.55)', textTransform:'uppercase',
+                  marginBottom:4,
+                }}>CREATORS</div>
+                <div style={{
+                  fontSize:20, fontWeight:900, color:'#fff',
+                  lineHeight:1.2, whiteSpace:'nowrap', overflow:'hidden',
+                  textOverflow:'ellipsis',
+                }}>Monetize your real taste.</div>
               </div>
               <div style={{
-                fontSize:22, fontWeight:900, color:'#fff',
-                lineHeight:1.2, marginBottom:16,
-              }}>
-                Monetize your<br />real taste.
-              </div>
-              <div style={{
-                display:'inline-flex', alignItems:'center', gap:6,
-                background:'rgba(255,255,255,0.18)', borderRadius:999,
-                padding:'10px 22px',
-              }}>
-                <span style={{ fontSize:15, fontWeight:800, color:'#fff' }}>Become a creator →</span>
-              </div>
+                fontSize:22, fontWeight:900, color:'rgba(255,255,255,0.6)',
+                flexShrink:0,
+              }}>→</div>
             </div>
           </a>
 
@@ -563,31 +555,26 @@ export default function HomePage() {
             <div style={{
               background:'linear-gradient(135deg, #1a1a3a, #12122A)',
               border:'1.5px solid rgba(255,255,255,0.22)',
-              borderRadius:32, padding:'36px 24px', cursor:'pointer',
-              textAlign:'center',
+              borderRadius:24, padding:'22px 24px', cursor:'pointer',
+              display:'flex', alignItems:'center', gap:20,
             }} className="tunnel-card-inner">
-              <div style={{ fontSize:52, marginBottom:16, lineHeight:1 }}>🌟</div>
-              <div style={{
-                fontSize:13, fontWeight:900, letterSpacing:'0.2em',
-                color:'rgba(255,255,255,0.45)', textTransform:'uppercase',
-                marginBottom:10,
-              }}>
-                FANS
+              <div style={{ fontSize:64, lineHeight:1, flexShrink:0 }}>🌟</div>
+              <div style={{ flex:1, minWidth:0 }}>
+                <div style={{
+                  fontSize:11, fontWeight:900, letterSpacing:'0.25em',
+                  color:'rgba(255,255,255,0.4)', textTransform:'uppercase',
+                  marginBottom:4,
+                }}>FANS</div>
+                <div style={{
+                  fontSize:20, fontWeight:900, color:'#fff',
+                  lineHeight:1.2, whiteSpace:'nowrap', overflow:'hidden',
+                  textOverflow:'ellipsis',
+                }}>Follow their real taste.</div>
               </div>
               <div style={{
-                fontSize:22, fontWeight:900, color:'#fff',
-                lineHeight:1.2, marginBottom:16,
-              }}>
-                Follow their<br />real taste.
-              </div>
-              <div style={{
-                display:'inline-flex', alignItems:'center', gap:6,
-                background:'rgba(255,255,255,0.1)', borderRadius:999,
-                padding:'10px 22px',
-                border:'1px solid rgba(255,255,255,0.15)',
-              }}>
-                <span style={{ fontSize:15, fontWeight:800, color:'rgba(255,255,255,0.8)' }}>Discover →</span>
-              </div>
+                fontSize:22, fontWeight:900, color:'rgba(255,255,255,0.4)',
+                flexShrink:0,
+              }}>→</div>
             </div>
           </a>
 
@@ -704,7 +691,7 @@ export default function HomePage() {
         <div className="screens-mobile" style={{ display:'none', flexDirection:'column', alignItems:'center', gap:20, padding:'4px 16px 12px', position:'relative', zIndex:1 }}>
           {[<ScreenProfile key="p" />, <ScreenNowCard key="n" />].map((screen, i) => (
             <motion.div key={i} initial={{ opacity:0, y:16 }} whileInView={{ opacity:1, y:0 }} viewport={{ once:true }} transition={{ delay:i*0.08 }}
-              style={{ width:'100%', maxWidth:340, display:'flex', justifyContent:'center' }}>
+              style={{ width:'100%', maxWidth:400, display:'flex', justifyContent:'center' }}>
               {screen}
             </motion.div>
           ))}
