@@ -519,7 +519,6 @@ export default function HomePage() {
           <span style={{ color:'#FFB800' }}>monetized</span>.
         </motion.p>
 
-        <LiveEqualizer />
         <LiveTicker />
 
       </div>
@@ -637,34 +636,124 @@ export default function HomePage() {
 
       </motion.div>
 
-      {/* ── FEATURES ── */}
-      <div style={{ padding:'0 20px 64px', maxWidth:640, margin:'0 auto' }}>
+      {/* ── EQUALIZER SECTION ── */}
+      <div style={{ padding:'0 0 80px', overflow:'hidden' }}>
         <motion.p
           initial={{ opacity:0, y:12 }}
           whileInView={{ opacity:1, y:0 }}
           viewport={{ once:true }}
-          style={{ fontSize:15, fontWeight:700, letterSpacing:'0.22em',
+          style={{
+            fontSize:15, fontWeight:700, letterSpacing:'0.22em',
             color:'rgba(255,255,255,0.3)', textTransform:'uppercase',
-            textAlign:'center', marginBottom:36 }}>
-          Why it&apos;s different
+            textAlign:'center', marginBottom:48,
+            padding:'0 20px',
+          }}>
+          Your sound has a shape
         </motion.p>
-        <div style={{ display:'flex', flexDirection:'column' }}>
+
+        {/* Equalizer pleine largeur — effet chaîne hifi */}
+        <div style={{
+          width:'100%',
+          background:'linear-gradient(180deg, rgba(10,10,26,0) 0%, rgba(18,18,42,0.8) 40%, rgba(18,18,42,0.8) 60%, rgba(10,10,26,0) 100%)',
+          padding:'32px 0',
+          position:'relative',
+          overflow:'hidden',
+        }}>
+          {/* Reflet miroir en bas */}
+          <div style={{
+            position:'absolute', bottom:32, left:0, right:0, height:60,
+            background:'linear-gradient(to top, rgba(10,10,26,0.9), transparent)',
+            zIndex:2, pointerEvents:'none',
+          }} />
+
+          {/* Ligne centrale style VU-mètre */}
+          <div style={{
+            position:'absolute', top:'50%', left:0, right:0,
+            height:1, background:'rgba(255,255,255,0.04)',
+            transform:'translateY(-50%)', zIndex:0,
+          }} />
+
+          {/* Les barres pleine largeur */}
+          <div style={{
+            display:'flex', alignItems:'center', justifyContent:'center',
+            gap:2, height:120, padding:'0 12px',
+            position:'relative', zIndex:1,
+          }}>
+            {Array.from({ length: 80 }, (_, i) => {
+              const colors = ['#00D4FF','#00D4FF','#00FFB2','#00FFB2','#FF3CAC','#7B2FFF','#FFB800','#00FFB2'];
+              const color = colors[i % colors.length];
+              const baseH = 0.2 + Math.abs(Math.sin(i * 0.35)) * 0.8;
+              return (
+                <motion.div
+                  key={i}
+                  animate={{
+                    scaleY: [baseH, baseH * 0.15, baseH * 0.9, baseH * 0.3, baseH * 0.75, baseH * 0.1, baseH],
+                    opacity: [0.8, 0.4, 0.9, 0.3, 0.85, 0.4, 0.8],
+                  }}
+                  transition={{
+                    duration: 1.2 + (i % 11) * 0.13,
+                    repeat: Infinity,
+                    ease: 'easeInOut',
+                    delay: i * 0.025,
+                  }}
+                  style={{
+                    width: 3,
+                    height: 100,
+                    borderRadius: 2,
+                    background: `linear-gradient(180deg, ${color}, ${color}44)`,
+                    transformOrigin: 'center',
+                    flexShrink: 0,
+                  }}
+                />
+              );
+            })}
+          </div>
+
+          {/* Reflet — barres inversées, opacité réduite */}
+          <div style={{
+            display:'flex', alignItems:'center', justifyContent:'center',
+            gap:2, height:48, padding:'0 12px',
+            transform:'scaleY(-1)',
+            opacity:0.15,
+            position:'relative', zIndex:1,
+            marginTop:4,
+          }}>
+            {Array.from({ length: 80 }, (_, i) => {
+              const colors = ['#00D4FF','#00D4FF','#00FFB2','#00FFB2','#FF3CAC','#7B2FFF','#FFB800','#00FFB2'];
+              const color = colors[i % colors.length];
+              const baseH = 0.2 + Math.abs(Math.sin(i * 0.35)) * 0.8;
+              return (
+                <motion.div
+                  key={i}
+                  animate={{
+                    scaleY: [baseH, baseH * 0.15, baseH * 0.9, baseH * 0.3, baseH],
+                  }}
+                  transition={{
+                    duration: 1.2 + (i % 11) * 0.13,
+                    repeat: Infinity,
+                    ease: 'easeInOut',
+                    delay: i * 0.025,
+                  }}
+                  style={{
+                    width: 3,
+                    height: 40,
+                    borderRadius: 2,
+                    background: color,
+                    transformOrigin: 'center',
+                    flexShrink: 0,
+                  }}
+                />
+              );
+            })}
+          </div>
+        </div>
+
+        {/* 3 features sous l'égaliseur */}
+        <div style={{ display:'flex', flexDirection:'column', padding:'40px 20px 0', maxWidth:640, margin:'0 auto' }}>
           {[
-            {
-              color:'#00D4FF',
-              title:'Your real archetype.',
-              text:'7 behavioral profiles computed from how you actually listen. Not what you claim to like.',
-            },
-            {
-              color:'#FF3CAC',
-              title:'Live Pulse rooms.',
-              text:'Strangers listening to the same track at the same moment. Collective, unfiltered.',
-            },
-            {
-              color:'#00FFB2',
-              title:'Real compatibility.',
-              text:'87% means you both played the same FKJ track at 2am. Not just "I like jazz too".',
-            },
+            { color:'#00D4FF', title:'Your real archetype.', text:'7 behavioral profiles computed from how you actually listen. Not what you claim to like.' },
+            { color:'#FF3CAC', title:'Live Pulse rooms.', text:'Strangers listening to the same track at the same moment. Collective, unfiltered.' },
+            { color:'#00FFB2', title:'Real compatibility.', text:'87% means you both played the same FKJ track at 2am. Not just "I like jazz too".' },
           ].map((item, i) => (
             <motion.div key={i}
               initial={{ opacity:0, y:10 }}
@@ -673,20 +762,11 @@ export default function HomePage() {
               transition={{ delay:i*0.1 }}
               style={{
                 padding:'22px 0',
-                borderBottom: i < 2
-                  ? '1px solid rgba(255,255,255,0.06)'
-                  : 'none',
+                borderBottom: i < 2 ? '1px solid rgba(255,255,255,0.06)' : 'none',
               }}>
-              <div style={{ width:28, height:3, background:item.color,
-                borderRadius:2, marginBottom:12 }} />
-              <div style={{ fontSize:22, fontWeight:900, color:'#F0F0FF',
-                lineHeight:1.2, marginBottom:8 }}>
-                {item.title}
-              </div>
-              <div style={{ fontSize:18, color:'rgba(255,255,255,0.6)',
-                lineHeight:1.7 }}>
-                {item.text}
-              </div>
+              <div style={{ width:28, height:3, background:item.color, borderRadius:2, marginBottom:12 }} />
+              <div style={{ fontSize:22, fontWeight:900, color:'#F0F0FF', lineHeight:1.2, marginBottom:8 }}>{item.title}</div>
+              <div style={{ fontSize:18, color:'rgba(255,255,255,0.6)', lineHeight:1.7 }}>{item.text}</div>
             </motion.div>
           ))}
         </div>
