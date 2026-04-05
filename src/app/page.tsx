@@ -457,7 +457,7 @@ export default function HomePage() {
         <div style={{ display:'flex', flexDirection:'column', gap:0 }}>
           {[
             { num:'01', color:'#00D4FF', title:'Everything you play. Everywhere.', body:'Spotify, Apple Music, YouTube Music, SoundCloud, local files. All sources, captured automatically in the background. Your complete listening reality — not just one platform\'s version of it.' },
-            { num:'02', color:'#FF3CAC', title:'Your real identity emerges', body:'7 behavioral archetypes computed from what you actually play. Not what you say you like.' },
+            { num:'02', color:'#FF3CAC', title:'Who you really are, musically.', body:'Not a playlist. Not a genre. A behavioral profile built from every track you\'ve actually played — when, how often, at what hour. Seven archetypes. Yours is already forming.' },
             { num:'03', color:'#00FFB2', title:'Find your people', body:'Match with listeners who share your actual taste. Subscribe to see what your favorite artists or creators really listen to. And if you\'re a creator — your real listening feed is your most authentic product.' },
           ].map((step, i) => (
             <div key={i} style={{ display:'flex', gap:20, padding:'20px 0', borderBottom: i < 2 ? '1px solid rgba(255,255,255,0.05)' : 'none' }}>
