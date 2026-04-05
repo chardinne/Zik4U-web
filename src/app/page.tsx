@@ -24,76 +24,6 @@ const C = {
   dim:    'rgba(255,255,255,0.2)',
 } as const;
 
-// ── Now Card Live ─────────────────────────────────────────────────────────────
-
-const NOW_CARDS = [
-  { time:'23h47', track:'ocean eyes',    artist:'Billie Eilish',  mood:'Nocturne',    emoji:'🌙', color:C.purple,  grad:['#1a0533','#0A0A1A'] as [string,string] },
-  { time:'08h12', track:'HUMBLE.',       artist:'Kendrick Lamar', mood:'High Energy', emoji:'🔥', color:C.pink,    grad:['#2d0a00','#0A0A1A'] as [string,string] },
-  { time:'14h33', track:'Ylang Ylang',   artist:'FKJ',            mood:'Deep Focus',  emoji:'🌊', color:C.cyan,    grad:['#001a2d','#0A0A1A'] as [string,string] },
-  { time:'02h18', track:'Pink + White',  artist:'Frank Ocean',    mood:'Melancholy',  emoji:'💜', color:'#9B59B6', grad:['#0d001a','#0A0A1A'] as [string,string] },
-  { time:'19h55', track:'Lose Yourself', artist:'Eminem',         mood:'Obsession',   emoji:'⚡', color:C.gold,    grad:['#1a1000','#0A0A1A'] as [string,string] },
-];
-
-function NowCardLive() {
-  const [i, setI] = useState(0);
-  useEffect(() => {
-    const t = setInterval(() => setI(x => (x + 1) % NOW_CARDS.length), 3200);
-    return () => clearInterval(t);
-  }, []);
-  const card = NOW_CARDS[i];
-  return (
-    <div style={{ position:'relative', maxWidth:340, margin:'0 auto', width:'100%' }}>
-      <div style={{ position:'absolute', inset:-24, background:`radial-gradient(ellipse, ${card.color}25, transparent 65%)`, borderRadius:48, pointerEvents:'none', transition:'background 1s' }} />
-      <AnimatePresence mode="wait">
-        <motion.div key={i}
-          initial={{ opacity:0, y:10, scale:0.97 }}
-          animate={{ opacity:1, y:0, scale:1 }}
-          exit={{ opacity:0, y:-8, scale:0.98 }}
-          transition={{ duration:0.32, ease:'easeOut' }}
-          style={{ position:'relative', background:`linear-gradient(160deg, ${card.grad[0]}, ${C.card})`, borderRadius:24, border:`1px solid ${card.color}35`, padding:'22px 22px 18px', boxShadow:`0 0 48px ${card.color}18, 0 12px 40px rgba(0,0,0,0.5)` }}
-        >
-          <div style={{ display:'flex', justifyContent:'space-between', alignItems:'center', marginBottom:18 }}>
-            <div style={{ display:'flex', alignItems:'center', gap:9 }}>
-              <div style={{ width:38, height:38, borderRadius:'50%', background:`linear-gradient(135deg, ${card.color}, ${C.purple})`, display:'flex', alignItems:'center', justifyContent:'center', fontSize:21, flexShrink:0 }}>{card.emoji}</div>
-              <div>
-                <div style={{ fontSize:17, fontWeight:700, color:C.text }}>@harmony</div>
-                <div style={{ fontSize:14, color:C.muted, marginTop:1 }}>Night Explorer</div>
-              </div>
-            </div>
-            <div style={{ fontSize:14, color:card.color, fontFamily:'monospace', letterSpacing:'0.08em', background:`${card.color}12`, padding:'3px 9px', borderRadius:7, border:`1px solid ${card.color}28` }}>{card.time}</div>
-          </div>
-          <div style={{ marginBottom:16 }}>
-            <div style={{ fontSize:14, fontWeight:700, letterSpacing:'0.18em', color:'rgba(255,255,255,0.35)', textTransform:'uppercase', marginBottom:7 }}>▶ NOW PLAYING</div>
-            <div style={{ fontSize:21, fontWeight:900, color:C.text, lineHeight:1.15, letterSpacing:'-0.01em' }}>{card.track}</div>
-            <div style={{ fontSize:18, color:C.muted, marginTop:5 }}>{card.artist}</div>
-          </div>
-          <div style={{ display:'flex', alignItems:'center', gap:10 }}>
-            <div style={{ display:'flex', alignItems:'center', gap:6, background:`${card.color}14`, border:`1px solid ${card.color}28`, borderRadius:999, padding:'5px 13px' }}>
-              <span style={{ fontSize:17 }}>{card.emoji}</span>
-              <span style={{ fontSize:16, fontWeight:700, color:card.color }}>{card.mood}</span>
-            </div>
-            <div style={{ display:'flex', alignItems:'center', gap:2 }}>
-              {[1,0.55,0.85,0.4,0.9,0.5,0.75].map((h, j) => (
-                <motion.div key={j}
-                  animate={{ scaleY:[h, h*0.35, h] }}
-                  transition={{ duration:0.75+j*0.1, repeat:Infinity, ease:'easeInOut', delay:j*0.09 }}
-                  style={{ width:3, height:15, background:card.color, borderRadius:2, opacity:0.65, transformOrigin:'bottom' }}
-                />
-              ))}
-            </div>
-          </div>
-        </motion.div>
-      </AnimatePresence>
-      <div style={{ display:'flex', justifyContent:'center', gap:7, marginTop:14 }}>
-        {NOW_CARDS.map((_,j) => (
-          <div key={j} onClick={() => setI(j)}
-            style={{ width:j===i?22:6, height:6, borderRadius:3, background:j===i?NOW_CARDS[i].color:'rgba(255,255,255,0.14)', transition:'all 0.35s', cursor:'pointer' }} />
-        ))}
-      </div>
-    </div>
-  );
-}
-
 // ── App Screens ───────────────────────────────────────────────────────────────
 
 function PhoneFrame({ children, shadow }: { children: ReactNode; shadow?: string }) {
@@ -114,6 +44,7 @@ function ScreenProfile() {
           <div key={i} style={{ position:'absolute', bottom:0, left:`${i*10.5}%`, width:'7%', height:`${14+Math.sin(i*0.9)*8}px`, background:`rgba(255,60,172,${0.14+Math.sin(i*0.5)*0.06})`, borderRadius:'3px 3px 0 0' }} />
         ))}
       </div>
+      <div style={{ position:'absolute', top:8, right:8, background:'rgba(255,255,255,0.08)', borderRadius:4, padding:'2px 6px', fontSize:9, color:'rgba(255,255,255,0.3)', fontFamily:'monospace', letterSpacing:1 }}>DEMO</div>
       <div style={{ padding:'0 14px', marginTop:-22, marginBottom:6, display:'flex', justifyContent:'space-between', alignItems:'flex-end', flexShrink:0 }}>
         <div style={{ position:'relative' }}>
           <div style={{ position:'absolute', inset:-3, borderRadius:'50%', background:`linear-gradient(135deg, ${C.pink}, ${C.purple})`, opacity:0.75 }} />
@@ -125,7 +56,7 @@ function ScreenProfile() {
         <div style={{ fontSize:18, fontWeight:900, color:C.text }}>Harmony</div>
         <div style={{ fontSize:13, color:'rgba(255,60,172,0.65)', fontFamily:'monospace', marginBottom:3 }}>@harmony · Night Explorer 🌙</div>
         <div style={{ display:'flex', background:C.surface, borderRadius:10, border:`1px solid rgba(255,60,172,0.15)`, overflow:'hidden', marginBottom:9 }}>
-          {[['1.2K','fans'],['$340','/ mois'],['24','drops']].map(([v,l],i) => (
+          {[['1.2K','fans'],['$340','/ mo'],['24','drops']].map(([v,l],i) => (
             <div key={i} style={{ flex:1, textAlign:'center', padding:'7px 3px', borderRight:i<2?`1px solid rgba(255,60,172,0.1)`:undefined }}>
               <div style={{ fontSize:17, fontWeight:900, color:i===1?C.mint:i===2?C.pink:C.text }}>{v}</div>
               <div style={{ fontSize:7, color:'rgba(255,255,255,0.35)', letterSpacing:0.8, textTransform:'uppercase', marginTop:1 }}>{l}</div>
@@ -139,7 +70,7 @@ function ScreenProfile() {
         </div>
         <div style={{ background:'rgba(0,255,178,0.06)', borderRadius:10, padding:'8px 10px', border:`1px solid rgba(0,255,178,0.18)` }}>
           <div style={{ display:'flex', justifyContent:'space-between', marginBottom:5 }}>
-            <span style={{ fontSize:12, color:C.muted, textTransform:'uppercase', letterSpacing:0.8 }}>Prochain palier</span>
+            <span style={{ fontSize:12, color:C.muted, textTransform:'uppercase', letterSpacing:0.8 }}>Next tier</span>
             <span style={{ fontSize:12, color:C.mint, fontWeight:700 }}>+3 fans</span>
           </div>
           <div style={{ height:4, background:'rgba(255,255,255,0.06)', borderRadius:2, overflow:'hidden' }}>
@@ -331,12 +262,12 @@ function CTACard({ href, label, tagline, pain, gradient, textColor, border }: {
 // ── Live Ticker ───────────────────────────────────────────────────────────────
 
 const LIVE_FEEDS = [
-  { emoji:'🌙', user:'@harmony', track:'ocean eyes', artist:'Billie Eilish', time:'maintenant', color:'#7B2FFF' },
+  { emoji:'🌙', user:'@harmony', track:'ocean eyes', artist:'Billie Eilish', time:'now', color:'#7B2FFF' },
   { emoji:'🔥', user:'@marco', track:'HUMBLE.', artist:'Kendrick Lamar', time:'2 min', color:'#FF3CAC' },
   { emoji:'🌊', user:'@luna', track:'Ylang Ylang', artist:'FKJ', time:'4 min', color:'#00D4FF' },
   { emoji:'💜', user:'@sasha', track:'Pink + White', artist:'Frank Ocean', time:'6 min', color:'#9B59B6' },
   { emoji:'⚡', user:'@tyler', track:'Lose Yourself', artist:'Eminem', time:'8 min', color:'#FFB800' },
-  { emoji:'🎵', user:'@priya', track:'PROVENZA', artist:'Karol G', time:'maintenant', color:'#00FFB2' },
+  { emoji:'🎵', user:'@priya', track:'PROVENZA', artist:'Karol G', time:'now', color:'#00FFB2' },
   { emoji:'🌙', user:'@alex', track:'Skinny Love', artist:'Bon Iver', time:'3 min', color:'#7B2FFF' },
   { emoji:'🔥', user:'@zoe', track:'good 4 u', artist:'Olivia Rodrigo', time:'5 min', color:'#FF3CAC' },
 ];
@@ -364,7 +295,7 @@ function LiveTicker() {
           }}>
             <span style={{ fontSize:15 }}>{item.emoji}</span>
             <span style={{ fontSize:13, fontWeight:700, color:item.color }}>{item.user}</span>
-            <span style={{ fontSize:13, color:'rgba(255,255,255,0.5)' }}>écoute</span>
+            <span style={{ fontSize:13, color:'rgba(255,255,255,0.5)' }}>is listening to</span>
             <span style={{ fontSize:13, fontWeight:700, color:'#F0F0FF' }}>{item.track}</span>
             <span style={{ fontSize:13, color:'rgba(255,255,255,0.35)' }}>—</span>
             <span style={{ fontSize:13, color:'rgba(255,255,255,0.5)' }}>{item.artist}</span>
@@ -492,9 +423,53 @@ export default function HomePage() {
           <span style={{ color:'#FFB800' }}>monetized</span>.
         </motion.p>
 
+        <motion.div
+          initial={{ opacity:0, y:12 }}
+          animate={{ opacity:1, y:0 }}
+          transition={{ delay:0.5 }}
+          style={{ display:'flex', gap:12, justifyContent:'center', flexWrap:'wrap', padding:'0 20px 32px' }}
+        >
+          <a href="https://apps.apple.com/app/zik4u/id6748722257"
+            style={{ display:'inline-flex', alignItems:'center', gap:8, padding:'14px 28px', borderRadius:999, background:'linear-gradient(90deg, #00D4FF, #00FFB2)', textDecoration:'none', fontSize:16, fontWeight:800, color:'#0A0A1A' }}>
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="#0A0A1A"><path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/></svg>
+            App Store
+          </a>
+          <a href="https://play.google.com/store/apps/details?id=com.zik4u.app"
+            style={{ display:'inline-flex', alignItems:'center', gap:8, padding:'14px 28px', borderRadius:999, background:'rgba(255,255,255,0.07)', border:'1px solid rgba(255,255,255,0.15)', textDecoration:'none', fontSize:16, fontWeight:800, color:'#F0F0FF' }}>
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M3 20.5v-17c0-.83 1-.83 1.5-.5l15 8.5-15 8.5c-.5.33-1.5.33-1.5-.5z" fill="#00FFB2"/></svg>
+            Google Play
+          </a>
+        </motion.div>
+
         <LiveTicker />
 
       </div>
+
+      <motion.div
+        initial={{ opacity:0, y:16 }}
+        whileInView={{ opacity:1, y:0 }}
+        viewport={{ once:true }}
+        style={{ padding:'0 20px 48px', maxWidth:560, margin:'0 auto' }}
+      >
+        <p style={{ fontSize:11, fontWeight:700, letterSpacing:'0.25em', color:'rgba(255,255,255,0.25)', textTransform:'uppercase', textAlign:'center', marginBottom:32 }}>
+          How it works
+        </p>
+        <div style={{ display:'flex', flexDirection:'column', gap:0 }}>
+          {[
+            { num:'01', color:'#00D4FF', title:'Connect your streaming app', body:'Spotify, Apple Music, YouTube Music or SoundCloud. We read your listening history — nothing else.' },
+            { num:'02', color:'#FF3CAC', title:'Your real identity emerges', body:'7 behavioral archetypes computed from what you actually play. Not what you say you like.' },
+            { num:'03', color:'#00FFB2', title:'Find your people', body:'Match with listeners who share your actual taste. Follow creators whose music DNA overlaps with yours.' },
+          ].map((step, i) => (
+            <div key={i} style={{ display:'flex', gap:20, padding:'20px 0', borderBottom: i < 2 ? '1px solid rgba(255,255,255,0.05)' : 'none' }}>
+              <div style={{ fontSize:28, fontWeight:900, color:step.color, fontFamily:'monospace', opacity:0.4, flexShrink:0, lineHeight:1, paddingTop:2 }}>{step.num}</div>
+              <div>
+                <div style={{ fontSize:17, fontWeight:800, color:'#F0F0FF', marginBottom:6 }}>{step.title}</div>
+                <div style={{ fontSize:14, color:'rgba(255,255,255,0.5)', lineHeight:1.6 }}>{step.body}</div>
+              </div>
+            </div>
+          ))}
+        </div>
+      </motion.div>
 
       {/* 3 tunnels d'acquisition */}
       <motion.div
@@ -665,6 +640,10 @@ export default function HomePage() {
           ))}
         </div>
       </div>
+
+      <p style={{ textAlign:'center', fontSize:12, color:'rgba(255,255,255,0.2)', fontFamily:'monospace', letterSpacing:1, marginBottom:16, padding:'0 20px' }}>
+        Screens shown are simulated. Data is illustrative.
+      </p>
 
       {/* ── APP SCREENS ── */}
       <div style={{ overflow:'hidden', padding:'0 0 80px', position:'relative' }}>
