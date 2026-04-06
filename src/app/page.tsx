@@ -369,12 +369,14 @@ export default function HomePage() {
             Fans
           </a>
           <a href="https://apps.apple.com/app/zik4u/id6748722257" style={{
-            fontSize:15, fontWeight:700, color:'#0A0A1A',
-            background:'linear-gradient(90deg, #00D4FF, #00FFB2)',
-            padding:'7px 14px', borderRadius:999, textDecoration:'none',
-            whiteSpace:'nowrap', marginLeft:4,
+            fontSize:15, fontWeight:900, color:'#0A0A1A',
+            background:'linear-gradient(90deg, #FF3CAC, #7B2FFF)',
+            padding:'9px 20px', borderRadius:999, textDecoration:'none',
+            whiteSpace:'nowrap', marginLeft:8,
+            boxShadow:'0 0 20px rgba(255,60,172,0.35)',
+            letterSpacing:'0.03em',
           }}>
-            Get the app
+            Get the app ↓
           </a>
         </div>
       </nav>
@@ -417,27 +419,34 @@ export default function HomePage() {
             textAlign:'center', lineHeight:1.75, margin:'0 0 40px',
             padding:'0 20px',
           }}>
-          What you really listen to. Who listens like you.{' '}
-          <strong style={{ color:'#FF3CAC', fontWeight:800 }}>Discovered</strong>,{' '}
-          <span style={{ color:'#00FFB2' }}>shared</span>,{' '}
-          <span style={{ color:'#FFB800' }}>monetized</span>.
+          What you actually listen to. Who you really are.{' '}
+          <strong style={{ color:'#00FFB2', fontWeight:800 }}>The people who get it.</strong>
         </motion.p>
 
         <motion.div
           initial={{ opacity:0, y:12 }}
           animate={{ opacity:1, y:0 }}
           transition={{ delay:0.5 }}
-          style={{ display:'flex', gap:12, justifyContent:'center', flexWrap:'wrap', padding:'0 20px 32px' }}
+          style={{ display:'flex', flexDirection:'column', alignItems:'center', gap:10, padding:'0 20px 32px' }}
         >
           <a href="https://apps.apple.com/app/zik4u/id6748722257"
-            style={{ display:'inline-flex', alignItems:'center', gap:8, padding:'14px 28px', borderRadius:999, background:'linear-gradient(90deg, #00D4FF, #00FFB2)', textDecoration:'none', fontSize:16, fontWeight:800, color:'#0A0A1A' }}>
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="#0A0A1A"><path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/></svg>
-            App Store
+            style={{
+              display:'inline-flex', alignItems:'center', gap:10,
+              padding:'18px 40px', borderRadius:999,
+              background:'linear-gradient(90deg, #FF3CAC, #7B2FFF)',
+              textDecoration:'none', fontSize:18, fontWeight:900, color:'#fff',
+              boxShadow:'0 0 40px rgba(255,60,172,0.4)',
+              letterSpacing:'0.02em', whiteSpace:'nowrap',
+            }}>
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="#fff"><path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/></svg>
+            Download Free — App Store
           </a>
           <a href="https://play.google.com/store/apps/details?id=com.zik4u.app"
-            style={{ display:'inline-flex', alignItems:'center', gap:8, padding:'14px 28px', borderRadius:999, background:'rgba(255,255,255,0.07)', border:'1px solid rgba(255,255,255,0.15)', textDecoration:'none', fontSize:16, fontWeight:800, color:'#F0F0FF' }}>
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M3 20.5v-17c0-.83 1-.83 1.5-.5l15 8.5-15 8.5c-.5.33-1.5.33-1.5-.5z" fill="#00FFB2"/></svg>
-            Google Play
+            style={{
+              fontSize:14, color:'rgba(255,255,255,0.4)', textDecoration:'none',
+              fontWeight:600, letterSpacing:'0.03em',
+            }}>
+            Also on Google Play →
           </a>
         </motion.div>
 
@@ -452,7 +461,7 @@ export default function HomePage() {
         style={{ padding:'0 20px 48px', maxWidth:560, margin:'0 auto' }}
       >
         <p style={{ fontSize:11, fontWeight:700, letterSpacing:'0.25em', color:'rgba(255,255,255,0.25)', textTransform:'uppercase', textAlign:'center', marginBottom:32 }}>
-          How it works
+          How Zik4U reads you
         </p>
         <div style={{ display:'flex', flexDirection:'column', gap:0 }}>
           {[
@@ -482,26 +491,19 @@ export default function HomePage() {
           <a href="/listeners" style={{ textDecoration:'none', display:'block' }}>
             <div style={{
               background:'linear-gradient(135deg, #00D4FF, #00FFB2)',
-              borderRadius:24, padding:'22px 24px', cursor:'pointer',
-              display:'flex', alignItems:'center', gap:20,
-            }} className="tunnel-card-inner">
-              <div style={{ fontSize:64, lineHeight:1, flexShrink:0 }}>🎧</div>
-              <div style={{ flex:1, minWidth:0 }}>
-                <div style={{
-                  fontSize:11, fontWeight:900, letterSpacing:'0.25em',
-                  color:'rgba(10,10,26,0.55)', textTransform:'uppercase',
-                  marginBottom:4,
-                }}>LISTENERS</div>
-                <div style={{
-                  fontSize:20, fontWeight:900, color:'#0A0A1A',
-                  lineHeight:1.2, whiteSpace:'nowrap', overflow:'hidden',
-                  textOverflow:'ellipsis',
-                }}>Find your music tribe.</div>
+              borderRadius:24, padding:'24px 24px 20px', cursor:'pointer',
+              display:'flex', flexDirection:'column', gap:12,
+            }}>
+              <div style={{ display:'flex', alignItems:'center', gap:16 }}>
+                <div style={{ fontSize:56, lineHeight:1, flexShrink:0 }}>🎧</div>
+                <div style={{ flex:1 }}>
+                  <div style={{ fontSize:11, fontWeight:900, letterSpacing:'0.25em', color:'rgba(10,10,26,0.55)', textTransform:'uppercase', marginBottom:4 }}>LISTENERS</div>
+                  <div style={{ fontSize:19, fontWeight:900, color:'#0A0A1A', lineHeight:1.25 }}>Discover who listens exactly like you.</div>
+                </div>
               </div>
-              <div style={{
-                fontSize:22, fontWeight:900, color:'rgba(10,10,26,0.6)',
-                flexShrink:0,
-              }}>→</div>
+              <div style={{ alignSelf:'flex-start', background:'rgba(10,10,26,0.12)', borderRadius:999, padding:'8px 20px', fontSize:15, fontWeight:800, color:'#0A0A1A' }}>
+                I'm a Listener →
+              </div>
             </div>
           </a>
 
@@ -509,26 +511,19 @@ export default function HomePage() {
           <a href="/creators" style={{ textDecoration:'none', display:'block' }}>
             <div style={{
               background:'linear-gradient(135deg, #FF3CAC, #7B2FFF)',
-              borderRadius:24, padding:'22px 24px', cursor:'pointer',
-              display:'flex', alignItems:'center', gap:20,
-            }} className="tunnel-card-inner">
-              <div style={{ fontSize:64, lineHeight:1, flexShrink:0 }}>🎤</div>
-              <div style={{ flex:1, minWidth:0 }}>
-                <div style={{
-                  fontSize:11, fontWeight:900, letterSpacing:'0.25em',
-                  color:'rgba(255,255,255,0.55)', textTransform:'uppercase',
-                  marginBottom:4,
-                }}>CREATORS</div>
-                <div style={{
-                  fontSize:20, fontWeight:900, color:'#fff',
-                  lineHeight:1.2, whiteSpace:'nowrap', overflow:'hidden',
-                  textOverflow:'ellipsis',
-                }}>Monetize your real taste.</div>
+              borderRadius:24, padding:'24px 24px 20px', cursor:'pointer',
+              display:'flex', flexDirection:'column', gap:12,
+            }}>
+              <div style={{ display:'flex', alignItems:'center', gap:16 }}>
+                <div style={{ fontSize:56, lineHeight:1, flexShrink:0 }}>🎤</div>
+                <div style={{ flex:1 }}>
+                  <div style={{ fontSize:11, fontWeight:900, letterSpacing:'0.25em', color:'rgba(255,255,255,0.55)', textTransform:'uppercase', marginBottom:4 }}>CREATORS</div>
+                  <div style={{ fontSize:19, fontWeight:900, color:'#fff', lineHeight:1.25 }}>Turn your real taste into income.</div>
+                </div>
               </div>
-              <div style={{
-                fontSize:22, fontWeight:900, color:'rgba(255,255,255,0.6)',
-                flexShrink:0,
-              }}>→</div>
+              <div style={{ alignSelf:'flex-start', background:'rgba(255,255,255,0.15)', borderRadius:999, padding:'8px 20px', fontSize:15, fontWeight:800, color:'#fff' }}>
+                I'm a Creator →
+              </div>
             </div>
           </a>
 
@@ -537,26 +532,19 @@ export default function HomePage() {
             <div style={{
               background:'linear-gradient(135deg, #1a1a3a, #12122A)',
               border:'1.5px solid rgba(255,255,255,0.22)',
-              borderRadius:24, padding:'22px 24px', cursor:'pointer',
-              display:'flex', alignItems:'center', gap:20,
-            }} className="tunnel-card-inner">
-              <div style={{ fontSize:64, lineHeight:1, flexShrink:0 }}>🌟</div>
-              <div style={{ flex:1, minWidth:0 }}>
-                <div style={{
-                  fontSize:11, fontWeight:900, letterSpacing:'0.25em',
-                  color:'rgba(255,255,255,0.4)', textTransform:'uppercase',
-                  marginBottom:4,
-                }}>FANS</div>
-                <div style={{
-                  fontSize:20, fontWeight:900, color:'#fff',
-                  lineHeight:1.2, whiteSpace:'nowrap', overflow:'hidden',
-                  textOverflow:'ellipsis',
-                }}>Follow their real taste.</div>
+              borderRadius:24, padding:'24px 24px 20px', cursor:'pointer',
+              display:'flex', flexDirection:'column', gap:12,
+            }}>
+              <div style={{ display:'flex', alignItems:'center', gap:16 }}>
+                <div style={{ fontSize:56, lineHeight:1, flexShrink:0 }}>🌟</div>
+                <div style={{ flex:1 }}>
+                  <div style={{ fontSize:11, fontWeight:900, letterSpacing:'0.25em', color:'rgba(255,255,255,0.4)', textTransform:'uppercase', marginBottom:4 }}>FANS</div>
+                  <div style={{ fontSize:19, fontWeight:900, color:'#fff', lineHeight:1.25 }}>Get inside your favorite artist's actual world.</div>
+                </div>
               </div>
-              <div style={{
-                fontSize:22, fontWeight:900, color:'rgba(255,255,255,0.4)',
-                flexShrink:0,
-              }}>→</div>
+              <div style={{ alignSelf:'flex-start', background:'rgba(255,255,255,0.08)', border:'1px solid rgba(255,255,255,0.2)', borderRadius:999, padding:'8px 20px', fontSize:15, fontWeight:800, color:'rgba(255,255,255,0.8)' }}>
+                I'm a Fan →
+              </div>
             </div>
           </a>
 
@@ -641,9 +629,8 @@ export default function HomePage() {
         </div>
       </div>
 
-      <p style={{ textAlign:'center', fontSize:12, color:'rgba(255,255,255,0.2)', fontFamily:'monospace', letterSpacing:1, marginBottom:16, padding:'0 20px' }}>
-        Screens shown are simulated. Data is illustrative.
-      </p>
+
+      {/* disclaimer moved to footer */}
 
       {/* ── APP SCREENS ── */}
       <div style={{ overflow:'hidden', padding:'0 0 80px', position:'relative' }}>
@@ -682,6 +669,32 @@ export default function HomePage() {
             </motion.div>
           ))}
         </div>
+      </div>
+
+      {/* ── CTA FINAL FORT ── */}
+      <div style={{ textAlign:'center', padding:'0 24px 56px' }}>
+        <motion.div initial={{ opacity:0, y:16 }} whileInView={{ opacity:1, y:0 }} viewport={{ once:true }}>
+          <h2 style={{ fontSize:'clamp(26px, 5vw, 36px)', fontWeight:900, lineHeight:1.2, margin:'0 0 8px', letterSpacing:'-0.02em' }}>
+            Your music taste is your identity.
+          </h2>
+          <div style={{ fontSize:'clamp(26px, 5vw, 36px)', fontWeight:900, background:'linear-gradient(90deg, #FF3CAC, #7B2FFF)', WebkitBackgroundClip:'text', WebkitTextFillColor:'transparent', marginBottom:32 }}>
+            Own it.
+          </div>
+          <a href="https://apps.apple.com/app/zik4u/id6748722257"
+            style={{
+              display:'inline-flex', alignItems:'center', gap:10,
+              padding:'20px 48px', borderRadius:999,
+              background:'linear-gradient(90deg, #FF3CAC, #7B2FFF)',
+              textDecoration:'none', fontSize:18, fontWeight:900, color:'#fff',
+              boxShadow:'0 0 60px rgba(255,60,172,0.35)',
+              letterSpacing:'0.02em',
+            }}>
+            Download Zik4U — It's free
+          </a>
+          <div style={{ marginTop:12, fontSize:13, color:'rgba(255,255,255,0.3)', fontWeight:600 }}>
+            App Store · Google Play
+          </div>
+        </motion.div>
       </div>
 
       {/* ── STORE BUTTONS ── */}
@@ -796,6 +809,9 @@ export default function HomePage() {
               {l.label}
             </a>
           ))}
+        </div>
+        <div style={{ width:'100%', marginTop:12, textAlign:'center', fontSize:10, color:'rgba(255,255,255,0.2)', fontFamily:'monospace', letterSpacing:1 }}>
+          Screens shown are simulated. Data is illustrative.
         </div>
       </footer>
 
