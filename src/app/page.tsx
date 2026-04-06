@@ -427,26 +427,23 @@ export default function HomePage() {
           initial={{ opacity:0, y:12 }}
           animate={{ opacity:1, y:0 }}
           transition={{ delay:0.5 }}
-          style={{ display:'flex', flexDirection:'column', alignItems:'center', gap:10, padding:'0 20px 32px' }}
+          style={{ display:'flex', gap:12, justifyContent:'center', flexWrap:'wrap', padding:'0 20px 32px' }}
         >
-          <a href="https://apps.apple.com/app/zik4u/id6748722257"
-            style={{
-              display:'inline-flex', alignItems:'center', gap:10,
-              padding:'18px 40px', borderRadius:999,
-              background:'linear-gradient(90deg, #FF3CAC, #7B2FFF)',
-              textDecoration:'none', fontSize:18, fontWeight:900, color:'#fff',
-              boxShadow:'0 0 40px rgba(255,60,172,0.4)',
-              letterSpacing:'0.02em', whiteSpace:'nowrap',
-            }}>
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="#fff"><path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/></svg>
-            Download Free — App Store
+          <a href={APP_STORE_URL}
+            style={{ display:'flex', alignItems:'center', gap:11, padding:'14px 26px', borderRadius:14, background:C.text, textDecoration:'none', boxShadow:'0 4px 24px rgba(0,0,0,0.3)' }}>
+            <svg width="22" height="22" viewBox="0 0 24 24" fill={C.bg}><path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/></svg>
+            <div>
+              <div style={{ fontSize:14, color:C.bg, opacity:0.5, letterSpacing:'0.06em' }}>Download on the</div>
+              <div style={{ fontSize:20, fontWeight:800, color:C.bg, lineHeight:1 }}>App Store</div>
+            </div>
           </a>
-          <a href="https://play.google.com/store/apps/details?id=com.zik4u.app"
-            style={{
-              fontSize:14, color:'rgba(255,255,255,0.4)', textDecoration:'none',
-              fontWeight:600, letterSpacing:'0.03em',
-            }}>
-            Also on Google Play →
+          <a href={PLAY_STORE_URL}
+            style={{ display:'flex', alignItems:'center', gap:11, padding:'14px 26px', borderRadius:14, background:C.card, border:`1px solid rgba(255,255,255,0.12)`, textDecoration:'none' }}>
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M3 20.5v-17c0-.83 1-.83 1.5-.5l15 8.5-15 8.5c-.5.33-1.5.33-1.5-.5z" fill={C.mint}/></svg>
+            <div>
+              <div style={{ fontSize:14, color:C.muted, opacity:0.6, letterSpacing:'0.06em' }}>Get it on</div>
+              <div style={{ fontSize:20, fontWeight:800, color:C.text, lineHeight:1 }}>Google Play</div>
+            </div>
           </a>
         </motion.div>
 
