@@ -463,8 +463,8 @@ export default function HomePage() {
         <div style={{ display:'flex', flexDirection:'column', gap:0 }}>
           {[
             { num:'01', color:'#00D4FF', title:'Everything you play. Everywhere.', body:'Spotify, Apple Music, YouTube Music, Deezer, Tidal, SoundCloud, Last.fm, Amazon Music, Boomplay and more. All sources, captured automatically in the background. Your complete listening reality, across every ecosystem, not just one platform\'s version of it.' },
-            { num:'02', color:'#FF3CAC', title:'Who you really are, musically.', body:'Not a playlist. Not a genre. A behavioral profile built from every track you\'ve actually played — when, how often, at what hour. Seven archetypes. Yours is already forming.' },
-            { num:'03', color:'#00FFB2', title:'Find your people', body:'Match with listeners who share your actual taste. Subscribe to see what your favorite artists or creators really listen to. And if you\'re a creator — your real listening feed is your most authentic product.' },
+            { num:'02', color:'#FF3CAC', title:'Who you really are, musically.', body:'Not a playlist. Not a genre. A behavioral profile built from every track you\'ve actually played, when, how often, at what hour. Seven archetypes. Yours is already forming.' },
+            { num:'03', color:'#00FFB2', title:'Find your people', body:'Match with listeners who share your actual taste. Subscribe to see what your favorite artists or creators really listen to. And if you\'re a creator, your real listening feed is your most authentic product.' },
           ].map((step, i) => (
             <div key={i} style={{ display:'flex', gap:20, padding:'20px 0', borderBottom: i < 2 ? '1px solid rgba(255,255,255,0.05)' : 'none' }}>
               <div style={{ fontSize:28, fontWeight:900, color:step.color, fontFamily:'monospace', opacity:0.4, flexShrink:0, lineHeight:1, paddingTop:2 }}>{step.num}</div>
@@ -674,22 +674,26 @@ export default function HomePage() {
           <h2 style={{ fontSize:'clamp(26px, 5vw, 36px)', fontWeight:900, lineHeight:1.2, margin:'0 0 8px', letterSpacing:'-0.02em' }}>
             Your music taste is your identity.
           </h2>
-          <div style={{ fontSize:'clamp(26px, 5vw, 36px)', fontWeight:900, background:'linear-gradient(90deg, #FF3CAC, #7B2FFF)', WebkitBackgroundClip:'text', WebkitTextFillColor:'transparent', marginBottom:32 }}>
+          <div style={{ fontSize:'clamp(26px, 5vw, 36px)', fontWeight:900, background:'linear-gradient(90deg, #FF3CAC, #7B2FFF)', WebkitBackgroundClip:'text', WebkitTextFillColor:'transparent', marginBottom:40 }}>
             Own it.
           </div>
-          <a href="https://apps.apple.com/app/zik4u/id6748722257"
-            style={{
-              display:'inline-flex', alignItems:'center', gap:10,
-              padding:'20px 48px', borderRadius:999,
-              background:'linear-gradient(90deg, #FF3CAC, #7B2FFF)',
-              textDecoration:'none', fontSize:18, fontWeight:900, color:'#fff',
-              boxShadow:'0 0 60px rgba(255,60,172,0.35)',
-              letterSpacing:'0.02em',
-            }}>
-            Download Zik4U — It's free
-          </a>
-          <div style={{ marginTop:12, fontSize:13, color:'rgba(255,255,255,0.3)', fontWeight:600 }}>
-            App Store · Google Play
+          <div style={{ display:'flex', gap:12, justifyContent:'center', flexWrap:'wrap' }}>
+            <a href={APP_STORE_URL}
+              style={{ display:'flex', alignItems:'center', gap:11, padding:'14px 26px', borderRadius:14, background:'#F0F0FF', textDecoration:'none', boxShadow:'0 4px 24px rgba(0,0,0,0.3)' }}>
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="#0A0A1A"><path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/></svg>
+              <div>
+                <div style={{ fontSize:14, color:'#0A0A1A', opacity:0.5, letterSpacing:'0.06em' }}>Download on the</div>
+                <div style={{ fontSize:20, fontWeight:800, color:'#0A0A1A', lineHeight:1 }}>App Store</div>
+              </div>
+            </a>
+            <a href={PLAY_STORE_URL}
+              style={{ display:'flex', alignItems:'center', gap:11, padding:'14px 26px', borderRadius:14, background:'#12122A', border:'1px solid rgba(255,255,255,0.12)', textDecoration:'none' }}>
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M3 20.5v-17c0-.83 1-.83 1.5-.5l15 8.5-15 8.5c-.5.33-1.5.33-1.5-.5z" fill="#00FFB2"/></svg>
+              <div>
+                <div style={{ fontSize:14, color:'rgba(255,255,255,0.5)', opacity:0.6, letterSpacing:'0.06em' }}>Get it on</div>
+                <div style={{ fontSize:20, fontWeight:800, color:'#F0F0FF', lineHeight:1 }}>Google Play</div>
+              </div>
+            </a>
           </div>
         </motion.div>
       </div>
@@ -716,7 +720,6 @@ export default function HomePage() {
 
       {/* ── WORKS WITH ── */}
       <div style={{ textAlign:'center', padding:'0 20px 72px' }}>
-        {/* Titre repositionné */}
         <p style={{
           fontSize:13, color:'rgba(255,255,255,0.25)',
           letterSpacing:'0.2em', textTransform:'uppercase',
@@ -725,7 +728,7 @@ export default function HomePage() {
         <p style={{
           fontSize:28, fontWeight:900, color:'#F0F0FF',
           marginBottom:8, letterSpacing:'-0.01em',
-        }}>Works with <span style={{
+        }}>Works with{' '}<span style={{
           background:'linear-gradient(90deg,#00D4FF,#00FFB2)',
           WebkitBackgroundClip:'text', WebkitTextFillColor:'transparent',
         }}>14+ music sources</span></p>
@@ -734,8 +737,8 @@ export default function HomePage() {
           marginBottom:36,
         }}>Every platform you use. One unified identity.</p>
 
-        {/* 4 logos majeurs */}
-        <div style={{ display:'flex', gap:12, justifyContent:'center', flexWrap:'wrap', alignItems:'center', marginBottom:20 }}>
+        {/* 4 logos majeurs avec pages dédiées */}
+        <div style={{ display:'flex', gap:12, justifyContent:'center', flexWrap:'wrap', alignItems:'center', marginBottom:16 }}>
 
           {/* Spotify */}
           <a href="/works-with/spotify" style={{ display:'flex', alignItems:'center', gap:8, textDecoration:'none', padding:'10px 16px', borderRadius:12, background:'rgba(29,185,84,0.08)', border:'1px solid rgba(29,185,84,0.2)', transition:'opacity 0.2s', opacity:0.8 }}
@@ -769,11 +772,46 @@ export default function HomePage() {
             <span style={{ fontSize:16, fontWeight:700, color:'#FF5500' }}>SoundCloud</span>
           </a>
 
-          {/* And more → */}
+          {/* Deezer */}
+          <a href="/works-with/deezer" style={{ display:'flex', alignItems:'center', gap:8, textDecoration:'none', padding:'10px 16px', borderRadius:12, background:'rgba(162,56,255,0.08)', border:'1px solid rgba(162,56,255,0.2)', transition:'opacity 0.2s', opacity:0.8 }}
+            onMouseEnter={e => (e.currentTarget.style.opacity='1')}
+            onMouseLeave={e => (e.currentTarget.style.opacity='0.8')}>
+            <span style={{ fontSize:16, fontWeight:700, color:'#A238FF' }}>Deezer</span>
+          </a>
+
+          {/* Tidal */}
+          <a href="/works-with/tidal" style={{ display:'flex', alignItems:'center', gap:8, textDecoration:'none', padding:'10px 16px', borderRadius:12, background:'rgba(0,255,255,0.06)', border:'1px solid rgba(0,255,255,0.15)', transition:'opacity 0.2s', opacity:0.8 }}
+            onMouseEnter={e => (e.currentTarget.style.opacity='1')}
+            onMouseLeave={e => (e.currentTarget.style.opacity='0.8')}>
+            <span style={{ fontSize:16, fontWeight:700, color:'#00FFFF' }}>Tidal</span>
+          </a>
+
+          {/* Last.fm */}
+          <a href="/works-with/lastfm" style={{ display:'flex', alignItems:'center', gap:8, textDecoration:'none', padding:'10px 16px', borderRadius:12, background:'rgba(213,16,7,0.08)', border:'1px solid rgba(213,16,7,0.2)', transition:'opacity 0.2s', opacity:0.8 }}
+            onMouseEnter={e => (e.currentTarget.style.opacity='1')}
+            onMouseLeave={e => (e.currentTarget.style.opacity='0.8')}>
+            <span style={{ fontSize:16, fontWeight:700, color:'#D51007' }}>Last.fm</span>
+          </a>
+
+          {/* Amazon Music */}
+          <a href="/works-with/amazon-music" style={{ display:'flex', alignItems:'center', gap:8, textDecoration:'none', padding:'10px 16px', borderRadius:12, background:'rgba(0,168,225,0.08)', border:'1px solid rgba(0,168,225,0.2)', transition:'opacity 0.2s', opacity:0.8 }}
+            onMouseEnter={e => (e.currentTarget.style.opacity='1')}
+            onMouseLeave={e => (e.currentTarget.style.opacity='0.8')}>
+            <span style={{ fontSize:16, fontWeight:700, color:'#00A8E1' }}>Amazon Music</span>
+          </a>
+
+          {/* Boomplay */}
+          <a href="/works-with/boomplay" style={{ display:'flex', alignItems:'center', gap:8, textDecoration:'none', padding:'10px 16px', borderRadius:12, background:'rgba(245,166,35,0.08)', border:'1px solid rgba(245,166,35,0.2)', transition:'opacity 0.2s', opacity:0.8 }}
+            onMouseEnter={e => (e.currentTarget.style.opacity='1')}
+            onMouseLeave={e => (e.currentTarget.style.opacity='0.8')}>
+            <span style={{ fontSize:16, fontWeight:700, color:'#F5A623' }}>Boomplay</span>
+          </a>
+
+          {/* Catalogue complet */}
           <a href="/works-with" style={{ display:'flex', alignItems:'center', gap:8, textDecoration:'none', padding:'10px 16px', borderRadius:12, background:'rgba(255,255,255,0.04)', border:'1px solid rgba(255,255,255,0.12)', transition:'opacity 0.2s', opacity:0.7 }}
             onMouseEnter={e => (e.currentTarget.style.opacity='1')}
             onMouseLeave={e => (e.currentTarget.style.opacity='0.7')}>
-            <span style={{ fontSize:16, fontWeight:700, color:'rgba(255,255,255,0.6)' }}>+ Deezer, Tidal, Last.fm & more →</span>
+            <span style={{ fontSize:15, fontWeight:700, color:'rgba(255,255,255,0.5)' }}>All sources →</span>
           </a>
 
         </div>
