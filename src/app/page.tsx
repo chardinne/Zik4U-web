@@ -462,7 +462,7 @@ export default function HomePage() {
         </p>
         <div style={{ display:'flex', flexDirection:'column', gap:0 }}>
           {[
-            { num:'01', color:'#00D4FF', title:'Everything you play. Everywhere.', body:'Spotify, Apple Music, YouTube Music, SoundCloud, local files. All sources, captured automatically in the background. Your complete listening reality — not just one platform\'s version of it.' },
+            { num:'01', color:'#00D4FF', title:'Everything you play. Everywhere.', body:'Spotify, Apple Music, YouTube Music, Deezer, Tidal, SoundCloud, Last.fm, Amazon Music, Boomplay and more. All sources, captured automatically in the background. Your complete listening reality, across every ecosystem, not just one platform\'s version of it.' },
             { num:'02', color:'#FF3CAC', title:'Who you really are, musically.', body:'Not a playlist. Not a genre. A behavioral profile built from every track you\'ve actually played — when, how often, at what hour. Seven archetypes. Yours is already forming.' },
             { num:'03', color:'#00FFB2', title:'Find your people', body:'Match with listeners who share your actual taste. Subscribe to see what your favorite artists or creators really listen to. And if you\'re a creator — your real listening feed is your most authentic product.' },
           ].map((step, i) => (
