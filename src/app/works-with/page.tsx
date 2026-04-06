@@ -25,13 +25,19 @@ const ALL_PLATFORMS = [
   { slug:'lastfm',        name:'Last.fm',        color:'#D51007', region:'🌍 Global',      users:'50M+',   status:'full' },
   { slug:'amazon-music',  name:'Amazon Music',   color:'#00A8E1', region:'🌍 Global',      users:'55M+',   status:'full' },
   { slug:'boomplay',      name:'Boomplay',       color:'#F5A623', region:'🌍 Africa / Global', users:'100M+', status:'full' },
-  { slug:null,            name:'Anghami',        color:'#6B3FA0', region:'🌍 MENA',        users:'70M+',   status:'soon' },
-  { slug:null,            name:'JioSaavn',       color:'#2BC5B4', region:'🇮🇳 India',       users:'100M+',  status:'soon' },
-  { slug:null,            name:'Gaana',          color:'#E72C30', region:'🇮🇳 India',       users:'50M+',   status:'soon' },
-  { slug:null,            name:'Qobuz',          color:'#2A7FFF', region:'🇫🇷 FR / EU',    users:'4M+',    status:'soon' },
-  { slug:null,            name:'Bandcamp',       color:'#1DA0C3', region:'🌍 Global',      users:'6M+',    status:'soon' },
+  { slug:'anghami',       name:'Anghami',        color:'#6B3FA0', region:'🌍 MENA',        users:'70M+',   status:'full' },
+  { slug:'jiosaavn',      name:'JioSaavn',       color:'#2BC5B4', region:'🇮🇳 India',       users:'100M+',  status:'full' },
+  { slug:'gaana',         name:'Gaana',          color:'#E72C30', region:'🇮🇳 India',       users:'50M+',   status:'full' },
+  { slug:'qobuz',         name:'Qobuz',          color:'#2A7FFF', region:'🇫🇷 FR / EU',    users:'4M+',    status:'full' },
+  { slug:'bandcamp',      name:'Bandcamp',       color:'#1DA0C3', region:'🌍 Global',      users:'6M+',    status:'full' },
   { slug:null,            name:'Local files',    color:'#00FFB2', region:'🌍 All devices', users:'—',      status:'full' },
 ];
+
+// Slugs that have a dedicated /works-with/[slug] page
+const WITH_PAGE_SLUGS = new Set([
+  'spotify','apple-music','youtube-music','soundcloud',
+  'deezer','tidal','lastfm','amazon-music','boomplay',
+]);
 
 const REGIONS = [
   { flag:'🌍', label:'Global', coverage:'Spotify · Apple Music · YouTube Music · SoundCloud · Last.fm · Tidal · Amazon Music' },
@@ -89,20 +95,23 @@ export default function WorksWithCatalogPage() {
           <h2 style={{ fontSize:18, fontWeight:900, marginBottom:6 }}>Available now</h2>
           <p style={{ color:C.muted, fontSize:14, marginBottom:24 }}>Connect any of these sources in the app.</p>
           <div style={{ display:'grid', gridTemplateColumns:'repeat(auto-fill, minmax(240px, 1fr))', gap:12 }}>
-            {full.map(p => (
+            {full.map(p => {
+              const hasPage = p.slug !== null && WITH_PAGE_SLUGS.has(p.slug);
+              return (
               <div key={p.name}
-                onClick={() => p.slug && router.push(`/works-with/${p.slug}`)}
-                style={{ background:C.card, border:`1px solid ${C.border}`, borderLeft:`3px solid ${p.color}`, borderRadius:14, padding:'16px 18px', cursor:p.slug?'pointer':'default', display:'flex', justifyContent:'space-between', alignItems:'center', transition:'border-color 0.2s' }}
-                onMouseEnter={e => p.slug && ((e.currentTarget as HTMLDivElement).style.borderColor=p.color)}
-                onMouseLeave={e => p.slug && ((e.currentTarget as HTMLDivElement).style.borderColor=C.border)}
+                onClick={() => hasPage && router.push(`/works-with/${p.slug}`)}
+                style={{ background:C.card, border:`1px solid ${C.border}`, borderLeft:`3px solid ${p.color}`, borderRadius:14, padding:'16px 18px', cursor:hasPage?'pointer':'default', display:'flex', justifyContent:'space-between', alignItems:'center', transition:'border-color 0.2s' }}
+                onMouseEnter={e => hasPage && ((e.currentTarget as HTMLDivElement).style.borderColor=p.color)}
+                onMouseLeave={e => hasPage && ((e.currentTarget as HTMLDivElement).style.borderColor=C.border)}
               >
                 <div>
                   <div style={{ fontSize:16, fontWeight:800, color:p.color }}>{p.name}</div>
                   <div style={{ fontSize:12, color:C.muted, marginTop:2 }}>{p.region} · {p.users} users</div>
                 </div>
-                {p.slug && <span style={{ color:C.muted, fontSize:18 }}>→</span>}
+                {hasPage && <span style={{ color:C.muted, fontSize:18 }}>→</span>}
               </div>
-            ))}
+              );
+            })}
           </div>
         </motion.div>
 

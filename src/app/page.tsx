@@ -698,120 +698,120 @@ export default function HomePage() {
         </motion.div>
       </div>
 
-      {/* ── STORE BUTTONS ── */}
-      <div style={{ display:'flex', gap:12, justifyContent:'center', flexWrap:'wrap', padding:'0 24px 48px' }}>
-        <a href={APP_STORE_URL}
-          style={{ display:'flex', alignItems:'center', gap:11, padding:'14px 26px', borderRadius:14, background:C.text, textDecoration:'none', boxShadow:'0 4px 24px rgba(0,0,0,0.3)' }}>
-          <svg width="22" height="22" viewBox="0 0 24 24" fill={C.bg}><path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/></svg>
-          <div>
-            <div style={{ fontSize:14, color:C.bg, opacity:0.5, letterSpacing:'0.06em' }}>Download on the</div>
-            <div style={{ fontSize:20, fontWeight:800, color:C.bg, lineHeight:1 }}>App Store</div>
-          </div>
-        </a>
-        <a href={PLAY_STORE_URL}
-          style={{ display:'flex', alignItems:'center', gap:11, padding:'14px 26px', borderRadius:14, background:C.card, border:`1px solid rgba(255,255,255,0.12)`, textDecoration:'none' }}>
-          <svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M3 20.5v-17c0-.83 1-.83 1.5-.5l15 8.5-15 8.5c-.5.33-1.5.33-1.5-.5z" fill={C.mint}/></svg>
-          <div>
-            <div style={{ fontSize:14, color:C.muted, opacity:0.6, letterSpacing:'0.06em' }}>Get it on</div>
-            <div style={{ fontSize:20, fontWeight:800, color:C.text, lineHeight:1 }}>Google Play</div>
-          </div>
-        </a>
-      </div>
-
       {/* ── WORKS WITH ── */}
-      <div style={{ textAlign:'center', padding:'0 20px 72px' }}>
-        <p style={{
-          fontSize:13, color:'rgba(255,255,255,0.25)',
-          letterSpacing:'0.2em', textTransform:'uppercase',
-          marginBottom:6,
-        }}>Every source. One identity.</p>
-        <p style={{
-          fontSize:28, fontWeight:900, color:'#F0F0FF',
-          marginBottom:8, letterSpacing:'-0.01em',
-        }}>Works with{' '}<span style={{
-          background:'linear-gradient(90deg,#00D4FF,#00FFB2)',
-          WebkitBackgroundClip:'text', WebkitTextFillColor:'transparent',
-        }}>14+ music sources</span></p>
-        <p style={{
-          fontSize:15, color:'rgba(255,255,255,0.35)',
-          marginBottom:36,
-        }}>Every platform you use. One unified identity.</p>
+      <div style={{ padding:'0 20px 80px' }}>
 
-        {/* 4 logos majeurs avec pages dédiées */}
-        <div style={{ display:'flex', gap:12, justifyContent:'center', flexWrap:'wrap', alignItems:'center', marginBottom:16 }}>
+        {/* Bloc hero "Every source. One identity." très mis en valeur */}
+        <motion.div
+          initial={{ opacity:0, y:20 }}
+          whileInView={{ opacity:1, y:0 }}
+          viewport={{ once:true }}
+          style={{
+            background:'linear-gradient(135deg, rgba(0,212,255,0.07), rgba(0,255,178,0.05), rgba(255,60,172,0.06))',
+            border:'1px solid rgba(255,255,255,0.1)',
+            borderRadius:28, padding:'48px 32px',
+            textAlign:'center', marginBottom:40,
+            position:'relative', overflow:'hidden',
+          }}
+        >
+          {/* Glow décoratif */}
+          <div style={{ position:'absolute', top:'-40%', left:'50%', transform:'translateX(-50%)', width:400, height:200, background:'radial-gradient(ellipse, rgba(0,212,255,0.12), transparent 70%)', pointerEvents:'none' }} />
+
+          <p style={{ fontSize:11, fontWeight:700, letterSpacing:'0.25em', color:'rgba(255,255,255,0.3)', textTransform:'uppercase', marginBottom:16, position:'relative' }}>
+            The core of Zik4U
+          </p>
+          <h2 style={{ fontSize:'clamp(28px, 5vw, 48px)', fontWeight:900, lineHeight:1.1, letterSpacing:'-0.02em', marginBottom:12, position:'relative' }}>
+            Every source.{' '}
+            <span style={{ background:'linear-gradient(90deg, #00D4FF, #00FFB2)', WebkitBackgroundClip:'text', WebkitTextFillColor:'transparent' }}>
+              One identity.
+            </span>
+          </h2>
+          <p style={{ fontSize:'clamp(15px, 3vw, 20px)', fontWeight:900, color:'#F0F0FF', marginBottom:6, position:'relative' }}>
+            Works with{' '}
+            <span style={{ background:'linear-gradient(90deg, #FF3CAC, #7B2FFF)', WebkitBackgroundClip:'text', WebkitTextFillColor:'transparent' }}>
+              14+ music sources
+            </span>
+          </p>
+          <p style={{ fontSize:15, color:'rgba(255,255,255,0.4)', marginBottom:0, position:'relative' }}>
+            Every platform you use. One unified identity. For real.
+          </p>
+        </motion.div>
+
+        {/* Grille des plateformes avec pages dédiées */}
+        <div style={{ display:'flex', gap:10, justifyContent:'center', flexWrap:'wrap', alignItems:'center', marginBottom:12 }}>
 
           {/* Spotify */}
-          <a href="/works-with/spotify" style={{ display:'flex', alignItems:'center', gap:8, textDecoration:'none', padding:'10px 16px', borderRadius:12, background:'rgba(29,185,84,0.08)', border:'1px solid rgba(29,185,84,0.2)', transition:'opacity 0.2s', opacity:0.8 }}
+          <a href="/works-with/spotify" style={{ display:'flex', alignItems:'center', gap:8, textDecoration:'none', padding:'10px 16px', borderRadius:12, background:'rgba(29,185,84,0.08)', border:'1px solid rgba(29,185,84,0.2)', transition:'opacity 0.2s', opacity:0.85 }}
             onMouseEnter={e => (e.currentTarget.style.opacity='1')}
-            onMouseLeave={e => (e.currentTarget.style.opacity='0.8')}>
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="#1DB954"><path d="M12 0C5.4 0 0 5.4 0 12s5.4 12 12 12 12-5.4 12-12S18.66 0 12 0zm5.521 17.34c-.24.359-.66.48-1.021.24-2.82-1.74-6.36-2.101-10.561-1.141-.418.122-.779-.179-.899-.539-.12-.421.18-.78.54-.9 4.56-1.021 8.52-.6 11.64 1.32.42.18.479.659.301 1.02zm1.44-3.3c-.301.42-.841.6-1.262.3-3.239-1.98-8.159-2.58-11.939-1.38-.479.12-1.02-.12-1.14-.6-.12-.48.12-1.021.6-1.141C9.6 9.9 15 10.561 18.72 12.84c.361.181.54.78.241 1.2zm.12-3.36C15.24 8.4 8.82 8.16 5.16 9.301c-.6.179-1.2-.181-1.38-.721-.18-.601.18-1.2.72-1.381 4.26-1.26 11.28-1.02 15.721 1.621.539.3.719 1.02.419 1.56-.299.421-1.02.599-1.559.3z"/></svg>
-            <span style={{ fontSize:16, fontWeight:700, color:'#1DB954' }}>Spotify</span>
+            onMouseLeave={e => (e.currentTarget.style.opacity='0.85')}>
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="#1DB954"><path d="M12 0C5.4 0 0 5.4 0 12s5.4 12 12 12 12-5.4 12-12S18.66 0 12 0zm5.521 17.34c-.24.359-.66.48-1.021.24-2.82-1.74-6.36-2.101-10.561-1.141-.418.122-.779-.179-.899-.539-.12-.421.18-.78.54-.9 4.56-1.021 8.52-.6 11.64 1.32.42.18.479.659.301 1.02zm1.44-3.3c-.301.42-.841.6-1.262.3-3.239-1.98-8.159-2.58-11.939-1.38-.479.12-1.02-.12-1.14-.6-.12-.48.12-1.021.6-1.141C9.6 9.9 15 10.561 18.72 12.84c.361.181.54.78.241 1.2zm.12-3.36C15.24 8.4 8.82 8.16 5.16 9.301c-.6.179-1.2-.181-1.38-.721-.18-.601.18-1.2.72-1.381 4.26-1.26 11.28-1.02 15.721 1.621.539.3.719 1.02.419 1.56-.299.421-1.02.599-1.559.3z"/></svg>
+            <span style={{ fontSize:15, fontWeight:700, color:'#1DB954' }}>Spotify</span>
           </a>
 
           {/* Apple Music */}
-          <a href="/works-with/apple-music" style={{ display:'flex', alignItems:'center', gap:8, textDecoration:'none', padding:'10px 16px', borderRadius:12, background:'rgba(252,60,68,0.08)', border:'1px solid rgba(252,60,68,0.2)', transition:'opacity 0.2s', opacity:0.8 }}
+          <a href="/works-with/apple-music" style={{ display:'flex', alignItems:'center', gap:8, textDecoration:'none', padding:'10px 16px', borderRadius:12, background:'rgba(252,60,68,0.08)', border:'1px solid rgba(252,60,68,0.2)', transition:'opacity 0.2s', opacity:0.85 }}
             onMouseEnter={e => (e.currentTarget.style.opacity='1')}
-            onMouseLeave={e => (e.currentTarget.style.opacity='0.8')}>
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="#FC3C44"><path d="M23.994 6.124a9.23 9.23 0 00-.24-2.19c-.317-1.31-1.062-2.31-2.18-3.043a5.022 5.022 0 00-1.877-.726 10.496 10.496 0 00-1.564-.15c-.04-.003-.083-.01-.124-.013H5.986c-.152.01-.303.017-.455.026C4.786.07 4.043.15 3.34.428 2.004.958 1.04 1.88.475 3.208A4.95 4.95 0 00.05 4.783c-.004.052-.007.104-.01.156v14.12c.016.229.027.457.058.684.135 1.056.504 2.01 1.136 2.83.766 1.007 1.775 1.63 3.004 1.905.39.086.787.126 1.187.14.047.002.094.007.14.007H18.65c.37-.014.738-.052 1.098-.126 1.285-.267 2.32-.933 3.092-1.95.467-.627.783-1.323.917-2.076.108-.597.145-1.2.148-1.804V6.34c-.002-.072-.005-.144-.01-.216zm-10.55 12.565c-.66.46-1.413.65-2.21.53-.785-.117-1.427-.49-1.9-1.12-.398-.526-.574-1.12-.573-1.773.002-.684.193-1.294.57-1.837.528-.77 1.27-1.22 2.203-1.296.428-.035.845.022 1.245.178V8.7l-5.05 1.053v7.73c0 .127-.015.254-.03.38-.075.582-.368 1.043-.853 1.376-.378.26-.803.39-1.255.387-.226-.003-.45-.034-.667-.105-.742-.238-1.25-.892-1.28-1.676a1.916 1.916 0 01.433-1.292c.345-.408.79-.635 1.3-.72.3-.05.605-.033.898.06V11.63l7.027-1.466v6.853c-.008.78-.26 1.444-.857 1.672z"/></svg>
-            <span style={{ fontSize:16, fontWeight:700, color:'#FC3C44' }}>Apple Music</span>
+            onMouseLeave={e => (e.currentTarget.style.opacity='0.85')}>
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="#FC3C44"><path d="M23.994 6.124a9.23 9.23 0 00-.24-2.19c-.317-1.31-1.062-2.31-2.18-3.043a5.022 5.022 0 00-1.877-.726 10.496 10.496 0 00-1.564-.15c-.04-.003-.083-.01-.124-.013H5.986c-.152.01-.303.017-.455.026C4.786.07 4.043.15 3.34.428 2.004.958 1.04 1.88.475 3.208A4.95 4.95 0 00.05 4.783c-.004.052-.007.104-.01.156v14.12c.016.229.027.457.058.684.135 1.056.504 2.01 1.136 2.83.766 1.007 1.775 1.63 3.004 1.905.39.086.787.126 1.187.14.047.002.094.007.14.007H18.65c.37-.014.738-.052 1.098-.126 1.285-.267 2.32-.933 3.092-1.95.467-.627.783-1.323.917-2.076.108-.597.145-1.2.148-1.804V6.34c-.002-.072-.005-.144-.01-.216zm-10.55 12.565c-.66.46-1.413.65-2.21.53-.785-.117-1.427-.49-1.9-1.12-.398-.526-.574-1.12-.573-1.773.002-.684.193-1.294.57-1.837.528-.77 1.27-1.22 2.203-1.296.428-.035.845.022 1.245.178V8.7l-5.05 1.053v7.73c0 .127-.015.254-.03.38-.075.582-.368 1.043-.853 1.376-.378.26-.803.39-1.255.387-.226-.003-.45-.034-.667-.105-.742-.238-1.25-.892-1.28-1.676a1.916 1.916 0 01.433-1.292c.345-.408.79-.635 1.3-.72.3-.05.605-.033.898.06V11.63l7.027-1.466v6.853c-.008.78-.26 1.444-.857 1.672z"/></svg>
+            <span style={{ fontSize:15, fontWeight:700, color:'#FC3C44' }}>Apple Music</span>
           </a>
 
           {/* YouTube Music */}
-          <a href="/works-with/youtube-music" style={{ display:'flex', alignItems:'center', gap:8, textDecoration:'none', padding:'10px 16px', borderRadius:12, background:'rgba(255,0,0,0.08)', border:'1px solid rgba(255,0,0,0.18)', transition:'opacity 0.2s', opacity:0.8 }}
+          <a href="/works-with/youtube-music" style={{ display:'flex', alignItems:'center', gap:8, textDecoration:'none', padding:'10px 16px', borderRadius:12, background:'rgba(255,0,0,0.08)', border:'1px solid rgba(255,0,0,0.18)', transition:'opacity 0.2s', opacity:0.85 }}
             onMouseEnter={e => (e.currentTarget.style.opacity='1')}
-            onMouseLeave={e => (e.currentTarget.style.opacity='0.8')}>
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="#FF0000"><path d="M12 0C5.376 0 0 5.376 0 12s5.376 12 12 12 12-5.376 12-12S18.624 0 12 0zm0 19.104c-3.924 0-7.104-3.18-7.104-7.104S8.076 4.896 12 4.896s7.104 3.18 7.104 7.104-3.18 7.104-7.104 7.104zm0-13.332c-3.432 0-6.228 2.796-6.228 6.228S8.568 18.228 12 18.228s6.228-2.796 6.228-6.228S15.432 5.772 12 5.772zM9.684 15.54V8.46L15.816 12 9.684 15.54z"/></svg>
-            <span style={{ fontSize:16, fontWeight:700, color:'#FF0000' }}>YT Music</span>
+            onMouseLeave={e => (e.currentTarget.style.opacity='0.85')}>
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="#FF0000"><path d="M12 0C5.376 0 0 5.376 0 12s5.376 12 12 12 12-5.376 12-12S18.624 0 12 0zm0 19.104c-3.924 0-7.104-3.18-7.104-7.104S8.076 4.896 12 4.896s7.104 3.18 7.104 7.104-3.18 7.104-7.104 7.104zm0-13.332c-3.432 0-6.228 2.796-6.228 6.228S8.568 18.228 12 18.228s6.228-2.796 6.228-6.228S15.432 5.772 12 5.772zM9.684 15.54V8.46L15.816 12 9.684 15.54z"/></svg>
+            <span style={{ fontSize:15, fontWeight:700, color:'#FF0000' }}>YT Music</span>
           </a>
 
           {/* SoundCloud */}
-          <a href="/works-with/soundcloud" style={{ display:'flex', alignItems:'center', gap:8, textDecoration:'none', padding:'10px 16px', borderRadius:12, background:'rgba(255,85,0,0.08)', border:'1px solid rgba(255,85,0,0.2)', transition:'opacity 0.2s', opacity:0.8 }}
+          <a href="/works-with/soundcloud" style={{ display:'flex', alignItems:'center', gap:8, textDecoration:'none', padding:'10px 16px', borderRadius:12, background:'rgba(255,85,0,0.08)', border:'1px solid rgba(255,85,0,0.2)', transition:'opacity 0.2s', opacity:0.85 }}
             onMouseEnter={e => (e.currentTarget.style.opacity='1')}
-            onMouseLeave={e => (e.currentTarget.style.opacity='0.8')}>
-            <svg width="22" height="14" viewBox="0 0 40 20" fill="#FF5500"><path d="M0 14.5c0 1.4 1.1 2.5 2.4 2.5.6 0 1.2-.2 1.6-.6V9.8C3.6 9.4 3 9.2 2.4 9.2 1.1 9.2 0 10.3 0 14.5zm5.5 2.5h1.6V8.8c-.5-.3-1-.5-1.6-.5v8.7zm3.2 0h1.6V7.2c-.5.1-1 .3-1.6.6v9.2zm3.2 0h1.6V6.4c-.5.2-1 .5-1.6.8v9.8zm3.2 0h1.6V5.8c-.5.3-1 .6-1.6 1v10.2zm3.2.1c.1 0 .1 0 0 0h1.7V3.5c-.2 0-.5-.1-.7-.1-.3 0-.6 0-.9.1l-.1 13.5zm3.3-.1h1.6V3.1c-.5.1-1.1.3-1.6.6V17zm3.2 0h1.6V2.8c-.5.1-1.1.2-1.6.4V17zm3.2 0H28V2.5c-.5 0-1.1.1-1.6.2V17zm3.2 0h1.6V2.3h-.1c-.5 0-1 0-1.5.1V17zm5.3-10.6c-.2 0-.5 0-.7.1C31.4 3 28.4.5 24.8.5c-1 0-1.9.2-2.8.6V17h10.8c2.5 0 4.5-2 4.5-4.5s-2-4.6-4.5-4.6c-.3 0-.7 0-1 .1.1-.2.1-.4.1-.6 0-1.7-1.3-3-3-3z"/></svg>
-            <span style={{ fontSize:16, fontWeight:700, color:'#FF5500' }}>SoundCloud</span>
+            onMouseLeave={e => (e.currentTarget.style.opacity='0.85')}>
+            <svg width="20" height="12" viewBox="0 0 40 20" fill="#FF5500"><path d="M0 14.5c0 1.4 1.1 2.5 2.4 2.5.6 0 1.2-.2 1.6-.6V9.8C3.6 9.4 3 9.2 2.4 9.2 1.1 9.2 0 10.3 0 14.5zm5.5 2.5h1.6V8.8c-.5-.3-1-.5-1.6-.5v8.7zm3.2 0h1.6V7.2c-.5.1-1 .3-1.6.6v9.2zm3.2 0h1.6V6.4c-.5.2-1 .5-1.6.8v9.8zm3.2 0h1.6V5.8c-.5.3-1 .6-1.6 1v10.2zm3.2.1c.1 0 .1 0 0 0h1.7V3.5c-.2 0-.5-.1-.7-.1-.3 0-.6 0-.9.1l-.1 13.5zm3.3-.1h1.6V3.1c-.5.1-1.1.3-1.6.6V17zm3.2 0h1.6V2.8c-.5.1-1.1.2-1.6.4V17zm3.2 0H28V2.5c-.5 0-1.1.1-1.6.2V17zm3.2 0h1.6V2.3h-.1c-.5 0-1 0-1.5.1V17zm5.3-10.6c-.2 0-.5 0-.7.1C31.4 3 28.4.5 24.8.5c-1 0-1.9.2-2.8.6V17h10.8c2.5 0 4.5-2 4.5-4.5s-2-4.6-4.5-4.6c-.3 0-.7 0-1 .1.1-.2.1-.4.1-.6 0-1.7-1.3-3-3-3z"/></svg>
+            <span style={{ fontSize:15, fontWeight:700, color:'#FF5500' }}>SoundCloud</span>
           </a>
 
           {/* Deezer */}
-          <a href="/works-with/deezer" style={{ display:'flex', alignItems:'center', gap:8, textDecoration:'none', padding:'10px 16px', borderRadius:12, background:'rgba(162,56,255,0.08)', border:'1px solid rgba(162,56,255,0.2)', transition:'opacity 0.2s', opacity:0.8 }}
+          <a href="/works-with/deezer" style={{ display:'flex', alignItems:'center', gap:8, textDecoration:'none', padding:'10px 16px', borderRadius:12, background:'rgba(162,56,255,0.08)', border:'1px solid rgba(162,56,255,0.2)', transition:'opacity 0.2s', opacity:0.85 }}
             onMouseEnter={e => (e.currentTarget.style.opacity='1')}
-            onMouseLeave={e => (e.currentTarget.style.opacity='0.8')}>
-            <span style={{ fontSize:16, fontWeight:700, color:'#A238FF' }}>Deezer</span>
+            onMouseLeave={e => (e.currentTarget.style.opacity='0.85')}>
+            <span style={{ fontSize:15, fontWeight:700, color:'#A238FF' }}>Deezer</span>
           </a>
 
           {/* Tidal */}
-          <a href="/works-with/tidal" style={{ display:'flex', alignItems:'center', gap:8, textDecoration:'none', padding:'10px 16px', borderRadius:12, background:'rgba(0,255,255,0.06)', border:'1px solid rgba(0,255,255,0.15)', transition:'opacity 0.2s', opacity:0.8 }}
+          <a href="/works-with/tidal" style={{ display:'flex', alignItems:'center', gap:8, textDecoration:'none', padding:'10px 16px', borderRadius:12, background:'rgba(0,255,255,0.06)', border:'1px solid rgba(0,255,255,0.15)', transition:'opacity 0.2s', opacity:0.85 }}
             onMouseEnter={e => (e.currentTarget.style.opacity='1')}
-            onMouseLeave={e => (e.currentTarget.style.opacity='0.8')}>
-            <span style={{ fontSize:16, fontWeight:700, color:'#00FFFF' }}>Tidal</span>
+            onMouseLeave={e => (e.currentTarget.style.opacity='0.85')}>
+            <span style={{ fontSize:15, fontWeight:700, color:'#00FFFF' }}>Tidal</span>
           </a>
 
           {/* Last.fm */}
-          <a href="/works-with/lastfm" style={{ display:'flex', alignItems:'center', gap:8, textDecoration:'none', padding:'10px 16px', borderRadius:12, background:'rgba(213,16,7,0.08)', border:'1px solid rgba(213,16,7,0.2)', transition:'opacity 0.2s', opacity:0.8 }}
+          <a href="/works-with/lastfm" style={{ display:'flex', alignItems:'center', gap:8, textDecoration:'none', padding:'10px 16px', borderRadius:12, background:'rgba(213,16,7,0.08)', border:'1px solid rgba(213,16,7,0.2)', transition:'opacity 0.2s', opacity:0.85 }}
             onMouseEnter={e => (e.currentTarget.style.opacity='1')}
-            onMouseLeave={e => (e.currentTarget.style.opacity='0.8')}>
-            <span style={{ fontSize:16, fontWeight:700, color:'#D51007' }}>Last.fm</span>
+            onMouseLeave={e => (e.currentTarget.style.opacity='0.85')}>
+            <span style={{ fontSize:15, fontWeight:700, color:'#D51007' }}>Last.fm</span>
           </a>
 
           {/* Amazon Music */}
-          <a href="/works-with/amazon-music" style={{ display:'flex', alignItems:'center', gap:8, textDecoration:'none', padding:'10px 16px', borderRadius:12, background:'rgba(0,168,225,0.08)', border:'1px solid rgba(0,168,225,0.2)', transition:'opacity 0.2s', opacity:0.8 }}
+          <a href="/works-with/amazon-music" style={{ display:'flex', alignItems:'center', gap:8, textDecoration:'none', padding:'10px 16px', borderRadius:12, background:'rgba(0,168,225,0.08)', border:'1px solid rgba(0,168,225,0.2)', transition:'opacity 0.2s', opacity:0.85 }}
             onMouseEnter={e => (e.currentTarget.style.opacity='1')}
-            onMouseLeave={e => (e.currentTarget.style.opacity='0.8')}>
-            <span style={{ fontSize:16, fontWeight:700, color:'#00A8E1' }}>Amazon Music</span>
+            onMouseLeave={e => (e.currentTarget.style.opacity='0.85')}>
+            <span style={{ fontSize:15, fontWeight:700, color:'#00A8E1' }}>Amazon Music</span>
           </a>
 
           {/* Boomplay */}
-          <a href="/works-with/boomplay" style={{ display:'flex', alignItems:'center', gap:8, textDecoration:'none', padding:'10px 16px', borderRadius:12, background:'rgba(245,166,35,0.08)', border:'1px solid rgba(245,166,35,0.2)', transition:'opacity 0.2s', opacity:0.8 }}
+          <a href="/works-with/boomplay" style={{ display:'flex', alignItems:'center', gap:8, textDecoration:'none', padding:'10px 16px', borderRadius:12, background:'rgba(245,166,35,0.08)', border:'1px solid rgba(245,166,35,0.2)', transition:'opacity 0.2s', opacity:0.85 }}
             onMouseEnter={e => (e.currentTarget.style.opacity='1')}
-            onMouseLeave={e => (e.currentTarget.style.opacity='0.8')}>
-            <span style={{ fontSize:16, fontWeight:700, color:'#F5A623' }}>Boomplay</span>
+            onMouseLeave={e => (e.currentTarget.style.opacity='0.85')}>
+            <span style={{ fontSize:15, fontWeight:700, color:'#F5A623' }}>Boomplay</span>
           </a>
 
           {/* Catalogue complet */}
           <a href="/works-with" style={{ display:'flex', alignItems:'center', gap:8, textDecoration:'none', padding:'10px 16px', borderRadius:12, background:'rgba(255,255,255,0.04)', border:'1px solid rgba(255,255,255,0.12)', transition:'opacity 0.2s', opacity:0.7 }}
             onMouseEnter={e => (e.currentTarget.style.opacity='1')}
             onMouseLeave={e => (e.currentTarget.style.opacity='0.7')}>
-            <span style={{ fontSize:15, fontWeight:700, color:'rgba(255,255,255,0.5)' }}>All sources →</span>
+            <span style={{ fontSize:14, fontWeight:700, color:'rgba(255,255,255,0.5)' }}>All sources →</span>
           </a>
 
         </div>
