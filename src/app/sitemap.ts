@@ -52,6 +52,12 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     { url: `${BASE_URL}/works-with/apple-music`,   lastModified: new Date(), changeFrequency: 'monthly' as const, priority: 0.7 },
     { url: `${BASE_URL}/works-with/youtube-music`, lastModified: new Date(), changeFrequency: 'monthly' as const, priority: 0.7 },
     { url: `${BASE_URL}/works-with/soundcloud`,    lastModified: new Date(), changeFrequency: 'monthly' as const, priority: 0.7 },
+    { url: `${BASE_URL}/works-with/deezer`,        lastModified: new Date(), changeFrequency: 'monthly' as const, priority: 0.7 },
+    { url: `${BASE_URL}/works-with/tidal`,          lastModified: new Date(), changeFrequency: 'monthly' as const, priority: 0.7 },
+    { url: `${BASE_URL}/works-with/lastfm`,         lastModified: new Date(), changeFrequency: 'monthly' as const, priority: 0.7 },
+    { url: `${BASE_URL}/works-with/amazon-music`,   lastModified: new Date(), changeFrequency: 'monthly' as const, priority: 0.7 },
+    { url: `${BASE_URL}/works-with/boomplay`,       lastModified: new Date(), changeFrequency: 'monthly' as const, priority: 0.7 },
+    { url: `${BASE_URL}/works-with`,                lastModified: new Date(), changeFrequency: 'monthly' as const, priority: 0.8 },
     {
       url: `${BASE_URL}/legal/privacy`,
       lastModified: new Date(),

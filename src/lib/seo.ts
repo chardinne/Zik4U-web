@@ -163,6 +163,31 @@ const PLATFORM_META: Record<string, { name: string; description: string; keyword
     description: 'How Zik4U works with SoundCloud — OAuth PKCE capture of listening metadata, no audio stored, your SoundCloud discoveries become part of your unified music identity.',
     keywords: ['soundcloud social', 'soundcloud listening history', 'soundcloud scrobble', 'soundcloud identity', 'soundcloud music network'],
   },
+  deezer: {
+    name: 'Deezer',
+    description: 'Connect Deezer to Zik4U and turn your Flow listening into a real social identity. Compatibility scores, archetypes, and live listening rooms — powered by your actual Deezer plays.',
+    keywords: ['deezer social', 'deezer scrobble', 'deezer listening history', 'deezer identity', 'deezer music social network', 'deezer zik4u'],
+  },
+  tidal: {
+    name: 'Tidal',
+    description: 'Tidal HiFi listeners have the deepest musical identities. Zik4U makes that identity visible — behavioral archetypes, compatibility scores, and social connections built from your real Tidal listening.',
+    keywords: ['tidal social', 'tidal scrobble', 'tidal hifi identity', 'tidal music network', 'tidal listening history', 'tidal zik4u'],
+  },
+  lastfm: {
+    name: 'Last.fm',
+    description: 'Last.fm users already understand scrobbling. Zik4U is what comes next — the social layer, the creator economy, and the live listening rooms that Last.fm never built.',
+    keywords: ['lastfm zik4u', 'last.fm alternative', 'scrobbling social network', 'lastfm social', 'lastfm identity', 'scrobble app 2025'],
+  },
+  'amazon-music': {
+    name: 'Amazon Music',
+    description: 'Connect Amazon Music to Zik4U and give your listening an identity. Passive detection on Android — no login required. Compatibility scores and real social connections from your actual plays.',
+    keywords: ['amazon music social', 'amazon music scrobble', 'amazon music identity', 'amazon music listening history', 'amazon music zik4u'],
+  },
+  boomplay: {
+    name: 'Boomplay',
+    description: 'Zik4U is the first music social platform that includes Boomplay\'s 100 million users in the global music identity graph. Connect Boomplay, discover who listens like you — worldwide.',
+    keywords: ['boomplay social', 'boomplay scrobble', 'boomplay identity', 'african music social network', 'boomplay zik4u', 'afrobeats social'],
+  },
 };
 
 export function generatePlatformMetadata(platform: string): Metadata {

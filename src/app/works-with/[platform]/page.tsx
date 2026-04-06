@@ -148,6 +148,170 @@ const PLATFORM_DATA = {
     cta: 'Connect SoundCloud in the app',
     ctaHref: 'https://zik4u.com/listeners',
   },
+  deezer: {
+    name: 'Deezer',
+    color: '#A238FF',
+    slug: 'deezer',
+    headline: 'Deezer + Zik4U.',
+    tagline: 'Your flow, your identity. Finally visible.',
+    hero: `Deezer listeners know who they are. Flow isn't just an algorithm — it's a reflection of real taste, built over years of intentional listening.\n\nBut that identity stays locked inside one app. When you also explore tracks on SoundCloud, rediscover favourites on local files, or follow a friend's recommendation on YouTube Music — Deezer doesn't see any of it. Until Zik4U.`,
+    aggregation: {
+      title: 'Deezer knows your Flow. Zik4U knows your full self.',
+      body: `Zik4U aggregates every listening source — Deezer, Spotify, Apple Music, SoundCloud, local files — into a single behavioral profile. The result is a musical identity that finally reflects everything you actually listen to, not just one platform's partial view.\n\nFor Deezer users, this means your Flow intelligence gets a social dimension: compatibility scores, Now Cards, Pulse listening rooms — all powered by your complete listening reality.\n\nDeezer built the algorithm that knows you. Zik4U builds the identity that shows you.`,
+    },
+    unique: [
+      {
+        emoji: '🌊',
+        title: 'Flow meets identity',
+        body: "Deezer's Flow algorithm knows your taste deeply. Zik4U takes that depth and makes it social — a behavioral profile that reflects not just what you listen to, but who you are as a listener.",
+      },
+      {
+        emoji: '🇫🇷',
+        title: 'The French connection',
+        body: "Deezer and Zik4U share the same roots — built in France, designed for listeners who take music seriously. If you're a Deezer user, you already understand that music is identity. Zik4U makes that identity visible.",
+      },
+      {
+        emoji: '🌍',
+        title: 'Global catalog, global identity',
+        body: "Deezer's 90M+ track catalog spans every genre and territory. Zik4U captures that breadth and turns it into a profile that's as global as your taste — matching you with listeners worldwide who share your exact sound.",
+      },
+    ],
+    how: `Deezer integration on iOS uses a native bridge to read recently played tracks via Deezer's official API after OAuth authorization. On Android, Zik4U can additionally detect Deezer plays via system playback notifications — no account access required for passive detection.\n\nWhat we capture: track title, artist name, timestamp (rounded to nearest minute), play duration. What we never touch: audio, playlists, payment info, account credentials.\n\nEvery play triggered from Zik4U returns to Deezer via deep link. Your streams and royalties stay 100% on Deezer.`,
+    cta: 'Connect Deezer in the app',
+    ctaHref: 'https://zik4u.com/listeners',
+  },
+
+  tidal: {
+    name: 'Tidal',
+    color: '#00FFFF',
+    slug: 'tidal',
+    headline: 'Tidal + Zik4U.',
+    tagline: 'Lossless audio deserves a lossless identity.',
+    hero: `Tidal listeners chose quality. Not just in audio — in everything. The choice of HiFi over convenience says something real about who you are as a listener.\n\nBut that commitment to depth stays invisible. No platform shows the world that you're the person who listened to the same Coltrane track seventeen times, each time hearing something new. Until Zik4U.`,
+    aggregation: {
+      title: 'Tidal gives you the sound. Zik4U gives you the story.',
+      body: `Zik4U builds a behavioral profile from every source you use — Tidal, Spotify, SoundCloud, local files, and more. The result is a musical identity as high-resolution as your audio.\n\nTidal users consistently profile as the most depth-oriented listeners on Zik4U — high repeat rates, long sessions, strong artist loyalty. That profile is rare, and it's visible to everyone who deserves to see it.\n\nTidal is for listeners who refuse to compromise. Zik4U is for listeners who want the world to know it.`,
+    },
+    unique: [
+      {
+        emoji: '🎵',
+        title: 'Depth over breadth',
+        body: "Tidal users listen differently — fewer artists, more plays, deeper sessions. Zik4U's archetype system captures that pattern precisely. If you're a Tidal listener, your profile likely reflects a Deep Feeler or Night Explorer archetype — rare, recognizable, magnetic.",
+      },
+      {
+        emoji: '💎',
+        title: 'Premium taste, social proof',
+        body: "Choosing Tidal is a statement. Zik4U makes that statement visible — a profile that signals not just what you listen to, but the level of attention you bring to it.",
+      },
+      {
+        emoji: '🔗',
+        title: 'The artist connection',
+        body: "Tidal was built by artists, for listeners who care about artists. Zik4U's creator layer connects you directly to the musicians whose real listening you can follow, subscribe to, and support.",
+      },
+    ],
+    how: `Tidal integration uses OAuth — the user authorizes Zik4U to read recently played tracks via Tidal's API. No password stored. The OAuth token is encrypted and used only for metadata retrieval.\n\nWhat we capture: track title, artist name, timestamp (rounded), duration. What we never access: audio streams, payment information, playlists, or account settings.\n\nEvery play triggered from Zik4U returns to Tidal via deep link. Your HiFi streams and royalties remain entirely on Tidal.`,
+    cta: 'Connect Tidal in the app',
+    ctaHref: 'https://zik4u.com/listeners',
+  },
+
+  lastfm: {
+    name: 'Last.fm',
+    color: '#D51007',
+    slug: 'lastfm',
+    headline: 'Last.fm + Zik4U.',
+    tagline: 'You already knew scrobbling mattered. We built what came next.',
+    hero: `If you're a Last.fm user, you understood something most people are only discovering now: that listening data is identity data.\n\nYou've been scrobbling for years. You have a listening history that tells a richer story than any playlist ever could. But Last.fm stopped evolving. The social layer never came. The monetization never happened. The real-time features were never built.\n\nThat's exactly what Zik4U builds — on top of everything you've already collected.`,
+    aggregation: {
+      title: 'Last.fm collected your history. Zik4U makes it live.',
+      body: `Zik4U is the social network that Last.fm's data always deserved. Where Last.fm showed you charts and tags, Zik4U shows you compatibility scores, behavioral archetypes, and real-time connections with people whose listening mirrors yours.\n\nFor Last.fm veterans, the transition is natural — you already speak the language. Scrobbles, listening patterns, discovery signals. Zik4U takes all of that and adds the social layer, the creator economy, and the live listening rooms that Last.fm never built.\n\nThe concept was right. The execution is here.`,
+    },
+    unique: [
+      {
+        emoji: '📚',
+        title: 'Your history, reactivated',
+        body: "Years of Last.fm scrobbles represent one of the richest musical profiles in existence. Zik4U's import bridge can seed your profile from your Last.fm history — turning years of passive data collection into an active social identity.",
+      },
+      {
+        emoji: '🤝',
+        title: 'The community you were promised',
+        body: "Last.fm showed you who shared your taste. Zik4U lets you actually connect with them — follow their real-time listening, join Pulse rooms together, match compatibility scores with actual context.",
+      },
+      {
+        emoji: '💰',
+        title: 'What Last.fm never built',
+        body: "Last.fm never gave creators a way to monetize their musical identity. Zik4U does — Drops, Pulse sessions, fan subscriptions. If you're a creator with a Last.fm following, that audience is already primed for Zik4U.",
+      },
+    ],
+    how: `Last.fm integration uses the Last.fm API with read-only access — Zik4U can import your recent scrobbles and optionally sync ongoing plays. No account password is ever stored.\n\nFor ongoing scrobbling: Zik4U captures plays natively and can optionally mirror them to your Last.fm account, preserving your existing history while adding Zik4U's social layer on top.\n\nWhat we capture: track title, artist name, timestamp, play duration. Your Last.fm account data, tags, and loved tracks are never accessed.`,
+    cta: 'Connect Last.fm in the app',
+    ctaHref: 'https://zik4u.com/listeners',
+  },
+
+  'amazon-music': {
+    name: 'Amazon Music',
+    color: '#00A8E1',
+    slug: 'amazon-music',
+    headline: 'Amazon Music + Zik4U.',
+    tagline: 'The biggest catalog. Now with an identity.',
+    hero: `Amazon Music Unlimited gives you access to 100 million tracks. More catalog than any other service. But catalog without identity is just storage.\n\nAmazon Music listeners are everywhere — but they're invisible to each other. No social layer. No compatibility. No way to share what you actually listen to or discover who listens like you. Until Zik4U.`,
+    aggregation: {
+      title: 'Amazon Music has the catalog. Zik4U has the context.',
+      body: `Zik4U builds a unified listening profile that aggregates Amazon Music alongside every other source you use — Spotify, Apple Music, SoundCloud, local files. The result is a complete musical identity, not a fragmented view across services.\n\nFor Amazon Music users, this means your listening finally has a social dimension. Compatibility scores, behavioral archetypes, Pulse listening rooms — all powered by your actual listening across all your sources.\n\nAmazon Music gives you access. Zik4U gives you identity.`,
+    },
+    unique: [
+      {
+        emoji: '📡',
+        title: 'Passive detection on Android',
+        body: "On Android, Zik4U detects Amazon Music plays via system playback notifications — no OAuth, no login, no account access required. Your music plays, Zik4U captures the title and artist automatically.",
+      },
+      {
+        emoji: '🏠',
+        title: 'The everyday listener',
+        body: "Amazon Music reaches listeners who aren't defined by platform loyalty — they just want to hear music. Zik4U is for exactly those people: the ones whose taste is real even if their streaming choice was practical.",
+      },
+      {
+        emoji: '🔀',
+        title: 'Multi-source by nature',
+        body: "Amazon Music users often use multiple services — Prime Music for background, Unlimited for depth, Spotify for social sharing. Zik4U is the only place all of that becomes one coherent profile.",
+      },
+    ],
+    how: `Amazon Music detection on Android works via system playback notifications — the same information displayed in your notification bar. Zik4U reads the track title and artist from that notification. No account access. No API calls to Amazon servers.\n\nOn iOS, Amazon Music detection follows the same passive notification model when available. No credentials are ever requested or stored.\n\nWhat we capture: track title, artist name, timestamp (rounded), duration. Every play triggered from Zik4U returns to Amazon Music via deep link.`,
+    cta: 'Connect Amazon Music in the app',
+    ctaHref: 'https://zik4u.com/listeners',
+  },
+
+  boomplay: {
+    name: 'Boomplay',
+    color: '#F5A623',
+    slug: 'boomplay',
+    headline: 'Boomplay + Zik4U.',
+    tagline: 'African music has a global identity now.',
+    hero: `Boomplay is where African music lives. 100 million users. The deepest catalog of Afrobeats, Amapiano, Afropop, highlife, and the genres defining the sound of the 21st century.\n\nBut that sound — and the identity of the people who listen to it — has been invisible to the global music social graph. No platform connected Boomplay listeners to the rest of the world, or to each other. Until Zik4U.`,
+    aggregation: {
+      title: "Boomplay carries the sound. Zik4U carries it to the world.",
+      body: `Zik4U is the first music social platform built for listeners across all ecosystems — including the 100 million people on Boomplay who have been excluded from every Western-centric music social network.\n\nWhen a Boomplay user connects Zik4U, their listening joins a global graph of behavioral profiles. They discover listeners in Lagos, London, and Los Angeles who share their exact taste. They find compatibility with people they'd never otherwise meet.\n\nThis is what a truly global music identity platform looks like.`,
+    },
+    unique: [
+      {
+        emoji: '🌍',
+        title: 'The first global music graph that includes Africa',
+        body: "Every major music social platform was built for Western streaming ecosystems. Zik4U is the first to treat Boomplay's 100 million users as full participants in the global music identity graph — not as an afterthought.",
+      },
+      {
+        emoji: '⚡',
+        title: 'First Ear — where trends actually start',
+        body: "Afrobeats tracks go global from Boomplay before they reach any Western platform. Zik4U's First Ear feature timestamps those early discoveries — proof that you heard it first, before the world caught up.",
+      },
+      {
+        emoji: '🎤',
+        title: 'Creator opportunity for African artists',
+        body: "Boomplay artists have massive audiences with no monetization layer beyond streams. Zik4U's creator economy — Drops, fan subscriptions, Pulse sessions — is built for exactly this moment: connecting those audiences to sustainable creator income.",
+      },
+    ],
+    how: `Boomplay integration uses passive detection via system playback notifications on Android — no OAuth, no account access required. Zik4U reads the track title and artist from the system notification bar.\n\nFor deeper integration, Zik4U supports optional API connection where available, allowing listening history sync.\n\nWhat we capture: track title, artist name, timestamp (rounded to nearest minute), duration. Audio is never captured. Boomplay account credentials are never stored.`,
+    cta: 'Connect Boomplay in the app',
+    ctaHref: 'https://zik4u.com/listeners',
+  },
 } as const;
 
 type PlatformSlug = keyof typeof PLATFORM_DATA;
