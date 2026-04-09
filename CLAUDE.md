@@ -311,3 +311,15 @@ git commit --allow-empty -m "chore: trigger Vercel redeploy"  # Forcer un redepl
 - NEXT_PUBLIC_SUPABASE_URL ✅ hardcodé (public)
 - NEXT_PUBLIC_SUPABASE_ANON_KEY ⚠️ à configurer dans Vercel
 - NEXT_PUBLIC_SITE_URL ⚠️ https://zik4u.com en prod
+
+## CTO Skills
+
+Skills Claude Code disponibles pour ce repo :
+- `/cto-web` : contexte complet zik4u-web (routes, auth pattern, Anthropic, env vars, gaps)
+- `/cto-zik4u` : master — état 4 repos + routage vers le bon skill
+- `/deploy-migration` : checklist deploy Vercel (tsc → push → verify)
+- `/incident-response` : diagnostic et correction incidents prod
+
+**Path** : `/home/chardinnebertrand/projets/zik4u-web`
+**Commandes** : `bash -c "cd /home/chardinnebertrand/projets/zik4u-web && npx tsc --noEmit"`
+**Commit** : `bash -c "cd /home/chardinnebertrand/projets/zik4u-web && git add -A && git commit -m '...' && git push origin main"`
