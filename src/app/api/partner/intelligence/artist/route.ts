@@ -1,6 +1,7 @@
 import { type NextRequest } from 'next/server';
 import { createPartnerClient, createServiceClient } from '@/lib/supabase-server';
 import { checkRateLimit } from '@/lib/rate-limit';
+import { cacheGet, cacheSet } from '@/lib/redis';
 
 export const dynamic = 'force-dynamic';
 
@@ -43,11 +44,18 @@ export async function GET(request: NextRequest) {
     });
   } catch { /* non-bloquant */ }
 
+  const normalizedDays = Math.min(days, 365);
+  const cacheKey = `artist_intel:${artist.toLowerCase()}:${normalizedDays}`;
+  const cached = await cacheGet<Record<string, unknown>>(cacheKey);
+  if (cached) {
+    return Response.json({ ...cached, cached: true });
+  }
+
   const supabase = createPartnerClient();
 
   const { data: intelligence, error } = await supabase.rpc(
     'partner_get_artist_intelligence',
-    { p_api_key: apiKey, p_artist_name: artist, p_days: Math.min(days, 365) }
+    { p_api_key: apiKey, p_artist_name: artist, p_days: normalizedDays }
   );
 
   if (error) {
@@ -57,8 +65,12 @@ export async function GET(request: NextRequest) {
     return Response.json({ error: error.message }, { status: 500 });
   }
 
-  return Response.json({
-    ...(intelligence ?? { artist_name: artist, days, total_scrobbles: 0, unique_listeners: 0 }),
+  const result = {
+    ...(intelligence ?? { artist_name: artist, days: normalizedDays, total_scrobbles: 0, unique_listeners: 0 }),
     generated_at: new Date().toISOString(),
-  });
+  };
+
+  await cacheSet(cacheKey, result, 15 * 60); // 15 min TTL
+
+  return Response.json(result);
 }
