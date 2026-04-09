@@ -38,15 +38,33 @@ export async function POST(request: NextRequest) {
 
   const supabase = createServiceClient();
 
-  // 1. Marquer le paiement comme paid
-  await supabase
+  // Idempotency check: skip if already paid (handles Stripe retry on network timeout)
+  const { data: existingPayment } = await supabase
+    .from('creator_direct_payments')
+    .select('status')
+    .eq('id', payment_id)
+    .single();
+
+  if (existingPayment?.status === 'paid') {
+    return Response.json({ received: true, duplicate: true });
+  }
+
+  // 1. Marquer le paiement comme paid (double safety: .eq status=pending)
+  const { error: updateError } = await supabase
     .from('creator_direct_payments')
     .update({
       status: 'paid',
       stripe_payment_intent: session.payment_intent as string,
+      stripe_session_id: session.id,
       paid_at: new Date().toISOString(),
     })
-    .eq('id', payment_id);
+    .eq('id', payment_id)
+    .eq('status', 'pending');
+
+  if (updateError) {
+    console.error('[payment-webhook] Update failed:', updateError.message);
+    return Response.json({ error: 'DB update failed' }, { status: 500 });
+  }
 
   // 2. Enregistrer dans financial_events
   const amount = (session.amount_total ?? 0) / 100;
