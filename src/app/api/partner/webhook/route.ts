@@ -111,16 +111,22 @@ export async function POST(request: NextRequest) {
     const partnerRequestId = session.metadata?.partner_request_id;
     if (!partnerRequestId) return Response.json({ received: true });
 
+    // Idempotency check: skip if already activated (handles Stripe retry on network timeout)
+    const { data: existingPartner } = await supabase
+      .from('partner_requests')
+      .select('payment_activated, contact_email, contact_name, company_name, plan_requested, api_key')
+      .eq('id', partnerRequestId)
+      .single();
+
+    if (existingPartner?.payment_activated === true) {
+      return Response.json({ received: true, duplicate: true });
+    }
+
+    const partnerReq = existingPartner;
+
     const subscriptionId = session.subscription as string;
     const subscription = await stripe.subscriptions.retrieve(subscriptionId);
     const periodEnd = subscription.items.data[0]?.current_period_end;
-
-    // Récupérer la demande pour avoir les infos contact
-    const { data: partnerReq } = await supabase
-      .from('partner_requests')
-      .select('contact_email, contact_name, company_name, plan_requested, api_key')
-      .eq('id', partnerRequestId)
-      .single();
 
     // Activer l'accès
     await supabase

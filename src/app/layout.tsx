@@ -1,12 +1,13 @@
-import type { Metadata } from 'next';
+import type { Metadata, Viewport } from 'next';
 import { Inter } from 'next/font/google';
 import './globals.css';
-import { defaultMetadata } from '@/lib/seo';
+import { defaultMetadata, defaultViewport } from '@/lib/seo';
 import { CookieBanner } from '@/components/CookieBanner';
 
 const inter = Inter({ subsets: ['latin'] });
 
 export const metadata: Metadata = defaultMetadata;
+export const viewport: Viewport = defaultViewport;
 
 // Static JSON-LD — no user data interpolated, safe per Next.js official docs pattern
 const jsonLd = {
@@ -59,8 +60,6 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="en">
       <head>
-        <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <meta name="theme-color" content="#0A0A1A" />
         {/* Store-ready meta */}
         <meta name="application-name" content="Zik4U" />
         <meta name="mobile-web-app-capable" content="yes" />

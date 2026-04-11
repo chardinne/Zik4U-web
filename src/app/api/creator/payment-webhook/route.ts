@@ -119,9 +119,7 @@ export async function POST(request: NextRequest) {
       .eq('id', pulse_room_id)
       .single();
 
-    if (room && (count ?? 0) >= (room.max_participants ?? 5)) {
-      console.log(`[pulse] Room ${pulse_room_id} now full`);
-    }
+    // Room capacity reached — no action needed (access control via has_pulse_access RPC)
   }
 
   return Response.json({ received: true });

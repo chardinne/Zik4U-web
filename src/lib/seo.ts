@@ -1,4 +1,4 @@
-import type { Metadata } from 'next';
+import type { Metadata, Viewport } from 'next';
 
 const BASE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://zik4u.com';
 
@@ -49,11 +49,6 @@ export const defaultMetadata: Metadata = {
     images: ['/opengraph-image'],
     creator: '@zik4u',
     site: '@zik4u',
-  },
-  viewport: {
-    width: 'device-width',
-    initialScale: 1,
-    maximumScale: 1,
   },
   robots: {
     index: true,
@@ -188,6 +183,14 @@ const PLATFORM_META: Record<string, { name: string; description: string; keyword
     description: 'Zik4U is the first music social platform that includes Boomplay\'s 100 million users in the global music identity graph. Connect Boomplay, discover who listens like you — worldwide.',
     keywords: ['boomplay social', 'boomplay scrobble', 'boomplay identity', 'african music social network', 'boomplay zik4u', 'afrobeats social'],
   },
+};
+
+// Separate viewport export — required by Next.js 14+ (cannot be in metadata)
+export const defaultViewport: Viewport = {
+  width: 'device-width',
+  initialScale: 1,
+  maximumScale: 1,
+  themeColor: '#0A0A1A',
 };
 
 export function generatePlatformMetadata(platform: string): Metadata {
