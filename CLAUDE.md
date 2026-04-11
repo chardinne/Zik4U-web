@@ -16,10 +16,11 @@ Backend partagé avec l'app mobile via Supabase.
 | Stripe | — | Checkout via Edge Function `create-stripe-checkout` (partagée avec l'app mobile) |
 
 ## Supabase
-- Project ID : `eirkzsbjlwmflwhqihiw`
-- URL : `https://eirkzsbjlwmflwhqihiw.supabase.co`
+- Project ID : `qjrwjdlqlmyliinfjjic` (us-east-1 — migré depuis `eirkzsbjlwmflwhqihiw`)
+- URL : `https://qjrwjdlqlmyliinfjjic.supabase.co`
 - Même base que l'app mobile — auth partagée (même compte = app mobile + web)
 - Client : `src/lib/supabase.ts` — `createClient(url, anonKey, { auth: { persistSession, autoRefreshToken, detectSessionInUrl } })`
+- **Nouveau format clés** : `sb_publishable_...` (anon) + `sb_secret_...` (service_role) — les clés `eyJ...` JWT ne sont plus utilisées
 
 ## Structure implémentée
 ```
@@ -276,12 +277,12 @@ Décliné sur tous les tunnels :
 
 ## Variables d'environnement
 ```env
-NEXT_PUBLIC_SUPABASE_URL=https://eirkzsbjlwmflwhqihiw.supabase.co
-NEXT_PUBLIC_SUPABASE_ANON_KEY=<à configurer>
+NEXT_PUBLIC_SUPABASE_URL=https://qjrwjdlqlmyliinfjjic.supabase.co
+NEXT_PUBLIC_SUPABASE_ANON_KEY=sb_publishable_WH4Ta8aLhTDQyzLE1Toc4A_QH-XzVjO
 NEXT_PUBLIC_SITE_URL=http://localhost:3000   # https://zik4u.com en prod
 STRIPE_SECRET_KEY=<à configurer>
 STRIPE_WEBHOOK_SECRET=<à configurer>
-SUPABASE_SERVICE_ROLE_KEY=<à configurer>    # createServiceClient() — jamais exposé côté client
+SUPABASE_SERVICE_ROLE_KEY=sb_secret_...     # createServiceClient() — jamais exposé côté client
 RESEND_API_KEY=<à configurer>               # Emails partenaires
 ANTHROPIC_API_KEY=<à configurer>            # AI Analyst — /api/partner/ai/ — jamais NEXT_PUBLIC_
 ```
@@ -300,7 +301,7 @@ git commit --allow-empty -m "chore: trigger Vercel redeploy"  # Forcer un redepl
 - [ ] Vercel : importer chardinne/Zik4U-web, configurer les 3 env vars
 - [ ] Hostinger DNS : A @ 76.76.21.21 + CNAME www cname.vercel-dns.com
       (procédure complète : docs/HOSTINGER_VERCEL_DNS.md)
-- [ ] Vercel : configurer NEXT_PUBLIC_SUPABASE_ANON_KEY en prod
+- [x] Vercel : configurer NEXT_PUBLIC_SUPABASE_ANON_KEY en prod (`sb_publishable_...`)
 
 ### Post-C Corp
 - [ ] Mettre à jour APP_STORE_URL dans /card/[username]/page.tsx si l'ID change
@@ -309,7 +310,7 @@ git commit --allow-empty -m "chore: trigger Vercel redeploy"  # Forcer un redepl
 
 ### Variables d'environnement (voir .env.example)
 - NEXT_PUBLIC_SUPABASE_URL ✅ hardcodé (public)
-- NEXT_PUBLIC_SUPABASE_ANON_KEY ⚠️ à configurer dans Vercel
+- NEXT_PUBLIC_SUPABASE_ANON_KEY ✅ `sb_publishable_WH4Ta8aLhTDQyzLE1Toc4A_QH-XzVjO`
 - NEXT_PUBLIC_SITE_URL ⚠️ https://zik4u.com en prod
 
 ## CTO Skills
