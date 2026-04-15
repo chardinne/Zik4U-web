@@ -10,9 +10,16 @@
 - C Corp Zik4U Inc. Florida — BLOQUANT Stripe prod
 - Stripe prod webhooks en attente de C Corp
 
+## Tests — Jest configuré (2026-04-15)
+- **14 tests / 4 suites — 100% passants** (`npx jest --no-coverage`)
+- Routes couvertes : payment-webhook (4), creator-payment (4), partner-webhook (3), partner-ai (3)
+- Pattern de mock : `jest.mock('@/lib/stripe-server', ...)` + `jest.requireMock()`/`require()` dans `beforeEach`
+- Supabase mock pattern : `createServiceClient: jest.fn()` → `.mockReturnValue({ from: jest.fn().mockReturnValue({ select, update, insert }) })`
+- Tests ciblent auth/validation early-returns → aucun mock chain profond requis
+- Idempotency testée : `update` non appelé si `status === 'paid'` déjà
+
 ## Gap critique non résolu
-- /api/creator/payment-webhook : pas d'idempotency key → double insert possible sur rejeu Stripe
-  Action requise : ajouter check sur stripe_session_id avant tout INSERT
+- /api/creator/payment-webhook : idempotency testée côté status=paid ✅ — vérifier stripe_session_id UNIQUE constraint côté DB
 
 ## Décisions récentes
 - SHARED_CONTEXT.md + REVENUE_FLOW.md ajoutés dans .claude/ (2026-04-15)
