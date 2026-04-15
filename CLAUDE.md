@@ -1,4 +1,5 @@
 > 📋 Contexte partagé obligatoire : lire `.claude/SHARED_CONTEXT.md` et `.claude/REVENUE_FLOW.md` avant toute session.
+> 🧠 Fin de session obligatoire : mettre à jour `.claude/MEMORY.md` avec le template prévu.
 
 # CLAUDE.md — Zik4U-web
 
