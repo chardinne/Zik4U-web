@@ -57,14 +57,14 @@ describe('POST /api/creator/payment-webhook', () => {
     expect(res.status).toBe(200);
   });
 
-  it('returns 200 with duplicate:true when payment already paid (idempotency — no update called)', async () => {
+  it('returns 200 with idempotent:true when stripe_session_id already paid — no update called', async () => {
     mockConstructEvent.mockReturnValue({
       type: 'checkout.session.completed',
       data: {
         object: {
+          id: 'cs_replay_001',
           metadata: { payment_id: 'pay-123', creator_id: 'c-1', fan_id: 'f-1', payment_type: 'tip' },
           payment_intent: 'pi-xxx',
-          id: 'cs-xxx',
         },
       },
     });
@@ -85,7 +85,8 @@ describe('POST /api/creator/payment-webhook', () => {
     const body = await res.json();
 
     expect(res.status).toBe(200);
-    expect(body.duplicate).toBe(true);
+    expect(body.idempotent).toBe(true);
+    expect(body.ok).toBe(true);
     expect(updateMock).not.toHaveBeenCalled();
   });
 });

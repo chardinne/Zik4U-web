@@ -1,8 +1,9 @@
 # MEMORY — Zik4U Web
 > Mis à jour après chaque session. Source de vérité de l'état réel du projet.
 
-## État actuel (2026-04-15)
+## État actuel (2026-04-16)
 - TypeScript : 0 erreur
+- Tests : 14/14 passants
 - Déploiement : Vercel → zik4u.com (auto-deploy sur push main)
 - Stack : Next.js 16.1.6 / Tailwind 4 / App Router
 
@@ -16,10 +17,10 @@
 - Pattern de mock : `jest.mock('@/lib/stripe-server', ...)` + `jest.requireMock()`/`require()` dans `beforeEach`
 - Supabase mock pattern : `createServiceClient: jest.fn()` → `.mockReturnValue({ from: jest.fn().mockReturnValue({ select, update, insert }) })`
 - Tests ciblent auth/validation early-returns → aucun mock chain profond requis
-- Idempotency testée : `update` non appelé si `status === 'paid'` déjà
+- Idempotency : check par `stripe_session_id` (colonne UNIQUE — migration 00085), return `{ ok: true, idempotent: true }` si déjà paid
 
-## Gap critique non résolu
-- /api/creator/payment-webhook : idempotency testée côté status=paid ✅ — vérifier stripe_session_id UNIQUE constraint côté DB
+## Gap critique résolu (2026-04-16)
+- ✅ /api/creator/payment-webhook : idempotency check remplacé — keyed sur `stripe_session_id` (UNIQUE) au lieu de `payment_id` interne. Résiste aux replays Stripe même sans metadata. Test `idempotent: true` + `update` non appelé.
 
 ## Décisions récentes
 - SHARED_CONTEXT.md + REVENUE_FLOW.md ajoutés dans .claude/ (2026-04-15)

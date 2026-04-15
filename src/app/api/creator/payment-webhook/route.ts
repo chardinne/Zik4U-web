@@ -38,15 +38,16 @@ export async function POST(request: NextRequest) {
 
   const supabase = createServiceClient();
 
-  // Idempotency check: skip if already paid (handles Stripe retry on network timeout)
-  const { data: existingPayment } = await supabase
+  // Idempotency check: skip if already paid — keyed on stripe_session_id (UNIQUE)
+  // Handles Stripe replay on network timeout; safe even if metadata.payment_id is absent
+  const { data: existing } = await supabase
     .from('creator_direct_payments')
     .select('status')
-    .eq('id', payment_id)
+    .eq('stripe_session_id', session.id)
     .single();
 
-  if (existingPayment?.status === 'paid') {
-    return Response.json({ received: true, duplicate: true });
+  if (existing?.status === 'paid') {
+    return Response.json({ ok: true, idempotent: true });
   }
 
   // 1. Marquer le paiement comme paid (double safety: .eq status=pending)
