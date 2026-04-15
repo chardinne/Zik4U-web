@@ -1,3 +1,5 @@
+> 📋 Contexte partagé obligatoire : lire `.claude/SHARED_CONTEXT.md` et `.claude/REVENUE_FLOW.md` avant toute session.
+
 # CLAUDE.md — Zik4U-web
 
 ## Vue d'ensemble
