@@ -48,7 +48,7 @@ const FEATURES_MONETIZE = [
   {
     emoji: '💳',
     title: 'Direct payments',
-    body: 'Via Trolley — automatic bank transfer every month. Minimum threshold $25. You keep 70% of subscription revenue.',
+    body: 'Via Trolley — automatic bank transfer every month. Minimum threshold $25. You keep 80% of subscription revenue.',
     color: C.gold,
   },
 ];
@@ -123,7 +123,7 @@ const STEPS = [
   {
     number: '04',
     title: 'Receive your revenue every month',
-    body: 'Automatic transfer. You keep 70%. The rest funds the platform and operational costs.',
+    body: 'Automatic transfer. You keep 80%. The rest funds the platform and operational costs.',
     color: C.gold,
   },
 ];
@@ -247,7 +247,7 @@ export default function CreatorsPage() {
             No algorithm between you and your fans.
             Your subscribers follow what you actually listen to.<br />
             <strong style={{ color:'#FF3CAC', fontWeight:700 }}>
-              70% of revenue. For real.
+              80% of revenue. For real.
             </strong>
           </p>
           <div style={{ display: 'flex', gap: 12, flexWrap: 'wrap' }}>

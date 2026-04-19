@@ -1,16 +1,16 @@
 import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
-  title: 'For Listeners — Discover Who Listens Like You',
-  description: 'Find people with the same music taste. Share your Now Card. Free, forever.',
+  title: 'For Listeners | Zik4U',
+  description: 'Build your real music identity across Spotify, Apple Music, YouTube Music and 10+ sources. Your archetype. Your matches. For real.',
   openGraph: {
     title: 'For Listeners | Zik4U',
-    description: 'Music compatibility score, real listening feed, shareable Now Card. Free.',
+    description: 'Build your real music identity across 10+ sources. Your archetype. Your matches. For real.',
     url: 'https://zik4u.com/listeners',
   },
   twitter: {
     title: 'For Listeners | Zik4U',
-    description: 'Find your sound twin. Free, forever.',
+    description: 'Build your real music identity across Spotify, Apple Music, YouTube Music and 10+ sources. For real.',
   },
   alternates: { canonical: 'https://zik4u.com/listeners' },
 };

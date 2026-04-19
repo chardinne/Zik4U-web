@@ -1,16 +1,16 @@
 import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
-  title: 'For Creators — Monetize Your Real Music Taste',
-  description: 'Turn your real listening data into passive revenue. Keep 80%. Your fans subscribe to discover what you actually listen to.',
+  title: 'For Creators | Zik4U',
+  description: 'Monetize your real music taste. Your fans subscribe to what you actually listen to. 80% revenue. No algorithm. For real.',
   openGraph: {
     title: 'For Creators | Zik4U',
-    description: 'Keep 80% of every subscription. Your real music taste — monetized.',
+    description: 'Monetize your real music taste. 80% revenue. No algorithm. For real.',
     url: 'https://zik4u.com/creators',
   },
   twitter: {
     title: 'For Creators | Zik4U',
-    description: 'Keep 80% of every subscription. Monetize your real music taste.',
+    description: 'Monetize your real music taste. 80% revenue. No algorithm. For real.',
   },
   alternates: { canonical: 'https://zik4u.com/creators' },
 };

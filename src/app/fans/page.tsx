@@ -16,6 +16,13 @@ const C = {
   text: '#fff', muted: 'rgba(255,255,255,0.5)',
 };
 
+const PLACEHOLDER_CREATORS = [
+  { handle: 'harmony', initials: 'H', archetype: '🌙 Night Explorer', quote: 'Music is my 3am language', compat: '87%', grad: 'linear-gradient(135deg, #7B2FFF, #FF3CAC)' },
+  { handle: 'marco', initials: 'M', archetype: '💜 Deep Feeler', quote: 'Every track leaves a mark', compat: '82%', grad: 'linear-gradient(135deg, #FF3CAC, #7B2FFF)' },
+  { handle: 'luna', initials: 'L', archetype: '🌍 Cultural Nomad', quote: 'No borders, only beats', compat: '91%', grad: 'linear-gradient(135deg, #00D4FF, #00FFB2)' },
+  { handle: 'tyler', initials: 'T', archetype: '⚡ Obsessive Fan', quote: 'One artist. Infinite replays.', compat: '79%', grad: 'linear-gradient(135deg, #FFB800, #FF3CAC)' },
+];
+
 const WHAT_YOU_GET = [
   {
     emoji: '📡',
@@ -72,6 +79,9 @@ export default function FansPage() {
   const [creators, setCreators] = useState<SearchResult[]>([]);
   const [loading, setLoading] = useState(true);
   const [searching, setSearching] = useState(false);
+  const [fanEmail, setFanEmail] = useState('');
+  const [fanSubmitted, setFanSubmitted] = useState(false);
+  const [fanLoading, setFanLoading] = useState(false);
 
   useEffect(() => {
     getFeaturedCreators()
@@ -92,6 +102,20 @@ export default function FansPage() {
     }, 300);
     return () => clearTimeout(t);
   }, [query]);
+
+  const handleFanWaitlist = async () => {
+    if (!fanEmail.trim() || fanLoading) return;
+    setFanLoading(true);
+    try {
+      const res = await fetch('/api/pulse-waitlist', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email: fanEmail }),
+      });
+      if (res.ok) setFanSubmitted(true);
+    } catch { /* silent */ }
+    finally { setFanLoading(false); }
+  };
 
   return (
     <main style={{ minHeight: '100vh', backgroundColor: C.bg, fontFamily: 'Inter, system-ui, sans-serif', color: C.text }}>
@@ -166,6 +190,9 @@ export default function FansPage() {
               Download — Android →
             </a>
           </div>
+          <p style={{ fontSize:13, color:C.muted, marginTop:12, textAlign:'center' }}>
+            Free. No card required.
+          </p>
         </motion.div>
 
         {/* What you get */}
@@ -196,11 +223,7 @@ export default function FansPage() {
 
           {loading || searching ? (
             <div style={{ textAlign: 'center', padding: 40, color: C.muted }}>Loading...</div>
-          ) : creators.length === 0 ? (
-            <div style={{ textAlign: 'center', padding: 40, color: C.muted }}>
-              {query ? 'No creator found.' : 'No creators yet.'}
-            </div>
-          ) : (
+          ) : creators.length > 0 ? (
             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(200px, 1fr))', gap: 16 }}>
               {creators.map(creator => (
                 <button
@@ -225,6 +248,54 @@ export default function FansPage() {
                 </button>
               ))}
             </div>
+          ) : query.trim() ? (
+            <div style={{ textAlign: 'center', padding: 40, color: C.muted }}>No creator found.</div>
+          ) : (
+            <>
+              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(200px, 1fr))', gap: 16, marginBottom: 32 }}>
+                {PLACEHOLDER_CREATORS.map(creator => (
+                  <div key={creator.handle} style={{ background: C.card, border: `1px solid ${C.border}`, borderRadius: 16, padding: 20, display: 'flex', flexDirection: 'column', gap: 8 }}>
+                    <div style={{ width: 48, height: 48, borderRadius: '50%', background: creator.grad, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 20, fontWeight: 900, color: '#fff' }}>
+                      {creator.initials}
+                    </div>
+                    <div style={{ fontWeight: 700, fontSize: 17, color: C.text }}>@{creator.handle}</div>
+                    <div style={{ fontSize: 13, color: C.mint, fontWeight: 600 }}>{creator.archetype}</div>
+                    <div style={{ fontSize: 13, color: C.muted, fontStyle: 'italic', lineHeight: 1.4 }}>"{creator.quote}"</div>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: 5 }}>
+                      <span style={{ fontSize: 13, color: C.muted, opacity: 0.5 }}>🔒 {creator.compat} match</span>
+                    </div>
+                    <a href={APP_STORE_URL} style={{ display: 'block', textAlign: 'center', padding: '8px 14px', background: `linear-gradient(135deg, ${C.mint}, ${C.cyan})`, borderRadius: 8, color: '#0A0A1A', fontWeight: 700, fontSize: 15, textDecoration: 'none', marginTop: 4 }}>
+                      Subscribe →
+                    </a>
+                  </div>
+                ))}
+              </div>
+              <div style={{ borderTop: `1px solid ${C.border}`, paddingTop: 24, textAlign: 'center' }}>
+                <p style={{ color: C.muted, fontSize: 15, marginBottom: 16, lineHeight: 1.6 }}>
+                  First real creators arriving soon.<br />
+                  <span style={{ color: 'rgba(255,255,255,0.35)' }}>Be notified →</span>
+                </p>
+                {fanSubmitted ? (
+                  <p style={{ color: C.mint, fontSize: 15, fontWeight: 700 }}>✓ You're on the list!</p>
+                ) : (
+                  <div style={{ display: 'flex', gap: 8, maxWidth: 400, margin: '0 auto', justifyContent: 'center', flexWrap: 'wrap' }}>
+                    <input
+                      type="email"
+                      placeholder="your@email.com"
+                      value={fanEmail}
+                      onChange={e => setFanEmail(e.target.value)}
+                      style={{ flex: 1, minWidth: 200, padding: '10px 14px', background: C.card, border: `1px solid ${C.border}`, borderRadius: 10, color: C.text, fontSize: 15, fontFamily: 'Inter, system-ui, sans-serif', outline: 'none' }}
+                    />
+                    <button
+                      onClick={handleFanWaitlist}
+                      disabled={fanLoading || !fanEmail.trim()}
+                      style={{ padding: '10px 18px', background: `linear-gradient(135deg, ${C.mint}, ${C.cyan})`, borderRadius: 10, color: '#0A0A1A', fontWeight: 700, fontSize: 15, border: 'none', cursor: fanLoading || !fanEmail.trim() ? 'not-allowed' : 'pointer', opacity: fanLoading || !fanEmail.trim() ? 0.5 : 1, fontFamily: 'Inter, system-ui, sans-serif' }}>
+                      {fanLoading ? '...' : 'Subscribe'}
+                    </button>
+                  </div>
+                )}
+              </div>
+            </>
           )}
         </motion.section>
 

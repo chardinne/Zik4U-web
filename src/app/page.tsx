@@ -368,16 +368,6 @@ export default function HomePage() {
             onMouseLeave={e => (e.currentTarget.style.color='rgba(255,255,255,0.6)')}>
             Fans
           </a>
-          <a href="https://apps.apple.com/app/zik4u/id6748722257" style={{
-            fontSize:15, fontWeight:900, color:'#0A0A1A',
-            background:'linear-gradient(90deg, #FF3CAC, #7B2FFF)',
-            padding:'9px 20px', borderRadius:999, textDecoration:'none',
-            whiteSpace:'nowrap', marginLeft:8,
-            boxShadow:'0 0 20px rgba(255,60,172,0.35)',
-            letterSpacing:'0.03em',
-          }}>
-            Get the app ↓
-          </a>
         </div>
       </nav>
 

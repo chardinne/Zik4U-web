@@ -1,16 +1,16 @@
 import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
-  title: 'Find a Creator — See What They Really Listen To',
-  description: 'Your favorite creator is on Zik4U. Subscribe to their musical world and discover what they actually listen to, in real time.',
+  title: 'For Fans | Zik4U',
+  description: 'Follow what your favorite creators really listen to. Not their curated playlist — their actual music, live. For real.',
   openGraph: {
-    title: 'Find a Creator | Zik4U',
-    description: 'See what your favorite artist really listens to. Subscribe on Zik4U.',
+    title: 'For Fans | Zik4U',
+    description: 'Follow what your favorite creators really listen to. Their actual music, live. For real.',
     url: 'https://zik4u.com/fans',
   },
   twitter: {
-    title: 'Find a Creator | Zik4U',
-    description: 'Your favorite creator is on Zik4U.',
+    title: 'For Fans | Zik4U',
+    description: 'Follow what your favorite creators really listen to. Not their curated playlist — their actual music, live.',
   },
   alternates: { canonical: 'https://zik4u.com/fans' },
 };

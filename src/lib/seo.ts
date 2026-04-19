@@ -8,7 +8,7 @@ export const defaultMetadata: Metadata = {
     default: 'Zik4U — You Are What You Listen To.',
     template: '%s | Zik4U',
   },
-  description: 'The social network built on real listens. Discover people who listen like you, turn your music taste into identity, and monetize what you actually hear.',
+  description: 'Zik4U captures everything you listen to, across all platforms, and turns it into your real music identity. Connect. Match. Subscribe. For real.',
   keywords: [
     'music social network',
     'music identity',

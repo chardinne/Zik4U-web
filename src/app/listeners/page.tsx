@@ -39,15 +39,9 @@ const FEATURES_IDENTITY = [
     body: 'Every week: your track of the week, your discoveries, your emotional score. The summary of what your music says about you.',
     color: C.cyan,
   },
-  {
-    emoji: '🎁',
-    title: 'Zik4U Wrapped',
-    body: '6 shareable cards that sum up your musical year. Your top artist, your dominant mood, your first listens. More honest than Spotify.',
-    color: C.pink,
-  },
 ];
 
-const FEATURES_SOCIAL = [
+const FEATURES_CONNECTIONS = [
   {
     emoji: '🎯',
     title: 'Music Compatibility Score',
@@ -55,54 +49,21 @@ const FEATURES_SOCIAL = [
     color: C.mint,
   },
   {
-    emoji: '📡',
-    title: 'Real listening feed',
-    body: 'A social feed where every post is a real listen. See what your friends are listening to right now. Not what they want you to think.',
-    color: C.cyan,
-  },
-  {
-    emoji: '✦',
-    title: 'The Signal',
-    body: 'Share your current music mood in one tap — 🌙 Nocturnal, 🔥 Energy, 💜 Melancholy... Visible 3h on your profile. Your friends see it in their Stories.',
-    color: C.gold,
-  },
-  {
-    emoji: '〜',
-    title: 'The Wave',
-    body: 'Something moves you. One tap — the track hits the feed instantly. Zero friction. Zero staging.',
-    color: C.cyan,
-  },
-  {
-    emoji: '〜',
-    title: 'The Echo',
-    body: 'Reply to a listen with a listen. Under each post, instead of a text comment — send the track it makes you think of. A conversation without words.',
-    color: C.mint,
-  },
-];
-
-const FEATURES_CONNECTION = [
-  {
     emoji: '🎵',
     title: 'Music Match',
     body: 'Meet people who listen like you. For real. Not based on your photo. Based on what you listen to at 3am. Opt-in, 17+.',
     color: C.pink,
   },
   {
-    emoji: '✨',
-    title: 'Rare synchronicity',
-    body: 'When you and someone else listen to the same obscure track on the same day — Zik4U tells you. You are 12 on the platform to have heard it.',
-    color: C.purple,
-  },
-  {
-    emoji: '🔴',
-    title: 'The Red Thread',
-    body: 'When you sync with someone, a 7-day conversation thread opens around that artist. The conversation is born from the music.',
-    color: C.pink,
-  },
-  {
     emoji: '🎧',
     title: 'Pulse — Listen Together',
     body: 'Create a live listening room with your friends. Same track, same moment, real-time reactions. Or invite one person for a private moment together.',
+    color: C.purple,
+  },
+  {
+    emoji: '✨',
+    title: 'Rare synchronicity',
+    body: 'When you and someone else listen to the same obscure track on the same day — Zik4U tells you. You are 12 on the platform to have heard it.',
     color: C.purple,
   },
 ];
@@ -115,16 +76,16 @@ const FEATURES_MEMORY = [
     color: C.mint,
   },
   {
+    emoji: '🎁',
+    title: 'Zik4U Wrapped',
+    body: '6 shareable cards that sum up your musical year. Your top artist, your dominant mood, your first listens. More honest than Spotify.',
+    color: C.pink,
+  },
+  {
     emoji: '📈',
     title: 'Evolving Portrait',
     body: '12 months of music archetypes on a timeline. See how your music has evolved — and what it reveals about you.',
     color: C.cyan,
-  },
-  {
-    emoji: '🔁',
-    title: 'Listening Rituals',
-    body: 'Zik4U detects your recurring patterns. "Your Friday ritual: nocturnal jazz for 6 weeks." Named, not surveilled.',
-    color: C.purple,
   },
   {
     emoji: '💌',
@@ -257,6 +218,9 @@ export default function ListenersPage() {
               Download — Android →
             </a>
           </div>
+          <p style={{ fontSize:13, color:C.muted, marginTop:12, textAlign:'center' }}>
+            Free. No card required.
+          </p>
         </motion.div>
 
         {/* Section 1 — Identity */}
@@ -267,23 +231,15 @@ export default function ListenersPage() {
           </div>
         </motion.section>
 
-        {/* Section 2 — Social */}
+        {/* Section 2 — Connections */}
         <motion.section initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.6 }} style={{ marginBottom: 64 }}>
-          <SectionTitle color={C.mint}>Real-time social</SectionTitle>
+          <SectionTitle color={C.mint}>Real connections</SectionTitle>
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: 16 }}>
-            {FEATURES_SOCIAL.map(f => <FeatureCard key={f.title} {...f} />)}
+            {FEATURES_CONNECTIONS.map(f => <FeatureCard key={f.title} {...f} />)}
           </div>
         </motion.section>
 
-        {/* Section 3 — Connection */}
-        <motion.section initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.6 }} style={{ marginBottom: 64 }}>
-          <SectionTitle color={C.purple}>Real connections</SectionTitle>
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: 16 }}>
-            {FEATURES_CONNECTION.map(f => <FeatureCard key={f.title} {...f} />)}
-          </div>
-        </motion.section>
-
-        {/* Section 4 — Memory */}
+        {/* Section 3 — Memory */}
         <motion.section initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.6 }} style={{ marginBottom: 64 }}>
           <SectionTitle color={C.pink}>Your music memory</SectionTitle>
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: 16 }}>
