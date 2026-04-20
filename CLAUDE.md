@@ -227,6 +227,11 @@ Décliné sur tous les tunnels :
 - **ANTHROPIC_API_KEY** : utilisé dans `/api/partner/ai/route.ts` — jamais exposé côté client (pas de `NEXT_PUBLIC_`).
 
 ## Gotchas supplémentaires
+- **`/api/creator-waitlist` vs `/api/pulse-waitlist`** : `creator-waitlist` exige 3 champs obligatoires (email + artist_name + main_platform) — jamais pour capture email fans. `pulse-waitlist` = email uniquement (table `pulse_waitlist`, `createServiceClient()`).
+- **Nav architecture** : nav homepage dans `src/app/page.tsx` (inline). Navs `/creators`, `/fans`, `/listeners` = inline dans chaque `page.tsx` — pas de layout nav partagé. Chaque page gère ses propres boutons nav.
+- **Revenue splits** : abonnements créateurs = **80%** créateur / 20% Zik4U (affiché sur /creators). Direct payments via zik4u-api = **70%** créateur — deux splits distincts, ne pas confondre.
+- **`defaultMetadata.description`** : source de la meta description homepage — dans `src/lib/seo.ts`, PAS dans `page.tsx` (qui est `'use client'` → pas de metadata export possible).
+- **Bouton "Copy the post →" sur /creators** : déjà implémenté avec `navigator.clipboard.writeText()` + état `copied` (2.5s). Ne pas réimplémenter.
 - **`sitemap.ts`** : importer `supabase` (export nommé de `supabase.ts`), pas `createClient`
 - **`sitemap.ts`** : génère aussi les routes /card/{username} depuis profiles (limit 500)
   via Promise.all avec les creator routes (limit 5000)
@@ -259,9 +264,9 @@ Décliné sur tous les tunnels :
 | Route | Statut | Description |
 |---|---|---|
 | `/` | ✅ | Landing triple-door (Listener / Creator / Fan), taglines "For real", early access badge, 4 plateformes cliquables + modals (Spotify/Apple Music/YouTube Music/SoundCloud), lien footer discret → /partner |
-| `/listeners` | ✅ | Tunnel listener — hero gradient + FEATURES (4 items) + section Pulse Teaser (form email waitlist → `/api/pulse-waitlist`) + store CTAs |
-| `/creators` | ✅ | Hero, 6 benefits, 3 tiers suggérés, 4 steps, sticky CTA mobile |
-| `/fans` | ✅ | Search créateurs, WHAT_YOU_GET pills, store CTAs |
+| `/listeners` | ✅ | Tunnel listener — hero + 3 sections × 4 features (12 total) + "Free. No card required." sous les CTAs |
+| `/creators` | ✅ | Hero, 4 steps, monetisation (80% abonnements), visibility, live presence + waitlist créateur |
+| `/fans` | ✅ | 4 placeholder creator cards (harmony/marco/luna/tyler) + fan waitlist email + WHAT_YOU_GET + store CTAs |
 | `/users` | ✅ | Alias ancienne URL — conservée pour liens existants |
 | `/become-creator` | ✅ | Redirect Server Component → /creators |
 | `/creator/[username]` | ✅ | Profil public, pills "What you get", titre "Get inside X's musical world", stats mobile, tiers carousel mobile / grid desktop |
