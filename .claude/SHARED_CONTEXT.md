@@ -1,6 +1,6 @@
 # ZIK4U SHARED CONTEXT — Source of Truth
 > Lire ce fichier EN PREMIER avant toute session dans n'importe quel repo Zik4U.
-> Mis à jour : 2026-04-15
+> Mis à jour : 2026-05-02
 
 ---
 
@@ -30,7 +30,7 @@
 
 ### TypeScript
 - Toujours vérifier `npx tsc --noEmit` → 0 errors avant tout commit (web/admin/api)
-- Mobile : `npx jest --passWithNoTests` doit passer (826 tests)
+- Mobile : `npx jest --passWithNoTests` doit passer (851 tests)
 
 ### SQL / Migrations
 - Dollar-quote : `$$` (jamais `$`)
@@ -98,6 +98,51 @@ function getStorage(): MMKV {
 | Repo | Gap | Criticité |
 |---|---|---|
 | zik4u-web | payment-webhook sans idempotency key → double insert possible | 🔴 |
-| zik4u-admin | 0 audit trail · 0 tests · 0 Sentry · pas d'error boundaries | 🟠 |
+| zik4u-admin | ~~0 audit trail · 0 tests · 0 Sentry~~ ✅ résolu sprint 2026-04-16 | ✅ |
 | zik4u-api | Mirror zik4u-web — décision suppression en attente | 🟡 |
 | mobile | Real google-services.json manquant · RESEND_API_KEY non configuré | 🟡 |
+
+---
+
+## EAS Build env vars pitfall (learned 2026-05-01)
+
+The `.env` file is gitignored, which means **EAS Build never sees it**.
+Variables referenced in app code via `react-native-config` (`Config.VAR`) will be `undefined`
+in EAS builds unless they are explicitly defined in:
+- `eas.json` → `build.{profile}.env` for non-sensitive public values
+- EAS Secrets dashboard for sensitive credentials (API keys, tokens)
+
+**Symptom of this pitfall:** the app builds and starts correctly, then
+crashes at runtime the first time it tries to use the missing variable
+(typically a `TypeError: Cannot read properties of undefined`).
+
+**Hardest case to debug:** when `inlineRequires: true` is enabled in
+Metro, client initialization is deferred. The crash happens inside a
+React Query / async hook, far from the import site, making the root
+cause non-obvious.
+
+**Checklist when adding a new service (Stripe, RevenueCat, Firebase,
+etc.):** for each new env var, decide whether it goes in eas.json
+(public) or EAS Secrets (sensitive), and add it to all three profiles
+(development, preview, production).
+
+**EAS Secrets scope pitfall:** EAS Secrets are scoped per environment
+(development / preview / production). A secret added only to `production`
+is NOT available in `preview` or `development` builds.
+Current state (2026-05-02): SUPABASE_ANON_KEY, GOOGLE_WEB_CLIENT_ID,
+SENTRY_DSN propagated to all 3 environments ✅.
+
+**react-native-config + EAS (CRITIQUE — 2026-05-02):**
+`dotenv.gradle` reads **ONLY `.env` files**, never OS environment variables.
+EAS env section values and EAS Secrets are injected as OS env vars by EAS,
+but `react-native-config` never reads them. Without a build hook, ALL
+`Config.VAR` calls return empty strings in EAS builds.
+
+**Fix applied (2026-05-02):** `eas-hooks/eas-build-post-install.sh` generates
+`.env` from `$SUPABASE_URL`, `$SUPABASE_ANON_KEY`, `$SENTRY_DSN`, etc. before
+the Gradle step. `eas.json` all 3 profiles: `hooks.post_install` → this script.
+
+**Symptom if hook is missing:** `Config.SUPABASE_URL=""` →
+`createClient('','')` throws → `supabase` export undefined →
+`TypeError: Cannot read properties of undefined (reading 'from')` inside
+`ConnectedServiceDataSource.getConnected()` at runtime.
