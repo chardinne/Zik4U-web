@@ -146,3 +146,38 @@ the Gradle step. `eas.json` all 3 profiles: `hooks.post_install` → this script
 `createClient('','')` throws → `supabase` export undefined →
 `TypeError: Cannot read properties of undefined (reading 'from')` inside
 `ConnectedServiceDataSource.getConnected()` at runtime.
+
+---
+
+## Android Build Pipeline (validated 2026-05-04)
+
+### Validated stack
+- Expo SDK 53 + RN 0.79.6 + Hermes + old-arch mode
+- supabase-js@2.95.3
+- Minimal metro.config.js with explicit WEB_ONLY_PACKAGES list
+  (no auto-detect, no inlineRequires)
+- See docs/metro-config-history.md and docs/BUILD_PIPELINE.md
+  in Zik4U mobile repo for full details
+
+### Build commands
+- Diagnostic/preview: GitHub Actions (.github/workflows/build-android-local.yml)
+- Production: EAS Build (eas build --platform android --profile production)
+
+### When adding new dependencies
+1. Run yarn add and verify locally with:
+   - npx jest --no-coverage
+   - npx tsc --noEmit
+   - npx expo export:embed (check for "Suspect require count: 0")
+2. Push to main to trigger GitHub Actions build
+3. Test the APK on Firebase Test Lab before considering it working
+4. NEVER add packages to WEB_ONLY_PACKAGES without verifying
+   they are truly web-only and unused at runtime
+
+### Common pitfalls (learned the hard way)
+- react-native-config only reads .env files, not OS env vars
+  (use eas-build-post-install.sh)
+- EAS Secrets need explicit "$VAR" reference in eas.json env block
+- inlineRequires in metro.config.js can break OXC-bundled
+  packages like supabase-js@2.95+
+- Don't auto-shim UMD packages by content detection — too many
+  false positives (tslib, superstruct, stacktrace-js)
