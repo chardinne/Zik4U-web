@@ -30,7 +30,7 @@ const FEATURES_MONETIZE = [
   {
     emoji: '💰',
     title: 'Monthly subscriptions',
-    body: 'You keep 80% of every subscription. Zik4U takes 20%. Direct monthly payment via Trolley. Web subscriptions are fairly priced — stores add 15% on their end.',
+    body: 'You keep 80% of net revenue. Zik4U takes 20%. Direct monthly payment via Trolley. Subscribers pay via App Store or Google Play — no web subscription.',
     color: C.mint,
   },
   {
@@ -48,7 +48,7 @@ const FEATURES_MONETIZE = [
   {
     emoji: '💳',
     title: 'Direct payments',
-    body: 'Via Trolley — automatic bank transfer every month. Minimum threshold $25. You keep 80% of subscription revenue.',
+    body: 'Via Trolley — automatic bank transfer every month. Minimum threshold $25. You keep 80% of net subscription revenue.',
     color: C.gold,
   },
 ];
@@ -96,7 +96,7 @@ const FEATURES_PRESENCE = [
   {
     emoji: '🃏',
     title: 'Public profile zik4u.com',
-    body: 'Every creator has their public page zik4u.com/creator/[username]. Your fans can subscribe directly from the web.',
+    body: 'Every creator has their public page zik4u.com/creator/[username]. Your fans discover your page and subscribe in the app.',
     color: C.pink,
   },
 ];
@@ -123,7 +123,7 @@ const STEPS = [
   {
     number: '04',
     title: 'Receive your revenue every month',
-    body: 'Automatic transfer. You keep 80%. The rest funds the platform and operational costs.',
+    body: 'Automatic transfer. You keep 80% of net. The rest funds the platform and operational costs.',
     color: C.gold,
   },
 ];
@@ -247,7 +247,7 @@ export default function CreatorsPage() {
             No algorithm between you and your fans.
             Your subscribers follow what you actually listen to.<br />
             <strong style={{ color:'#FF3CAC', fontWeight:700 }}>
-              80% of revenue. For real.
+              80% of net revenue. For real.
             </strong>
           </p>
           <div style={{ display: 'flex', gap: 12, flexWrap: 'wrap' }}>
