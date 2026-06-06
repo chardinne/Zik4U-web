@@ -1,6 +1,6 @@
 # ZIK4U SHARED CONTEXT — Source of Truth
 > Lire ce fichier EN PREMIER avant toute session dans n'importe quel repo Zik4U.
-> Mis à jour : 2026-05-02
+> Mis à jour : 2026-06-06
 
 ---
 
@@ -56,10 +56,13 @@ function getStorage(): MMKV {
 
 - `createMMKV()` JAMAIS au niveau module
 
-### Paiements & compliance Apple/Google
-- JAMAIS de paiement in-app direct pour les flux créateur-fan
-- Tous les paiements directs → `Linking.openURL(stripeCheckoutUrl)` uniquement
-- RevenueCat = UNIQUEMENT pour l'abonnement premium Zik4U
+### Paiements & compliance Apple/Google (MAJ W1 — 2026-06-06)
+- **Fans → IAP UNIQUEMENT** (App Store / Google Play + RevenueCat). Pivot compliance Apple/Google.
+- **Stripe = B2B labels/partenaires UNIQUEMENT** (`/api/partner/*` + `stripe-server.ts`). JAMAIS de Stripe fan.
+- Flux fan Stripe web SUPPRIMÉ (zik4u-web merge `d847faf`) : `/subscribe/*`, `/pay/*`, `/api/creator/payment*`, `src/lib/stripe.ts` retirés.
+- RevenueCat porte désormais AUSSI les abonnements créateur-fan (plus seulement le premium Zik4U).
+- ⚠️ Ancienne règle « tous les paiements directs via `Linking.openURL(stripe)` » = **OBSOLÈTE** depuis W1.
+- DETTE : Edge Function Supabase `create-stripe-checkout` encore déployée (repo supabase) → neutralisation = sprint séparé.
 
 ### Auth Supabase (web/admin/api)
 - Routes intelligence partenaire → `createPartnerClient()` (anon key)
@@ -97,7 +100,7 @@ function getStorage(): MMKV {
 
 | Repo | Gap | Criticité |
 |---|---|---|
-| zik4u-web | payment-webhook sans idempotency key → double insert possible | 🔴 |
+| zik4u-web | ~~payment-webhook sans idempotency~~ ✅ route supprimée W1 (fan Stripe retiré, merge d847faf) | ✅ |
 | zik4u-admin | ~~0 audit trail · 0 tests · 0 Sentry~~ ✅ résolu sprint 2026-04-16 | ✅ |
 | zik4u-api | Mirror zik4u-web — décision suppression en attente | 🟡 |
 | mobile | Real google-services.json manquant · RESEND_API_KEY non configuré | 🟡 |

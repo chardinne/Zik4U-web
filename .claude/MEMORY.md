@@ -1,9 +1,18 @@
 # MEMORY — Zik4U Web
 > Mis à jour après chaque session. Source de vérité de l'état réel du projet.
 
-## État actuel (2026-04-16)
+## 🔁 SPRINT W1 (2026-06-06) — Suppression flux fan Stripe (IAP only) MERGÉ main
+**HEAD main = `d847faf`** (merge `--no-ff` de `refactor/w1-remove-fan-stripe`@`c27740d`). tsc 0, jest 6/6 (2 suites). 13 fichiers, −1482/+8.
+- **Pivot** : fans paient EXCLUSIVEMENT via IAP (App Store/Google Play + RevenueCat). Web fan Stripe retiré.
+- **Supprimé** : pages `/subscribe/[creatorId]|success|cancel`, `/pay/success|cancel`, routes `/api/creator/payment` + `/api/creator/payment-webhook`, `src/lib/stripe.ts` (client fan), + 2 tests devenus cassants (`creator-payment`, `payment-webhook` importaient les routes supprimées).
+- **Intact** : Stripe B2B `/api/partner/*` + `src/lib/stripe-server.ts`. `creator/[username]` + landing déjà IAP (0 modif).
+- **Corrigé** : `creators/page.tsx` + `layout.tsx` → « 80% of net revenue » partout + mentions « subscribe from the web » retirées ; `robots.ts` disallow `/subscribe/` retiré.
+- **DETTE (sprint séparé)** : Edge Function Supabase `create-stripe-checkout` (repo supabase) encore déployée — voie web abonnement pas coupée côté serveur.
+- **Gotcha tsc** : 1ère passe rouge UNIQUEMENT sur `.next/types/validator.ts` (cache généré périmé référençant les routes supprimées) → `rm -rf .next` puis tsc = 0. Se régénère propre au build.
+
+## État actuel (2026-06-06)
 - TypeScript : 0 erreur
-- Tests : 14/14 passants
+- Tests : 6/6 passants (2 suites — était 14/4 avant la suppression W1 des 2 suites fan)
 - Déploiement : Vercel → zik4u.com (auto-deploy sur push main)
 - Stack : Next.js 16.1.6 / Tailwind 4 / App Router
 
@@ -13,14 +22,14 @@
 
 ## Tests — Jest configuré (2026-04-15)
 - **14 tests / 4 suites — 100% passants** (`npx jest --no-coverage`)
-- Routes couvertes : payment-webhook (4), creator-payment (4), partner-webhook (3), partner-ai (3)
+- Routes couvertes (post-W1) : partner-webhook (3), partner-ai (3). ~~payment-webhook (4), creator-payment (4)~~ supprimées W1 (routes fan retirées).
 - Pattern de mock : `jest.mock('@/lib/stripe-server', ...)` + `jest.requireMock()`/`require()` dans `beforeEach`
 - Supabase mock pattern : `createServiceClient: jest.fn()` → `.mockReturnValue({ from: jest.fn().mockReturnValue({ select, update, insert }) })`
 - Tests ciblent auth/validation early-returns → aucun mock chain profond requis
 - Idempotency : check par `stripe_session_id` (colonne UNIQUE — migration 00085), return `{ ok: true, idempotent: true }` si déjà paid
 
-## Gap critique résolu (2026-04-16)
-- ✅ /api/creator/payment-webhook : idempotency check remplacé — keyed sur `stripe_session_id` (UNIQUE) au lieu de `payment_id` interne. Résiste aux replays Stripe même sans metadata. Test `idempotent: true` + `update` non appelé.
+## Gap critique résolu (2026-04-16) — ⚠️ route supprimée depuis (W1)
+- ~~/api/creator/payment-webhook : idempotency check keyed sur `stripe_session_id`~~ — **route supprimée au sprint W1** (2026-06-06, fan Stripe retiré). Le pattern idempotency reste valable pour les webhooks B2B partner conservés (`stripe_session_id` UNIQUE).
 
 ## Décisions récentes
 - SHARED_CONTEXT.md + REVENUE_FLOW.md ajoutés dans .claude/ (2026-04-15)

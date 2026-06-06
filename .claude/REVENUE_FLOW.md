@@ -1,12 +1,21 @@
 # ZIK4U REVENUE FLOW — Flux Financier Complet
 > Source de vérité pour tout ce qui touche à l'argent.
-> Mis à jour : 2026-04-15
+> Mis à jour : 2026-06-06
+
+---
+
+## 🔁 MISE À JOUR W1 (2026-06-06) — Fans = IAP uniquement, flux fan Stripe web RETIRÉ
+**Pivot stratégique (compliance Apple/Google) : les fans paient EXCLUSIVEMENT via IAP (App Store / Google Play + RevenueCat). Le flux fan Stripe web est supprimé (zik4u-web merge `d847faf`).**
+- **Canal 1 (Fan→Web)** : ⚠️ UI web SUPPRIMÉE (`/subscribe/*` + `src/lib/stripe.ts` retirés). L'Edge Function Supabase `create-stripe-checkout` reste **déployée** (plus aucune UI ne l'appelle) = **DETTE** à neutraliser (sprint séparé, repo supabase).
+- **Canal 3 (paiements directs)** : ⚠️ routes web `POST /api/creator/payment` + `/api/creator/payment-webhook` **SUPPRIMÉES**. Les paiements directs (tip / drop_unlock / pulse_session / request) n'ont plus de chemin Stripe web → à ré-implémenter en IAP ou laissés inactifs (à arbitrer).
+- **Canal 2 (Mobile IAP)** : devient le SEUL canal fan→créateur actif. RevenueCat porte désormais AUSSI les abonnements créateur-fan (plus seulement le premium Zik4U).
+- **Canal 4 (B2B partenaires)** : INTACT — Stripe reste actif uniquement pour labels/partenaires (`/api/partner/*` + `stripe-server.ts`).
 
 ---
 
 ## 💰 MONEY IN — Sources de revenus
 
-### Canal 1 : Fan → Abonnement créateur (Web)
+### Canal 1 : Fan → Abonnement créateur (Web) — ⚠️ UI RETIRÉE W1 (Edge Function = dette, voir note en tête)
 ```
 Fan → CreatorSubscribeScreen → create-stripe-checkout (Edge Function)
   lookup_key: zik4u_creator_{creatorId}_{revenueTierId}_{billingPeriod}
@@ -22,7 +31,7 @@ Fan → resolve_subscription_intent() → subscription_intents (expire 15min)
 → Webhook revenuecat-webhook → résout subscription_intents → creator_subscriptions + revenue_events
 ```
 
-### Canal 3 : Paiements directs créateur-fan
+### Canal 3 : Paiements directs créateur-fan — ⚠️ ROUTES WEB SUPPRIMÉES W1 (voir note en tête)
 ```
 4 types : request · drop_unlock · pulse_session · tip
 Table centrale : creator_direct_payments (migration 00085)
