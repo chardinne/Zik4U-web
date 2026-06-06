@@ -62,7 +62,7 @@ function getStorage(): MMKV {
 - Flux fan Stripe web SUPPRIMÉ (zik4u-web merge `d847faf`) : `/subscribe/*`, `/pay/*`, `/api/creator/payment*`, `src/lib/stripe.ts` retirés.
 - RevenueCat porte désormais AUSSI les abonnements créateur-fan (plus seulement le premium Zik4U).
 - ⚠️ Ancienne règle « tous les paiements directs via `Linking.openURL(stripe)` » = **OBSOLÈTE** depuis W1.
-- DETTE : Edge Function Supabase `create-stripe-checkout` encore déployée (repo supabase) → neutralisation = sprint séparé.
+- ✅ Edge Function `create-stripe-checkout` **désactivée (410 Gone, EF1 06/06, déployée)** — coupure serveur W1/M1 COMPLÈTE (fonction laissée en place pour rollback, retourne 410).
 
 ### Auth Supabase (web/admin/api)
 - Routes intelligence partenaire → `createPartnerClient()` (anon key)
