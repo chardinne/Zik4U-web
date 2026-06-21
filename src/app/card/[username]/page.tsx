@@ -162,10 +162,12 @@ export default async function CardPage({ params }: Props) {
   const distribution = (distributionRaw as DistributionRow[] | null) ?? [];
   const musicSig = musicSigRaw as MusicSignatureData | null;
 
-  // ON REPEAT: group recent scrobbles by track, pick most-played
+  // ON REPEAT: group recent scrobbles by track, pick most-played.
+  // Key normalises case+whitespace to match get_defining_tracks md5(lower(trim())) logic.
+  // Display title/artist kept in original casing.
   const scrobbleCounts = new Map<string, { title: string; artist: string; count: number }>();
   for (const s of (recentScrobblesRaw as { track_title: string; artist_name: string }[] | null) ?? []) {
-    const key = `${s.track_title}|||${s.artist_name}`;
+    const key = `${s.track_title.toLowerCase().trim()}|||${s.artist_name.toLowerCase().trim()}`;
     const existing = scrobbleCounts.get(key);
     if (existing) {
       existing.count++;
@@ -229,12 +231,9 @@ export default async function CardPage({ params }: Props) {
       <div style={{ width: '100%', maxWidth: 400, display: 'flex', flexDirection: 'column', gap: 0 }}>
 
         {/* ── Header ──────────────────────────────────────────────────────── */}
-        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 20 }}>
+        <div style={{ marginBottom: 20 }}>
           <span style={{ fontFamily: 'monospace', fontSize: 11, letterSpacing: '2px', color: '#A78BFA', fontWeight: 600 }}>
             MUSIC DNA
-          </span>
-          <span style={{ fontSize: 10, color: 'rgba(255,255,255,0.2)', letterSpacing: '0.1em', fontWeight: 700 }}>
-            ZIK4U
           </span>
         </div>
 
