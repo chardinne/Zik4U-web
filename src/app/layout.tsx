@@ -1,10 +1,17 @@
 import type { Metadata, Viewport } from 'next';
-import { Inter } from 'next/font/google';
+import localFont from 'next/font/local';
 import './globals.css';
 import { defaultMetadata, defaultViewport } from '@/lib/seo';
 import { CookieBanner } from '@/components/CookieBanner';
 
-const inter = Inter({ subsets: ['latin'] });
+const inter = localFont({
+  src: [
+    { path: '../fonts/inter-400.woff2', weight: '400', style: 'normal' },
+    { path: '../fonts/inter-600.woff2', weight: '600', style: 'normal' },
+    { path: '../fonts/inter-700.woff2', weight: '700', style: 'normal' },
+  ],
+  display: 'swap',
+});
 
 export const metadata: Metadata = defaultMetadata;
 export const viewport: Viewport = defaultViewport;
