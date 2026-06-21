@@ -73,6 +73,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     .from('scrobbles')
     .select('track_title, artist_name')
     .eq('user_id', profile.id)
+    .eq('is_private', false)
     .order('played_at', { ascending: false })
     .limit(1);
 
@@ -115,22 +116,15 @@ export default async function CardPage({ params }: Props) {
   if (!profileRaw) redirect('/');
   const profile = profileRaw as ProfileRow;
 
-  const [
-    { data: scrobblesRaw },
-    { data: topArtistsRaw },
-  ] = await Promise.all([
-    serviceClient
-      .from('scrobbles')
-      .select('track_title, artist_name, played_at')
-      .eq('user_id', profile.id)
-      .order('played_at', { ascending: false })
-      .limit(1),
-    serviceClient
-      .rpc('get_user_top_artists', { p_user_id: profile.id, p_limit: 4, p_days: 7 }),
-  ]);
+  const { data: scrobblesRaw } = await serviceClient
+    .from('scrobbles')
+    .select('track_title, artist_name, played_at')
+    .eq('user_id', profile.id)
+    .eq('is_private', false)
+    .order('played_at', { ascending: false })
+    .limit(1);
 
   const lastScrobble = (scrobblesRaw as ScrobbleRow[] | null)?.[0] ?? null;
-  const topArtists = (topArtistsRaw as TopArtistRow[] | null) ?? [];
 
   // ── Service role — intelligence data (locked anon, sprint sécu F1) ─────────
   const sevenDaysAgo = new Date(Date.now() - 7 * 24 * 60 * 60 * 1000).toISOString();
@@ -140,6 +134,7 @@ export default async function CardPage({ params }: Props) {
     { data: distributionRaw },
     { data: musicSigRaw },
     { data: recentScrobblesRaw },
+    { data: constellationRaw },
   ] = await Promise.all([
     serviceClient
       .from('listener_archetypes')
@@ -154,15 +149,35 @@ export default async function CardPage({ params }: Props) {
       .from('scrobbles')
       .select('track_title, artist_name')
       .eq('user_id', profile.id)
+      .eq('is_private', false)
       .neq('source', 'youtube')
       .gte('played_at', sevenDaysAgo)
       .order('played_at', { ascending: false })
       .limit(200),
+    // Constellation: direct query filtering private tracks (service_role bypasses RLS).
+    serviceClient
+      .from('scrobbles')
+      .select('artist_name')
+      .eq('user_id', profile.id)
+      .eq('is_private', false)
+      .neq('source', 'youtube')
+      .gte('played_at', sevenDaysAgo)
+      .limit(500),
   ]);
 
   const archetypeRow = archetypeRaw as ArchetypeRow | null;
   const distribution = (distributionRaw as DistributionRow[] | null) ?? [];
   const musicSig = musicSigRaw as MusicSignatureData | null;
+
+  // Constellation: group scrobbles by artist, sort by count desc, top 4.
+  const artistCounts = new Map<string, number>();
+  for (const s of (constellationRaw as { artist_name: string }[] | null) ?? []) {
+    artistCounts.set(s.artist_name, (artistCounts.get(s.artist_name) ?? 0) + 1);
+  }
+  const topArtists = [...artistCounts.entries()]
+    .sort((a, b) => b[1] - a[1])
+    .slice(0, 4)
+    .map(([artist_name, play_count]) => ({ artist_name, play_count }));
 
   // ON REPEAT: group recent scrobbles by track, pick most-played.
   // Key normalises case+whitespace to match get_defining_tracks md5(lower(trim())) logic.
