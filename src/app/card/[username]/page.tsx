@@ -57,11 +57,12 @@ interface DistributionRow {
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { username } = await params;
+  const handle = username.replace(/^@/, '');
 
   const { data: profile } = await supabase
     .from('profiles')
     .select('id, username, display_name, avatar_url')
-    .eq('username', username)
+    .eq('username', handle)
     .single();
 
   if (!profile) return { title: 'Zik4U: Musical Identity' };
@@ -101,13 +102,14 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
 export default async function CardPage({ params }: Props) {
   const { username } = await params;
+  const handle = username.replace(/^@/, '');
   const serviceClient = createServiceClient();
 
   // ── Anon client — public-safe data (RLS allows anon read) ──────────────────
   const { data: profileRaw } = await supabase
     .from('profiles')
     .select('id, username, display_name, avatar_url, bio')
-    .eq('username', username)
+    .eq('username', handle)
     .single();
 
   if (!profileRaw) redirect('/');
