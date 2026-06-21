@@ -1,17 +1,58 @@
 import { redirect } from 'next/navigation';
 import type { Metadata } from 'next';
 import { supabase } from '@/lib/supabase';
+import { createServiceClient } from '@/lib/supabase-server';
+import {
+  ARCHETYPE_LABELS,
+  ARCHETYPE_VISUAL_PROFILE,
+  DEFAULT_ARCHETYPE_PROFILE,
+  CONSTELLATION_PALETTE,
+  RARITY_THRESHOLDS,
+  TAGLINE_FALLBACK,
+  toRarity,
+  generateMusicBio,
+  buildListenSearchUrls,
+  type MusicSignatureData,
+} from '@/lib/cosmicCard';
 
 interface Props {
   params: Promise<{ username: string }>;
 }
 
-function getMoodFromHour(hour: number): { label: string; gradient: [string, string] } {
-  if (hour >= 0 && hour < 6)   return { label: 'Night Owl',    gradient: ['#0A0A2E', '#1A0A3E'] };
-  if (hour >= 6 && hour < 12)  return { label: 'Morning Hype', gradient: ['#FF6B35', '#FF3CAC'] };
-  if (hour >= 12 && hour < 17) return { label: 'In The Rush',  gradient: ['#00D4FF', '#00FFB2'] };
-  if (hour >= 17 && hour < 21) return { label: 'Explorer',     gradient: ['#7B2FFF', '#FF3CAC'] };
-  return                               { label: 'Late Night',   gradient: ['#12122A', '#1A0A2E'] };
+interface ProfileRow {
+  id: string;
+  username: string;
+  display_name: string | null;
+  avatar_url: string | null;
+  bio: string | null;
+}
+
+interface ScrobbleRow {
+  track_title: string;
+  artist_name: string;
+  played_at: string;
+}
+
+interface TopArtistRow {
+  artist_name: string;
+  play_count: number;
+}
+
+interface ArchetypeRow {
+  archetype: string;
+  confidence: number | null;
+  total_scrobbles_snapshot: number | null;
+  archetype_secondary: string | null;
+  archetype_secondary_confidence: number | null;
+  archetype_previous: string | null;
+  archetype_shifted_at: string | null;
+}
+
+interface DistributionRow {
+  archetype: string;
+  count: number;
+  percentage: number;
+  avg_confidence: number;
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
@@ -19,197 +60,433 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
   const { data: profile } = await supabase
     .from('profiles')
-    .select('username, display_name, avatar_url')
+    .select('id, username, display_name, avatar_url')
     .eq('username', username)
     .single();
 
-  if (!profile) {
-    return { title: 'Zik4U: Musical Identity' };
-  }
+  if (!profile) return { title: 'Zik4U: Musical Identity' };
 
-  const displayName = profile.display_name ?? profile.username;
+  const displayName = (profile.display_name ?? profile.username) as string;
+
+  const { data: scrobbles } = await supabase
+    .from('scrobbles')
+    .select('track_title, artist_name')
+    .eq('user_id', profile.id)
+    .order('played_at', { ascending: false })
+    .limit(1);
+
+  const lastScrobble = (scrobbles as Pick<ScrobbleRow, 'track_title' | 'artist_name'>[] | null)?.[0];
+
+  const description = lastScrobble
+    ? `@${profile.username} is listening to "${lastScrobble.track_title}" by ${lastScrobble.artist_name}. Discover their Music DNA on Zik4U.`
+    : `Discover @${profile.username}'s musical identity. Join Zik4U, the social network built on real listening data.`;
 
   return {
-    title: `${displayName} on Zik4U`,
-    description: `Discover what @${profile.username} is listening to. Join Zik4U, the social network built around real music.`,
+    title: `${displayName} · Music DNA`,
+    description,
     openGraph: {
-      title: `${displayName} on Zik4U`,
-      description: `See @${profile.username}'s listening identity. Download Zik4U.`,
-      images: profile.avatar_url ? [{ url: profile.avatar_url, width: 400, height: 400 }] : [],
+      title: `${displayName} · Music DNA`,
+      description,
+      images: profile.avatar_url ? [{ url: profile.avatar_url as string, width: 400, height: 400 }] : [],
       type: 'profile',
     },
     twitter: {
       card: 'summary',
-      title: `${displayName} on Zik4U`,
-      description: 'Real music identity. Download Zik4U.',
-      images: profile.avatar_url ? [profile.avatar_url] : [],
+      title: `${displayName} · Music DNA`,
+      description,
+      images: profile.avatar_url ? [profile.avatar_url as string] : [],
     },
   };
 }
 
 export default async function CardPage({ params }: Props) {
   const { username } = await params;
+  const serviceClient = createServiceClient();
 
-  // Fetch profile
-  const { data: profile } = await supabase
+  // ── Anon client — public-safe data (RLS allows anon read) ──────────────────
+  const { data: profileRaw } = await supabase
     .from('profiles')
-    .select('id, username, display_name, avatar_url, current_streak')
+    .select('id, username, display_name, avatar_url, bio')
     .eq('username', username)
     .single();
 
-  if (!profile) redirect('/');
+  if (!profileRaw) redirect('/');
+  const profile = profileRaw as ProfileRow;
 
-  // Fetch last scrobble
-  const { data: scrobbles } = await supabase
-    .from('scrobbles')
-    .select('track_title, artist_name, played_at')
-    .eq('user_id', profile.id)
-    .order('played_at', { ascending: false })
-    .limit(1);
+  const [
+    { data: scrobblesRaw },
+    { data: topArtistsRaw },
+  ] = await Promise.all([
+    supabase
+      .from('scrobbles')
+      .select('track_title, artist_name, played_at')
+      .eq('user_id', profile.id)
+      .order('played_at', { ascending: false })
+      .limit(1),
+    supabase
+      .rpc('get_user_top_artists', { p_user_id: profile.id, p_limit: 4, p_days: 7 }),
+  ]);
 
-  // Fetch top artist this week
-  const { data: topArtistsRaw } = await supabase
-    .rpc('get_user_top_artists', { p_user_id: profile.id, p_limit: 1 });
+  const lastScrobble = (scrobblesRaw as ScrobbleRow[] | null)?.[0] ?? null;
+  const topArtists = (topArtistsRaw as TopArtistRow[] | null) ?? [];
 
-  const lastScrobble = scrobbles?.[0] ?? null;
-  const topArtist = (topArtistsRaw as { artist_name: string }[] | null)?.[0]?.artist_name ?? null;
+  // ── Service role — intelligence data (locked anon, sprint sécu F1) ─────────
+  const sevenDaysAgo = new Date(Date.now() - 7 * 24 * 60 * 60 * 1000).toISOString();
+
+  const [
+    { data: archetypeRaw },
+    { data: distributionRaw },
+    { data: musicSigRaw },
+    { data: recentScrobblesRaw },
+  ] = await Promise.all([
+    serviceClient
+      .from('listener_archetypes')
+      .select('archetype, confidence, total_scrobbles_snapshot, archetype_secondary, archetype_secondary_confidence, archetype_previous, archetype_shifted_at')
+      .eq('user_id', profile.id)
+      .maybeSingle(),
+    serviceClient.rpc('get_archetype_distribution'),
+    serviceClient.rpc('get_music_signature', { p_user_id: profile.id }),
+    // ON REPEAT: get_defining_tracks uses auth.uid() internally (DIVERGENCE — see commit note).
+    // Substitute: direct scrobbles query via service_role, group client-side.
+    serviceClient
+      .from('scrobbles')
+      .select('track_title, artist_name')
+      .eq('user_id', profile.id)
+      .neq('source', 'youtube')
+      .gte('played_at', sevenDaysAgo)
+      .order('played_at', { ascending: false })
+      .limit(200),
+  ]);
+
+  const archetypeRow = archetypeRaw as ArchetypeRow | null;
+  const distribution = (distributionRaw as DistributionRow[] | null) ?? [];
+  const musicSig = musicSigRaw as MusicSignatureData | null;
+
+  // ON REPEAT: group recent scrobbles by track, pick most-played
+  const scrobbleCounts = new Map<string, { title: string; artist: string; count: number }>();
+  for (const s of (recentScrobblesRaw as { track_title: string; artist_name: string }[] | null) ?? []) {
+    const key = `${s.track_title}|||${s.artist_name}`;
+    const existing = scrobbleCounts.get(key);
+    if (existing) {
+      existing.count++;
+    } else {
+      scrobbleCounts.set(key, { title: s.track_title, artist: s.artist_name, count: 1 });
+    }
+  }
+  const onRepeatTrack = [...scrobbleCounts.values()].sort((a, b) => b.count - a.count)[0] ?? null;
+
+  // ── Derived values ─────────────────────────────────────────────────────────
+  const archetype = archetypeRow?.archetype ?? null;
+  const archetypeProfile =
+    archetype && ARCHETYPE_VISUAL_PROFILE[archetype]
+      ? ARCHETYPE_VISUAL_PROFILE[archetype]
+      : DEFAULT_ARCHETYPE_PROFILE;
+
+  const distributionEntry = distribution.find((d) => d.archetype === archetype);
+  const rarityPct = distributionEntry?.percentage ?? 100;
+  const rarity = toRarity(rarityPct);
+
+  const musicBio = generateMusicBio(musicSig);
+  const listenUrls = lastScrobble
+    ? buildListenSearchUrls(lastScrobble.track_title, lastScrobble.artist_name)
+    : null;
+
+  const isForming = !archetypeRow || archetype === 'emerging';
+  const totalScrobbles = archetypeRow?.total_scrobbles_snapshot ?? 0;
+
+  const showShift =
+    !!archetypeRow?.archetype_previous &&
+    !!archetypeRow?.archetype_shifted_at &&
+    Date.now() - new Date(archetypeRow.archetype_shifted_at).getTime() < 14 * 24 * 60 * 60 * 1000;
+
+  const showSecondary =
+    !!archetypeRow?.archetype_secondary &&
+    (archetypeRow?.archetype_secondary_confidence ?? 0) > 0.1;
+
   const displayName = profile.display_name ?? profile.username;
-  const streak = profile.current_streak ?? 0;
+  const bioText = profile.bio ?? (!musicBio.isEmpty ? musicBio.signature : null);
 
-  const hour = new Date().getUTCHours();
-  const mood = getMoodFromHour(hour);
-
-  // IMPORTANT: APP_STORE_URL uses placeholder ID — update after App Store approval
+  // Constants — values unchanged from existing page
   const APP_STORE_URL = 'https://apps.apple.com/app/zik4u/id6748722257';
   const PLAY_STORE_URL = 'https://play.google.com/store/apps/details?id=com.zik4u.app';
   const DEEP_LINK = `zik4u://profile/${username}`;
 
+  // CSS animation — scoped with card- prefix to avoid global collisions
+  const glowCss = `
+    @keyframes card-glow-pulse {
+      0%, 100% { transform: scale(1); box-shadow: 0 0 24px 6px ${archetypeProfile.primary}4D; }
+      50% { transform: scale(1.04); box-shadow: 0 0 40px 12px ${archetypeProfile.primary}66; }
+    }
+    .card-sun-animated {
+      animation: card-glow-pulse ${archetypeProfile.pulseMs}ms ease-in-out infinite;
+    }
+  `;
+
   return (
     <main style={{ minHeight: '100vh', backgroundColor: '#0A0A1A', fontFamily: 'Inter, system-ui, sans-serif', display: 'flex', flexDirection: 'column', alignItems: 'center', padding: '24px 16px 48px' }}>
+      <style>{glowCss}</style>
 
-      {/* Logo */}
-      <div style={{ width: '100%', maxWidth: 400, display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 32 }}>
-        <span style={{ fontSize: 20, fontWeight: 900, letterSpacing: '0.15em', background: 'linear-gradient(90deg, #00D4FF, #00FFB2, #FF3CAC)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>
-          ZIK4U
-        </span>
-        <span style={{ fontSize: 11, color: 'rgba(255,255,255,0.3)', letterSpacing: '0.1em' }}>
-          MUSICAL IDENTITY
-        </span>
-      </div>
+      <div style={{ width: '100%', maxWidth: 400, display: 'flex', flexDirection: 'column', gap: 0 }}>
 
-      {/* Avatar + name */}
-      <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', marginBottom: 24, gap: 8 }}>
-        {profile.avatar_url ? (
-          <img
-            src={profile.avatar_url}
-            alt={displayName}
-            width={80}
-            height={80}
-            style={{ borderRadius: '50%', border: '2px solid rgba(0,212,255,0.4)', objectFit: 'cover' }}
-          />
+        {/* ── Header ──────────────────────────────────────────────────────── */}
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 20 }}>
+          <span style={{ fontFamily: 'monospace', fontSize: 11, letterSpacing: '2px', color: '#A78BFA', fontWeight: 600 }}>
+            MUSIC DNA
+          </span>
+          <span style={{ fontSize: 10, color: 'rgba(255,255,255,0.2)', letterSpacing: '0.1em', fontWeight: 700 }}>
+            ZIK4U
+          </span>
+        </div>
+
+        {/* ── Identity row ────────────────────────────────────────────────── */}
+        <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 28 }}>
+          {profile.avatar_url ? (
+            // eslint-disable-next-line @next/next/no-img-element
+            <img
+              src={profile.avatar_url}
+              alt={displayName}
+              width={28}
+              height={28}
+              style={{ borderRadius: '50%', border: '2px solid rgba(0,212,255,0.4)', objectFit: 'cover', flexShrink: 0 }}
+            />
+          ) : (
+            <div style={{ width: 28, height: 28, borderRadius: '50%', background: 'linear-gradient(135deg, #00D4FF, #FF3CAC)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 14, flexShrink: 0 }}>
+              🎵
+            </div>
+          )}
+          <span style={{ fontFamily: 'monospace', fontSize: 13, color: '#00D4FF', fontWeight: 600 }}>
+            @{profile.username}
+          </span>
+        </div>
+
+        {/* ── Central sun — hero element ───────────────────────────────────── */}
+        <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', marginBottom: 32, gap: 12 }}>
+          {lastScrobble ? (
+            <>
+              <div
+                className="card-sun-animated"
+                style={{
+                  width: 130,
+                  height: 130,
+                  borderRadius: '50%',
+                  background: `radial-gradient(circle, ${archetypeProfile.primary}CC 0%, ${archetypeProfile.primary}44 50%, transparent 80%)`,
+                  flexShrink: 0,
+                }}
+              />
+              <div style={{ textAlign: 'center', display: 'flex', flexDirection: 'column', gap: 4 }}>
+                <span style={{ fontFamily: 'monospace', fontSize: 9, letterSpacing: '1.5px', color: '#8888BB', display: 'block' }}>
+                  LAST PLAYED
+                </span>
+                <span style={{ fontSize: 17, fontWeight: 700, color: '#fff', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap', maxWidth: 320 }}>
+                  {lastScrobble.track_title}
+                </span>
+                <span style={{ fontSize: 13, color: 'rgba(255,255,255,0.7)' }}>
+                  {lastScrobble.artist_name}
+                </span>
+              </div>
+              {listenUrls && (
+                <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap', justifyContent: 'center' }}>
+                  <a
+                    href={listenUrls.spotify}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    style={{ fontSize: 13, color: 'rgba(255,255,255,0.8)', background: 'rgba(255,255,255,0.08)', borderRadius: 999, padding: '8px 16px', textDecoration: 'none', whiteSpace: 'nowrap' }}
+                  >
+                    Spotify
+                  </a>
+                  <a
+                    href={listenUrls.appleMusic}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    style={{ fontSize: 13, color: 'rgba(255,255,255,0.8)', background: 'rgba(255,255,255,0.08)', borderRadius: 999, padding: '8px 16px', textDecoration: 'none', whiteSpace: 'nowrap' }}
+                  >
+                    Apple Music
+                  </a>
+                  <a
+                    href={listenUrls.youtubeMusic}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    style={{ fontSize: 13, color: 'rgba(255,255,255,0.8)', background: 'rgba(255,255,255,0.08)', borderRadius: 999, padding: '8px 16px', textDecoration: 'none', whiteSpace: 'nowrap' }}
+                  >
+                    YT Music
+                  </a>
+                </div>
+              )}
+            </>
+          ) : (
+            <>
+              <div
+                style={{
+                  width: 130,
+                  height: 130,
+                  borderRadius: '50%',
+                  background: 'radial-gradient(circle, rgba(123,47,255,0.3) 0%, rgba(60,20,100,0.15) 50%, transparent 80%)',
+                }}
+              />
+              <span style={{ fontFamily: 'monospace', fontSize: 12, color: '#8888BB' }}>No plays yet</span>
+            </>
+          )}
+        </div>
+
+        {/* ── FORMING state ───────────────────────────────────────────────── */}
+        {isForming ? (
+          <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 12, marginBottom: 28, textAlign: 'center' }}>
+            <span style={{ fontFamily: 'var(--font-bebas)', fontSize: 34, color: '#fff', letterSpacing: '0.05em', lineHeight: 1 }}>
+              EMERGING IDENTITY
+            </span>
+            <div style={{ width: '100%', maxWidth: 280, height: 4, background: 'rgba(255,255,255,0.08)', borderRadius: 4, overflow: 'hidden' }}>
+              <div
+                style={{
+                  height: '100%',
+                  width: `${Math.min(totalScrobbles / 20, 1) * 100}%`,
+                  background: `linear-gradient(90deg, ${archetypeProfile.secondary}, ${archetypeProfile.primary})`,
+                  borderRadius: 4,
+                  transition: 'width 0.3s ease',
+                }}
+              />
+            </div>
+            <span style={{ fontFamily: 'monospace', fontSize: 11, color: '#8888BB', letterSpacing: '0.5px' }}>
+              {totalScrobbles} / 20 tracks to unlock your full DNA
+            </span>
+          </div>
         ) : (
-          <div style={{ width: 80, height: 80, borderRadius: '50%', background: 'linear-gradient(135deg, #00D4FF, #FF3CAC)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 32 }}>
-            🎵
+          /* ── Normal state ──────────────────────────────────────────────── */
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 16, marginBottom: 28 }}>
+
+            {/* Archetype hero */}
+            <div>
+              <span style={{
+                fontFamily: 'var(--font-bebas)',
+                fontSize: 34,
+                color: '#fff',
+                letterSpacing: '0.05em',
+                lineHeight: 1,
+                textShadow: `0 0 12px ${archetypeProfile.primary}80`,
+              }}>
+                {ARCHETYPE_LABELS[archetype!] ?? archetype}
+              </span>
+            </div>
+
+            {/* Archetype shift badge */}
+            {showShift && (
+              <span style={{ fontFamily: 'monospace', fontSize: 10, color: '#FFB800', letterSpacing: '0.5px' }}>
+                ↗ shifting from {ARCHETYPE_LABELS[archetypeRow!.archetype_previous!] ?? archetypeRow!.archetype_previous}
+              </span>
+            )}
+
+            {/* Rarity badge */}
+            {rarity !== 'common' && (
+              <div style={{ display: 'inline-flex', alignSelf: 'flex-start' }}>
+                <span style={{
+                  fontFamily: 'monospace',
+                  fontSize: 11,
+                  color: RARITY_THRESHOLDS[rarity].color,
+                  border: `1px solid ${RARITY_THRESHOLDS[rarity].color}`,
+                  borderRadius: 999,
+                  padding: '3px 10px',
+                  letterSpacing: '0.5px',
+                }}>
+                  Top {rarityPct.toFixed(1)}% · {RARITY_THRESHOLDS[rarity].label}
+                </span>
+              </div>
+            )}
+
+            {/* Secondary archetype */}
+            {showSecondary && (
+              <span style={{ fontSize: 12, color: 'rgba(255,255,255,0.5)', fontStyle: 'italic' }}>
+                also {ARCHETYPE_LABELS[archetypeRow!.archetype_secondary!] ?? archetypeRow!.archetype_secondary}{' '}
+                {Math.round((archetypeRow!.archetype_secondary_confidence ?? 0) * 100)}%
+              </span>
+            )}
+
+            {/* Tagline */}
+            <span style={{ fontSize: 13, color: 'rgba(255,255,255,0.45)', fontStyle: 'italic', lineHeight: 1.4 }}>
+              &ldquo;{TAGLINE_FALLBACK}&rdquo;
+            </span>
+
+            {/* MY CONSTELLATION */}
+            {topArtists.length > 0 && (
+              <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
+                <span style={{ fontFamily: 'monospace', fontSize: 9, letterSpacing: '1.5px', color: '#8888BB' }}>MY CONSTELLATION</span>
+                {topArtists.map((a, i) => (
+                  <div key={a.artist_name} style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+                    <span style={{ width: 8, height: 8, borderRadius: '50%', background: CONSTELLATION_PALETTE[i % CONSTELLATION_PALETTE.length], flexShrink: 0, display: 'inline-block' }} />
+                    <span style={{ fontSize: 13, color: 'rgba(255,255,255,0.85)', flex: 1, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+                      {a.artist_name}
+                    </span>
+                    <span style={{ fontFamily: 'monospace', fontSize: 11, color: '#8888BB' }}>
+                      {a.play_count}
+                    </span>
+                  </div>
+                ))}
+              </div>
+            )}
+
+            {/* ON REPEAT */}
+            {onRepeatTrack && (
+              <div style={{ display: 'flex', flexDirection: 'column', gap: 4 }}>
+                <span style={{ fontFamily: 'monospace', fontSize: 9, letterSpacing: '1.5px', color: '#8888BB' }}>ON REPEAT</span>
+                <span style={{ fontSize: 13, color: 'rgba(255,255,255,0.8)', fontStyle: 'italic' }}>
+                  ♪ {onRepeatTrack.title}
+                </span>
+              </div>
+            )}
           </div>
         )}
-        <div style={{ textAlign: 'center' }}>
-          <div style={{ fontSize: 18, fontWeight: 800, color: '#fff' }}>{displayName}</div>
-          <div style={{ fontSize: 13, color: 'rgba(255,255,255,0.4)' }}>@{username}</div>
-        </div>
-      </div>
 
-      {/* Now Card */}
-      <div style={{ width: '100%', maxWidth: 320, borderRadius: 24, overflow: 'hidden', marginBottom: 32, position: 'relative' }}>
-        <div style={{ background: `linear-gradient(135deg, ${mood.gradient[0]}, ${mood.gradient[1]})`, padding: 24, display: 'flex', flexDirection: 'column', gap: 16, minHeight: 280, position: 'relative' }}>
-
-          {/* Mood badge */}
-          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
-            <span style={{ fontSize: 11, fontWeight: 700, color: 'rgba(255,255,255,0.6)', letterSpacing: '0.12em' }}>
-              NOW CARD
-            </span>
-            <span style={{ fontSize: 11, color: 'rgba(255,255,255,0.5)', background: 'rgba(255,255,255,0.1)', padding: '3px 10px', borderRadius: 999 }}>
-              {mood.label}
+        {/* ── Bio ─────────────────────────────────────────────────────────── */}
+        {bioText && (
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 4, marginBottom: 28, paddingTop: 16, borderTop: '1px solid rgba(255,255,255,0.06)' }}>
+            <span style={{ fontFamily: 'monospace', fontSize: 9, letterSpacing: '1.5px', color: '#8888BB' }}>BIO</span>
+            <span style={{ fontSize: 13, color: 'rgba(255,255,255,0.55)', lineHeight: 1.5 }}>
+              {bioText}
             </span>
           </div>
+        )}
 
-          {/* Last track */}
-          {lastScrobble ? (
-            <div style={{ display: 'flex', flexDirection: 'column', gap: 4 }}>
-              <div style={{ fontSize: 11, color: 'rgba(255,255,255,0.5)', letterSpacing: '0.1em' }}>LAST PLAYED</div>
-              <div style={{ fontSize: 20, fontWeight: 800, color: '#fff', lineHeight: 1.2 }}>{lastScrobble.track_title}</div>
-              <div style={{ fontSize: 14, color: 'rgba(255,255,255,0.7)' }}>{lastScrobble.artist_name}</div>
-            </div>
-          ) : (
-            <div style={{ display: 'flex', flexDirection: 'column', gap: 4 }}>
-              <div style={{ fontSize: 11, color: 'rgba(255,255,255,0.5)', letterSpacing: '0.1em' }}>IDENTITY</div>
-              <div style={{ fontSize: 20, fontWeight: 800, color: '#fff' }}>Music lover</div>
-            </div>
-          )}
-
-          {/* Top artist */}
-          {topArtist && (
-            <div style={{ display: 'flex', flexDirection: 'column', gap: 4 }}>
-              <div style={{ fontSize: 11, color: 'rgba(255,255,255,0.5)', letterSpacing: '0.1em' }}>TOP THIS WEEK</div>
-              <div style={{ fontSize: 16, fontWeight: 700, color: '#fff' }}>🎤 {topArtist}</div>
-            </div>
-          )}
-
-          {/* Streak */}
-          {streak > 0 && (
-            <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
-              <span style={{ fontSize: 18 }}>🔥</span>
-              <span style={{ fontSize: 13, color: 'rgba(255,255,255,0.8)', fontWeight: 600 }}>{streak} day streak</span>
-            </div>
-          )}
-
-          {/* Watermark */}
-          <div style={{ position: 'absolute', bottom: 16, right: 16, fontSize: 10, color: 'rgba(255,255,255,0.25)', letterSpacing: '0.1em', fontWeight: 700 }}>
+        {/* ── Footer ──────────────────────────────────────────────────────── */}
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 40, paddingTop: 8 }}>
+          <span style={{ fontFamily: 'monospace', fontSize: 10, color: '#8888BB' }}>
+            zik4u.com/card/@{profile.username}
+          </span>
+          <span style={{ fontFamily: 'monospace', fontSize: 11, fontWeight: 700, letterSpacing: '2px', color: archetypeProfile.primary }}>
             ZIK4U
-          </div>
+          </span>
         </div>
-      </div>
 
-      {/* CTA section */}
-      <div style={{ width: '100%', maxWidth: 320, display: 'flex', flexDirection: 'column', gap: 12, alignItems: 'center' }}>
-        <p style={{ textAlign: 'center', fontSize: 16, fontWeight: 700, color: '#fff', margin: 0 }}>
-          Listen to what {displayName} hears
-        </p>
-        <p style={{ textAlign: 'center', fontSize: 13, color: 'rgba(255,255,255,0.4)', margin: 0 }}>
-          Real music. Real identity. For real.
-        </p>
+        {/* ── CTA — unchanged from existing page ──────────────────────────── */}
+        <div style={{ display: 'flex', flexDirection: 'column', gap: 12, alignItems: 'center' }}>
+          <p style={{ textAlign: 'center', fontSize: 16, fontWeight: 700, color: '#fff', margin: 0 }}>
+            Listen to what {displayName} hears
+          </p>
+          <p style={{ textAlign: 'center', fontSize: 13, color: 'rgba(255,255,255,0.4)', margin: 0 }}>
+            Real music. Real identity. For real.
+          </p>
 
-        {/* App Store */}
-        <a
-          href={APP_STORE_URL}
-          style={{ width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 10, background: '#fff', color: '#000', borderRadius: 14, padding: '14px 20px', textDecoration: 'none', fontWeight: 700, fontSize: 15 }}
-        >
-          <span style={{ fontSize: 22 }}>🍎</span>
-          Download on the App Store
-        </a>
+          <a
+            href={APP_STORE_URL}
+            style={{ width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 10, background: '#fff', color: '#000', borderRadius: 14, padding: '14px 20px', textDecoration: 'none', fontWeight: 700, fontSize: 15 }}
+          >
+            <span style={{ fontSize: 22 }}>🍎</span>
+            Download on the App Store
+          </a>
 
-        {/* Google Play */}
-        <a
-          href={PLAY_STORE_URL}
-          style={{ width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 10, background: 'linear-gradient(90deg, #00D4FF, #00FFB2)', color: '#0A0A1A', borderRadius: 14, padding: '14px 20px', textDecoration: 'none', fontWeight: 700, fontSize: 15 }}
-        >
-          <span style={{ fontSize: 22 }}>▶</span>
-          Get it on Google Play
-        </a>
+          <a
+            href={PLAY_STORE_URL}
+            style={{ width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 10, background: 'linear-gradient(90deg, #00D4FF, #00FFB2)', color: '#0A0A1A', borderRadius: 14, padding: '14px 20px', textDecoration: 'none', fontWeight: 700, fontSize: 15 }}
+          >
+            <span style={{ fontSize: 22 }}>▶</span>
+            Get it on Google Play
+          </a>
 
-        {/* Deep link */}
-        <a
-          href={DEEP_LINK}
-          style={{ fontSize: 13, color: 'rgba(255,255,255,0.35)', textDecoration: 'none', marginTop: 4 }}
-        >
-          Already have Zik4U? Open in app →
-        </a>
-      </div>
+          <a
+            href={DEEP_LINK}
+            style={{ fontSize: 13, color: 'rgba(255,255,255,0.35)', textDecoration: 'none', marginTop: 4 }}
+          >
+            Already have Zik4U? Open in app →
+          </a>
+        </div>
 
-      {/* Footer */}
-      <div style={{ marginTop: 48, textAlign: 'center' }}>
-        <span style={{ fontSize: 10, color: 'rgba(255,255,255,0.15)', letterSpacing: '0.1em' }}>
-          ZIK4U · zik4u.com
-        </span>
       </div>
     </main>
   );
