@@ -1,7 +1,12 @@
-import { Bebas_Neue } from 'next/font/google';
+import localFont from 'next/font/local';
 import type { Metadata } from 'next';
 
-const bebasNeue = Bebas_Neue({ weight: '400', subsets: ['latin'], variable: '--font-bebas' });
+const bebasNeue = localFont({
+  src: '../../../fonts/bebas-neue-400.woff2',
+  weight: '400',
+  display: 'swap',
+  variable: '--font-bebas',
+});
 
 export const metadata: Metadata = {
   title: 'Zik4U: Musical Identity Card',
