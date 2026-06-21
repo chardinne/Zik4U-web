@@ -6,7 +6,7 @@
 import { POST } from '@/app/api/partner/webhook/route';
 
 jest.mock('@/lib/stripe-server', () => ({
-  stripe: { webhooks: { constructEvent: jest.fn() } },
+  getStripe: jest.fn(),
 }));
 jest.mock('@/lib/supabase-server', () => ({
   createServiceClient: jest.fn(),
@@ -26,8 +26,10 @@ describe('POST /api/partner/webhook', () => {
   beforeEach(() => {
     jest.clearAllMocks();
     process.env.STRIPE_WEBHOOK_SECRET = 'whsec_partner_test';
+    mockConstructEvent = jest.fn();
     // eslint-disable-next-line @typescript-eslint/no-require-imports
-    mockConstructEvent = (require('@/lib/stripe-server') as any).stripe.webhooks.constructEvent;
+    const { getStripe } = require('@/lib/stripe-server') as any;
+    getStripe.mockReturnValue({ webhooks: { constructEvent: mockConstructEvent } });
   });
 
   it('returns 400 when stripe-signature header is missing', async () => {

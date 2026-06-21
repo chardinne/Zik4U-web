@@ -1,5 +1,5 @@
 import { type NextRequest } from 'next/server';
-import { stripe, PRICE_IDS, type PartnerPlan, type BillingPeriod } from '@/lib/stripe-server';
+import { getStripe, PRICE_IDS, type PartnerPlan, type BillingPeriod } from '@/lib/stripe-server';
 import { createServiceClient } from '@/lib/supabase-server';
 import { randomBytes } from 'crypto';
 
@@ -25,6 +25,7 @@ export async function OPTIONS() {
 }
 
 export async function POST(request: NextRequest) {
+  const stripe = getStripe();
   let body: Record<string, unknown>;
   try {
     body = await request.json();
