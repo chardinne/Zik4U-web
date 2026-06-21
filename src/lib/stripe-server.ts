@@ -1,12 +1,20 @@
 import Stripe from 'stripe';
 
-if (!process.env.STRIPE_SECRET_KEY) {
-  throw new Error('STRIPE_SECRET_KEY is not set');
-}
+let _stripe: Stripe | null = null;
 
-export const stripe = new Stripe(process.env.STRIPE_SECRET_KEY, {
-  apiVersion: '2026-02-25.clover',
-});
+/**
+ * Lazy Stripe client. The secret key is read and validated on first use at
+ * runtime, never at module load / build time. This prevents a missing
+ * STRIPE_SECRET_KEY from breaking the production build of unrelated pages
+ * (e.g. the public /card route).
+ */
+export function getStripe(): Stripe {
+  if (_stripe) return _stripe;
+  const key = process.env.STRIPE_SECRET_KEY;
+  if (!key) throw new Error('STRIPE_SECRET_KEY is not set');
+  _stripe = new Stripe(key, { apiVersion: '2026-02-25.clover' });
+  return _stripe;
+}
 
 export const PRICE_IDS = {
   insight: {

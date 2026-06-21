@@ -1,5 +1,5 @@
 import { type NextRequest } from 'next/server';
-import { stripe } from '@/lib/stripe-server';
+import { getStripe } from '@/lib/stripe-server';
 import { createServiceClient } from '@/lib/supabase-server';
 import type Stripe from 'stripe';
 
@@ -86,6 +86,7 @@ async function sendActivationEmail(
 }
 
 export async function POST(request: NextRequest) {
+  const stripe = getStripe();
   const sig = request.headers.get('stripe-signature');
   const webhookSecret = process.env.STRIPE_WEBHOOK_SECRET;
 
