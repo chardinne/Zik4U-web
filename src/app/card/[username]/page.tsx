@@ -1,6 +1,5 @@
 import { redirect } from 'next/navigation';
 import type { Metadata } from 'next';
-import { supabase } from '@/lib/supabase';
 import { createServiceClient } from '@/lib/supabase-server';
 import {
   ARCHETYPE_LABELS,
@@ -58,9 +57,10 @@ interface DistributionRow {
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { username } = await params;
   const handle = username.replace(/^@/, '');
+  const serviceClient = createServiceClient();
 
-  const { data: profile } = await supabase
-    .from('profiles')
+  const { data: profile } = await serviceClient
+    .from('users')
     .select('id, username, display_name, avatar_url')
     .eq('username', handle)
     .single();
@@ -69,7 +69,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
   const displayName = (profile.display_name ?? profile.username) as string;
 
-  const { data: scrobbles } = await supabase
+  const { data: scrobbles } = await serviceClient
     .from('scrobbles')
     .select('track_title, artist_name')
     .eq('user_id', profile.id)
@@ -105,9 +105,9 @@ export default async function CardPage({ params }: Props) {
   const handle = username.replace(/^@/, '');
   const serviceClient = createServiceClient();
 
-  // ── Anon client — public-safe data (RLS allows anon read) ──────────────────
-  const { data: profileRaw } = await supabase
-    .from('profiles')
+  // ── User lookup — service role (no anon policy on users/profiles; RSC: key never sent to client) ─
+  const { data: profileRaw } = await serviceClient
+    .from('users')
     .select('id, username, display_name, avatar_url, bio')
     .eq('username', handle)
     .single();
@@ -119,13 +119,13 @@ export default async function CardPage({ params }: Props) {
     { data: scrobblesRaw },
     { data: topArtistsRaw },
   ] = await Promise.all([
-    supabase
+    serviceClient
       .from('scrobbles')
       .select('track_title, artist_name, played_at')
       .eq('user_id', profile.id)
       .order('played_at', { ascending: false })
       .limit(1),
-    supabase
+    serviceClient
       .rpc('get_user_top_artists', { p_user_id: profile.id, p_limit: 4, p_days: 7 }),
   ]);
 
