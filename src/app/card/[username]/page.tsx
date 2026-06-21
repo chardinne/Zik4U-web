@@ -10,9 +10,9 @@ import {
   TAGLINE_FALLBACK,
   toRarity,
   generateMusicBio,
-  buildListenSearchUrls,
   type MusicSignatureData,
 } from '@/lib/cosmicCard';
+import { ListenButton } from './ListenButton';
 
 interface Props {
   params: Promise<{ username: string }>;
@@ -32,10 +32,6 @@ interface ScrobbleRow {
   played_at: string;
 }
 
-interface TopArtistRow {
-  artist_name: string;
-  play_count: number;
-}
 
 interface ArchetypeRow {
   archetype: string;
@@ -206,9 +202,6 @@ export default async function CardPage({ params }: Props) {
   const rarity = toRarity(rarityPct);
 
   const musicBio = generateMusicBio(musicSig);
-  const listenUrls = lastScrobble
-    ? buildListenSearchUrls(lastScrobble.track_title, lastScrobble.artist_name)
-    : null;
 
   const isForming = !archetypeRow || archetype === 'emerging';
   const totalScrobbles = archetypeRow?.total_scrobbles_snapshot ?? 0;
@@ -276,9 +269,9 @@ export default async function CardPage({ params }: Props) {
         </div>
 
         {/* ── Central sun — hero element ───────────────────────────────────── */}
-        <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', marginBottom: 32, gap: 12 }}>
+        <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', marginBottom: 32 }}>
           {lastScrobble ? (
-            <>
+            <ListenButton variant="sun" title={lastScrobble.track_title} artist={lastScrobble.artist_name}>
               <div
                 className="card-sun-animated"
                 style={{
@@ -300,35 +293,7 @@ export default async function CardPage({ params }: Props) {
                   {lastScrobble.artist_name}
                 </span>
               </div>
-              {listenUrls && (
-                <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap', justifyContent: 'center' }}>
-                  <a
-                    href={listenUrls.spotify}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    style={{ fontSize: 13, color: 'rgba(255,255,255,0.8)', background: 'rgba(255,255,255,0.08)', borderRadius: 999, padding: '8px 16px', textDecoration: 'none', whiteSpace: 'nowrap' }}
-                  >
-                    Spotify
-                  </a>
-                  <a
-                    href={listenUrls.appleMusic}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    style={{ fontSize: 13, color: 'rgba(255,255,255,0.8)', background: 'rgba(255,255,255,0.08)', borderRadius: 999, padding: '8px 16px', textDecoration: 'none', whiteSpace: 'nowrap' }}
-                  >
-                    Apple Music
-                  </a>
-                  <a
-                    href={listenUrls.youtubeMusic}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    style={{ fontSize: 13, color: 'rgba(255,255,255,0.8)', background: 'rgba(255,255,255,0.08)', borderRadius: 999, padding: '8px 16px', textDecoration: 'none', whiteSpace: 'nowrap' }}
-                  >
-                    YT Music
-                  </a>
-                </div>
-              )}
-            </>
+            </ListenButton>
           ) : (
             <>
               <div
@@ -425,14 +390,17 @@ export default async function CardPage({ params }: Props) {
               <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
                 <span style={{ fontFamily: 'monospace', fontSize: 9, letterSpacing: '1.5px', color: '#8888BB' }}>MY CONSTELLATION</span>
                 {topArtists.map((a, i) => (
-                  <div key={a.artist_name} style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-                    <span style={{ width: 8, height: 8, borderRadius: '50%', background: CONSTELLATION_PALETTE[i % CONSTELLATION_PALETTE.length], flexShrink: 0, display: 'inline-block' }} />
-                    <span style={{ fontSize: 13, color: 'rgba(255,255,255,0.85)', flex: 1, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
-                      {a.artist_name}
-                    </span>
-                    <span style={{ fontFamily: 'monospace', fontSize: 11, color: '#8888BB' }}>
-                      {a.play_count}
-                    </span>
+                  <div key={a.artist_name} style={{ display: 'flex', flexDirection: 'column' }}>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+                      <span style={{ width: 8, height: 8, borderRadius: '50%', background: CONSTELLATION_PALETTE[i % CONSTELLATION_PALETTE.length], flexShrink: 0, display: 'inline-block' }} />
+                      <span style={{ fontSize: 13, color: 'rgba(255,255,255,0.85)', flex: 1, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+                        {a.artist_name}
+                      </span>
+                      <span style={{ fontFamily: 'monospace', fontSize: 11, color: '#8888BB' }}>
+                        {a.play_count}
+                      </span>
+                      <ListenButton variant="row" artist={a.artist_name} />
+                    </div>
                   </div>
                 ))}
               </div>
@@ -442,9 +410,12 @@ export default async function CardPage({ params }: Props) {
             {onRepeatTrack && (
               <div style={{ display: 'flex', flexDirection: 'column', gap: 4 }}>
                 <span style={{ fontFamily: 'monospace', fontSize: 9, letterSpacing: '1.5px', color: '#8888BB' }}>ON REPEAT</span>
-                <span style={{ fontSize: 13, color: 'rgba(255,255,255,0.8)', fontStyle: 'italic' }}>
-                  ♪ {onRepeatTrack.title}
-                </span>
+                <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+                  <span style={{ fontSize: 13, color: 'rgba(255,255,255,0.8)', fontStyle: 'italic', flex: 1 }}>
+                    ♪ {onRepeatTrack.title}
+                  </span>
+                  <ListenButton variant="row" title={onRepeatTrack.title} artist={onRepeatTrack.artist} />
+                </div>
               </div>
             )}
           </div>
