@@ -6,6 +6,15 @@ interface Props {
   color: string;
   size: number;
   variant: 'star' | 'satellite';
+  /**
+   * CSS value applied to `transform: scale()` on the root div.
+   * Pass a CSS custom property reference (e.g. `"var(--cel-scale, 1)"`) so
+   * responsive breakpoints can control the size without touching the SVG geometry.
+   * Layout compensation is applied automatically via a matching negative marginBottom:
+   *   `calc((scaleVar - 1) * outerSizePx)` — valid CSS since <number>*<length> is allowed.
+   * When omitted the body renders at its natural size.
+   */
+  scaleVar?: string;
 }
 
 /**
@@ -24,7 +33,7 @@ interface Props {
  * Animations: CSS @keyframes on div wrappers (= GPU compositing layer, identical
  * perf model to Animated.View on mobile). prefers-reduced-motion disables all motion.
  */
-export function CelestialBody({ color, size, variant }: Props) {
+export function CelestialBody({ color, size, variant, scaleVar }: Props) {
   const outerSize = size * 1.6;
   const cx = outerSize / 2;
   const cy = outerSize / 2;
@@ -77,7 +86,20 @@ export function CelestialBody({ color, size, variant }: Props) {
   };
 
   return (
-    <div style={{ position: 'relative', width: outerSize, height: outerSize, flexShrink: 0 }}>
+    <div style={{
+      position: 'relative',
+      width: outerSize,
+      height: outerSize,
+      flexShrink: 0,
+      // When scaleVar is provided, scale the body from its top-center and compensate the
+      // unused layout space with a negative marginBottom so sibling content isn't pushed down.
+      // calc((scaleVar - 1) * Npx) is valid CSS: <number> * <length> = <length>.
+      ...(scaleVar && {
+        transform: `scale(${scaleVar})`,
+        transformOrigin: 'center top',
+        marginBottom: `calc((${scaleVar} - 1) * ${outerSize}px)`,
+      }),
+    }}>
       <style>{css}</style>
 
       {/* 1 — Halo: breathing blurred corona */}
