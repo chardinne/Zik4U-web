@@ -13,6 +13,7 @@ import {
   type MusicSignatureData,
 } from '@/lib/cosmicCard';
 import { ListenButton } from './ListenButton';
+import { CelestialBody } from './CelestialBody';
 
 interface Props {
   params: Promise<{ username: string }>;
@@ -223,20 +224,8 @@ export default async function CardPage({ params }: Props) {
   const PLAY_STORE_URL = 'https://play.google.com/store/apps/details?id=com.zik4u.app';
   const DEEP_LINK = `zik4u://profile/${username}`;
 
-  // CSS animation — scoped with card- prefix to avoid global collisions
-  const glowCss = `
-    @keyframes card-glow-pulse {
-      0%, 100% { transform: scale(1); box-shadow: 0 0 24px 6px ${archetypeProfile.primary}4D; }
-      50% { transform: scale(1.04); box-shadow: 0 0 40px 12px ${archetypeProfile.primary}66; }
-    }
-    .card-sun-animated {
-      animation: card-glow-pulse ${archetypeProfile.pulseMs}ms ease-in-out infinite;
-    }
-  `;
-
   return (
     <main style={{ minHeight: '100vh', backgroundColor: '#0A0A1A', fontFamily: 'Inter, system-ui, sans-serif', display: 'flex', flexDirection: 'column', alignItems: 'center', padding: '24px 16px 48px' }}>
-      <style>{glowCss}</style>
 
       <div style={{ width: '100%', maxWidth: 400, display: 'flex', flexDirection: 'column', gap: 0 }}>
 
@@ -268,46 +257,36 @@ export default async function CardPage({ params }: Props) {
           </span>
         </div>
 
-        {/* ── Central sun — hero element ───────────────────────────────────── */}
-        <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', marginBottom: 32 }}>
-          {lastScrobble ? (
-            <ListenButton variant="sun" title={lastScrobble.track_title} artist={lastScrobble.artist_name}>
-              <div
-                className="card-sun-animated"
-                style={{
-                  width: 130,
-                  height: 130,
-                  borderRadius: '50%',
-                  background: `radial-gradient(circle, ${archetypeProfile.primary}CC 0%, ${archetypeProfile.primary}44 50%, transparent 80%)`,
-                  flexShrink: 0,
-                }}
-              />
-              <div style={{ textAlign: 'center', display: 'flex', flexDirection: 'column', gap: 4 }}>
-                <span style={{ fontFamily: 'monospace', fontSize: 9, letterSpacing: '1.5px', color: '#8888BB', display: 'block' }}>
-                  LAST PLAYED
-                </span>
-                <span style={{ fontSize: 17, fontWeight: 700, color: '#fff', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap', maxWidth: 320 }}>
-                  {lastScrobble.track_title}
-                </span>
-                <span style={{ fontSize: 13, color: 'rgba(255,255,255,0.7)' }}>
-                  {lastScrobble.artist_name}
-                </span>
+        {/* ── Twin stars diptych — last played (emitting star) + on repeat (satellite) ── */}
+        {(lastScrobble || onRepeatTrack) && (
+          <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-around', alignItems: 'center', gap: 12, marginBottom: 32, width: '100%' }}>
+            {lastScrobble && (
+              <div style={{ flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', minWidth: 0 }}>
+                <ListenButton variant="sun" title={lastScrobble.track_title} artist={lastScrobble.artist_name}>
+                  <span style={{ fontFamily: 'monospace', fontSize: 9, letterSpacing: '1.5px', color: '#8888BB' }}>LAST PLAYED</span>
+                  <CelestialBody variant="star" color={archetypeProfile.primary} size={120} />
+                  <span style={{ fontSize: 14, fontWeight: 700, color: '#fff', textAlign: 'center', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap', maxWidth: 150 }}>
+                    {lastScrobble.track_title}
+                  </span>
+                  <span style={{ fontSize: 11, color: 'rgba(255,255,255,0.65)', textAlign: 'center' }}>
+                    {lastScrobble.artist_name}
+                  </span>
+                </ListenButton>
               </div>
-            </ListenButton>
-          ) : (
-            <>
-              <div
-                style={{
-                  width: 130,
-                  height: 130,
-                  borderRadius: '50%',
-                  background: 'radial-gradient(circle, rgba(123,47,255,0.3) 0%, rgba(60,20,100,0.15) 50%, transparent 80%)',
-                }}
-              />
-              <span style={{ fontFamily: 'monospace', fontSize: 12, color: '#8888BB' }}>No plays yet</span>
-            </>
-          )}
-        </div>
+            )}
+            {onRepeatTrack && (
+              <div style={{ flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', minWidth: 0 }}>
+                <ListenButton variant="sun" title={onRepeatTrack.title} artist={onRepeatTrack.artist}>
+                  <span style={{ fontFamily: 'monospace', fontSize: 9, letterSpacing: '1.5px', color: '#8888BB' }}>ON REPEAT</span>
+                  <CelestialBody variant="satellite" color={archetypeProfile.secondary} size={92} />
+                  <span style={{ fontSize: 13, fontWeight: 600, color: 'rgba(255,255,255,0.85)', textAlign: 'center', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap', maxWidth: 130 }}>
+                    {onRepeatTrack.title}
+                  </span>
+                </ListenButton>
+              </div>
+            )}
+          </div>
+        )}
 
         {/* ── FORMING state ───────────────────────────────────────────────── */}
         {isForming ? (
@@ -406,18 +385,6 @@ export default async function CardPage({ params }: Props) {
               </div>
             )}
 
-            {/* ON REPEAT */}
-            {onRepeatTrack && (
-              <div style={{ display: 'flex', flexDirection: 'column', gap: 4 }}>
-                <span style={{ fontFamily: 'monospace', fontSize: 9, letterSpacing: '1.5px', color: '#8888BB' }}>ON REPEAT</span>
-                <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-                  <span style={{ fontSize: 13, color: 'rgba(255,255,255,0.8)', fontStyle: 'italic', flex: 1 }}>
-                    ♪ {onRepeatTrack.title}
-                  </span>
-                  <ListenButton variant="row" title={onRepeatTrack.title} artist={onRepeatTrack.artist} />
-                </div>
-              </div>
-            )}
           </div>
         )}
 
