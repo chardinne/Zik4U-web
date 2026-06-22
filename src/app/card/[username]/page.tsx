@@ -226,6 +226,14 @@ export default async function CardPage({ params }: Props) {
 
   return (
     <main style={{ minHeight: '100vh', backgroundColor: '#0A0A1A', fontFamily: 'Inter, system-ui, sans-serif', display: 'flex', flexDirection: 'column', alignItems: 'center', padding: '24px 16px 48px' }}>
+      <style>{`
+        /* Responsive scale for celestial bodies — mobile-first.
+           --cel-scale drives transform:scale() + marginBottom compensation in CelestialBody.
+           Steps at natural breakpoints; clamp() used for gap below. */
+        .cel-col { --cel-scale: 0.72; }
+        @media (min-width: 400px) { .cel-col { --cel-scale: 0.85; } }
+        @media (min-width: 600px) { .cel-col { --cel-scale: 1; } }
+      `}</style>
 
       <div style={{ width: '100%', maxWidth: 400, display: 'flex', flexDirection: 'column', gap: 0 }}>
 
@@ -258,13 +266,14 @@ export default async function CardPage({ params }: Props) {
         </div>
 
         {/* ── Twin stars diptych — last played (emitting star) + on repeat (satellite) ── */}
+        {/* gap uses clamp() for fluid spacing; cel-col drives --cel-scale for responsive body size */}
         {(lastScrobble || onRepeatTrack) && (
-          <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-around', alignItems: 'center', gap: 12, marginBottom: 32, width: '100%' }}>
+          <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-around', alignItems: 'center', gap: 'clamp(4px, 2vw, 16px)', marginBottom: 32, width: '100%' }}>
             {lastScrobble && (
-              <div style={{ flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', minWidth: 0 }}>
+              <div className="cel-col" style={{ flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', minWidth: 0 }}>
                 <ListenButton variant="sun" title={lastScrobble.track_title} artist={lastScrobble.artist_name}>
                   <span style={{ fontFamily: 'monospace', fontSize: 9, letterSpacing: '1.5px', color: '#8888BB' }}>LAST PLAYED</span>
-                  <CelestialBody variant="star" color={archetypeProfile.primary} size={120} />
+                  <CelestialBody variant="star" color={archetypeProfile.primary} size={100} scaleVar="var(--cel-scale, 0.72)" />
                   <span style={{ fontSize: 14, fontWeight: 700, color: '#fff', textAlign: 'center', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap', maxWidth: 150 }}>
                     {lastScrobble.track_title}
                   </span>
@@ -275,10 +284,10 @@ export default async function CardPage({ params }: Props) {
               </div>
             )}
             {onRepeatTrack && (
-              <div style={{ flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', minWidth: 0 }}>
+              <div className="cel-col" style={{ flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', minWidth: 0 }}>
                 <ListenButton variant="sun" title={onRepeatTrack.title} artist={onRepeatTrack.artist}>
                   <span style={{ fontFamily: 'monospace', fontSize: 9, letterSpacing: '1.5px', color: '#8888BB' }}>ON REPEAT</span>
-                  <CelestialBody variant="satellite" color={archetypeProfile.secondary} size={92} />
+                  <CelestialBody variant="satellite" color={archetypeProfile.secondary} size={76} scaleVar="var(--cel-scale, 0.72)" />
                   <span style={{ fontSize: 13, fontWeight: 600, color: 'rgba(255,255,255,0.85)', textAlign: 'center', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap', maxWidth: 130 }}>
                     {onRepeatTrack.title}
                   </span>
