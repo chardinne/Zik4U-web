@@ -36,6 +36,8 @@ src/
     /users                 ✅ Page créateurs (ancienne URL — conservée pour compatibilité)
     /become-creator        ✅ Redirect → /creators (Server Component, next/navigation redirect)
     /card/[username]       ✅ Share-to-Install : Now Card preview + CTAs App Store/Play
+    /card/[username]/
+      opengraph-image.tsx  ✅ OG PNG dynamique par user (1200×630, runtime nodejs, Inter TTF, archetype + astres + tracks)
     /creator/[username]    ✅ Profil public créateur + tiers + auth gate
     /subscribe/[creatorId] ✅ Checkout Stripe (auth check, billing toggle, Edge Function redirect)
     /subscribe/success     ✅ Page succès post-paiement + vrais liens App Store / Play Store
@@ -235,9 +237,8 @@ Décliné sur tous les tunnels :
 - **`sitemap.ts`** : importer `supabase` (export nommé de `supabase.ts`), pas `createClient`
 - **`sitemap.ts`** : génère aussi les routes /card/{username} depuis profiles (limit 500)
   via Promise.all avec les creator routes (limit 5000)
-- **`/card/[username]`** : Server Component — params typé `Promise<{username}>` et awaité
-  (Next.js 16). Fetch profil + dernier scrobble + RPC get_user_top_artists.
-  `getMoodFromHour(utcHour)` → 5 moods avec gradients. Deep link `zik4u://profile/:username`.
+- **`/card/[username]`** : Server Component — params typé `Promise<{username}>` et awaité (Next.js 16). Fetch profil + dernier scrobble + RPC `get_user_top_artists`. `getMoodFromHour(utcHour)` → 5 moods avec gradients. Deep link `zik4u://profile/:username`.
+- **`/card/[username]/opengraph-image.tsx`** : `runtime = 'nodejs'` (readFileSync TTF), `size = { width: 1200, height: 630 }`, `contentType = 'image/png'`. Fetches parallèles : `listener_archetypes`, `get_archetype_distribution`, dernière scrobble, 200 scrobbles 7j (on-repeat). Logique on-repeat = comptage en Map par `title|||artist` key. `createServiceClient()` (bypass RLS). Fonts depuis `src/fonts/inter-{400,700}.ttf` via `readFileSync`. `fitLine()` helper 38 chars pour tronquer proprement sans CSS text-overflow.
 - **APP_STORE_URL / PLAY_STORE_URL** dans `subscribe/success/page.tsx` : liens réels
   App Store `id6748722257` + Play Store `com.zik4u.app` — sous forme de `<a>` (pas `<button>`)
 - **`searchCreators`** : `.or(\`username.ilike.%${safeQuery}%,...\`)` — toujours passer par `safeQuery = query.trim().slice(0, 100)`
@@ -245,7 +246,12 @@ Décliné sur tous les tunnels :
 - **`/fans` vs `/users`** : `/fans` est la route principale (nouvelle navigation). `/users` est conservée pour les anciens liens mais ne figure plus dans les CTAs ni boutons nav.
 - **`/become-creator`** : Server Component pur avec `redirect('/creators')` — pas de 'use client'
 - **`not-found.tsx`** : `'use client'` requis (useRouter + motion)
-- **`opengraph-image.tsx` / `icon.tsx`** : `export const runtime = 'edge'` obligatoire — sans ça, erreur de build ImageResponse
+- **`src/app/opengraph-image.tsx` / `src/app/icon.tsx`** : `export const runtime = 'edge'` obligatoire — sans ça, erreur de build ImageResponse. **EXCEPTION** : `/card/[username]/opengraph-image.tsx` utilise `runtime = 'nodejs'` (readFileSync TTF — edge ne peut pas lire le filesystem).
+- **`box-shadow` dans Satori = MORT** : Satori convertit `box-shadow` → `feGaussianBlur` → resvg **panic** (500 au premier vrai partage). Tout glow dans une ImageResponse = stacked `radial-gradient` halos sur des divs absolus avec `borderRadius: 9999`. JAMAIS de `box-shadow` ni `filter: blur()`.
+- **Fonts TTF dans ImageResponse** : `readFileSync(join(process.cwd(), 'src/fonts/inter-400.ttf'))` — Satori exige ArrayBuffer. Fichiers dans `src/fonts/` (inter-400.ttf + inter-700.ttf). WOFF2 non supporté.
+- **`fitLine(title, artist)` helper** : pré-tronquer côté serveur avant ImageResponse (`whiteSpace: 'nowrap'` dans Satori ne coupe pas, le texte dépasse). Budget : 38 chars total, artist préservé ≤20, title prend le reste. Pattern : `artist.slice(0,19)+'…'` si trop long, title tronqué avec `Math.max(6, budget-1)`.
+- **File-based OG image** : `opengraph-image.tsx` colocalisé avec `page.tsx` est servi automatiquement comme og:image. Si `generateMetadata` a un array `images:`, il **override** le file-based → les deux entrent en conflit. Supprimer `images:` de `generateMetadata` pour laisser le file-based prendre le dessus.
+- **`/card/[username]` generateMetadata** : description = tagline courte `L'ADN musical de @${username} sur Zik4U.` (ne pas y mettre le track title — l'image le montre). `twitter.card: 'summary_large_image'` (ratio 1.91:1). Pas de `images:` array dans `openGraph` ni `twitter`.
 - **`viewport` dans `metadata`** : Next.js 14+ interdit `viewport` dans l'objet `metadata`. Toujours exporter une constante séparée `export const viewport: Viewport = { ... }` dans `layout.tsx`. Sinon : 21 warnings build `⚠ Unsupported metadata viewport is configured in metadata export`. Défini dans `src/lib/seo.ts` → `defaultViewport` + export `viewport` dans `app/layout.tsx`.
 - **URL prod hardcodée interdite** : jamais `https://zik4u.com/...` dans le code — utiliser des chemins relatifs `/...` ou `process.env.NEXT_PUBLIC_SITE_URL`
 - **Landing page** : pas de stats fictives — utiliser un badge "Early access" honnête
@@ -275,7 +281,7 @@ Décliné sur tous les tunnels :
 | `/subscribe/cancel` | ✅ | "Changed your mind?", "Explore other creators →" → /fans |
 | `/legal/privacy` | ✅ | Privacy Policy GDPR/CCPA (Server Component, 12 sections) — SCCs, B2B data disclosure, emotional retention, DPC contact, section 8c Music Match (Art. 6(1)(a) + Art. 9(2)(a) — statut relationnel = donnée sensible UE). `LAST_UPDATED = 'March 28, 2026'`. `COMPANY = 'Zik4U Inc.'` |
 | `/legal/terms` | ✅ | Terms of Service (Server Component, 13 sections) — revenue share chiffré, IAP refunds clarifiés, clause EU consommateurs, section Music Match (17+, double opt-in, usages interdits, disclaimer). `LAST_UPDATED = 'March 28, 2026'`. `COMPANY = 'Zik4U Inc.'` |
-| `/card/[username]` | ✅ | Share-to-install, OG metadata dynamique, mood + track + streak |
+| `/card/[username]` | ✅ | Share-to-install, OG metadata dynamique (mood + track + streak). OG image dynamique (`opengraph-image.tsx`) — archetype hero gradient, constellation astres, LAST PLAYED + ON REPEAT. Description = tagline courte. |
 | `/sitemap.xml` | ✅ | Routes statiques + créateurs + /card/ pages (limit 500) |
 | `/robots.txt` | ✅ | Crawl autorisé, /subscribe/ et /api/ exclus |
 | `/not-found` (404) | ✅ | "This track doesn't exist." + boutons Back / Find a creator |
