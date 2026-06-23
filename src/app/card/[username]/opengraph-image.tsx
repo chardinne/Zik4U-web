@@ -15,6 +15,15 @@ function hexToRgba(hex: string, a: number): string {
   return `rgba(${r}, ${g}, ${b}, ${a})`;
 }
 
+function fitLine(title: string, artist: string): string {
+  const LINE_MAX = 38;
+  const sep = ' — ';
+  const a = artist.length > 20 ? artist.slice(0, 19).trimEnd() + '…' : artist;
+  const budget = LINE_MAX - sep.length - a.length;
+  const t = title.length > budget ? title.slice(0, Math.max(6, budget - 1)).trimEnd() + '…' : title;
+  return `${t}${sep}${a}`;
+}
+
 export default async function Image({ params }: { params: Promise<{ username: string }> }) {
   const { username } = await params;
   const handle = username.replace(/^@/, '');
@@ -79,9 +88,9 @@ export default async function Image({ params }: { params: Promise<{ username: st
           <div style={{ display: 'flex', fontSize: 74, fontWeight: 700, letterSpacing: -1, lineHeight: 1, background: `linear-gradient(90deg, ${primary}, ${secondary})`, backgroundClip: 'text', color: 'transparent' }}>{archetypeLabel}</div>
           <div style={{ display: 'flex', fontSize: 30, color: '#c3c3de', marginTop: 16 }}>{`@${profile.username}`}</div>
           {last && (<div style={{ display: 'flex', fontSize: 18, color: '#8585a6', letterSpacing: 2, marginTop: 38 }}>LAST PLAYED</div>)}
-          {last && (<div style={{ display: 'flex', fontSize: 26, color: '#f0f0fa', fontWeight: 700, marginTop: 4 }}>{`${last.track_title} — ${last.artist_name}`}</div>)}
+          {last && (<div style={{ display: 'flex', fontSize: 26, color: '#f0f0fa', fontWeight: 700, marginTop: 4, whiteSpace: 'nowrap' }}>{fitLine(last.track_title, last.artist_name)}</div>)}
           {onRepeat && (<div style={{ display: 'flex', fontSize: 18, color: '#8585a6', letterSpacing: 2, marginTop: 18 }}>ON REPEAT</div>)}
-          {onRepeat && (<div style={{ display: 'flex', fontSize: 26, color: '#f0f0fa', fontWeight: 700, marginTop: 4 }}>{`${onRepeat.title} — ${onRepeat.artist}`}</div>)}
+          {onRepeat && (<div style={{ display: 'flex', fontSize: 26, color: '#f0f0fa', fontWeight: 700, marginTop: 4, whiteSpace: 'nowrap' }}>{fitLine(onRepeat.title, onRepeat.artist)}</div>)}
         </div>
       </div>
     ),
