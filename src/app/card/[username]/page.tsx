@@ -86,14 +86,12 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     openGraph: {
       title: `${displayName} · Music DNA`,
       description,
-      images: profile.avatar_url ? [{ url: profile.avatar_url as string, width: 400, height: 400 }] : [],
       type: 'profile',
     },
     twitter: {
-      card: 'summary',
+      card: 'summary_large_image',
       title: `${displayName} · Music DNA`,
       description,
-      images: profile.avatar_url ? [profile.avatar_url as string] : [],
     },
   };
 }
