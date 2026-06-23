@@ -66,19 +66,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
   const displayName = (profile.display_name ?? profile.username) as string;
 
-  const { data: scrobbles } = await serviceClient
-    .from('scrobbles')
-    .select('track_title, artist_name')
-    .eq('user_id', profile.id)
-    .eq('is_private', false)
-    .order('played_at', { ascending: false })
-    .limit(1);
-
-  const lastScrobble = (scrobbles as Pick<ScrobbleRow, 'track_title' | 'artist_name'>[] | null)?.[0];
-
-  const description = lastScrobble
-    ? `@${profile.username} is listening to "${lastScrobble.track_title}" by ${lastScrobble.artist_name}. Discover their Music DNA on Zik4U.`
-    : `Discover @${profile.username}'s musical identity. Join Zik4U, the social network built on real listening data.`;
+  const description = `L'ADN musical de @${profile.username} sur Zik4U.`;
 
   return {
     title: `${displayName} · Music DNA`,
