@@ -114,3 +114,14 @@ SENTRY_DSN are production-only secrets → missing from preview/dev builds.
   packages like supabase-js@2.95+
 - Don't auto-shim UMD packages by content detection — too many
   false positives (tslib, superstruct, stacktrace-js)
+
+## WEB-PRIV1 PARTIE 1 (2026-09-23) — CLOSE EN PRODUCTION (PR #2, merge `58d18bf`)
+- Commits `7faa43d` (partie 1) + `7c09ee7` (décision 3), merge `--no-ff` sur main = production. Vercel success, CI main verte.
+- **Première CI du dépôt** : `.github/workflows/ci.yml` (push/PR vers main) = `npm run lint:ci` (fichiers de confidentialité seulement), `npx tsc --noEmit`, `npm test` (jest, 21 tests), `npm run build`. `npm run lint` complet = 62 erreurs anciennes (dette, hors périmètre).
+- **Règle** : toute page publique de profil passe par `src/lib/publicProfile.ts` (`getPublicProfile`, `listSitemapProfiles`) + `src/components/profile/MinimalProfileCard.tsx`. Visiteur = nom, avatar, bio SEULEMENT (D3). Compte privé (users.is_private OU profiles.profile_visibility = private, fail-closed) → noindex. Compte supprimé → introuvable. Garde : `src/__tests__/web-priv1.test.ts`. Voir CLAUDE.md § WEB-PRIV1.
+- `/@<pseudo>` → carte (rewrite next.config.ts). `/creator/<pseudo>` = carte minimale (décision 1 = B : paliers/prix quand les produits store existeront). `getCreatorProfile` supprimée (lisait des colonnes inexistantes de profiles → 404 depuis toujours).
+- Clause 5c en ligne SANS « Links you share » (décision 2 = B) : ce paragraphe revient avec la partie 2 (SHARE-KEY1). LAST_UPDATED = September 23, 2026.
+- Sitemap : `LIST_PROFILES = false` (décision 3 = B) → aucun profil avant lancement. AU LANCEMENT : purger les comptes de test, passer à true, adapter le test, aligner l'hôte (canonique/sitemap en zik4u.com alors que le site sert www).
+- **Preview Vercel protégée** : 302 vers la connexion Vercel pour tout anonyme → vérifier une preview à l'œil (navigateur connecté) ; vérif HTTP en production. `zik4u.com` → 307 vers `www.zik4u.com` : tout curl de production prend `-L`.
+- Déploiement de production lisible par `gh api "repos/chardinne/Zik4U-web/deployments?sha=<sha>&environment=Production"` puis `/statuses`.
+- Dettes relevées : `/fans` et recherche créateurs (`lib/creators.ts`) lisent des colonnes inexistantes de profiles ; politique « Florida C Corp » à faire relire.
