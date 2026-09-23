@@ -9,8 +9,8 @@ const bebasNeue = localFont({
 });
 
 export const metadata: Metadata = {
-  title: 'Zik4U: Musical Identity Card',
-  description: "Discover someone's musical identity on Zik4U",
+  title: 'Zik4U profile',
+  description: 'A Zik4U profile.',
 };
 
 export default function CardLayout({ children }: { children: React.ReactNode }) {

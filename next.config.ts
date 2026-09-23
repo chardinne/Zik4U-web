@@ -33,6 +33,11 @@ const nextConfig: NextConfig = {
   },
   async rewrites() {
     return [
+      // WEB-PRIV1 — the app shares zik4u.com/@<username>: serve the card.
+      {
+        source: '/@:username',
+        destination: '/card/:username',
+      },
       {
         source: '/api/creator/:path*',
         destination: `${API_URL}/api/creator/:path*`,
