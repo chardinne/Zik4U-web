@@ -27,9 +27,9 @@ jest.mock('@/lib/supabase-server', () => ({
   createPartnerClient: jest.fn(),
 }));
 
-import { getPublicProfile, normalizeHandle } from '@/lib/publicProfile';
+import { getPublicProfile, normalizeHandle, listSitemapProfiles } from '@/lib/publicProfile';
 import { profileMetadata } from '@/components/profile/MinimalProfileCard';
-import sitemap from '@/app/sitemap';
+import sitemap, { LIST_PROFILES } from '@/app/sitemap';
 import nextConfig from '../../next.config';
 
 const baseUser = {
@@ -75,9 +75,21 @@ describe('profileMetadata', () => {
   });
 });
 
-describe('sitemap', () => {
-  it('lists public accounts only', async () => {
-    process.env.NEXT_PUBLIC_SITE_URL = 'https://zik4u.com';
+describe('sitemap (pre-launch, decision 3 = B)', () => {
+  it('lists no profile at all before launch', async () => {
+    responses = {
+      users: { list: { data: [{ id: 'u1', username: 'pub', is_private: false, deleted_at: null, updated_at: null }], error: null } },
+      profiles: { list: { data: [], error: null } },
+    };
+    const urls = (await sitemap()).map((e) => e.url);
+    expect(LIST_PROFILES).toBe(false);
+    expect(urls.some((u) => u.includes('/card/') || u.includes('/creator/'))).toBe(false);
+    expect(urls.some((u) => u.endsWith('/legal/privacy'))).toBe(true);
+  });
+});
+
+describe('listSitemapProfiles (used once LIST_PROFILES is on)', () => {
+  it('returns public accounts only', async () => {
     responses = {
       users: { list: { data: [
         { id: 'u1', username: 'pub', is_private: false, deleted_at: null, updated_at: null },
@@ -87,21 +99,15 @@ describe('sitemap', () => {
       ], error: null } },
       profiles: { list: { data: [{ user_id: 'u3' }], error: null } },
     };
-    const urls = (await sitemap()).map((e) => e.url);
-    expect(urls.some((u) => u.endsWith('/card/pub'))).toBe(true);
-    for (const h of ['flagged', 'hiddenvis', 'gone']) {
-      expect(urls.some((u) => u.endsWith(`/card/${h}`))).toBe(false);
-    }
-    expect(urls.some((u) => u.includes('/creator/'))).toBe(false);
+    expect((await listSitemapProfiles()).map((p) => p.username)).toEqual(['pub']);
   });
 
-  it('lists no profile at all when the privacy read fails', async () => {
+  it('returns nothing when the privacy read fails', async () => {
     responses = {
       users: { list: { data: [{ id: 'u1', username: 'pub', is_private: false, deleted_at: null, updated_at: null }], error: null } },
       profiles: { list: { data: null, error: { message: 'boom' } } },
     };
-    const urls = (await sitemap()).map((e) => e.url);
-    expect(urls.some((u) => u.includes('/card/'))).toBe(false);
+    expect(await listSitemapProfiles()).toEqual([]);
   });
 });
 

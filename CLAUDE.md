@@ -243,7 +243,7 @@ Les pages de profil lisent avec la clé SERVICE, qui contourne la RLS et la règ
 - **Revenue splits** : abonnements créateurs = **80%** créateur / 20% Zik4U (affiché sur /creators). Direct payments via zik4u-api = **70%** créateur — deux splits distincts, ne pas confondre.
 - **`defaultMetadata.description`** : source de la meta description homepage — dans `src/lib/seo.ts`, PAS dans `page.tsx` (qui est `'use client'` → pas de metadata export possible).
 - **Bouton "Copy the post →" sur /creators** : déjà implémenté avec `navigator.clipboard.writeText()` + état `copied` (2.5s). Ne pas réimplémenter.
-- **`sitemap.ts`** : `listSitemapProfiles()` de `src/lib/publicProfile.ts` (clé service) — /card/{username} des seuls comptes publics non supprimés (D4), `revalidate = 3600`. Aucune route /creator (canonique = /card).
+- **`sitemap.ts`** : AVANT LANCEMENT, `LIST_PROFILES = false` → aucun profil listé (décision 3 = B du 23/09 : comptes de test et pseudos dérivés d'e-mails hors de Google). AU LANCEMENT, après purge des comptes de test : passer `LIST_PROFILES` à true (et adapter le test). Alors `listSitemapProfiles()` de `src/lib/publicProfile.ts` (clé service) liste /card/{username} des seuls comptes publics non supprimés (D4), `revalidate = 3600`. Aucune route /creator (canonique = /card).
 - **`/card/[username]` et `/creator/[username]`** : `getPublicProfile()` + `MinimalProfileCard` / `profileMetadata()` (`src/components/profile/`). Compte privé (users.is_private OU profile_visibility = private) → `robots: noindex, nofollow`. Compte supprimé → introuvable. Deep link `zik4u://profile/:username`.
 - **`/card/[username]/opengraph-image.tsx`** : `runtime = 'nodejs'` (readFileSync TTF), 1200×630, nom + @handle seulement, via `getPublicProfile()`.
 - **APP_STORE_URL / PLAY_STORE_URL** dans `subscribe/success/page.tsx` : liens réels
@@ -289,7 +289,7 @@ Les pages de profil lisent avec la clé SERVICE, qui contourne la RLS et la règ
 | `/legal/privacy` | ✅ | Privacy Policy GDPR/CCPA (Server Component, 12 sections) — SCCs, B2B data disclosure, emotional retention, DPC contact, section 8c Music Match (Art. 6(1)(a) + Art. 9(2)(a) — statut relationnel = donnée sensible UE). `LAST_UPDATED = 'September 23, 2026'` (section 5c WEB-PRIV1). `COMPANY = 'Zik4U Inc.'` |
 | `/legal/terms` | ✅ | Terms of Service (Server Component, 13 sections) — revenue share chiffré, IAP refunds clarifiés, clause EU consommateurs, section Music Match (17+, double opt-in, usages interdits, disclaimer). `LAST_UPDATED = 'March 28, 2026'`. `COMPANY = 'Zik4U Inc.'` |
 | `/card/[username]` | ✅ | Carte minimale WEB-PRIV1 (nom, avatar, bio), OG minimal, noindex si compte privé. `/@username` y mène. |
-| `/sitemap.xml` | ✅ | Routes statiques + /card/ des comptes publics non supprimés (WEB-PRIV1, D4) |
+| `/sitemap.xml` | ✅ | Routes statiques seulement avant lancement (LIST_PROFILES = false, décision 3 = B) ; au lancement + /card/ des comptes publics non supprimés (D4) |
 | `/robots.txt` | ✅ | Crawl autorisé (robots IA compris, décision 4 du 23/09), /api/ et pages partenaires privées exclus |
 | `/not-found` (404) | ✅ | "This track doesn't exist." + boutons Back / Find a creator |
 | `/partner` | ✅ | Page Partner enrichie — hero, demo report interactif (3 tabs), 6 features, ROI calculator, 4 plans ($0/$499/$1299/Enterprise), contact form Formspree |

@@ -4,6 +4,9 @@ import { listSitemapProfiles } from '@/lib/publicProfile';
 // Regenerated hourly so privacy changes reach the sitemap.
 export const revalidate = 3600;
 
+// Pre-launch switch (WEB-PRIV1 decision 3 = B). Set to true at launch.
+export const LIST_PROFILES = false;
+
 const BASE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://zik4u.com';
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
@@ -74,6 +77,11 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       priority: 0.3,
     },
   ];
+
+  // WEB-PRIV1 decision 3 = B: no profile is listed before launch (test accounts and
+  // e-mail-derived usernames must not reach search engines). Turn LIST_PROFILES on at
+  // launch, after purging test accounts.
+  if (!LIST_PROFILES) return staticRoutes;
 
   // WEB-PRIV1 — public, non-deleted accounts only (D4). Private accounts never listed.
   // Creator pages are not listed: their canonical URL is the card (decision 1 = B).
