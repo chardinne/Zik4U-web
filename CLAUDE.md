@@ -35,17 +35,17 @@ src/
     /fans                  ✅ Tunnel fan : search créateurs + WHAT_YOU_GET + store CTAs
     /users                 ✅ Page créateurs (ancienne URL — conservée pour compatibilité)
     /become-creator        ✅ Redirect → /creators (Server Component, next/navigation redirect)
-    /card/[username]       ✅ Share-to-Install : Now Card preview + CTAs App Store/Play
+    /card/[username]       ✅ Carte MINIMALE (WEB-PRIV1) : nom, avatar, bio + CTAs App Store/Play. Aussi servie par /@<username> (rewrite next.config.ts)
     /card/[username]/
-      opengraph-image.tsx  ✅ OG PNG dynamique par user (1200×630, runtime nodejs, Inter TTF, archetype + astres + tracks)
-    /creator/[username]    ✅ Profil public créateur + tiers + auth gate
+      opengraph-image.tsx  ✅ OG PNG MINIMAL (nom + @handle, 1200×630, runtime nodejs, Inter TTF) — aucune donnée d'écoute
+    /creator/[username]    ✅ Carte MINIMALE (WEB-PRIV1, décision 1 = B) — paliers/prix absents jusqu'aux produits store
     /subscribe/[creatorId] ✅ Checkout Stripe (auth check, billing toggle, Edge Function redirect)
     /subscribe/success     ✅ Page succès post-paiement + vrais liens App Store / Play Store
     /subscribe/cancel      ✅ Page abandon paiement ("Changed your mind?")
     /legal/privacy         ✅ Privacy Policy (Server Component, 11 sections)
     /legal/terms           ✅ Terms of Service (Server Component, 12 sections)
     /sitemap.xml           ✅ Routes statiques + profils créateurs dynamiques depuis Supabase
-    /robots.txt            ✅ Crawl autorisé, /subscribe/ et /api/ exclus
+    /robots.txt            ✅ Crawl autorisé (robots IA compris, décision 4 du 23/09), /api/ et pages partenaires privées exclus
     /not-found             ✅ Page 404 custom — "This track doesn't exist."
     /opengraph-image       ✅ OG image générée en code (ImageResponse, edge runtime, 1200×630)
     /icon                  ✅ Favicon généré en code (ImageResponse, edge runtime, 32×32, "Z4")
@@ -176,6 +176,15 @@ Décliné sur tous les tunnels :
 - `/card/[username]` : CTA "Real music. Real identity. For real."
 - `seo.ts` description : "...what you actually hear. For real."
 
+## WEB-PRIV1 — confidentialité des profils (RÈGLE DURE)
+
+Les pages de profil lisent avec la clé SERVICE, qui contourne la RLS et la règle de base `public.listening_visible_to`. Le site applique donc lui-même les décisions produit :
+- Visiteur sans compte : nom, avatar, bio SEULEMENT, pour TOUS les profils (D3). Jamais d'écoutes, top artistes/titres, archétype, signature, activité, compatibilité, humeur, posts ni paliers.
+- Compte privé (users.is_private OU profiles.profile_visibility = 'private') : exclu du sitemap, `noindex, nofollow`.
+- Compte supprimé (users.deleted_at) : introuvable.
+- Toute nouvelle page publique de profil passe par `src/lib/publicProfile.ts`. Garde : `src/__tests__/web-priv1.test.ts`.
+- La carte complète partagée (clé de partage, révocation) = WEB-PRIV1 partie 2 / SHARE-KEY1, en noindex. Le paragraphe « Links you share » de la clause 5c se met en ligne AVEC elle.
+
 ## Flows utilisateur
 
 ### Tunnel listener
@@ -234,11 +243,9 @@ Décliné sur tous les tunnels :
 - **Revenue splits** : abonnements créateurs = **80%** créateur / 20% Zik4U (affiché sur /creators). Direct payments via zik4u-api = **70%** créateur — deux splits distincts, ne pas confondre.
 - **`defaultMetadata.description`** : source de la meta description homepage — dans `src/lib/seo.ts`, PAS dans `page.tsx` (qui est `'use client'` → pas de metadata export possible).
 - **Bouton "Copy the post →" sur /creators** : déjà implémenté avec `navigator.clipboard.writeText()` + état `copied` (2.5s). Ne pas réimplémenter.
-- **`sitemap.ts`** : importer `supabase` (export nommé de `supabase.ts`), pas `createClient`
-- **`sitemap.ts`** : génère aussi les routes /card/{username} depuis profiles (limit 500)
-  via Promise.all avec les creator routes (limit 5000)
-- **`/card/[username]`** : Server Component — params typé `Promise<{username}>` et awaité (Next.js 16). Fetch profil + dernier scrobble + RPC `get_user_top_artists`. `getMoodFromHour(utcHour)` → 5 moods avec gradients. Deep link `zik4u://profile/:username`.
-- **`/card/[username]/opengraph-image.tsx`** : `runtime = 'nodejs'` (readFileSync TTF), `size = { width: 1200, height: 630 }`, `contentType = 'image/png'`. Fetches parallèles : `listener_archetypes`, `get_archetype_distribution`, dernière scrobble, 200 scrobbles 7j (on-repeat). Logique on-repeat = comptage en Map par `title|||artist` key. `createServiceClient()` (bypass RLS). Fonts depuis `src/fonts/inter-{400,700}.ttf` via `readFileSync`. `fitLine()` helper 38 chars pour tronquer proprement sans CSS text-overflow.
+- **`sitemap.ts`** : `listSitemapProfiles()` de `src/lib/publicProfile.ts` (clé service) — /card/{username} des seuls comptes publics non supprimés (D4), `revalidate = 3600`. Aucune route /creator (canonique = /card).
+- **`/card/[username]` et `/creator/[username]`** : `getPublicProfile()` + `MinimalProfileCard` / `profileMetadata()` (`src/components/profile/`). Compte privé (users.is_private OU profile_visibility = private) → `robots: noindex, nofollow`. Compte supprimé → introuvable. Deep link `zik4u://profile/:username`.
+- **`/card/[username]/opengraph-image.tsx`** : `runtime = 'nodejs'` (readFileSync TTF), 1200×630, nom + @handle seulement, via `getPublicProfile()`.
 - **APP_STORE_URL / PLAY_STORE_URL** dans `subscribe/success/page.tsx` : liens réels
   App Store `id6748722257` + Play Store `com.zik4u.app` — sous forme de `<a>` (pas `<button>`)
 - **`searchCreators`** : `.or(\`username.ilike.%${safeQuery}%,...\`)` — toujours passer par `safeQuery = query.trim().slice(0, 100)`
@@ -251,7 +258,7 @@ Décliné sur tous les tunnels :
 - **Fonts TTF dans ImageResponse** : `readFileSync(join(process.cwd(), 'src/fonts/inter-400.ttf'))` — Satori exige ArrayBuffer. Fichiers dans `src/fonts/` (inter-400.ttf + inter-700.ttf). WOFF2 non supporté.
 - **`fitLine(title, artist)` helper** : pré-tronquer côté serveur avant ImageResponse (`whiteSpace: 'nowrap'` dans Satori ne coupe pas, le texte dépasse). Budget : 38 chars total, artist préservé ≤20, title prend le reste. Pattern : `artist.slice(0,19)+'…'` si trop long, title tronqué avec `Math.max(6, budget-1)`.
 - **File-based OG image** : `opengraph-image.tsx` colocalisé avec `page.tsx` est servi automatiquement comme og:image. Si `generateMetadata` a un array `images:`, il **override** le file-based → les deux entrent en conflit. Supprimer `images:` de `generateMetadata` pour laisser le file-based prendre le dessus.
-- **`/card/[username]` generateMetadata** : description = tagline courte `L'ADN musical de @${username} sur Zik4U.` (ne pas y mettre le track title — l'image le montre). `twitter.card: 'summary_large_image'` (ratio 1.91:1). Pas de `images:` array dans `openGraph` ni `twitter`.
+- **`/card/[username]` generateMetadata** : `profileMetadata()` — pas de donnée d'écoute dans title/description. `twitter.card: 'summary_large_image'`. Pas de `images:` array dans `openGraph` ni `twitter`.
 - **`viewport` dans `metadata`** : Next.js 14+ interdit `viewport` dans l'objet `metadata`. Toujours exporter une constante séparée `export const viewport: Viewport = { ... }` dans `layout.tsx`. Sinon : 21 warnings build `⚠ Unsupported metadata viewport is configured in metadata export`. Défini dans `src/lib/seo.ts` → `defaultViewport` + export `viewport` dans `app/layout.tsx`.
 - **URL prod hardcodée interdite** : jamais `https://zik4u.com/...` dans le code — utiliser des chemins relatifs `/...` ou `process.env.NEXT_PUBLIC_SITE_URL`
 - **Landing page** : pas de stats fictives — utiliser un badge "Early access" honnête
@@ -279,11 +286,11 @@ Décliné sur tous les tunnels :
 | `/subscribe/[creatorId]` | ✅ | Auth check, avatar créateur réel, order summary, billing toggle mensuel/annuel, redirect Stripe |
 | `/subscribe/success` | ✅ | Succès paiement, `<a>` App Store / Play Store avec vrais liens, "Explore creators →" |
 | `/subscribe/cancel` | ✅ | "Changed your mind?", "Explore other creators →" → /fans |
-| `/legal/privacy` | ✅ | Privacy Policy GDPR/CCPA (Server Component, 12 sections) — SCCs, B2B data disclosure, emotional retention, DPC contact, section 8c Music Match (Art. 6(1)(a) + Art. 9(2)(a) — statut relationnel = donnée sensible UE). `LAST_UPDATED = 'March 28, 2026'`. `COMPANY = 'Zik4U Inc.'` |
+| `/legal/privacy` | ✅ | Privacy Policy GDPR/CCPA (Server Component, 12 sections) — SCCs, B2B data disclosure, emotional retention, DPC contact, section 8c Music Match (Art. 6(1)(a) + Art. 9(2)(a) — statut relationnel = donnée sensible UE). `LAST_UPDATED = 'September 23, 2026'` (section 5c WEB-PRIV1). `COMPANY = 'Zik4U Inc.'` |
 | `/legal/terms` | ✅ | Terms of Service (Server Component, 13 sections) — revenue share chiffré, IAP refunds clarifiés, clause EU consommateurs, section Music Match (17+, double opt-in, usages interdits, disclaimer). `LAST_UPDATED = 'March 28, 2026'`. `COMPANY = 'Zik4U Inc.'` |
-| `/card/[username]` | ✅ | Share-to-install, OG metadata dynamique (mood + track + streak). OG image dynamique (`opengraph-image.tsx`) — archetype hero gradient, constellation astres, LAST PLAYED + ON REPEAT. Description = tagline courte. |
-| `/sitemap.xml` | ✅ | Routes statiques + créateurs + /card/ pages (limit 500) |
-| `/robots.txt` | ✅ | Crawl autorisé, /subscribe/ et /api/ exclus |
+| `/card/[username]` | ✅ | Carte minimale WEB-PRIV1 (nom, avatar, bio), OG minimal, noindex si compte privé. `/@username` y mène. |
+| `/sitemap.xml` | ✅ | Routes statiques + /card/ des comptes publics non supprimés (WEB-PRIV1, D4) |
+| `/robots.txt` | ✅ | Crawl autorisé (robots IA compris, décision 4 du 23/09), /api/ et pages partenaires privées exclus |
 | `/not-found` (404) | ✅ | "This track doesn't exist." + boutons Back / Find a creator |
 | `/partner` | ✅ | Page Partner enrichie — hero, demo report interactif (3 tabs), 6 features, ROI calculator, 4 plans ($0/$499/$1299/Enterprise), contact form Formspree |
 | `/partner/dashboard` | ✅ | Dashboard Pro — sidebar fixe 5 sections (Overview/Virality/Artists/AI/Account), watchlist, AI Analyst persistant (50 msgs), period selector 7d/30d/90d, filtre pré-viral, sort, cross-section via CustomEvent |

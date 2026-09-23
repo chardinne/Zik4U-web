@@ -1,5 +1,8 @@
 import { MetadataRoute } from 'next';
-import { supabase } from '@/lib/supabase';
+import { listSitemapProfiles } from '@/lib/publicProfile';
+
+// Regenerated hourly so privacy changes reach the sitemap.
+export const revalidate = 3600;
 
 const BASE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://zik4u.com';
 
@@ -72,39 +75,19 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     },
   ];
 
-  // Dynamic creator profile pages + card pages (share-to-install)
+  // WEB-PRIV1 — public, non-deleted accounts only (D4). Private accounts never listed.
+  // Creator pages are not listed: their canonical URL is the card (decision 1 = B).
   try {
-    const [{ data: creators }, { data: activeUsers }] = await Promise.all([
-      supabase
-        .from('users')
-        .select('username, updated_at')
-        .eq('is_creator', true)
-        .not('username', 'is', null)
-        .limit(5000),
-      supabase
-        .from('profiles')
-        .select('username, updated_at')
-        .not('username', 'is', null)
-        .limit(500),
-    ]);
-
-    const creatorRoutes: MetadataRoute.Sitemap = (creators ?? []).map((creator) => ({
-      url: `${BASE_URL}/creator/${creator.username}`,
-      lastModified: creator.updated_at ? new Date(creator.updated_at) : new Date(),
-      changeFrequency: 'daily' as const,
-      priority: 0.7,
+    const profiles = await listSitemapProfiles();
+    const cardRoutes: MetadataRoute.Sitemap = profiles.map((p) => ({
+      url: `${BASE_URL}/card/${encodeURIComponent(p.username)}`,
+      lastModified: p.updatedAt ? new Date(p.updatedAt) : new Date(),
+      changeFrequency: 'weekly' as const,
+      priority: 0.5,
     }));
-
-    const cardRoutes: MetadataRoute.Sitemap = (activeUsers ?? []).map((u) => ({
-      url: `${BASE_URL}/card/${u.username}`,
-      lastModified: u.updated_at ?? new Date().toISOString(),
-      changeFrequency: 'daily' as const,
-      priority: 0.6,
-    }));
-
-    return [...staticRoutes, ...creatorRoutes, ...cardRoutes];
+    return [...staticRoutes, ...cardRoutes];
   } catch {
-    // If DB is unavailable during build, return only static routes
+    // Service env vars missing (e.g. at build time): static routes only.
     return staticRoutes;
   }
 }

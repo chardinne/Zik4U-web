@@ -6,7 +6,7 @@ export const metadata = generatePageMetadata(
   '/legal/privacy',
 );
 
-const LAST_UPDATED = 'March 28, 2026';
+const LAST_UPDATED = 'September 23, 2026';
 const CONTACT_EMAIL = 'privacy@zik4u.com';
 const COMPANY = 'Zik4U Inc.';
 const SITE_URL = 'https://zik4u.com';
@@ -229,6 +229,32 @@ export default function PrivacyPolicyPage() {
             <p>
               For more information about the safeguards we apply, or to obtain a copy of the relevant SCCs, contact us at{' '}
               <a href="mailto:privacy@zik4u.com" style={{ color: '#00D4FF', textDecoration: 'none' }}>privacy@zik4u.com</a>.
+            </p>
+          </section>
+
+          {/* 5c — WEB-PRIV1 */}
+          <section>
+            <h2 style={{ fontSize: '22px', fontWeight: 700, color: '#FFFFFF', marginBottom: '16px' }}>5c. Public Profiles, Search Engines &amp; Shared Links</h2>
+            <p style={{ marginBottom: '12px' }}>
+              <strong style={{ color: '#FFFFFF' }}>What anyone can see.</strong>{' '}Your display name, avatar and bio are public. Anyone, including
+              visitors without a Zik4U account, can see them on your profile page. If you are a creator, your subscription
+              tiers and prices are also public.
+            </p>
+            <p style={{ marginBottom: '12px' }}>
+              <strong style={{ color: '#FFFFFF' }}>Search engines and AI assistants.</strong>{' '}This minimal public profile (name, avatar, bio) may be
+              indexed by search engines such as Google and read by AI assistants and their crawlers (for example ChatGPT,
+              Claude, Gemini or Perplexity). If your account is set to private, your profile is excluded from our sitemap and
+              marked so that search engines and AI crawlers do not index it.
+            </p>
+            <p style={{ marginBottom: '12px' }}>
+              <strong style={{ color: '#FFFFFF' }}>What stays protected.</strong>{' '}Your listening history, top artists and tracks, music signature,
+              activity and compatibility scores are never shown to visitors without an account. On a private account, they are
+              visible only to followers you have approved. On a creator&apos;s &ldquo;subscribers only&rdquo; profile, they are
+              visible only to active subscribers.
+            </p>
+            <p>
+              <strong style={{ color: '#FFFFFF' }}>Creator content.</strong>{' '}Sharing a creator card never gives access to exclusive posts, drops or
+              listening rooms, which remain reserved for subscribers.
             </p>
           </section>
 

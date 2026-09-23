@@ -6,7 +6,9 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "lint:ci": "eslint next.config.ts src/lib/publicProfile.ts src/components/profile src/app/card src/app/creator src/app/sitemap.ts src/app/robots.ts src/__tests__/web-priv1.test.ts",
+    "test": "jest --ci --forceExit"
   },
   "dependencies": {
     "@radix-ui/react-dialog": "^1.1.15",
