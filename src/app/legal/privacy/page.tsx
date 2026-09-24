@@ -6,7 +6,7 @@ export const metadata = generatePageMetadata(
   '/legal/privacy',
 );
 
-const LAST_UPDATED = 'September 23, 2026';
+const LAST_UPDATED = 'September 24, 2026';
 const CONTACT_EMAIL = 'privacy@zik4u.com';
 const COMPANY = 'Zik4U Inc.';
 const SITE_URL = 'https://zik4u.com';
@@ -251,6 +251,13 @@ export default function PrivacyPolicyPage() {
               activity and compatibility scores are never shown to visitors without an account. On a private account, they are
               visible only to followers you have approved. On a creator&apos;s &ldquo;subscribers only&rdquo; profile, they are
               visible only to active subscribers.
+            </p>
+            <p style={{ marginBottom: '12px' }}>
+              <strong style={{ color: '#FFFFFF' }}>Links you share.</strong>{' '}When you share your profile card from the app, the link shows your full
+              card to anyone who opens it, even if your account is private. You choose to share it. Shared cards are marked so
+              that search engines and AI crawlers do not index them. The card stays up to date with your activity. You can
+              revoke all links you have shared at any time in the app&apos;s privacy settings; revoked links then show only
+              your minimal public profile.
             </p>
             <p>
               <strong style={{ color: '#FFFFFF' }}>Creator content.</strong>{' '}Sharing a creator card never gives access to exclusive posts, drops or
