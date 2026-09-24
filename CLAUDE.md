@@ -35,7 +35,7 @@ src/
     /fans                  ✅ Tunnel fan : search créateurs + WHAT_YOU_GET + store CTAs
     /users                 ✅ Page créateurs (ancienne URL — conservée pour compatibilité)
     /become-creator        ✅ Redirect → /creators (Server Component, next/navigation redirect)
-    /card/[username]       ✅ Carte MINIMALE (WEB-PRIV1) : nom, avatar, bio + CTAs App Store/Play. Aussi servie par /@<username> (rewrite next.config.ts)
+    /card/[username]       ✅ Carte MINIMALE (WEB-PRIV1) : nom, avatar, bio + CTAs App Store/Play. Aussi servie par /@<username> (rewrite next.config.ts). Avec ?k=<clé de partage valide> : carte COMPLÈTE, noindex (SHARE-KEY1)
     /card/[username]/
       opengraph-image.tsx  ✅ OG PNG MINIMAL (nom + @handle, 1200×630, runtime nodejs, Inter TTF) — aucune donnée d'écoute
     /creator/[username]    ✅ Carte MINIMALE (WEB-PRIV1, décision 1 = B) — paliers/prix absents jusqu'aux produits store
@@ -183,7 +183,7 @@ Les pages de profil lisent avec la clé SERVICE, qui contourne la RLS et la règ
 - Compte privé (users.is_private OU profiles.profile_visibility = 'private') : exclu du sitemap, `noindex, nofollow`.
 - Compte supprimé (users.deleted_at) : introuvable.
 - Toute nouvelle page publique de profil passe par `src/lib/publicProfile.ts`. Garde : `src/__tests__/web-priv1.test.ts`.
-- La carte complète partagée (clé de partage, révocation) = WEB-PRIV1 partie 2 / SHARE-KEY1, en noindex. Le paragraphe « Links you share » de la clause 5c se met en ligne AVEC elle.
+- EXCEPTION UNIQUE — carte complète partagée (WEB-PRIV1 partie 2 / SHARE-KEY1, migration 00177 de Zik4U) : `/card/<pseudo>?k=<clé>` (et `/@<pseudo>?k=`) affiche la carte complète SEULEMENT si la clé est la clé vivante de CE compte (table `share_keys`, lue avec la clé service). Seul `src/lib/sharedCard.ts` lit des écoutes, et toujours APRÈS la vérification de clé ; `src/components/profile/SharedFullCard.tsx` ne fait que rendre. Toute URL avec `?k=` est `noindex, nofollow` et `referrer: no-referrer`. Clé absente, fausse ou révoquée → carte minimale. L'image d'aperçu de lien reste MINIMALE (pas d'accès à la clé). Garde : `src/__tests__/share-key1.test.ts`. Clause 5c complète, « Links you share » compris, en ligne depuis le 24/09/2026.
 
 ## Flows utilisateur
 
