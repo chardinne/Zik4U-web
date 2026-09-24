@@ -14,9 +14,9 @@ const securityHeaders = [
       "script-src 'self' 'unsafe-inline'",
       "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com",
       "font-src 'self' https://fonts.gstatic.com",
-      "connect-src 'self' https://*.supabase.co wss://*.supabase.co https://api.stripe.com https://checkout.stripe.com https://admin.zik4u.com https://api.zik4u.com https://api.anthropic.com",
+      "connect-src 'self' https://*.supabase.co wss://*.supabase.co",
       "img-src 'self' https://images.unsplash.com https://*.supabase.co data: blob:",
-      "frame-src https://checkout.stripe.com https://js.stripe.com",
+      "frame-src 'none'",
       "frame-ancestors 'none'",
       "form-action 'self'",
       "base-uri 'self'",
@@ -25,11 +25,18 @@ const securityHeaders = [
   },
 ];
 
-const API_URL = process.env.NEXT_PUBLIC_API_URL ?? 'https://api.zik4u.com';
-
 const nextConfig: NextConfig = {
   async headers() {
     return [{ source: "/(.*)", headers: securityHeaders }];
+  },
+  // B2B-OFF1 — the labels/partner offer is not sold before launch (decision D1 = A,
+  // 24/09/2026). The B2B code lives only in Zik4U-api (dormant). Old /partner links
+  // land on the home page instead of a 404.
+  async redirects() {
+    return [
+      { source: '/partner', destination: '/', permanent: false },
+      { source: '/partner/:path*', destination: '/', permanent: false },
+    ];
   },
   async rewrites() {
     return [
@@ -37,14 +44,6 @@ const nextConfig: NextConfig = {
       {
         source: '/@:username',
         destination: '/card/:username',
-      },
-      {
-        source: '/api/creator/:path*',
-        destination: `${API_URL}/api/creator/:path*`,
-      },
-      {
-        source: '/api/partner/:path*',
-        destination: `${API_URL}/api/partner/:path*`,
       },
     ];
   },

@@ -16,7 +16,7 @@ Backend partagé avec l'app mobile via Supabase.
 | Tailwind CSS | 4 | Styles (via `@tailwindcss/postcss`, pas de `tailwind.config.ts`) |
 | Supabase JS | 2 | Auth + DB (client partagé mobile) |
 | Framer Motion | 12 | Animations (whileHover, whileInView, AnimatePresence) |
-| Stripe | — | Checkout via Edge Function `create-stripe-checkout` (partagée avec l'app mobile) |
+| Stripe | — | AUCUN paiement sur le site (B2B-OFF1, 24/09/2026). Les abonnements créateurs passent par les achats intégrés des stores, dans l'app |
 
 ## Supabase
 - Project ID : `qjrwjdlqlmyliinfjjic` (us-east-1 — migré depuis `eirkzsbjlwmflwhqihiw`)
@@ -39,24 +39,15 @@ src/
     /card/[username]/
       opengraph-image.tsx  ✅ OG PNG MINIMAL (nom + @handle, 1200×630, runtime nodejs, Inter TTF) — aucune donnée d'écoute
     /creator/[username]    ✅ Carte MINIMALE (WEB-PRIV1, décision 1 = B) — paliers/prix absents jusqu'aux produits store
-    /subscribe/[creatorId] ✅ Checkout Stripe (auth check, billing toggle, Edge Function redirect)
-    /subscribe/success     ✅ Page succès post-paiement + vrais liens App Store / Play Store
-    /subscribe/cancel      ✅ Page abandon paiement ("Changed your mind?")
     /legal/privacy         ✅ Privacy Policy (Server Component, 11 sections)
     /legal/terms           ✅ Terms of Service (Server Component, 12 sections)
     /sitemap.xml           ✅ Routes statiques + profils créateurs dynamiques depuis Supabase
-    /robots.txt            ✅ Crawl autorisé (robots IA compris, décision 4 du 23/09), /api/ et pages partenaires privées exclus
+    /robots.txt            ✅ Crawl autorisé (robots IA compris, décision 4 du 23/09), /api/ exclu
     /not-found             ✅ Page 404 custom — "This track doesn't exist."
     /opengraph-image       ✅ OG image générée en code (ImageResponse, edge runtime, 1200×630)
     /icon                  ✅ Favicon généré en code (ImageResponse, edge runtime, 32×32, "Z4")
     api/
       pulse-waitlist/      ✅ POST — upsert email dans `pulse_waitlist` (service role, idempotent, onConflict: 'email')
-      partner/me/          ✅ GET — profil partenaire par API key (`x-zik4u-key` header)
-      partner/checkout/    ✅ POST — Stripe Checkout pour plans partenaires (génère `zik4u_live_` provisoire)
-      partner/webhook/     ✅ POST — Stripe webhook — active clé API + envoie email Resend post-paiement
-      partner/intelligence/artist/   ✅ GET — artist intelligence (params: artist, days) + log dans partner_search_logs (fire-and-forget service role)
-      partner/intelligence/virality/ ✅ GET — virality leaderboard (param: limit)
-      partner/ai/                    ✅ POST — AI Analyst (Claude API claude-sonnet-4-20250514, quota check_and_increment_ai_quota, rate limit 10/h)
   components/
     landing/
       CreatorCard.tsx      ✅ Card search result (avatar, artistes, prix, hover, badge "✦ Featured")
@@ -69,11 +60,8 @@ src/
     ui/                    ⏳ Composants réutilisables (à construire)
   lib/
     supabase.ts            ✅ Client Supabase (browser)
-    supabase-server.ts     ✅ createServiceClient() (service role — /me /ai /checkout /webhook /pulse-waitlist)
-                              createPartnerClient() (anon key — /intelligence/* avec auth RPC-side)
+    supabase-server.ts     ✅ createServiceClient() (service role — publicProfile, sharedCard, waitlists)
     creators.ts            ✅ searchCreators, getFeaturedCreators, getCreatorProfile
-    stripe.ts              ✅ createCheckoutSession → Edge Function create-stripe-checkout
-    rate-limit.ts          ✅ checkRateLimit(apiKey, endpoint) → RPC check_rate_limit — 100/h intelligence, 10/h AI — fallback { allowed: true } si erreur DB
     seo.ts                 ✅ defaultMetadata, generatePageMetadata, generateCreatorMetadata, generatePlatformMetadata(platform)
                               openGraph.images + twitter.images → '/opengraph-image' (pas og-image.png)
                               PLATFORM_META : spotify / apple-music / youtube-music / soundcloud
@@ -142,7 +130,6 @@ Les profils créateurs dynamiques utilisent `generateCreatorMetadata` dans `gene
 Security headers et `images.remotePatterns` doivent être configurés dans `next.config.ts` :
 - `async headers()` : X-Frame-Options DENY, X-Content-Type-Options nosniff, Referrer-Policy, Permissions-Policy, CSP
 - `images.remotePatterns` : whitelist `images.unsplash.com` + `*.supabase.co/storage/v1/object/public/**`
-- Valider toute URL externe avant `window.location.href = url` : `url.startsWith('https://checkout.stripe.com')`
 - Limiter les inputs utilisateur avant `.or()` Supabase : `query.trim().slice(0, 100)`
 
 ## Conventions
@@ -159,8 +146,6 @@ Security headers et `images.remotePatterns` doivent être configurés dans `next
 Depuis le Sprint Pré-lancement, **tous les textes visibles** du site sont en anglais.
 - `/fans/page.tsx`, `/listeners/page.tsx`, `/creators/page.tsx` : réécrits intégralement en anglais
 - `legal/privacy/page.tsx`, `legal/terms/page.tsx` : LLC → C Corp, section Music Match FR → EN
-- `subscribe/[creatorId]/page.tsx` : disclaimer store fees EN
-- `pay/success/page.tsx` : labels EN (Request confirmed / Drop unlocked / Pulse session confirmed / Tip sent)
 - `creator/[username]/page.tsx` : MOOD_CONFIG labels EN (Light / Melancholy)
 - `page.tsx` : LiveTicker `mood: 'Melancholy'` (était Mélancolie)
 - `seo.ts` : `publisher: 'Zik4U Inc.'` (était 'Zik4U LLC')
@@ -175,6 +160,13 @@ Décliné sur tous les tunnels :
 - `/fans` : hero "See what they listen to. **For real.** Before anyone else."
 - `/card/[username]` : CTA "Real music. Real identity. For real."
 - `seo.ts` description : "...what you actually hear. For real."
+
+## B2B-OFF1 — pas de B2B ni de paiement sur le site (RÈGLE DURE, 24/09/2026)
+- D1 = A : l'offre aux labels (/partner, forfaits, AI Analyst) n'est ni vendue ni promise avant le lancement. `/partner` et `/partner/*` redirigent vers `/` (next.config.ts). `public/llms.txt` ne la présente plus.
+- D2 = A : le B2B vit UNIQUEMENT dans le dépôt Zik4U-api, en sommeil (service Render suspendu le 24/09). Ne jamais le recopier ici. Zik4U-admin = back-office interne seul.
+- D3 = A : aucun paiement direct créateur. Aucune route `/api/partner/*` ni `/api/creator/*`, aucun renvoi vers `api.zik4u.com` ou `admin.zik4u.com` (domaines inexistants).
+- CSP : `connect-src` limité à Supabase, `frame-src 'none'`. Garde : `src/__tests__/b2b-off1.test.ts`.
+- Textes légaux (privacy/terms) NON modifiés par B2B-OFF1 : la mention du programme partenaires reste une information sur un partage possible, à revoir avec l'avocat.
 
 ## WEB-PRIV1 — confidentialité des profils (RÈGLE DURE)
 
@@ -194,18 +186,12 @@ Les pages de profil lisent avec la clé SERVICE, qui contourne la RLS et la règ
 `/` → clic "Creator" → `/creators` → clic CTA → AuthModal → redirect `/`
 
 ### Tunnel fan
-`/` → clic "Fan" → `/fans` → search créateurs → clic card → `/creator/[username]` → clic Subscribe → AuthModal (si non connecté) → `/subscribe/[creatorId]?tier=...` → Stripe Checkout → `/subscribe/success`
+`/` → clic "Fan" → `/fans` → search créateurs → clic card → `/creator/[username]` (carte minimale) → stores. Aucun paiement sur le site
 
 ### Auth flow
 - Google OAuth : `supabase.auth.signInWithOAuth({ provider: 'google', redirectTo: window.location.href })`
 - Email sign in : `supabase.auth.signInWithPassword({ email, password })`
 - Email sign up : `supabase.auth.signUp({ email, password })` → email de confirmation
-
-### Checkout Stripe
-- `subscribe/[creatorId]` récupère le JWT via `supabase.auth.getSession()`
-- Appelle `createCheckoutSession()` dans `src/lib/stripe.ts` → Edge Function `create-stripe-checkout`
-- Valide `result.url.startsWith('https://checkout.stripe.com')` avant `window.location.href = result.url`
-- Retour Stripe → `/subscribe/success?creator=<id>` ou `/subscribe/cancel?creator=<id>`
 
 ## Lib creators.ts — Gotchas Supabase
 - `profiles` joint avec `users!inner(is_creator)` — filtrer avec `.eq('users.is_creator', true)`
@@ -230,24 +216,15 @@ Les pages de profil lisent avec la clé SERVICE, qui contourne la RLS et la règ
 - **`robots.ts`** : règles explicites par agent — GPTBot/ChatGPT-User/Google-Extended/PerplexityBot/ClaudeBot/anthropic-ai/Amazonbot autorisés (accès `/`, disallow `/api/`), Omgilibot bloqué entièrement (`disallow: '/'`)
 - **Layouts SEO** : créer un `layout.tsx` Server Component pour chaque segment nécessitant une metadata scoped (ex: `/works-with/[platform]/layout.tsx` avec `generateMetadata({ params })` qui `await params`)
 
-## Sécurité Partner API
-
-- **`createPartnerClient()`** (anon key) : routes `/api/partner/intelligence/*` — l'auth est gérée côté DB via RPCs SECURITY DEFINER (`partner_get_virality_leaderboard`, `partner_get_artist_intelligence`) qui vérifient la clé API en interne. Code PostgreSQL `42501` → HTTP 401.
-- **`createServiceClient()`** (service role) : routes `/api/partner/me`, `/api/partner/ai`, `/api/partner/checkout`, `/api/partner/webhook`, `/api/pulse-waitlist` — vérification manuelle JS de la clé.
-- **Rate limiting** : `checkRateLimit(apiKey, endpoint)` dans `src/lib/rate-limit.ts` — appeler AVANT tout traitement métier. Retourne `{ allowed, remaining, resetAt }`.
-- **ANTHROPIC_API_KEY** : utilisé dans `/api/partner/ai/route.ts` — jamais exposé côté client (pas de `NEXT_PUBLIC_`).
-
 ## Gotchas supplémentaires
 - **`/api/creator-waitlist` vs `/api/pulse-waitlist`** : `creator-waitlist` exige 3 champs obligatoires (email + artist_name + main_platform) — jamais pour capture email fans. `pulse-waitlist` = email uniquement (table `pulse_waitlist`, `createServiceClient()`).
 - **Nav architecture** : nav homepage dans `src/app/page.tsx` (inline). Navs `/creators`, `/fans`, `/listeners` = inline dans chaque `page.tsx` — pas de layout nav partagé. Chaque page gère ses propres boutons nav.
-- **Revenue splits** : abonnements créateurs = **80%** créateur / 20% Zik4U (affiché sur /creators). Direct payments via zik4u-api = **70%** créateur — deux splits distincts, ne pas confondre.
+- **Revenue split** : abonnements créateurs = **80 %** du net reçu par Zik4U après commission store. AUCUN paiement direct (décision D3 du 24/09/2026 : le 70/30 est retiré).
 - **`defaultMetadata.description`** : source de la meta description homepage — dans `src/lib/seo.ts`, PAS dans `page.tsx` (qui est `'use client'` → pas de metadata export possible).
 - **Bouton "Copy the post →" sur /creators** : déjà implémenté avec `navigator.clipboard.writeText()` + état `copied` (2.5s). Ne pas réimplémenter.
 - **`sitemap.ts`** : AVANT LANCEMENT, `LIST_PROFILES = false` → aucun profil listé (décision 3 = B du 23/09 : comptes de test et pseudos dérivés d'e-mails hors de Google). AU LANCEMENT, après purge des comptes de test : passer `LIST_PROFILES` à true (et adapter le test). Alors `listSitemapProfiles()` de `src/lib/publicProfile.ts` (clé service) liste /card/{username} des seuls comptes publics non supprimés (D4), `revalidate = 3600`. Aucune route /creator (canonique = /card).
 - **`/card/[username]` et `/creator/[username]`** : `getPublicProfile()` + `MinimalProfileCard` / `profileMetadata()` (`src/components/profile/`). Compte privé (users.is_private OU profile_visibility = private) → `robots: noindex, nofollow`. Compte supprimé → introuvable. Deep link `zik4u://profile/:username`.
 - **`/card/[username]/opengraph-image.tsx`** : `runtime = 'nodejs'` (readFileSync TTF), 1200×630, nom + @handle seulement, via `getPublicProfile()`.
-- **APP_STORE_URL / PLAY_STORE_URL** dans `subscribe/success/page.tsx` : liens réels
-  App Store `id6748722257` + Play Store `com.zik4u.app` — sous forme de `<a>` (pas `<button>`)
 - **`searchCreators`** : `.or(\`username.ilike.%${safeQuery}%,...\`)` — toujours passer par `safeQuery = query.trim().slice(0, 100)`
 - **`AuthModal` password** : validation `password.length < 8` côté client avant `signUp`
 - **`/fans` vs `/users`** : `/fans` est la route principale (nouvelle navigation). `/users` est conservée pour les anciens liens mais ne figure plus dans les CTAs ni boutons nav.
@@ -262,15 +239,7 @@ Les pages de profil lisent avec la clé SERVICE, qui contourne la RLS et la règ
 - **`viewport` dans `metadata`** : Next.js 14+ interdit `viewport` dans l'objet `metadata`. Toujours exporter une constante séparée `export const viewport: Viewport = { ... }` dans `layout.tsx`. Sinon : 21 warnings build `⚠ Unsupported metadata viewport is configured in metadata export`. Défini dans `src/lib/seo.ts` → `defaultViewport` + export `viewport` dans `app/layout.tsx`.
 - **URL prod hardcodée interdite** : jamais `https://zik4u.com/...` dans le code — utiliser des chemins relatifs `/...` ou `process.env.NEXT_PUBLIC_SITE_URL`
 - **Landing page** : pas de stats fictives — utiliser un badge "Early access" honnête
-- **Landing footer partner link** : lien discret "For labels & researchers →" dans le footer de la landing (`src/app/page.tsx`), après les liens Privacy/Terms. Couleur `rgba(255,255,255,0.25)` → `#00D4FF` au hover. PAS un bouton nav — `onMouseEnter`/`onMouseLeave` inline style
-- **`/partner/dashboard`** : `'use client'` + `force-dynamic`. API key stockée dans `localStorage` clé `zik4u_partner_key`. Validation côté client : `apiKey.startsWith('zik4u_live_')`. Calls parallèles `/api/partner/me` + `/api/partner/intelligence/virality` via `loadData()`. Pas d'auth Supabase — auth par clé API uniquement.
-- **`/api/partner/checkout`** : génère d'abord une clé `zik4u_live_` provisoire, crée un Stripe Checkout avec `metadata.api_key`. Le webhook `/api/partner/webhook` active la clé après paiement.
-- **`/api/partner/webhook`** : App Router — body lu via `request.text()`, pas de `export const config = { api: { bodyParser: false } }` (pattern Pages Router uniquement, inutile et trompeur en App Router). Idempotence : vérifier `payment_activated === true` en DB avant d'activer — Stripe peut rejouer `checkout.session.completed` sur timeout réseau.
 - **`/api/pulse-waitlist`** : utilise `createServiceClient()` (service role) car la table `pulse_waitlist` n'a pas de RLS anon — insert depuis un visiteur non connecté.
-- **`/partner/dashboard`** architecture Pro : `AuthScreen` (validation `zik4u_live_` prefix + localStorage `zik4u_partner_key`), `Sidebar` fixe 220px, 5 sections composants séparés. `handleArtistSelect()` : `setSection('artists')` puis `setTimeout(() => dispatchEvent(new CustomEvent('zik4u:artist-select', { detail: name })), 50)` — délai 50ms pour laisser `ArtistsSection` se monter et attacher son listener.
-- **Watchlist** : clé localStorage `zik4u_watchlist` (string[]). AI history : `zik4u_ai_history` (50 derniers messages, objet `{ role, content }`).
-- **Period selector** : `'7d' | '30d' | '90d'` — passé comme query param `days` vers `/api/partner/intelligence/virality`. Recalculé en jours : `{ '7d': 7, '30d': 30, '90d': 90 }`.
-- **`partner_search_logs`** : table Supabase loggant toutes les recherches artistes — RLS service_role only. Alimentée de manière fire-and-forget dans la route API (lookup plan via `partner_requests` + insert). Ne jamais attendre ce log pour répondre.
 
 ## Pages — état actuel
 
@@ -283,17 +252,12 @@ Les pages de profil lisent avec la clé SERVICE, qui contourne la RLS et la règ
 | `/users` | ✅ | Alias ancienne URL — conservée pour liens existants |
 | `/become-creator` | ✅ | Redirect Server Component → /creators |
 | `/creator/[username]` | ✅ | Profil public, pills "What you get", titre "Get inside X's musical world", stats mobile, tiers carousel mobile / grid desktop |
-| `/subscribe/[creatorId]` | ✅ | Auth check, avatar créateur réel, order summary, billing toggle mensuel/annuel, redirect Stripe |
-| `/subscribe/success` | ✅ | Succès paiement, `<a>` App Store / Play Store avec vrais liens, "Explore creators →" |
-| `/subscribe/cancel` | ✅ | "Changed your mind?", "Explore other creators →" → /fans |
 | `/legal/privacy` | ✅ | Privacy Policy GDPR/CCPA (Server Component, 12 sections) — SCCs, B2B data disclosure, emotional retention, DPC contact, section 8c Music Match (Art. 6(1)(a) + Art. 9(2)(a) — statut relationnel = donnée sensible UE). `LAST_UPDATED = 'September 23, 2026'` (section 5c WEB-PRIV1). `COMPANY = 'Zik4U Inc.'` |
 | `/legal/terms` | ✅ | Terms of Service (Server Component, 13 sections) — revenue share chiffré, IAP refunds clarifiés, clause EU consommateurs, section Music Match (17+, double opt-in, usages interdits, disclaimer). `LAST_UPDATED = 'March 28, 2026'`. `COMPANY = 'Zik4U Inc.'` |
 | `/card/[username]` | ✅ | Carte minimale WEB-PRIV1 (nom, avatar, bio), OG minimal, noindex si compte privé. `/@username` y mène. |
 | `/sitemap.xml` | ✅ | Routes statiques seulement avant lancement (LIST_PROFILES = false, décision 3 = B) ; au lancement + /card/ des comptes publics non supprimés (D4) |
-| `/robots.txt` | ✅ | Crawl autorisé (robots IA compris, décision 4 du 23/09), /api/ et pages partenaires privées exclus |
+| `/robots.txt` | ✅ | Crawl autorisé (robots IA compris, décision 4 du 23/09), /api/ exclu |
 | `/not-found` (404) | ✅ | "This track doesn't exist." + boutons Back / Find a creator |
-| `/partner` | ✅ | Page Partner enrichie — hero, demo report interactif (3 tabs), 6 features, ROI calculator, 4 plans ($0/$499/$1299/Enterprise), contact form Formspree |
-| `/partner/dashboard` | ✅ | Dashboard Pro — sidebar fixe 5 sections (Overview/Virality/Artists/AI/Account), watchlist, AI Analyst persistant (50 msgs), period selector 7d/30d/90d, filtre pré-viral, sort, cross-section via CustomEvent |
 | `/opengraph-image` | ✅ | OG PNG généré edge (1200×630, logo gradient + tagline) |
 | `/icon` | ✅ | Favicon généré edge (32×32, "Z4" gradient) |
 
@@ -302,11 +266,7 @@ Les pages de profil lisent avec la clé SERVICE, qui contourne la RLS et la règ
 NEXT_PUBLIC_SUPABASE_URL=https://qjrwjdlqlmyliinfjjic.supabase.co
 NEXT_PUBLIC_SUPABASE_ANON_KEY=sb_publishable_WH4Ta8aLhTDQyzLE1Toc4A_QH-XzVjO
 NEXT_PUBLIC_SITE_URL=http://localhost:3000   # https://zik4u.com en prod
-STRIPE_SECRET_KEY=<à configurer>
-STRIPE_WEBHOOK_SECRET=<à configurer>
 SUPABASE_SERVICE_ROLE_KEY=sb_secret_...     # createServiceClient() — jamais exposé côté client
-RESEND_API_KEY=<à configurer>               # Emails partenaires
-ANTHROPIC_API_KEY=<à configurer>            # AI Analyst — /api/partner/ai/ — jamais NEXT_PUBLIC_
 ```
 
 ## Commandes

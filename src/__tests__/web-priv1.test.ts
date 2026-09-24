@@ -24,7 +24,6 @@ function builder(table: string) {
 
 jest.mock('@/lib/supabase-server', () => ({
   createServiceClient: jest.fn(() => ({ from: (t: string) => builder(t), rpc: jest.fn() })),
-  createPartnerClient: jest.fn(),
 }));
 
 import { getPublicProfile, normalizeHandle, listSitemapProfiles } from '@/lib/publicProfile';

@@ -7,7 +7,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint",
-    "lint:ci": "eslint next.config.ts src/lib/publicProfile.ts src/components/profile src/app/card src/app/creator src/app/sitemap.ts src/app/robots.ts src/__tests__/web-priv1.test.ts src/lib/sharedCard.ts src/__tests__/share-key1.test.ts",
+    "lint:ci": "eslint next.config.ts src/lib/publicProfile.ts src/components/profile src/app/card src/app/creator src/app/sitemap.ts src/app/robots.ts src/__tests__/web-priv1.test.ts src/lib/sharedCard.ts src/__tests__/share-key1.test.ts src/__tests__/b2b-off1.test.ts",
     "test": "jest --ci --forceExit"
   },
   "dependencies": {
