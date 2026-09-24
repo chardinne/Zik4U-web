@@ -820,7 +820,7 @@ export default function HomePage() {
           <span style={{ fontSize:20, fontWeight:900, letterSpacing:'0.22em', background:`linear-gradient(90deg, ${C.cyan}, ${C.mint}, ${C.pink})`, WebkitBackgroundClip:'text', WebkitTextFillColor:'transparent' }}>ZIK4U</span>
         </div>
         <div style={{ display:'flex', gap:20, flexWrap:'wrap' }}>
-          {[{label:'Privacy',href:'/legal/privacy'},{label:'Terms',href:'/legal/terms'},{label:'For labels & researchers',href:'/partner'}].map(l => (
+          {[{label:'Privacy',href:'/legal/privacy'},{label:'Terms',href:'/legal/terms'}].map(l => (
             <a key={l.href} href={l.href}
               style={{ fontSize:16, color:C.dim, textDecoration:'none', transition:'color 0.2s' }}
               onMouseEnter={e => (e.currentTarget.style.color=C.text)}

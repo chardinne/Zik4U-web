@@ -1,6 +1,6 @@
 # Zik4U Web — Public Site & Creator Marketplace
 
-Public website for **Zik4U**, the music social network. Three acquisition tunnels (listeners, creators, fans), creator discovery, and Stripe subscription checkout. Shares the same Supabase backend as the mobile app.
+Public website for **Zik4U**, the music social network. Three acquisition tunnels (listeners, creators, fans), creator discovery, public profile cards and legal pages. No payment on the site: creator subscriptions are store in-app purchases in the mobile app. Shares the same Supabase backend as the mobile app.
 
 ## Routes
 
@@ -13,9 +13,6 @@ Public website for **Zik4U**, the music social network. Three acquisition tunnel
 | `/users` | Legacy alias for `/fans` — kept for existing links |
 | `/become-creator` | Server-side redirect → `/creators` |
 | `/creator/[username]` | Public creator profile — "What you get" pills, tiers carousel (mobile) / grid (desktop) |
-| `/subscribe/[creatorId]` | Stripe checkout — auth gate, creator avatar, tier selection, monthly/annual toggle |
-| `/subscribe/success` | Post-payment success — real App Store / Play Store `<a>` links |
-| `/subscribe/cancel` | Abandoned payment — "Changed your mind?" retry CTA |
 | `/legal/privacy` | Privacy Policy (GDPR + CCPA, 11 sections) |
 | `/legal/terms` | Terms of Service (12 sections) |
 | `/card/[username]` | Share-to-install — Now Card preview (mood + last track + top artist + streak), OG metadata, store CTAs, deep link |
@@ -23,7 +20,7 @@ Public website for **Zik4U**, the music social network. Three acquisition tunnel
 | `/opengraph-image` | Generated OG PNG (1200×630, edge runtime) |
 | `/icon` | Generated favicon (32×32 "Z4", edge runtime) |
 | `/sitemap.xml` | Static routes + dynamic creator profiles + `/card/` pages (limit 500) |
-| `/robots.txt` | Crawl allowed, `/subscribe/` and `/api/` excluded |
+| `/robots.txt` | Crawl allowed, `/api/` excluded |
 
 ## Tech Stack
 
@@ -50,9 +47,6 @@ src/
     /users                 # Legacy — kept for existing links
     /become-creator        # Server redirect → /creators
     /creator/[username]    # Public creator profile + tiers
-    /subscribe/[creatorId] # Stripe checkout (auth check, billing toggle, Edge Function)
-    /subscribe/success     # Post-payment success (real store links)
-    /subscribe/cancel      # Abandoned payment
     /legal/privacy         # Privacy Policy (Server Component, 11 sections)
     /legal/terms           # Terms of Service (Server Component, 12 sections)
     /card/[username]       # Share-to-install Server Component — Now Card + store CTAs
@@ -75,7 +69,6 @@ src/
   lib/
     supabase.ts            # Supabase client
     creators.ts            # searchCreators, getFeaturedCreators (Promise.all + dedup), getCreatorProfile
-    stripe.ts              # createCheckoutSession → Edge Function create-stripe-checkout
     seo.ts                 # defaultMetadata, generatePageMetadata, generateCreatorMetadata
   types/
     index.ts               # CreatorProfile, CreatorTier, SearchResult (+ isFeatured: boolean)
@@ -103,11 +96,10 @@ npm install
 Create a `.env.local` file:
 
 ```env
-NEXT_PUBLIC_SUPABASE_URL=https://eirkzsbjlwmflwhqihiw.supabase.co
+NEXT_PUBLIC_SUPABASE_URL=https://qjrwjdlqlmyliinfjjic.supabase.co
 NEXT_PUBLIC_SUPABASE_ANON_KEY=<your-anon-key>
 NEXT_PUBLIC_SITE_URL=http://localhost:3000   # https://zik4u.com in production
-STRIPE_SECRET_KEY=<your-stripe-key>         # for future API routes
-STRIPE_WEBHOOK_SECRET=<your-webhook-secret> # for future API routes
+SUPABASE_SERVICE_ROLE_KEY=<service-key>     # server-only (publicProfile, sharedCard, waitlists)
 ```
 
 ### Development
@@ -166,26 +158,6 @@ OG metadata is generated server-side per user (`generateMetadata`), enabling ric
 
 Results are merged and deduplicated (featured first). The `is_featured` flag is set manually in Supabase Dashboard → Table Editor → users. `CreatorCard` displays a "✦ Featured" badge (gradient #FF3CAC → #7B2FFF) for featured accounts.
 
-## Checkout Flow
-
-```
-/creator/[username]  →  user clicks Subscribe
-  ↓
-AuthModal if not authenticated (Google OAuth or email/password)
-  ↓
-/subscribe/[creatorId]?tier=<tierId>
-  Creator avatar (real photo or initial fallback)
-  Tier details + monthly/annual billing toggle
-  JWT from supabase.auth.getSession()
-  ↓
-createCheckoutSession() → Edge Function create-stripe-checkout
-  Validates: url.startsWith('https://checkout.stripe.com')
-  ↓
-window.location.href = checkoutUrl
-  ↓
-Stripe Checkout  →  /subscribe/success  or  /subscribe/cancel
-```
-
 ## Design System
 
 - **Palette**: cyan `#00D4FF`, mint `#00FFB2`, pink `#FF3CAC`, violet `#7B2FFF`
@@ -201,7 +173,7 @@ Tailwind v4 tokens are declared in `src/app/globals.css` via `@theme`. Brand col
 
 - Security headers in `next.config.ts` (X-Frame-Options DENY, CSP, Referrer-Policy, Permissions-Policy)
 - `images.remotePatterns`: `images.unsplash.com` + `*.supabase.co`
-- Stripe redirect validated: `url.startsWith('https://checkout.stripe.com')` before any redirect
+- No payment and no B2B routes on the site (B2B-OFF1): CSP `connect-src` limited to Supabase, `frame-src 'none'`
 - User inputs sanitized before Supabase queries: `query.trim().slice(0, 100)`
 - No secrets in client-side code — only `NEXT_PUBLIC_*` variables are exposed
 
@@ -218,7 +190,8 @@ Tailwind v4 tokens are declared in `src/app/globals.css` via `@theme`. Brand col
 | Repo | Role | URL |
 |---|---|---|
 | [Zik4U](https://github.com/chardinne/Zik4U) | React Native mobile app (iOS + Android) | App Store / Google Play |
-| [Zik4U-web](https://github.com/chardinne/Zik4U-web) | This repo — public site + Stripe checkout | `zik4u.com` |
-| [Zik4U-admin](https://github.com/chardinne/Zik4U-admin) | Internal admin dashboard | `admin.zik4u.com` |
+| [Zik4U-web](https://github.com/chardinne/Zik4U-web) | This repo — public site, profile cards, legal pages | `zik4u.com` |
+| Zik4U-admin (private) | Internal back-office — runs on the administrator's workstation only, never published | — |
+| Zik4U-api (private) | Future B2B (labels) service — dormant, not deployed | — |
 
-All three share the same Supabase project (`eirkzsbjlwmflwhqihiw`).
+All four share the same Supabase project (`qjrwjdlqlmyliinfjjic`).

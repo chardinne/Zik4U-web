@@ -30,16 +30,6 @@ All listening data is anonymized before storage. Every play triggered from Zik4U
 
 GDPR basis: Art. 6(1)(a) explicit consent. Users can export or delete all data at any time.
 
-## B2B Intelligence Platform
-
-Zik4U offers aggregate, anonymized music intelligence to labels and researchers:
-- Pre-viral artist detection (cross-platform listening spikes)
-- Listener archetypes (7 types: explorer, loyalist, ritualist, social, nostalgic, focus, eclectic)
-- Emotional listening patterns (mood trajectories, peak hours, repeat signals)
-- Cross-platform audience analysis
-
-No individual user data is shared. All B2B data is aggregated and anonymized.
-
 ## App
 
 - iOS: Available on the App Store (com.zik4u.app)

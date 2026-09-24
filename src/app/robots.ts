@@ -9,54 +9,49 @@ export default function robots(): MetadataRoute.Robots {
         // Default: allow all, block private/API routes
         userAgent: '*',
         allow: '/',
-        disallow: [
-          '/api/',
-          '/partner/dashboard',
-          '/partner/cancel',
-          '/partner/success',
-        ],
+        disallow: ['/api/'],
       },
       {
         // OpenAI web crawler — allow indexing for ChatGPT citations
         userAgent: 'GPTBot',
         allow: '/',
-        disallow: ['/api/', '/partner/dashboard', '/partner/cancel', '/partner/success'],
+        disallow: ['/api/'],
       },
       {
         // ChatGPT browsing plugin
         userAgent: 'ChatGPT-User',
         allow: '/',
-        disallow: ['/api/', '/partner/dashboard', '/partner/cancel', '/partner/success'],
+        disallow: ['/api/'],
       },
       {
         // Google Gemini / AI Overviews
         userAgent: 'Google-Extended',
         allow: '/',
-        disallow: ['/api/', '/partner/dashboard', '/partner/cancel', '/partner/success'],
+        disallow: ['/api/'],
       },
       {
         // Perplexity AI
         userAgent: 'PerplexityBot',
         allow: '/',
-        disallow: ['/api/', '/partner/dashboard', '/partner/cancel', '/partner/success'],
+        disallow: ['/api/'],
       },
       {
         // Anthropic Claude
         userAgent: 'ClaudeBot',
         allow: '/',
-        disallow: ['/api/', '/partner/dashboard', '/partner/cancel', '/partner/success'],
+        disallow: ['/api/'],
       },
       {
         // Anthropic Claude (alternate)
         userAgent: 'anthropic-ai',
         allow: '/',
-        disallow: ['/api/', '/partner/dashboard', '/partner/cancel', '/partner/success'],
+        disallow: ['/api/'],
       },
       {
         // Amazon Alexa / Bedrock
         userAgent: 'Amazonbot',
         allow: '/',
-        disallow: ['/api/', '/partner/dashboard', '/partner/cancel', '/partner/success'],
+        disallow: ['/api/'],
       },
       {
         // Webz.io — used by some AI training pipelines

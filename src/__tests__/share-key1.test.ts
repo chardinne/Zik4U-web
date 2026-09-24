@@ -46,7 +46,6 @@ jest.mock('@/lib/supabase-server', () => ({
     from: (t: string) => builder(t),
     rpc: (fn: string) => { reads.push(`rpc:${fn}`); return Promise.resolve({ data: fn === 'get_archetype_distribution' ? [{ archetype: 'night_explorer', percentage: 2 }] : null, error: null }); },
   })),
-  createPartnerClient: jest.fn(),
 }));
 
 import { getSharedCard, isShareKey } from '@/lib/sharedCard';
