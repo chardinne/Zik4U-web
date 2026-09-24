@@ -125,3 +125,13 @@ SENTRY_DSN are production-only secrets → missing from preview/dev builds.
 - **Preview Vercel protégée** : 302 vers la connexion Vercel pour tout anonyme → vérifier une preview à l'œil (navigateur connecté) ; vérif HTTP en production. `zik4u.com` → 307 vers `www.zik4u.com` : tout curl de production prend `-L`.
 - Déploiement de production lisible par `gh api "repos/chardinne/Zik4U-web/deployments?sha=<sha>&environment=Production"` puis `/statuses`.
 - Dettes relevées : `/fans` et recherche créateurs (`lib/creators.ts`) lisent des colonnes inexistantes de profiles ; politique « Florida C Corp » à faire relire.
+
+## WEB-PRIV1 PARTIE 2 / SHARE-KEY1 (2026-09-24) — CLOSE EN PRODUCTION (PR #3, commit `eea8ee1`, merge `79fe685`)
+- Exige la migration 00177 de Zik4U (table `share_keys`, une clé vivante par compte, révoquée par `revoke_share_keys()` depuis l'app).
+- `/card/<pseudo>?k=<clé>` (et `/@<pseudo>?k=`) → carte COMPLÈTE (dernière écoute, en répétition, archétype, rareté, constellation) SEULEMENT si la clé est la clé vivante de CE compte, même pour un compte privé. Clé absente, fausse, révoquée ou d'un autre compte → carte minimale. Compte supprimé → rien.
+- Seul lecteur d'écoutes du site : `src/lib/sharedCard.ts` (`getSharedCard`, `isShareKey`), lectures APRÈS la vérification de clé ; rendu pur : `src/components/profile/SharedFullCard.tsx` (+ `CelestialBody.tsx`, `ListenButton.tsx` restaurés). Toute URL avec `?k=` = `noindex, nofollow` + `referrer: no-referrer`. Image d'aperçu de lien : minimale (pas d'accès à la clé). Contenu exclusif créateur jamais lu (D6).
+- Clause 5c complète en ligne, « Links you share » compris ; LAST_UPDATED = September 24, 2026.
+- Garde : `src/__tests__/share-key1.test.ts` (31 tests au total) ; `lint:ci` couvre `sharedCard.ts` et ce test.
+- PROUVÉ : preview à l'œil (carte minimale sans clé et avec fausse clé, 5c) ; production par `curl -L` (5c, date, sans clé indexable, fausse clé noindex + no-referrer), CI main verte ; à l'œil sur l'A54 : carte complète avec la vraie clé, puis carte minimale après révocation.
+- Étiquettes : WEB-PRIV1 et SHARE-KEY1 PRISES (consignées aussi dans le MEMORY.md de Zik4U, gravure `63a6bf8`).
+- Constat : l'app partage `zik4u.com/playlist/<id>`, page absente du site (surface morte).
