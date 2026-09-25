@@ -1,115 +1,44 @@
-# ZIK4U REVENUE FLOW — Flux Financier Complet
-> Source de vérité pour tout ce qui touche à l'argent.
-> Mis à jour : 2026-06-06
+# ZIK4U REVENUE FLOW — règles de l'argent
+> SOURCE UNIQUE : dépôt `chardinne/Zik4U`, fichier `.claude/REVENUE_FLOW.md`. Les copies de Zik4U-web, Zik4U-admin et Zik4U-api sont IDENTIQUES ; ne jamais modifier une copie.
+> Ce fichier porte les RÈGLES et les CHEMINS. Les montants, lignes et statuts se lisent en base ; le détail du calcul dans le code (`supabase/functions/calculate-payouts`, `revenuecat-webhook`).
+> Mis à jour : 2026-09-25 (DOC-SHARED1).
 
 ---
 
-## 🔁 MISE À JOUR W1 (2026-06-06) — Fans = IAP uniquement, flux fan Stripe web RETIRÉ
-**Pivot stratégique (compliance Apple/Google) : les fans paient EXCLUSIVEMENT via IAP (App Store / Google Play + RevenueCat). Le flux fan Stripe web est supprimé (zik4u-web merge `d847faf`).**
-- **Canal 1 (Fan→Web)** : ❌ SUPPRIMÉ de bout en bout. UI web retirée (`/subscribe/*` + `src/lib/stripe.ts`, W1) ; mobile `SubscribeToCreatorUseCase` sans appel web (M1) ; Edge Function `create-stripe-checkout` **désactivée → 410 Gone** (EF1, déployée 06/06, reste en place pour rollback). Coupure serveur W1/M1 COMPLÈTE.
-- **Canal 3 (paiements directs)** : ⚠️ routes web `POST /api/creator/payment` + `/api/creator/payment-webhook` **SUPPRIMÉES**. Les paiements directs (tip / drop_unlock / pulse_session / request) n'ont plus de chemin Stripe web → à ré-implémenter en IAP ou laissés inactifs (à arbitrer).
-- **Canal 2 (Mobile IAP)** : devient le SEUL canal fan→créateur actif. RevenueCat porte désormais AUSSI les abonnements créateur-fan (plus seulement le premium Zik4U).
-- **Canal 4 (B2B partenaires)** : INTACT — Stripe reste actif uniquement pour labels/partenaires (`/api/partner/*` + `stripe-server.ts`).
+## Règle de partage
+- **Le créateur reçoit 80 % du NET encaissé par Zik4U, après commission du store** : `creator_share = montant reçu du store × 0,80`. Zik4U garde 20 %.
+- **Le chiffre « grille » (prix × 0,80) n'est PAS ce que reçoit le créateur** : mesuré ≈ 81 % de ce chiffre sur Android France (commission store et taxes). Tout écran, texte ou discours qui promet un montant se confronte au calcul réel.
+- 10 paliers de prix (migration 00080) : lire la table en base, ne pas les recopier.
 
 ---
 
-## 💰 MONEY IN — Sources de revenus
+## Entrées d'argent
 
-### Canal 1 : Fan → Abonnement créateur (Web) — ❌ SUPPRIMÉ W1/M1/EF1 (UI + use case + EF 410 Gone, voir note en tête)
-```
-Fan → CreatorSubscribeScreen → create-stripe-checkout (Edge Function)
-  lookup_key: zik4u_creator_{creatorId}_{revenueTierId}_{billingPeriod}
-  Stripe Tax auto + customer_update: { address: 'auto' }
-→ checkout.stripe.com
-→ Webhook stripe-webhook → INSERT subscriptions + creator_subscriptions + revenue_events
-```
+| Canal | État |
+|---|---|
+| Abonnement fan → créateur par achat intégré (Google Play puis App Store, via RevenueCat) | SEUL canal prévu. NON EN SERVICE : clés RevenueCat et produits store à créer (un produit par créateur, id `zik4u_c_<16 hex>_monthly`, dérivé en base) |
+| Premium Zik4U | en sommeil (`PREMIUM_ENABLED`) |
+| Abonnement fan par Stripe (web) | SUPPRIMÉ : `create-stripe-checkout` renvoie 410 |
+| Paiements directs créateur-fan (tip, drop, request, pulse) | RETIRÉS du site, de l'admin et de l'api (décision du 24/09/2026) ; UI mobile en pause ; table `creator_direct_payments` conservée. Ne pas réintroduire |
+| Offre B2B aux labels (Stripe) | EN SOMMEIL, uniquement dans Zik4U-api, ni vendue ni promise avant le lancement |
 
-### Canal 2 : Fan → Abonnement créateur (Mobile iOS/Android)
-```
-Fan → resolve_subscription_intent() → subscription_intents (expire 15min)
-→ RevenueCat IAP (appleProductId / googleProductId)
-→ Webhook revenuecat-webhook → résout subscription_intents → creator_subscriptions + revenue_events
-```
-
-### Canal 3 : Paiements directs créateur-fan — ⚠️ ROUTES WEB SUPPRIMÉES W1 (voir note en tête)
-```
-4 types : request · drop_unlock · pulse_session · tip
-Table centrale : creator_direct_payments (migration 00085)
-  payment_type IN ('request', 'drop_unlock', 'pulse_session', 'tip')
-  status IN ('pending', 'paid', 'expired', 'cancelled')
-  stripe_session_id TEXT UNIQUE  -- idempotency key
-  creator_share_usd NUMERIC(8,2) -- 80%
-  platform_share_usd NUMERIC(8,2) -- 20%
-Tous via : POST /api/creator/payment (zik4u-web) → Stripe Checkout → Linking.openURL
-Webhook : /api/creator/payment-webhook → UPDATE status='paid'
-⚠️ Idempotency check OBLIGATOIRE avant tout UPDATE (Stripe peut rejouer)
-```
-
-### Canal 4 : B2B Partenaires
-```
-Stripe subscription via /api/partner/checkout
-4 tiers : Discover · Insight · Intelligence · Enterprise
-Webhook : /api/partner/webhook (vérification HMAC obligatoire)
-```
+Chemin de l'abonnement : l'app enregistre une intention (`subscription_intents`) → achat store (RevenueCat) → `revenuecat-webhook` retrouve le créateur par `resolve_subscription_intent` → écrit `subscriptions` et `revenue_events` (journal, rejeu ignoré par transaction). L'abonné d'un créateur se lit dans `creator_subscriptions.subscriber_id` (jamais `user_id`).
+Point ouvert : au premier achat de test, vérifier le format « produit:plan » renvoyé par le store face à `resolve_subscription_intent`.
 
 ---
 
-## 💸 MONEY OUT — Paiements créateurs
-
-### Split
-- **80% créateur / 20% Zik4U** (net après frais store/Stripe)
-- Frais Stripe web : 2.9% + $0.30 déduits avant calcul du split
-- Frais stores (iOS/Android) : répercutés sur l'abonné via price_ios_30 / price_android (×1.15)
-- Table `revenue_events` (log immutable — jamais de UPDATE/DELETE) :
-  - `creator_share` = net × 0.80
-  - `platform_share` = net × 0.20
-
-### 10 paliers de revenus créateur (migration 00080)
-| tier_key | Prix web | Revenu créateur/mois |
-|---|---|---|
-| tier_1 Starter | $1.00 | $0.80 |
-| tier_2 Spark | $2.00 | $1.60 |
-| tier_5 Fan | $5.00 | $4.00 |
-| tier_10 Supporter | $10.00 | $8.00 |
-| tier_15 Enthusiast | $15.00 | $12.00 |
-| tier_20 Patron | $20.00 | $16.00 |
-| tier_30 Devotee | $30.00 | $24.00 |
-| tier_50 Superfan | $50.00 | $40.00 |
-| tier_75 VIP | $75.00 | $60.00 |
-| tier_100 Legend | $100.00 | $80.00 |
-
-### Workflow Payout Trolley
-```
-Edge Function calculate-payouts (cron 1er du mois)
-  → SELECT créateurs : solde ≥ $25 + kyc_status='verified' + trolley_recipient_id présent
-  → Trolley API POST /v1/payments → virement Mercury (Zik4U Inc. Florida)
-  → INSERT payouts_history (status: processing + trolley_payment_id)
-  → ⚠️ Payouts > $500 : flag manuel requis dans admin.zik4u.com/creators
-```
-
-### Tables critiques
-```
-revenue_events          → log immutable (append-only, JAMAIS de UPDATE/DELETE)
-creator_direct_payments → source de vérité paiements directs
-payouts_history         → historique virements Trolley
-creator_onboarding      → kyc_status + trolley_recipient_id + payout_method
-subscriptions           → abonnements actifs
-creator_revenue_tiers   → 10 paliers actifs (migration 00080)
-```
+## Sorties d'argent (versements créateurs)
+- **Versement AUTOMATIQUE seulement** (décision du 25/09/2026) : back-office « Pay all » → route serveur `/api/admin/pay-all` de Zik4U-admin (contrôle `is_admin`, journal `admin_audit_logs`, aucun montant accepté du client) → fonction `calculate-payouts` (clé service) → Trolley → `payouts_history`. Aucun cron.
+- Conditions d'éligibilité et seuil : lire `calculate-payouts` (au 25/09/2026 : `MINIMUM_PAYOUT_USD = 25`, `kyc_status = 'verified'`).
+- **Demande de versement depuis l'app** (`submit_payout_request`, table `payout_requests`) : À RETIRER. `calculate-payouts` ne la lit pas ; la garder exposerait à un double paiement.
+- Point ouvert : un rejet tardif de Trolley laisse la ligne en `processing`.
+- Aucun versement manuel d'un montant saisi à la main (route retirée de l'admin le 25/09/2026).
 
 ---
 
-## 🛡️ COMPLIANCE FISCALE
-- 1099-K IRS : créateurs avec revenus ≥ $600/year (export CSV admin)
-- W-8BEN : créateurs non-US (via Trolley)
-- Stripe Tax : activé sur tous les checkouts web (customer_update: address auto)
-- `profiles.tax_verified` : statut de vérification fiscale
-- Formulaires auto-générés via Trolley (pas d'action manuelle requise)
+## Webhooks et secrets
+- `stripe-webhook` et `revenuecat-webhook` : signature ou secret vérifié avant tout traitement ; traitement idempotent (un webhook peut être rejoué).
+- `TROLLEY_API_KEY`, clés Stripe et RevenueCat : serveur uniquement. Celles qui ont vécu sur les services Render suspendus sont à régénérer avant tout usage.
 
----
-
-## 🔑 CLÉS & WEBHOOKS — règles de sécurité
-- `STRIPE_WEBHOOK_SECRET` : vérification signature OBLIGATOIRE avant tout traitement
-- `REVENUECAT_WEBHOOK_SECRET` : idem
-- `TROLLEY_API_KEY` : server-side uniquement, jamais exposé côté client
-- Webhook Stripe peut rejouer → idempotency check sur `stripe_session_id` TOUJOURS
+## Fiscalité
+Rien n'est affirmé ici : elle dépend de l'entité juridique, en cours de décision.
