@@ -32,15 +32,18 @@ Point ouvert : au premier achat de test, vérifier le format « produit:plan » 
 - Conditions d'éligibilité et seuil : lire `calculate-payouts` (au 25/09/2026 : `MINIMUM_PAYOUT_USD = 25`, `kyc_status = 'verified'`).
 - **Demande de versement depuis l'app** (`submit_payout_request`, table `payout_requests`) : RETIRÉE (SEC-COCKPIT-APP, migration 00179 : service_role seul). Ne pas réintroduire : `calculate-payouts` ne la lit pas, ce serait un risque de double paiement.
 - **Inscription du créateur au versement** (MONEY-OUT1, décisions du 25/09/2026) : proposée dès que le compte devient créateur, non bloquante, rappelée dans Revenus. L'app ouvre la page d'inscription HÉBERGÉE PAR TROLLEY par un lien signé de courte durée (fonction `trolley-onboarding-link`, créateurs seulement) ; identité et coordonnées bancaires se saisissent chez Trolley, jamais dans Zik4U. Trolley notifie `trolley-webhook` (signature vérifiée), seul écrivain de `creator_onboarding` via `apply_trolley_recipient_status` (service_role seul, migration 00180) : identifiant Trolley et statut (`not_started`, `pending`, `verified`, `rejected`). L'app ne fait que LIRE sa propre ligne. Tant que les clés Trolley ne sont pas posées, les deux fonctions répondent 503 et rien ne part.
-- Point ouvert (lot b de MONEY-OUT1) : l'appel de `calculate-payouts` à Trolley (`POST /v1/payments`, `Bearer TROLLEY_API_KEY`) ne correspond pas à l'API documentée par Trolley (lots de paiement, signature `prsign` + `X-PR-Timestamp`) : à réaligner avant tout versement réel.
-- Point ouvert : un rejet tardif de Trolley laisse la ligne en `processing`.
+- **Envoi** (MONEY-OUT1 lot b, migration 00181) : `calculate-payouts` paie par lots Trolley signés (`TROLLEY_ACCESS_KEY` / `TROLLEY_SECRET_KEY`) : création du lot, devis, lancement ; chaque ligne `payouts_history` est l'`externalId` de son paiement. Statuts : `pending` (issue inconnue, montant retenu, un humain vérifie chez Trolley), `processing` (parti), `completed` (arrivé), `failed` (refusé ou retourné). Une période n'est jamais rejouée par la fonction.
+- **Solde à verser** (`get_creator_payout_balance`) : tout ce qui est gagné avant la fin de la période, moins tout versement qui n'est pas un échec confirmé. Un versement `failed` repart avec le versement suivant, sans geste humain (décision du 25/09/2026) ; un `pending` reste retenu (jamais payé deux fois).
+- **Notifications de paiement** : `trolley-webhook` écrit l'état via `apply_trolley_payment_status` (service_role seul, 00181), seul écrivain des états Trolley ; un événement ancien n'écrase jamais un plus récent.
+- **Alerte** : la vérification horaire `run_system_health_check` porte un contrôle `payouts` (échec dans les 24 h, `pending` depuis plus d'1 h, `processing` depuis plus de 14 jours) qui alerte par le moniteur Sentry. Aucun message au créateur dans l'app au lancement.
+- Mécanismes Trolley tirés de sa documentation, NON MESURÉS avant le premier versement réel (bac à sable d'abord si possible).
 - Aucun versement manuel d'un montant saisi à la main (route retirée de l'admin le 25/09/2026).
 
 ---
 
 ## Webhooks et secrets
 - `stripe-webhook`, `revenuecat-webhook` et `trolley-webhook` : signature ou secret vérifié avant tout traitement ; traitement idempotent (un webhook peut être rejoué).
-- Clés Trolley (`TROLLEY_ACCESS_KEY`, `TROLLEY_SECRET_KEY`, `TROLLEY_WEBHOOK_SECRET` ; `TROLLEY_API_KEY` lue par `calculate-payouts` jusqu'au lot b), clés Stripe et RevenueCat : serveur uniquement, posées dans les secrets Supabase. Celles qui ont vécu sur les services Render suspendus sont à régénérer avant tout usage.
+- Clés Trolley (`TROLLEY_ACCESS_KEY`, `TROLLEY_SECRET_KEY`, `TROLLEY_WEBHOOK_SECRET`), clés Stripe et RevenueCat : serveur uniquement, posées dans les secrets Supabase. Celles qui ont vécu sur les services Render suspendus sont à régénérer avant tout usage.
 
 ## Fiscalité
 Rien n'est affirmé ici : elle dépend de l'entité juridique, en cours de décision.
