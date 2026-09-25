@@ -30,7 +30,8 @@ Point ouvert : au premier achat de test, vérifier le format « produit:plan » 
 ## Sorties d'argent (versements créateurs)
 - **Versement AUTOMATIQUE seulement** (décision du 25/09/2026) : back-office « Pay all » → route serveur `/api/admin/pay-all` de Zik4U-admin (contrôle `is_admin`, journal `admin_audit_logs`, aucun montant accepté du client) → fonction `calculate-payouts` (clé service) → Trolley → `payouts_history`. Aucun cron.
 - Conditions d'éligibilité et seuil : lire `calculate-payouts` (au 25/09/2026 : `MINIMUM_PAYOUT_USD = 25`, `kyc_status = 'verified'`).
-- **Demande de versement depuis l'app** (`submit_payout_request`, table `payout_requests`) : À RETIRER. `calculate-payouts` ne la lit pas ; la garder exposerait à un double paiement.
+- **Demande de versement depuis l'app** (`submit_payout_request`, table `payout_requests`) : RETIRÉE (SEC-COCKPIT-APP, migration 00179 : service_role seul). Ne pas réintroduire : `calculate-payouts` ne la lit pas, ce serait un risque de double paiement.
+- **Inscription du créateur au versement** : aucune surface n'écrit aujourd'hui `trolley_recipient_id` ni `kyc_status = 'verified'` ; sans elles, aucun créateur n'est payable. Décision du 25/09/2026 : inscription autonome dans l'app par la page d'inscription de Trolley, proposée dès que le compte devient créateur (chantier MONEY-OUT1). Zik4U ne stocke ni coordonnées bancaires ni pièce d'identité.
 - Point ouvert : un rejet tardif de Trolley laisse la ligne en `processing`.
 - Aucun versement manuel d'un montant saisi à la main (route retirée de l'admin le 25/09/2026).
 
