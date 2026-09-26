@@ -22,8 +22,8 @@
 | Paiements directs créateur-fan (tip, drop, request, pulse) | RETIRÉS du site, de l'admin et de l'api (décision du 24/09/2026) ; UI mobile en pause ; table `creator_direct_payments` conservée. Ne pas réintroduire |
 | Offre B2B aux labels (Stripe) | EN SOMMEIL, uniquement dans Zik4U-api, ni vendue ni promise avant le lancement |
 
-Chemin de l'abonnement : l'app enregistre une intention (`subscription_intents`) → achat store (RevenueCat) → `revenuecat-webhook` retrouve le créateur par `resolve_subscription_intent` → écrit `subscriptions` et `revenue_events` (journal, rejeu ignoré par transaction). L'abonné d'un créateur se lit dans `creator_subscriptions.subscriber_id` (jamais `user_id`).
-Point ouvert : au premier achat de test, vérifier le format « produit:plan » renvoyé par le store face à `resolve_subscription_intent`.
+Chemin de l'abonnement : achat store (RevenueCat) → `revenuecat-webhook` retrouve le créateur PAR LE PRODUIT (`resolve_store_product`, un produit par créateur, jamais par une donnée écrite par l'app) → écrit `subscriptions` et `revenue_events` (journal, rejeu ignoré par transaction). Le déclencheur `iap2_sync_creator_subscription` sur `subscriptions` est le SEUL écrivain de `creator_subscriptions` pour le store (une ligne par fan et créateur ; résiliation = accès jusqu'à `expires_at`, remboursement et expiration = coupure). L'abonné d'un créateur se lit dans `creator_subscriptions.subscriber_id` (jamais `user_id`). Aucun client n'écrit `subscriptions` ni `creator_subscriptions`.
+Point ouvert : au premier achat de test, vérifier le format « produit:plan » renvoyé par le store (`resolve_store_product` accepte les deux formes) et l'accès du fan de bout en bout.
 
 ---
 
