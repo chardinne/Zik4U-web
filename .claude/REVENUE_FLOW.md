@@ -18,7 +18,7 @@
 |---|---|
 | Abonnement fan → créateur par achat intégré (Google Play puis App Store, via RevenueCat) | SEUL canal prévu. NON EN SERVICE : clés RevenueCat et produits store à créer (un produit par créateur, id `zik4u_c_<16 hex>_monthly`, dérivé en base) |
 | Premium Zik4U | en sommeil (`PREMIUM_ENABLED`) |
-| Abonnement fan par Stripe (web) | SUPPRIMÉ : `create-stripe-checkout` renvoie 410 |
+| Abonnement fan par Stripe (web) | SUPPRIMÉ : `create-stripe-checkout` et `stripe-webhook` retirées du dépôt et de Supabase (STRIPE-OFF1, 27/09/2026). Ne pas réintroduire |
 | Paiements directs créateur-fan (tip, drop, request, pulse) | RETIRÉS du site, de l'admin et de l'api (décision du 24/09/2026) ; UI mobile en pause ; table `creator_direct_payments` conservée. Ne pas réintroduire |
 | Offre B2B aux labels (Stripe) | EN SOMMEIL, uniquement dans Zik4U-api, ni vendue ni promise avant le lancement |
 
@@ -42,7 +42,7 @@ Point ouvert : au premier achat de test, vérifier le format « produit:plan » 
 ---
 
 ## Webhooks et secrets
-- `stripe-webhook`, `revenuecat-webhook` et `trolley-webhook` : signature ou secret vérifié avant tout traitement ; traitement idempotent (un webhook peut être rejoué).
+- `revenuecat-webhook` et `trolley-webhook` : signature ou secret vérifié avant tout traitement ; traitement idempotent (un webhook peut être rejoué).
 - Clés Trolley (`TROLLEY_ACCESS_KEY`, `TROLLEY_SECRET_KEY`, `TROLLEY_WEBHOOK_SECRET`), clés Stripe et RevenueCat : serveur uniquement, posées dans les secrets Supabase. Celles qui ont vécu sur les services Render suspendus sont à régénérer avant tout usage.
 
 ## Fiscalité
