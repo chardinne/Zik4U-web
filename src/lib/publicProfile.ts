@@ -33,6 +33,8 @@ interface UserRow {
   is_private: boolean | null;
   is_creator: boolean | null;
   deleted_at: string | null;
+  // SEC-COCKPIT c2 (Zik4U 00198): a suspended account is shown like a deleted one.
+  is_banned?: boolean | null;
   updated_at?: string | null;
 }
 
@@ -53,12 +55,12 @@ export async function getPublicProfile(rawHandle: string): Promise<PublicProfile
   const sc = createServiceClient();
   const { data, error } = await sc
     .from('users')
-    .select('id, username, display_name, avatar_url, bio, is_private, is_creator, deleted_at')
+    .select('id, username, display_name, avatar_url, bio, is_private, is_creator, deleted_at, is_banned')
     .eq('username', handle)
     .maybeSingle();
 
   const user = data as UserRow | null;
-  if (error || !user || !user.username || user.deleted_at) return null;
+  if (error || !user || !user.username || user.deleted_at || user.is_banned === true) return null;
 
   const { data: visRow, error: visError } = await sc
     .from('profiles')
@@ -79,15 +81,16 @@ export async function getPublicProfile(rawHandle: string): Promise<PublicProfile
   };
 }
 
-/** Public, non-deleted accounts only (D4). Fail-closed: any read error returns []. */
+/** Public, non-deleted, non-suspended accounts only (D4, SEC-COCKPIT c2). Fail-closed: any read error returns []. */
 export async function listSitemapProfiles(limit = 5000): Promise<SitemapProfile[]> {
   const sc = createServiceClient();
 
   const [{ data: users, error: usersError }, { data: privateRows, error: privError }] = await Promise.all([
     sc
       .from('users')
-      .select('id, username, is_private, deleted_at, updated_at')
+      .select('id, username, is_private, deleted_at, is_banned, updated_at')
       .is('deleted_at', null)
+      .eq('is_banned', false)
       .or('is_private.is.null,is_private.eq.false')
       .not('username', 'is', null)
       .order('updated_at', { ascending: false })
@@ -100,6 +103,6 @@ export async function listSitemapProfiles(limit = 5000): Promise<SitemapProfile[
   const hidden = new Set(((privateRows as { user_id: string }[] | null) ?? []).map((r) => r.user_id));
 
   return ((users as UserRow[] | null) ?? [])
-    .filter((u) => !!u.username && !u.deleted_at && u.is_private !== true && !hidden.has(u.id))
+    .filter((u) => !!u.username && !u.deleted_at && u.is_banned !== true && u.is_private !== true && !hidden.has(u.id))
     .map((u) => ({ username: u.username as string, updatedAt: u.updated_at ?? null }));
 }
