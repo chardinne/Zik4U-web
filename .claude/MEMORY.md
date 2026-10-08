@@ -148,3 +148,11 @@ SENTRY_DSN are production-only secrets → missing from preview/dev builds.
 - CONSTAT C8 → WEB-TRUTH1 (AVANT LANCEMENT, textes arbitrés par Bertrand) : `llms.txt` (connexion OAuth Spotify/SoundCloud/Deezer, app « disponible » sur les stores, « Zik4U LLC », écoutes « anonymisées avant stockage »), `/creators` (« Connect your streaming services », « Exclusive Drops ») et l'accueil (boutons stores, « 14+ music sources ») décrivent ce qui n'existe pas ou contredit le zéro API tierce.
 - Consignes partagées `.claude/SHARED_CONTEXT.md` et `.claude/REVENUE_FLOW.md` : 4 versions différentes dans les 4 dépôts, périmées — lot d'unification à venir (source unique dans Zik4U).
 - Étiquettes : B2B-OFF1 PRISE (web #4) ; SEC-COCKPIT et WEB-TRUTH1 réservées. Consignées aussi dans le MEMORY.md de Zik4U.
+
+## SEC-COCKPIT c2 (2026-10-08) — CLOSE EN PRODUCTION (PR #5, merge `9396ccb`)
+- Décisions de Bertrand du 08/10 (toutes A) : un compte suspendu se montre comme un compte supprimé (app : « This account is not available. », sans Retry). Côté base : migration 00198 de Zik4U (déclencheur sur users.is_banned qui bloque la connexion, politiques et fonctions qui masquent le compte).
+- Le site lit avec la clé de service (aucune politique ne s'applique) : `src/lib/publicProfile.ts` et `src/lib/sharedCard.ts` lisent `is_banned` et le traitent comme `deleted_at` — pas de page de profil, pas de carte partagée même avec la clé vivante, jamais dans le plan du site (`.eq('is_banned', false)` + filtre). Aucun texte neuf sur le site (introuvable = comme supprimé).
+- Garde : `src/__tests__/sec-cockpit-c2.test.ts` (3 tests, échouent 3/3 sur l'ancien état), ajouté à `lint:ci`. 33 tests web.
+- PROUVÉ : preview à l'œil (accueil, /@bertrand) ; production success, www 200, zik4u.com 307, /@bertrand 200 ; CI main verte (run 37795465044). Éprouvé dans l'app le 08/10 avec le compte de test réellement suspendu puis levé.
+- RÈGLE : toute nouvelle lecture d'un compte par le site (clé de service) filtre `deleted_at` ET `is_banned`.
+- Étiquette : SEC-COCKPIT c2 PRISE (web #5). Consignée aussi dans le MEMORY.md de Zik4U.
