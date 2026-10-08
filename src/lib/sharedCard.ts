@@ -43,6 +43,8 @@ interface UserRow {
   avatar_url: string | null;
   bio: string | null;
   deleted_at: string | null;
+  // SEC-COCKPIT c2 (Zik4U 00198): a suspended account has no card.
+  is_banned?: boolean | null;
 }
 
 interface ArchetypeRow {
@@ -67,11 +69,11 @@ export async function getSharedCard(rawHandle: string, rawKey: unknown): Promise
   const sc = createServiceClient();
   const { data: userData, error: userError } = await sc
     .from('users')
-    .select('id, username, display_name, avatar_url, bio, deleted_at')
+    .select('id, username, display_name, avatar_url, bio, deleted_at, is_banned')
     .eq('username', handle)
     .maybeSingle();
   const user = userData as UserRow | null;
-  if (userError || !user || !user.username || user.deleted_at) return null;
+  if (userError || !user || !user.username || user.deleted_at || user.is_banned === true) return null;
 
   // The gate: this exact key must be the live key of THIS account.
   const { data: keyRow, error: keyError } = await sc
