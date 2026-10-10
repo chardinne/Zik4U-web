@@ -44,8 +44,7 @@ src/
     /sitemap.xml           ✅ Routes statiques + profils créateurs dynamiques depuis Supabase
     /robots.txt            ✅ Crawl autorisé (robots IA compris, décision 4 du 23/09), /api/ exclu
     /not-found             ✅ Page 404 custom — "This track doesn't exist."
-    /opengraph-image       ✅ OG image générée en code (ImageResponse, edge runtime, 1200×630)
-    /icon                  ✅ Favicon généré en code (ImageResponse, edge runtime, 32×32, "Z4")
+    favicon.ico            ✅ Favicon logo Empreinte A (16 px à 2 sillons, 32 et 48 px)
     api/
       pulse-waitlist/      ✅ POST — upsert email dans `pulse_waitlist` (service role, idempotent, onConflict: 'email')
   components/
@@ -63,12 +62,13 @@ src/
     supabase-server.ts     ✅ createServiceClient() (service role — publicProfile, sharedCard, waitlists)
     creators.ts            ✅ searchCreators, getFeaturedCreators, getCreatorProfile
     seo.ts                 ✅ defaultMetadata, generatePageMetadata, generateCreatorMetadata, generatePlatformMetadata(platform)
-                              openGraph.images + twitter.images → '/opengraph-image' (pas og-image.png)
+                              openGraph.images + twitter.images → '/og-image.png' (pack Empreinte A, LOGO-2)
                               PLATFORM_META : spotify / apple-music / youtube-music / soundcloud
   types/
     index.ts               ✅ CreatorProfile, CreatorTier, SearchResult (+ isFeatured: boolean)
 public/
-  og-image.svg             (remplacé par opengraph-image.tsx — conservé pour compatibilité)
+  og-image.png             ✅ Aperçu de lien 1200×630 (pack Empreinte A)
+  zik4u-logo.svg           ✅ Logo Empreinte A de la nav et du footer
   llms.txt                 ✅ Description produit AI-readable (llmstxt.org standard) — indexé par LLMs
 ```
 
@@ -112,19 +112,14 @@ export default function Layout({ children }: { children: React.ReactNode }) {
 Layouts SEO créés : `/creators/layout.tsx`, `/listeners/layout.tsx`, `/fans/layout.tsx`.
 Les profils créateurs dynamiques utilisent `generateCreatorMetadata` dans `generateMetadata`.
 
-## OG Image & Favicon — Générés en code
-- `src/app/opengraph-image.tsx` : `ImageResponse` edge runtime — logo ZIK4U gradient + tagline + badge
-- `src/app/icon.tsx` : `ImageResponse` edge runtime — carré arrondi gradient "Z4" 32×32
-- `seo.ts` référence `/opengraph-image` (plus `/og-image.png`)
-- Import : `import { ImageResponse } from 'next/og'` (Next.js ≥13.3 — pas de `@vercel/og`)
-
-## Icônes PNG réelles — Générées depuis SVG
-- Fichier source : `public/zik4u-logo-512.svg` (logo vinyle)
-- Script : `scripts/convert-icons.mjs` — utilise `sharp` (`--legacy-peer-deps`)
-- Génère : `public/icon-512.png` (171K, maskable), `public/icon-192.png` (43K), `public/apple-touch-icon.png` (39K), `public/favicon-32.png` (2K)
-- Référencés dans : `layout.tsx` (`<link rel="apple-touch-icon">` + `<link rel="icon" sizes="32x32">`) et `manifest.ts` (array `icons`)
-- Logo vinyle img `28px` arrondi injecté dans la nav et le footer de `src/app/page.tsx`
-- Commande : `node scripts/convert-icons.mjs`
+## Logo, favicon, aperçu de lien — LOGO-2 (10/10/2026, logo « Empreinte A »)
+- Source unique : le pack de marque du dépôt Zik4U (`docs/brand/`, SVG maîtres). Violet `#9B7BFF` sur Nuit `#120E24`.
+- `src/app/favicon.ico` (16 px à 2 sillons, 32, 48) ; `public/favicon-32.png`, `public/apple-touch-icon.png`,
+  `public/icon-192.png`, `public/icon-512.png` (maskable) ; `public/og-image.png` (aperçu de lien de la racine) ;
+  `public/zik4u-logo.svg` (nav et footer de `src/app/page.tsx`).
+- Plus aucune icône ni aperçu généré en code à la racine (`icon.tsx`, `opengraph-image.tsx` supprimés) ; le vinyle
+  et le « Z4 » sont retirés. Garde : `src/__tests__/logo2.test.ts` (empreintes + absences).
+- L'aperçu `/card/[username]/opengraph-image.tsx` (par profil) est inchangé.
 
 ## Sécurité — next.config.ts (obligatoire en production)
 Security headers et `images.remotePatterns` doivent être configurés dans `next.config.ts` :
@@ -230,7 +225,7 @@ Les pages de profil lisent avec la clé SERVICE, qui contourne la RLS et la règ
 - **`/fans` vs `/users`** : `/fans` est la route principale (nouvelle navigation). `/users` est conservée pour les anciens liens mais ne figure plus dans les CTAs ni boutons nav.
 - **`/become-creator`** : Server Component pur avec `redirect('/creators')` — pas de 'use client'
 - **`not-found.tsx`** : `'use client'` requis (useRouter + motion)
-- **`src/app/opengraph-image.tsx` / `src/app/icon.tsx`** : `export const runtime = 'edge'` obligatoire — sans ça, erreur de build ImageResponse. **EXCEPTION** : `/card/[username]/opengraph-image.tsx` utilise `runtime = 'nodejs'` (readFileSync TTF — edge ne peut pas lire le filesystem).
+- **`/card/[username]/opengraph-image.tsx`** : `runtime = 'nodejs'` (readFileSync TTF — edge ne peut pas lire le filesystem). Une future ImageResponse sans fichier TTF exige `export const runtime = 'edge'`.
 - **`box-shadow` dans Satori = MORT** : Satori convertit `box-shadow` → `feGaussianBlur` → resvg **panic** (500 au premier vrai partage). Tout glow dans une ImageResponse = stacked `radial-gradient` halos sur des divs absolus avec `borderRadius: 9999`. JAMAIS de `box-shadow` ni `filter: blur()`.
 - **Fonts TTF dans ImageResponse** : `readFileSync(join(process.cwd(), 'src/fonts/inter-400.ttf'))` — Satori exige ArrayBuffer. Fichiers dans `src/fonts/` (inter-400.ttf + inter-700.ttf). WOFF2 non supporté.
 - **`fitLine(title, artist)` helper** : pré-tronquer côté serveur avant ImageResponse (`whiteSpace: 'nowrap'` dans Satori ne coupe pas, le texte dépasse). Budget : 38 chars total, artist préservé ≤20, title prend le reste. Pattern : `artist.slice(0,19)+'…'` si trop long, title tronqué avec `Math.max(6, budget-1)`.
@@ -258,8 +253,8 @@ Les pages de profil lisent avec la clé SERVICE, qui contourne la RLS et la règ
 | `/sitemap.xml` | ✅ | Routes statiques seulement avant lancement (LIST_PROFILES = false, décision 3 = B) ; au lancement + /card/ des comptes publics non supprimés (D4) |
 | `/robots.txt` | ✅ | Crawl autorisé (robots IA compris, décision 4 du 23/09), /api/ exclu |
 | `/not-found` (404) | ✅ | "This track doesn't exist." + boutons Back / Find a creator |
-| `/opengraph-image` | ✅ | OG PNG généré edge (1200×630, logo gradient + tagline) |
-| `/icon` | ✅ | Favicon généré edge (32×32, "Z4" gradient) |
+| `/og-image.png` | ✅ | Aperçu de lien 1200×630, logo Empreinte A (LOGO-2) |
+| `/favicon.ico` | ✅ | Favicon Empreinte A (16/32/48) |
 
 ## Variables d'environnement
 ```env

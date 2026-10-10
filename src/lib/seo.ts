@@ -35,7 +35,7 @@ export const defaultMetadata: Metadata = {
     locale: 'en_US',
     images: [
       {
-        url: '/opengraph-image',
+        url: '/og-image.png',
         width: 1200,
         height: 630,
         alt: 'Zik4U — You Are What You Listen To.',
@@ -46,7 +46,7 @@ export const defaultMetadata: Metadata = {
     card: 'summary_large_image',
     title: 'Zik4U — You Are What You Listen To.',
     description: 'The social network built on real listens. Discover people who listen like you.',
-    images: ['/opengraph-image'],
+    images: ['/og-image.png'],
     creator: '@zik4u',
     site: '@zik4u',
   },

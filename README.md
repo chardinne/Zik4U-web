@@ -17,8 +17,8 @@ Public website for **Zik4U**, the music social network. Three acquisition tunnel
 | `/legal/terms` | Terms of Service (12 sections) |
 | `/card/[username]` | Share-to-install — Now Card preview (mood + last track + top artist + streak), OG metadata, store CTAs, deep link |
 | `/not-found` | Custom 404 — "This track doesn't exist." |
-| `/opengraph-image` | Generated OG PNG (1200×630, edge runtime) |
-| `/icon` | Generated favicon (32×32 "Z4", edge runtime) |
+| `/og-image.png` | Link preview (1200×630, "Empreinte A" logo) |
+| `/favicon.ico` | Favicon ("Empreinte A" logo, 16/32/48) |
 | `/sitemap.xml` | Static routes + dynamic creator profiles + `/card/` pages (limit 500) |
 | `/robots.txt` | Crawl allowed, `/api/` excluded |
 
@@ -51,8 +51,7 @@ src/
     /legal/terms           # Terms of Service (Server Component, 12 sections)
     /card/[username]       # Share-to-install Server Component — Now Card + store CTAs
     /not-found             # Custom 404 page
-    /opengraph-image       # Generated OG PNG via ImageResponse (edge, 1200×630)
-    /icon                  # Generated favicon via ImageResponse (edge, 32×32)
+    favicon.ico            # "Empreinte A" favicon (16/32/48)
     /sitemap.xml           # Static + dynamic sitemap
     /robots.txt            # Crawl rules
     layout.tsx             # Root layout + SEO metadata
@@ -73,7 +72,8 @@ src/
   types/
     index.ts               # CreatorProfile, CreatorTier, SearchResult (+ isFeatured: boolean)
 public/
-  og-image.svg             # Legacy SVG placeholder (superseded by /opengraph-image)
+  og-image.png             # Link preview ("Empreinte A" logo)
+  zik4u-logo.svg           # Nav and footer logo ("Empreinte A")
 ```
 
 ## Getting Started

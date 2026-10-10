@@ -9,7 +9,7 @@ export default function manifest(): MetadataRoute.Manifest {
     scope: '/',
     display: 'standalone',
     background_color: '#0A0A1A',
-    theme_color: '#00D4FF',
+    theme_color: '#120E24',
     orientation: 'portrait',
     dir: 'ltr',
     lang: 'en',
@@ -34,7 +34,7 @@ export default function manifest(): MetadataRoute.Manifest {
     ],
     screenshots: [
       {
-        src: '/opengraph-image',
+        src: '/og-image.png',
         sizes: '1200x630',
         type: 'image/png',
         form_factor: 'wide',
