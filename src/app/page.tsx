@@ -328,7 +328,7 @@ export default function HomePage() {
       }}>
         <div style={{ display:'flex', alignItems:'center', gap:8 }}>
           <img
-            src="/zik4u-logo-512.svg"
+            src="/zik4u-logo.svg"
             alt="Zik4U"
             width={28}
             height={28}
@@ -811,7 +811,7 @@ export default function HomePage() {
       <footer style={{ borderTop:`1px solid ${C.border}`, padding:'28px 24px', display:'flex', justifyContent:'space-between', alignItems:'center', flexWrap:'wrap', gap:16, maxWidth:1100, margin:'0 auto' }}>
         <div style={{ display:'flex', alignItems:'center', gap:8 }}>
           <img
-            src="/zik4u-logo-512.svg"
+            src="/zik4u-logo.svg"
             alt="Zik4U"
             width={28}
             height={28}
