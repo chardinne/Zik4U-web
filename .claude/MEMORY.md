@@ -156,3 +156,21 @@ SENTRY_DSN are production-only secrets → missing from preview/dev builds.
 - PROUVÉ : preview à l'œil (accueil, /@bertrand) ; production success, www 200, zik4u.com 307, /@bertrand 200 ; CI main verte (run 37795465044). Éprouvé dans l'app le 08/10 avec le compte de test réellement suspendu puis levé.
 - RÈGLE : toute nouvelle lecture d'un compte par le site (clé de service) filtre `deleted_at` ET `is_banned`.
 - Étiquette : SEC-COCKPIT c2 PRISE (web #5). Consignée aussi dans le MEMORY.md de Zik4U.
+
+## LOGO-2 lot b (2026-10-10) — CLOSE EN PRODUCTION (PR #6, merge `471d52c`)
+- Décision de Bertrand du 10/10 : logo = Empreinte « A · Trois sillons » (doc projet claude/LOGO-2-EMPREINTE.md) ; le soleil ÉCLAT est abandonné partout.
+- Site : fichiers de `public/`, favicon, SEO, manifeste et page d'accueil passés à l'Empreinte. Garde `src/__tests__/logo2.test.ts`.
+- RESTE (WEB-TRUTH1, rang 54) : le JSON-LD de `layout.tsx` pointe le logo `https://zik4u.com/opengraph-image`, qui répond 404 depuis LOGO-2.
+
+## DNA-SILLON site (2026-10-12/13) — CLOSE EN PRODUCTION (PR #7, commit `52c6c12`, merge `e6ad55e`, arbre `a82c2084c8c73b5c06a225922a7f814961a2169a`)
+- Décisions de Bertrand du 12/10 (toutes A) : 44 carte partagée = miroir de la carte Music DNA de l'app ; 45 titres nettoyés par le serveur (*_normalized), sinon captés ; 46 aperçu de lien AVEC clé = disque + archétype + écoutes réelles (sans clé : minimal inchangé).
+- `src/lib/sharedCard.ts` lit `get_listening_fingerprint` (la clé de service passe can_see_listening), `get_user_top_artists` (4 artistes × 7 j), ON REPEAT par la règle de get_defining_tracks réécrite en TS (`onRepeatOf`), titres par `displayTrack` (D45). `SillonDisc.tsx` : 1 tour / 40 s, arrêt si « réduire les animations », onglet masqué ou hors écran, bulle « Drawn from {n} real listens ». `ListenButton` pill/row (plateformes sous la ligne).
+- `CelestialBody.tsx` et `card/[username]/opengraph-image.tsx` SUPPRIMÉS. L'aperçu de lien passe par la route `card/[username]/preview` (reçoit la clé, vérifiée par getSharedCard, private no-store ; sinon MinimalPreview). Police Bebas Neue en TTF.
+- RÈGLE : `globals.css` zoome tout le site de 1,25 ; la carte l'annule (`CARD_ZOOM = 0.8` dans `SharedFullCard.tsx`) pour garder les proportions de l'app.
+- Garde : `src/__tests__/dna-sillon-site.test.ts` (6 suites, 56 tests web au total).
+- Incident Vercel du 12/10 (Git Integrations) : aucun aperçu créé pendant l'incident ; RÈGLE : lire vercel-status.com avant tout diagnostic ; relance par Deployments › « … » › Create Deployment › nom de branche. Aperçu créé à la main le 12/10 ~23:10 Paris (Ready).
+- PROUVÉ (13/10) : déploiement Production success, `/@bertrand` 200, CI main verte ; à l'œil sur l'A54 : carte avec la vraie clé conforme à la planche (1 048 real listens, Cultural Nomad) ; aperçu WhatsApp = disque + CULTURAL NOMAD + 1,048 REAL LISTENS + For real. PIÈGE : WhatsApp réutilise l'aperçu d'une adresse déjà envoyée → ajouter un paramètre (`&v=2`).
+- Mise en production sans vérification de l'aperçu, à la demande de Bertrand (même commit déjà construit, retour arrière immédiat possible).
+- PIÈGE gh : dans statusCheckRollup, le statut Vercel (StatusContext) porte son résultat dans `state`, pas dans `conclusion`.
+- SIGNALÉ, NON TRAITÉ : WhatsApp affiche « bbr (@bertrand) » + « the social network built on real listens » à côté de l'image (planche : « Zik4U ») — préco : garder ; bas de carte « Listen to what bbr hears » (nom affiché).
+- Branches `dna-sillon-site` et `feat/dna-sillon-site` supprimées. Étiquettes : LOGO-2 (web #6) et DNA-SILLON (web #7) PRISES ; consignées aussi dans le MEMORY.md de Zik4U.
