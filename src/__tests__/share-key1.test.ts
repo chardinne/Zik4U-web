@@ -29,7 +29,7 @@ function builder(table: string) {
     }
     if (table === 'scrobbles') {
       return { data: [
-        { track_title: 'Song A', artist_name: 'Artist 1', played_at: '2026-09-24T10:00:00Z' },
+        { track_title: 'Artist 1 - Song A (Official Video)', artist_name: 'Artist 1', track_title_normalized: 'Song A', artist_name_normalized: 'Artist 1', played_at: '2026-09-24T10:00:00Z' },
         { track_title: 'Song A', artist_name: 'Artist 1', played_at: '2026-09-24T09:00:00Z' },
         { track_title: 'Song B', artist_name: 'Artist 2', played_at: '2026-09-24T08:00:00Z' },
       ], error: null };
@@ -44,7 +44,15 @@ function builder(table: string) {
 jest.mock('@/lib/supabase-server', () => ({
   createServiceClient: jest.fn(() => ({
     from: (t: string) => builder(t),
-    rpc: (fn: string) => { reads.push(`rpc:${fn}`); return Promise.resolve({ data: fn === 'get_archetype_distribution' ? [{ archetype: 'night_explorer', percentage: 2 }] : null, error: null }); },
+    rpc: (fn: string) => {
+      reads.push(`rpc:${fn}`);
+      const data: Record<string, unknown> = {
+        get_archetype_distribution: [{ archetype: 'night_explorer', count: 2, percentage: 2.4 }],
+        get_user_top_artists: [{ artist_name: 'Artist 1', play_count: '2' }, { artist_name: 'Artist 2', play_count: 1 }],
+        get_listening_fingerprint: { v: 1, listens: 3, rings: [{ centre: 40, gap: 120 }] },
+      };
+      return Promise.resolve({ data: data[fn] ?? null, error: null });
+    },
   })),
 }));
 
@@ -96,6 +104,9 @@ describe('getSharedCard', () => {
     expect(card?.topArtists).toEqual([{ artist_name: 'Artist 1', play_count: 2 }, { artist_name: 'Artist 2', play_count: 1 }]);
     expect(card?.archetype).toBe('night_explorer');
     expect(card?.rarity).toBe('legendary');
+    expect(card?.rarityPct).toBe(2);
+    expect(card?.fingerprint).toEqual({ listens: 3, rings: [{ centre: 40, gap: 120 }] });
+    expect(reads.indexOf('share_keys')).toBeLessThan(reads.indexOf('rpc:get_listening_fingerprint'));
     expect(card?.isForming).toBe(false);
     expect(reads.indexOf('share_keys')).toBeLessThan(reads.indexOf('scrobbles'));
   });
@@ -109,7 +120,7 @@ describe('source guards (part 2)', () => {
     const src = read('src/lib/sharedCard.ts');
     const gate = src.indexOf("from('share_keys')");
     expect(gate).toBeGreaterThan(-1);
-    for (const word of ["from('scrobbles')", "from('listener_archetypes')", "rpc('get_music_signature'", "rpc('get_archetype_distribution'"]) {
+    for (const word of ["from('scrobbles')", "from('listener_archetypes')", "rpc('get_music_signature'", "rpc('get_archetype_distribution'", "rpc('get_user_top_artists'", "rpc('get_listening_fingerprint'"]) {
       expect(src.indexOf(word)).toBeGreaterThan(gate);
     }
     expect(src).not.toContain("from('posts')");

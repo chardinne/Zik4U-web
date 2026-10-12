@@ -2,14 +2,18 @@
 
 import { useState } from 'react';
 
+// Listen buttons — search by name, platform-agnostic, zero third-party music API.
+// DNA-SILLON site (decision 44 = A): like the app's ListenPlay, the whole line is the
+// button (LAST PLAYED / ON REPEAT pill, A-side row) and the platforms open UNDER it.
+
 interface Props {
   artist: string;
   title?: string;
-  variant: 'sun' | 'row';
-  children?: React.ReactNode;
+  variant: 'pill' | 'row';
+  children: React.ReactNode;
 }
 
-function buildUrls(artist: string, title?: string) {
+export function listenSearchUrls(artist: string, title?: string) {
   const q = encodeURIComponent(title ? `${artist} ${title}`.trim() : artist);
   return {
     spotify: `https://open.spotify.com/search/${q}`,
@@ -18,71 +22,68 @@ function buildUrls(artist: string, title?: string) {
   };
 }
 
-const PILL: React.CSSProperties = {
+const PLATFORM: React.CSSProperties = {
   fontSize: 12,
-  color: 'rgba(255,255,255,0.8)',
+  color: 'rgba(255,255,255,0.85)',
   background: 'rgba(255,255,255,0.08)',
   borderRadius: 999,
   padding: '6px 14px',
   textDecoration: 'none',
   whiteSpace: 'nowrap',
-  flexShrink: 0,
 };
 
 export function ListenButton({ artist, title, variant, children }: Props) {
   const [open, setOpen] = useState(false);
-  const urls = buildUrls(artist, title);
-
-  const pills = (
-    <div style={{ display: 'flex', gap: 6, flexWrap: 'wrap', justifyContent: variant === 'sun' ? 'center' : 'flex-end' }}>
-      <a href={urls.spotify} target="_blank" rel="noopener noreferrer" style={PILL}>Spotify</a>
-      <a href={urls.appleMusic} target="_blank" rel="noopener noreferrer" style={PILL}>Apple Music</a>
-      <a href={urls.youtubeMusic} target="_blank" rel="noopener noreferrer" style={PILL}>YT Music</a>
-    </div>
-  );
-
-  if (variant === 'sun') {
-    return (
-      <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 12, width: '100%' }}>
-        <button
-          onClick={() => setOpen(o => !o)}
-          aria-label={open ? 'Close listen options' : 'Listen on a platform'}
-          style={{ background: 'none', border: 'none', cursor: 'pointer', padding: 0, display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 12, width: '100%' }}
-        >
-          {children}
-          <span style={{ fontFamily: 'monospace', fontSize: 10, color: '#8888BB', letterSpacing: '1px' }}>
-            {open ? '▲ close' : '▶ LISTEN'}
-          </span>
-        </button>
-        {open && pills}
-      </div>
-    );
-  }
+  const urls = listenSearchUrls(artist, title);
+  const label = `${open ? 'Close listen options for' : 'Listen to'} ${title ? `${title} by ` : ''}${artist}`;
 
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-end', gap: 6, flexShrink: 0 }}>
+    <div style={{ display: 'flex', flexDirection: 'column', gap: 8, width: '100%' }}>
       <button
-        onClick={() => setOpen(o => !o)}
-        aria-label={open ? 'Close listen options' : 'Listen on a platform'}
+        type="button"
+        onClick={() => setOpen((o) => !o)}
+        aria-expanded={open}
+        aria-label={label}
         style={{
-          width: 28,
-          height: 28,
-          borderRadius: '50%',
-          border: '1px solid rgba(255,255,255,0.15)',
-          background: open ? 'rgba(0,212,255,0.15)' : 'rgba(255,255,255,0.06)',
-          color: open ? '#00D4FF' : 'rgba(255,255,255,0.6)',
-          cursor: 'pointer',
           display: 'flex',
           alignItems: 'center',
-          justifyContent: 'center',
-          fontSize: 10,
-          flexShrink: 0,
-          transition: 'background 0.15s, color 0.15s',
+          gap: variant === 'pill' ? 12 : 8,
+          width: '100%',
+          textAlign: 'left',
+          cursor: 'pointer',
+          color: '#F0F0FF',
+          font: 'inherit',
+          ...(variant === 'pill'
+            ? { padding: '10px 12px', borderRadius: 14, background: 'rgba(255,255,255,0.04)', border: `1px solid ${open ? '#9B7BFF' : 'rgba(155,123,255,0.2)'}` }
+            : { padding: 0, background: 'none', border: 'none' }),
         }}
       >
-        ▶
+        {children}
+        <span
+          aria-hidden="true"
+          style={{
+            width: variant === 'pill' ? 30 : 24,
+            height: variant === 'pill' ? 30 : 24,
+            borderRadius: '50%',
+            border: '1px solid rgba(255,255,255,0.28)',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            fontSize: variant === 'pill' ? 10 : 9,
+            flexShrink: 0,
+            color: open ? '#9B7BFF' : '#F0F0FF',
+          }}
+        >
+          ▶
+        </span>
       </button>
-      {open && pills}
+      {open && (
+        <div style={{ display: 'flex', gap: 6, flexWrap: 'wrap', justifyContent: 'center' }}>
+          <a href={urls.spotify} target="_blank" rel="noopener noreferrer" style={PLATFORM}>Spotify</a>
+          <a href={urls.appleMusic} target="_blank" rel="noopener noreferrer" style={PLATFORM}>Apple Music</a>
+          <a href={urls.youtubeMusic} target="_blank" rel="noopener noreferrer" style={PLATFORM}>YT Music</a>
+        </div>
+      )}
     </div>
   );
 }
