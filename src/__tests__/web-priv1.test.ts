@@ -114,7 +114,7 @@ describe('source guards', () => {
   const root = join(__dirname, '..', '..');
   const files = [
     'src/app/card/[username]/page.tsx',
-    'src/app/card/[username]/opengraph-image.tsx',
+    'src/components/profile/MinimalPreview.tsx',
     'src/app/creator/[username]/page.tsx',
     'src/components/profile/MinimalProfileCard.tsx',
     'src/lib/publicProfile.ts',

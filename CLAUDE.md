@@ -37,7 +37,7 @@ src/
     /become-creator        ✅ Redirect → /creators (Server Component, next/navigation redirect)
     /card/[username]       ✅ Carte MINIMALE (WEB-PRIV1) : nom, avatar, bio + CTAs App Store/Play. Aussi servie par /@<username> (rewrite next.config.ts). Avec ?k=<clé de partage valide> : carte COMPLÈTE, noindex (SHARE-KEY1)
     /card/[username]/
-      opengraph-image.tsx  ✅ OG PNG MINIMAL (nom + @handle, 1200×630, runtime nodejs, Inter TTF) — aucune donnée d'écoute
+      preview/route.tsx    ✅ Aperçu de lien 1200×630 (runtime nodejs, TTF Inter + Bebas) : MINIMAL (nom + @handle) sans clé valide ; avec la clé vivante (?k=) : disque, archétype, écoutes réelles (DNA-SILLON, Décision 46 = A). Jamais mis en cache avec une clé
     /creator/[username]    ✅ Carte MINIMALE (WEB-PRIV1, décision 1 = B) — paliers/prix absents jusqu'aux produits store
     /legal/privacy         ✅ Privacy Policy (Server Component, 11 sections)
     /legal/terms           ✅ Terms of Service (Server Component, 12 sections)
@@ -119,7 +119,7 @@ Les profils créateurs dynamiques utilisent `generateCreatorMetadata` dans `gene
   `public/zik4u-logo.svg` (nav et footer de `src/app/page.tsx`).
 - Plus aucune icône ni aperçu généré en code à la racine (`icon.tsx`, `opengraph-image.tsx` supprimés) ; le vinyle
   et le « Z4 » sont retirés. Garde : `src/__tests__/logo2.test.ts` (empreintes + absences).
-- L'aperçu `/card/[username]/opengraph-image.tsx` (par profil) est inchangé.
+- L'aperçu par profil est servi par `/card/[username]/preview` (route, DNA-SILLON 12/10/2026) ; `opengraph-image.tsx` n'existe plus.
 
 ## Sécurité — next.config.ts (obligatoire en production)
 Security headers et `images.remotePatterns` doivent être configurés dans `next.config.ts` :
@@ -170,7 +170,8 @@ Les pages de profil lisent avec la clé SERVICE, qui contourne la RLS et la règ
 - Compte privé (users.is_private OU profiles.profile_visibility = 'private') : exclu du sitemap, `noindex, nofollow`.
 - Compte supprimé (users.deleted_at) : introuvable.
 - Toute nouvelle page publique de profil passe par `src/lib/publicProfile.ts`. Garde : `src/__tests__/web-priv1.test.ts`.
-- EXCEPTION UNIQUE — carte complète partagée (WEB-PRIV1 partie 2 / SHARE-KEY1, migration 00177 de Zik4U) : `/card/<pseudo>?k=<clé>` (et `/@<pseudo>?k=`) affiche la carte complète SEULEMENT si la clé est la clé vivante de CE compte (table `share_keys`, lue avec la clé service). Seul `src/lib/sharedCard.ts` lit des écoutes, et toujours APRÈS la vérification de clé ; `src/components/profile/SharedFullCard.tsx` ne fait que rendre. Toute URL avec `?k=` est `noindex, nofollow` et `referrer: no-referrer`. Clé absente, fausse ou révoquée → carte minimale. L'image d'aperçu de lien reste MINIMALE (pas d'accès à la clé). Garde : `src/__tests__/share-key1.test.ts`. Clause 5c complète, « Links you share » compris, en ligne depuis le 24/09/2026.
+- EXCEPTION UNIQUE — carte complète partagée (WEB-PRIV1 partie 2 / SHARE-KEY1, migration 00177 de Zik4U) : `/card/<pseudo>?k=<clé>` (et `/@<pseudo>?k=`) affiche la carte complète SEULEMENT si la clé est la clé vivante de CE compte (table `share_keys`, lue avec la clé service). Seul `src/lib/sharedCard.ts` lit des écoutes, et toujours APRÈS la vérification de clé ; `src/components/profile/SharedFullCard.tsx` ne fait que rendre. Toute URL avec `?k=` est `noindex, nofollow` et `referrer: no-referrer`. Clé absente, fausse ou révoquée → carte minimale. Aperçu de lien : `/card/<pseudo>/preview?k=<clé>` (pointé par generateMetadata via `previewImageUrl`) vérifie lui-même la clé par `getSharedCard` ; sinon aperçu MINIMAL (`MinimalPreview.tsx`). Gardes : `src/__tests__/share-key1.test.ts`, `src/__tests__/dna-sillon-site.test.ts`. Clause 5c complète, « Links you share » compris, en ligne depuis le 24/09/2026.
+- DNA-SILLON site (Décisions 25, 44, 45, 46 = A, 12/10/2026) : la carte partagée est le miroir de la carte Music DNA de l'app — disque vinyle (`SillonDisc.tsx`, empreinte dessinée par le serveur via `get_listening_fingerprint`, 1 tour / 40 s, arrêt si « réduire les animations », onglet masqué ou hors écran ; bulle « Drawn from {n} real listens »), MY GROOVES, pastilles LAST PLAYED / ON REPEAT, face A en barres (`get_user_top_artists`, 4 artistes, 7 jours). Titres : version nettoyée par le serveur (`*_normalized`) sinon titre capté (Décision 45). Module `src/lib/listeningFingerprint.ts` = port à l'identique de celui de l'app. `globals.css` zoome tout le site de 1,25 : la carte l'annule (`CARD_ZOOM = 0.8`) pour garder les proportions de l'app.
 
 ## Flows utilisateur
 
@@ -219,18 +220,18 @@ Les pages de profil lisent avec la clé SERVICE, qui contourne la RLS et la règ
 - **Bouton "Copy the post →" sur /creators** : déjà implémenté avec `navigator.clipboard.writeText()` + état `copied` (2.5s). Ne pas réimplémenter.
 - **`sitemap.ts`** : AVANT LANCEMENT, `LIST_PROFILES = false` → aucun profil listé (décision 3 = B du 23/09 : comptes de test et pseudos dérivés d'e-mails hors de Google). AU LANCEMENT, après purge des comptes de test : passer `LIST_PROFILES` à true (et adapter le test). Alors `listSitemapProfiles()` de `src/lib/publicProfile.ts` (clé service) liste /card/{username} des seuls comptes publics non supprimés (D4), `revalidate = 3600`. Aucune route /creator (canonique = /card).
 - **`/card/[username]` et `/creator/[username]`** : `getPublicProfile()` + `MinimalProfileCard` / `profileMetadata()` (`src/components/profile/`). Compte privé (users.is_private OU profile_visibility = private) → `robots: noindex, nofollow`. Compte supprimé → introuvable. Deep link `zik4u://profile/:username`.
-- **`/card/[username]/opengraph-image.tsx`** : `runtime = 'nodejs'` (readFileSync TTF), 1200×630, nom + @handle seulement, via `getPublicProfile()`.
+- **`/card/[username]/preview`** : route `runtime = 'nodejs'` (readFileSync TTF), 1200×630 ; sans clé valide : nom + @handle seulement via `getPublicProfile()` ; avec clé valide : `SillonPreview.tsx`. Bebas Neue en TTF (`src/fonts/bebas-neue-400.ttf`, converti du woff2).
 - **`searchCreators`** : `.or(\`username.ilike.%${safeQuery}%,...\`)` — toujours passer par `safeQuery = query.trim().slice(0, 100)`
 - **`AuthModal` password** : validation `password.length < 8` côté client avant `signUp`
 - **`/fans` vs `/users`** : `/fans` est la route principale (nouvelle navigation). `/users` est conservée pour les anciens liens mais ne figure plus dans les CTAs ni boutons nav.
 - **`/become-creator`** : Server Component pur avec `redirect('/creators')` — pas de 'use client'
 - **`not-found.tsx`** : `'use client'` requis (useRouter + motion)
-- **`/card/[username]/opengraph-image.tsx`** : `runtime = 'nodejs'` (readFileSync TTF — edge ne peut pas lire le filesystem). Une future ImageResponse sans fichier TTF exige `export const runtime = 'edge'`.
+- **ImageResponse avec TTF** : `runtime = 'nodejs'` (readFileSync TTF — edge ne peut pas lire le filesystem). Une future ImageResponse sans fichier TTF exige `export const runtime = 'edge'`.
 - **`box-shadow` dans Satori = MORT** : Satori convertit `box-shadow` → `feGaussianBlur` → resvg **panic** (500 au premier vrai partage). Tout glow dans une ImageResponse = stacked `radial-gradient` halos sur des divs absolus avec `borderRadius: 9999`. JAMAIS de `box-shadow` ni `filter: blur()`.
 - **Fonts TTF dans ImageResponse** : `readFileSync(join(process.cwd(), 'src/fonts/inter-400.ttf'))` — Satori exige ArrayBuffer. Fichiers dans `src/fonts/` (inter-400.ttf + inter-700.ttf). WOFF2 non supporté.
 - **`fitLine(title, artist)` helper** : pré-tronquer côté serveur avant ImageResponse (`whiteSpace: 'nowrap'` dans Satori ne coupe pas, le texte dépasse). Budget : 38 chars total, artist préservé ≤20, title prend le reste. Pattern : `artist.slice(0,19)+'…'` si trop long, title tronqué avec `Math.max(6, budget-1)`.
-- **File-based OG image** : `opengraph-image.tsx` colocalisé avec `page.tsx` est servi automatiquement comme og:image. Si `generateMetadata` a un array `images:`, il **override** le file-based → les deux entrent en conflit. Supprimer `images:` de `generateMetadata` pour laisser le file-based prendre le dessus.
-- **`/card/[username]` generateMetadata** : `profileMetadata()` — pas de donnée d'écoute dans title/description. `twitter.card: 'summary_large_image'`. Pas de `images:` array dans `openGraph` ni `twitter`.
+- **File-based OG image** : un `opengraph-image.tsx` colocalisé ne reçoit PAS les paramètres de requête (donc pas la clé `?k=`) et entre en conflit avec un `images:` de `generateMetadata`. Pour `/card`, l'aperçu est une route (`preview/route.tsx`) pointée par `images:` ; ne pas recréer de `opengraph-image.tsx` dans `card/[username]`.
+- **`/card/[username]` generateMetadata** : `profileMetadata()` — pas de donnée d'écoute dans title/description. `twitter.card: 'summary_large_image'`. `images:` de `openGraph` et `twitter` = `previewImageUrl(username, key)` (route `preview`, la clé n'y passe que si elle est bien formée).
 - **`viewport` dans `metadata`** : Next.js 14+ interdit `viewport` dans l'objet `metadata`. Toujours exporter une constante séparée `export const viewport: Viewport = { ... }` dans `layout.tsx`. Sinon : 21 warnings build `⚠ Unsupported metadata viewport is configured in metadata export`. Défini dans `src/lib/seo.ts` → `defaultViewport` + export `viewport` dans `app/layout.tsx`.
 - **URL prod hardcodée interdite** : jamais `https://zik4u.com/...` dans le code — utiliser des chemins relatifs `/...` ou `process.env.NEXT_PUBLIC_SITE_URL`
 - **Landing page** : pas de stats fictives — utiliser un badge "Early access" honnête
@@ -249,7 +250,7 @@ Les pages de profil lisent avec la clé SERVICE, qui contourne la RLS et la règ
 | `/creator/[username]` | ✅ | Profil public, pills "What you get", titre "Get inside X's musical world", stats mobile, tiers carousel mobile / grid desktop |
 | `/legal/privacy` | ✅ | Privacy Policy GDPR/CCPA (Server Component, 12 sections) — SCCs, B2B data disclosure, emotional retention, DPC contact, section 8c Music Match (Art. 6(1)(a) + Art. 9(2)(a) — statut relationnel = donnée sensible UE). `LAST_UPDATED = 'September 23, 2026'` (section 5c WEB-PRIV1). `COMPANY = 'Zik4U Inc.'` |
 | `/legal/terms` | ✅ | Terms of Service (Server Component, 13 sections) — revenue share chiffré, IAP refunds clarifiés, clause EU consommateurs, section Music Match (17+, double opt-in, usages interdits, disclaimer). `LAST_UPDATED = 'March 28, 2026'`. `COMPANY = 'Zik4U Inc.'` |
-| `/card/[username]` | ✅ | Carte minimale WEB-PRIV1 (nom, avatar, bio), OG minimal, noindex si compte privé. `/@username` y mène. |
+| `/card/[username]` | ✅ | Carte minimale WEB-PRIV1 (nom, avatar, bio), aperçu minimal, noindex si compte privé. Avec ?k= valide : carte Sillon et aperçu Sillon (DNA-SILLON). `/@username` y mène. |
 | `/sitemap.xml` | ✅ | Routes statiques seulement avant lancement (LIST_PROFILES = false, décision 3 = B) ; au lancement + /card/ des comptes publics non supprimés (D4) |
 | `/robots.txt` | ✅ | Crawl autorisé (robots IA compris, décision 4 du 23/09), /api/ exclu |
 | `/not-found` (404) | ✅ | "This track doesn't exist." + boutons Back / Find a creator |

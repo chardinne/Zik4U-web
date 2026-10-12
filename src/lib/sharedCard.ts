@@ -1,6 +1,7 @@
 import { createServiceClient } from '@/lib/supabase-server';
 import { normalizeHandle } from '@/lib/publicProfile';
 import { generateMusicBio, toRarity, type MusicSignatureData, type Rarity } from '@/lib/cosmicCard';
+import { parseFingerprint, type ListeningFingerprint } from '@/lib/listeningFingerprint';
 
 // SHARE-KEY1 / WEB-PRIV1 part 2 — the ONLY place of the site that reads listening data.
 //
@@ -12,6 +13,12 @@ import { generateMusicBio, toRarity, type MusicSignatureData, type Rarity } from
 //
 // Reads with the SERVICE key: the key check below is the whole gate. Shared cards are
 // never indexed (the page sets noindex). Exclusive creator content is never read (D6).
+//
+// DNA-SILLON site (decisions 44, 45, 46 = A, 12/10/2026) — the same figures as the app's
+// Music DNA card: the empreinte from the server (get_listening_fingerprint, Zik4U 00210),
+// the A-side from get_user_top_artists (4 artists, 7 days), ON REPEAT with the rule of
+// get_defining_tracks (7 days, cleaned names, no artist conflict) for THIS account, and
+// titles shown as cleaned by the server when it has a cleaned version (decision 45).
 
 const KEY_PATTERN = /^[0-9a-f]{64}$/;
 
@@ -34,6 +41,42 @@ export interface SharedCard {
   isForming: boolean;
   totalScrobbles: number;
   topArtists: SharedArtist[];
+  /** null: the server drew nothing (no answer, or an answer of another shape). */
+  fingerprint: ListeningFingerprint | null;
+}
+
+export interface ScrobbleTitleRow {
+  track_title: string;
+  artist_name: string;
+  track_title_normalized?: string | null;
+  artist_name_normalized?: string | null;
+  artist_name_confidence?: string | null;
+}
+
+const clean = (v: string | null | undefined) => (typeof v === 'string' ? v.trim() : '');
+
+/** Decision 45 — the title and artist as cleaned by the server, the captured ones otherwise. */
+export function displayTrack(row: ScrobbleTitleRow): SharedTrack {
+  return {
+    title: clean(row.track_title_normalized) || row.track_title,
+    artist: clean(row.artist_name_normalized) || row.artist_name,
+  };
+}
+
+/** ON REPEAT — rule of get_defining_tracks: most played (cleaned) track, artist conflicts left out. */
+export function onRepeatOf(rows: ScrobbleTitleRow[]): SharedTrack | null {
+  const counts = new Map<string, { track: SharedTrack; n: number }>();
+  for (const row of rows) {
+    if (row.artist_name_confidence === 'conflict') continue;
+    const track = displayTrack(row);
+    const key = `${track.title.toLowerCase().trim()}|${track.artist.toLowerCase().trim()}`;
+    const hit = counts.get(key);
+    if (hit) hit.n++;
+    else counts.set(key, { track, n: 1 });
+  }
+  let best: { track: SharedTrack; n: number } | null = null;
+  for (const v of counts.values()) if (!best || v.n > best.n) best = v;
+  return best ? best.track : null;
 }
 
 interface UserRow {
@@ -61,6 +104,12 @@ export function isShareKey(raw: unknown): raw is string {
   return typeof raw === 'string' && KEY_PATTERN.test(raw);
 }
 
+/** Decision 46 — link-preview image of a card (route ./preview); the key travels only if well formed. */
+export function previewImageUrl(username: string, key: unknown): string {
+  const path = `/card/${encodeURIComponent(username)}/preview`;
+  return isShareKey(key) ? `${path}?k=${key}` : path;
+}
+
 export async function getSharedCard(rawHandle: string, rawKey: unknown): Promise<SharedCard | null> {
   if (!isShareKey(rawKey)) return null;
   const handle = normalizeHandle(rawHandle);
@@ -84,9 +133,10 @@ export async function getSharedCard(rawHandle: string, rawKey: unknown): Promise
     .maybeSingle();
   if (keyError || !keyRow || (keyRow as { user_id: string }).user_id !== user.id) return null;
 
+  const TITLE_COLUMNS = 'track_title, artist_name, track_title_normalized, artist_name_normalized, artist_name_confidence';
   const sevenDaysAgo = new Date(Date.now() - 7 * 24 * 60 * 60 * 1000).toISOString();
-  const [last, archetypeRes, distributionRes, signatureRes, recentRes] = await Promise.all([
-    sc.from('scrobbles').select('track_title, artist_name, played_at')
+  const [last, archetypeRes, distributionRes, signatureRes, recentRes, topRes, fingerprintRes] = await Promise.all([
+    sc.from('scrobbles').select(`${TITLE_COLUMNS}, played_at`)
       .eq('user_id', user.id).eq('is_private', false)
       .order('played_at', { ascending: false }).limit(1),
     sc.from('listener_archetypes')
@@ -94,35 +144,28 @@ export async function getSharedCard(rawHandle: string, rawKey: unknown): Promise
       .eq('user_id', user.id).maybeSingle(),
     sc.rpc('get_archetype_distribution'),
     sc.rpc('get_music_signature', { p_user_id: user.id }),
-    sc.from('scrobbles').select('track_title, artist_name')
-      .eq('user_id', user.id).eq('is_private', false).neq('source', 'youtube')
+    sc.from('scrobbles').select(TITLE_COLUMNS)
+      .eq('user_id', user.id).eq('is_private', false)
       .gte('played_at', sevenDaysAgo)
-      .order('played_at', { ascending: false }).limit(500),
+      .order('played_at', { ascending: false }).limit(5000),
+    sc.rpc('get_user_top_artists', { p_user_id: user.id, p_limit: 4, p_days: 7 }),
+    sc.rpc('get_listening_fingerprint', { p_target: user.id }),
   ]);
 
-  const lastRow = ((last.data as { track_title: string; artist_name: string }[] | null) ?? [])[0] ?? null;
+  const lastRow = ((last.data as ScrobbleTitleRow[] | null) ?? [])[0] ?? null;
   const archetypeRow = (archetypeRes.data as ArchetypeRow | null) ?? null;
   const distribution = (distributionRes.data as { archetype: string; percentage: number }[] | null) ?? [];
   const signature = (signatureRes.data as MusicSignatureData | null) ?? null;
-  const recent = (recentRes.data as { track_title: string; artist_name: string }[] | null) ?? [];
-
-  const artistCounts = new Map<string, number>();
-  const trackCounts = new Map<string, { title: string; artist: string; count: number }>();
-  for (const s of recent) {
-    artistCounts.set(s.artist_name, (artistCounts.get(s.artist_name) ?? 0) + 1);
-    const key = `${s.track_title.toLowerCase().trim()}|||${s.artist_name.toLowerCase().trim()}`;
-    const t = trackCounts.get(key);
-    if (t) t.count++;
-    else trackCounts.set(key, { title: s.track_title, artist: s.artist_name, count: 1 });
-  }
-  const topArtists = [...artistCounts.entries()]
-    .sort((a, b) => b[1] - a[1])
+  const recent = (recentRes.data as ScrobbleTitleRow[] | null) ?? [];
+  const topArtists = ((topRes.data as { artist_name: string; play_count: number | string }[] | null) ?? [])
     .slice(0, 4)
-    .map(([artist_name, play_count]) => ({ artist_name, play_count }));
-  const top = [...trackCounts.values()].sort((a, b) => b.count - a.count)[0] ?? null;
+    .map((a) => ({ artist_name: a.artist_name, play_count: Number(a.play_count) || 0 }));
+  const top = onRepeatOf(recent);
 
   const archetype = archetypeRow?.archetype ?? null;
-  const rarityPct = distribution.find((d) => d.archetype === archetype)?.percentage ?? 100;
+  // Same rounding as the app's rarity badge (useArchetypeRarity).
+  const rawPct = Number(distribution.find((d) => d.archetype === archetype)?.percentage);
+  const rarityPct = Number.isFinite(rawPct) ? Math.round(rawPct) : 100;
   const musicBio = generateMusicBio(signature);
 
   return {
@@ -130,8 +173,8 @@ export async function getSharedCard(rawHandle: string, rawKey: unknown): Promise
     displayName: user.display_name ?? user.username,
     avatarUrl: user.avatar_url,
     bioText: user.bio ?? (!musicBio.isEmpty ? musicBio.signature : null),
-    lastPlayed: lastRow ? { title: lastRow.track_title, artist: lastRow.artist_name } : null,
-    onRepeat: top ? { title: top.title, artist: top.artist } : null,
+    lastPlayed: lastRow ? displayTrack(lastRow) : null,
+    onRepeat: top,
     archetype,
     archetypePrevious: archetypeRow?.archetype_previous ?? null,
     showShift:
@@ -147,5 +190,6 @@ export async function getSharedCard(rawHandle: string, rawKey: unknown): Promise
     isForming: !archetypeRow || archetype === 'emerging',
     totalScrobbles: archetypeRow?.total_scrobbles_snapshot ?? 0,
     topArtists,
+    fingerprint: fingerprintRes.error ? null : parseFingerprint(fingerprintRes.data),
   };
 }
