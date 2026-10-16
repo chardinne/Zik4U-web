@@ -25,7 +25,7 @@ export const defaultMetadata: Metadata = {
   ],
   authors: [{ name: 'Zik4U' }],
   creator: 'Zik4U',
-  publisher: 'Zik4U Inc.',
+  publisher: 'Zik4U',
   openGraph: {
     type: 'website',
     siteName: 'Zik4U',

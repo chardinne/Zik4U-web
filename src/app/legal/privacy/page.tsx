@@ -1,539 +1,347 @@
 import { generatePageMetadata } from '@/lib/seo';
+import { LegalPage, Section, P, Strong, List, Table, Mail, A } from '@/components/legal/LegalPage';
+
+// COMPLY1c — Privacy Policy rewritten to say what Zik4U does (texts validated by Bertrand
+// on 16/10/2026, claude/COMPLY1c-TEXTES.md v2.1; long dashes replaced per the site rule).
+// Guard: src/__tests__/comply1c-site.test.ts.
 
 export const metadata = generatePageMetadata(
   'Privacy Policy',
-  'How Zik4U collects, uses, and protects your personal data. GDPR & CCPA compliant.',
+  'How Zik4U collects, uses and protects your personal data, and the choices you have.',
   '/legal/privacy',
 );
 
-const LAST_UPDATED = 'September 24, 2026';
-const CONTACT_EMAIL = 'privacy@zik4u.com';
-const COMPANY = 'Zik4U Inc.';
-const SITE_URL = 'https://zik4u.com';
+const LAST_UPDATED = 'October 17, 2026';
+const PRIVACY = 'privacy@zik4u.com';
 
 export default function PrivacyPolicyPage() {
   return (
-    <div style={{ backgroundColor: '#0A0A1A', minHeight: '100vh', color: '#FFFFFF' }}>
-      {/* Header */}
-      <header style={{ borderBottom: '1px solid rgba(255,255,255,0.08)', padding: '20px 24px' }}>
-        <div style={{ maxWidth: '800px', margin: '0 auto', display: 'flex', alignItems: 'center', gap: '16px' }}>
-          <a
-            href="/"
-            style={{
-              background: 'linear-gradient(135deg, #00D4FF, #00FFB2, #FF3CAC)',
-              WebkitBackgroundClip: 'text',
-              WebkitTextFillColor: 'transparent',
-              fontWeight: 900,
-              fontSize: '22px',
-              textDecoration: 'none',
-              letterSpacing: '-0.5px',
-            }}
-          >
-            ZIK4U
-          </a>
-          <span style={{ color: 'rgba(255,255,255,0.3)', fontSize: '14px' }}>/ Privacy Policy</span>
-        </div>
-      </header>
+    <LegalPage crumb="Privacy Policy" title="Privacy Policy" lastUpdated={LAST_UPDATED} current="privacy">
+      <Section title="1. Who we are">
+        <P>
+          Zik4U is a music social app and website (the &ldquo;Service&rdquo;). The person responsible for your data
+          (the &ldquo;controller&rdquo;) is <Strong>Bertrand Chardinne, founder, acting for Zik4U, a French simplified
+          joint-stock company (SAS) in formation</Strong>. Once the company is registered, it will take over this role
+          and we will update this page.
+        </P>
+        <P>
+          Contact for anything about your data: <Mail to={PRIVACY} />.
+        </P>
+      </Section>
 
-      {/* Content */}
-      <main style={{ maxWidth: '800px', margin: '0 auto', padding: '48px 24px 80px' }}>
-        <h1 style={{ fontSize: '36px', fontWeight: 900, marginBottom: '8px' }}>Privacy Policy</h1>
-        <p style={{ color: 'rgba(255,255,255,0.4)', fontSize: '14px', marginBottom: '48px' }}>
-          Last updated: {LAST_UPDATED}
-        </p>
+      <Section title="2. The short version">
+        <List
+          items={[
+            'Zik4U builds your music identity from what you really listen to.',
+            'On Android, it reads only the "now playing" notifications of music apps, never your messages or other notifications.',
+            'Your emotional music profile is on by default. You can turn it off at any time; turning it off deletes it.',
+            'Your moods are never shared with anyone. Your listener archetype is shown on your Music DNA card.',
+            'Music research is off unless you turn it on. Partners only ever receive trends computed over 100 people or more, never you.',
+            'We do not sell your personal data. We do not show ads. We do not use advertising identifiers.',
+            'Our database is hosted in the United States. Section 10 explains how your data is protected there.',
+            'You can download or delete your data at any time from the app.',
+          ]}
+        />
+      </Section>
 
-        <div style={{ display: 'flex', flexDirection: 'column', gap: '40px', lineHeight: '1.7', color: 'rgba(255,255,255,0.8)' }}>
+      <Section title="3. Data we collect">
+        <P>
+          <Strong>Account.</Strong> Email address, password (stored by our authentication provider in hashed form),
+          username, display name, profile photo, bio, and the sign-in method you use (email, Google or Apple). Your
+          statement that you are 16 or older, and, if you give it, your confirmation that you are 18 or older. A record
+          of each choice you make about your data (what you chose, when, which version of our terms, and where in the
+          app).
+        </P>
+        <P>
+          <Strong>Listening (capture).</Strong> On Android, if you grant Zik4U notification access, the app reads the
+          playback notifications of a fixed list of music apps and keeps: track title, artist, album, duration, time
+          played, the app you listened in, and a link to the cover art. It ignores every other notification. You can
+          revoke notification access at any time in your phone settings; capture then stops. Listens made in private
+          mode are marked private.
+        </P>
+        <P>
+          <Strong>What you create and share.</Strong> Posts, comments, reactions, playlists, follows, direct messages,
+          and reports you send to us.
+        </P>
+        <P>
+          <Strong>Emotional music profile</Strong> (see section 5). Computed every night from your listening of the
+          previous day: a dominant mood, a daily listening score (variety, repetition, regularity), the hours you
+          listen at, how many posts and likes you made that day, and your top artists. A listener archetype is derived
+          from the last 30 days.
+        </P>
+        <P>
+          <Strong>Music Match</Strong> (see section 6) and <Strong>music research</Strong> (see section 7), only if you
+          turn them on.
+        </P>
+        <P>
+          <Strong>Purchases (when subscriptions open).</Strong> Subscriptions are bought through the Apple App Store or
+          Google Play. We receive the product, its status and dates, and a store transaction reference, never your card
+          details. Our purchase-management provider, RevenueCat, processes these receipts.
+        </P>
+        <P>
+          <Strong>Creator payouts (when payouts open).</Strong> If you are a creator, our payout provider, Trolley,
+          collects the identity, tax and bank information required to pay you. We receive your payout status, not your
+          bank details.
+        </P>
+        <P>
+          <Strong>Device and technical data.</Strong> Push notification token, device model, operating system, app
+          version, and signals that show whether capture is working. Crash and error reports (the error, your device
+          model and app version, never your name or email) through Sentry. Our hosting providers process IP addresses
+          in their technical logs; we do not store IP addresses in our own database.
+        </P>
+        <P>
+          <Strong>Analytics, only if you agree.</Strong> If you accept analytics, Firebase Analytics receives usage
+          events linked to a pseudonymous identifier (a short hash, never your name or email). Off unless you accept;
+          you can change it in Settings.
+        </P>
+        <P>
+          <Strong>Website.</Strong> If you join a waitlist on zik4u.com: your email address, and for creators your
+          artist name and main streaming platform. The website has no account login, no analytics and no advertising
+          cookies (section 13).
+        </P>
+        <P>
+          <Strong>Messages to us.</Strong> Emails you send to support or privacy.
+        </P>
+      </Section>
 
-          {/* 1 */}
-          <section>
-            <h2 style={{ fontSize: '22px', fontWeight: 700, color: '#FFFFFF', marginBottom: '16px' }}>1. Who We Are</h2>
-            <p>
-              {COMPANY} (&ldquo;we&rdquo;, &ldquo;us&rdquo;, or &ldquo;our&rdquo;) operates the website{' '}
-              <a href={SITE_URL} style={{ color: '#00D4FF', textDecoration: 'none' }}>{SITE_URL}</a>{' '}
-              and the Zik4U mobile application (collectively, the &ldquo;Service&rdquo;). This Privacy Policy explains how we collect,
-              use, disclose, and safeguard your personal information when you use our Service.
-            </p>
-            <p style={{ marginTop: '12px' }}>
-              Zik4U Inc. is a corporation registered in the State of Florida, United States.
-            </p>
-            <p style={{ marginTop: '12px' }}>
-              For privacy inquiries, contact us at:{' '}
-              <a href={`mailto:${CONTACT_EMAIL}`} style={{ color: '#00D4FF', textDecoration: 'none' }}>{CONTACT_EMAIL}</a>
-            </p>
-            <p style={{ marginTop: '12px' }}>
-              We have designated{' '}
-              <a href="mailto:privacy@zik4u.com" style={{ color: '#00D4FF', textDecoration: 'none' }}>privacy@zik4u.com</a>
-              {' '}as our Data Protection Contact for GDPR purposes. A formal Data Protection Officer (DPO) will be
-              appointed as required by applicable law as the platform scales.
-            </p>
-          </section>
+      <Section title="4. Why we use your data, and our legal basis (EU/EEA and UK)">
+        <Table
+          head={['Purpose', 'Data', 'Legal basis']}
+          rows={[
+            ['Run your account and the Service: capture, profile, feed, followers, messages, creator subscriptions', 'Account, listening, content, purchases', 'Performance of our contract with you'],
+            ['Emotional music profile and listener archetype', 'Listening, emotional profile', 'Legitimate interest: personalizing your music identity, which is the purpose of Zik4U. You can object at any time by turning it off'],
+            ['Music Match', 'Listening, Music Match setting, 18+ confirmation', 'Your consent (you turn it on)'],
+            ['Music research reports', 'See section 7', 'Your consent (off by default)'],
+            ['Analytics', 'Usage events', 'Your consent'],
+            ['Notifications you allowed', 'Push token', "Performance of contract; your phone's permission"],
+            ['Safety, moderation, fraud and abuse prevention, crash reports, service security', 'Content, reports, technical data', 'Legitimate interest: keeping Zik4U safe and working'],
+            ['Paying creators, accounting and tax', 'Purchases, payouts', 'Legal obligation; performance of contract'],
+            ['Waitlists', 'Email, artist name, platform', 'Your consent (you sign up)'],
+          ]}
+        />
+        <P>
+          We do not make decisions about you based solely on automated processing that have legal or similarly
+          significant effects on you.
+        </P>
+      </Section>
 
-          {/* 2 */}
-          <section>
-            <h2 style={{ fontSize: '22px', fontWeight: 700, color: '#FFFFFF', marginBottom: '16px' }}>2. Data We Collect</h2>
-            <p style={{ marginBottom: '16px' }}>We collect the following categories of personal data:</p>
+      <Section id="emotional-profile" title="5. Your emotional music profile">
+        <P>
+          <Strong>What it is.</Strong> Every night, Zik4U reads the mood of the music you listened to the day before and
+          computes the data listed in section 3. From your last 30 days, it derives a listener archetype.
+        </P>
+        <P>
+          <Strong>Who sees it.</Strong> Your archetype is shown on your Music DNA card, which other members can see
+          under your privacy settings (section 8). Your moods themselves are never shared with anyone: not other
+          members, not partners.
+        </P>
+        <P>
+          <Strong>What it is not.</Strong> It describes your music, not your health. Zik4U does not infer health or
+          mental-health conditions.
+        </P>
+        <P>
+          <Strong>Your choice.</Strong> It is on by default. Turn it off anytime in{' '}
+          <Strong>Settings › Privacy › Emotional music profile</Strong>: your archetype and the moods behind it are
+          deleted, and Zik4U stops computing them. Everything else works the same.
+        </P>
+      </Section>
 
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
-              {[
-                {
-                  title: 'Account Information',
-                  desc: 'Email address, display name, username, profile photo, and biography that you provide when creating an account.',
-                },
-                {
-                  title: 'Music Listening Data',
-                  desc: 'Track titles, artist names, listening timestamps, and streaming platform identifiers, collected via our music detection system (Captation) with your explicit consent.',
-                },
-                {
-                  title: 'Connected Services',
-                  desc: 'OAuth tokens and metadata for third-party music services you connect (Spotify, Apple Music, YouTube Music, Deezer, SoundCloud). We store only the minimum data required to provide the Service.',
-                },
-                {
-                  title: 'Payment Information',
-                  desc: 'Billing details for subscriptions are processed by Stripe. We do not store credit card numbers or CVVs. We receive only a tokenized payment reference.',
-                },
-                {
-                  title: 'Social Data',
-                  desc: 'Follows, posts, comments, reactions, and direct messages you create on the platform.',
-                },
-                {
-                  title: 'Device & Usage Data',
-                  desc: 'Device type, operating system, IP address (anonymized after 30 days), app version, session duration, and feature usage for analytics and crash reporting.',
-                },
-                {
-                  title: 'Push Notification Tokens',
-                  desc: 'Expo push tokens collected when you grant notification permission, used solely to deliver in-app notifications.',
-                },
-                {
-                  title: 'Inferred Emotional Profile',
-                  desc: 'We automatically derive an anonymized emotional music profile from your listening patterns, including a daily listening score, mood indicators (e.g., nocturnal, explorative), and behavioral metrics such as musical diversity and listening consistency. This profile is used solely to personalize your experience and improve our services. It is never sold or shared with third parties without your explicit consent.',
-                },
-              ].map((item) => (
-                <div
-                  key={item.title}
-                  style={{
-                    backgroundColor: '#12122A',
-                    borderRadius: '12px',
-                    padding: '16px 20px',
-                    borderLeft: '3px solid #00D4FF',
-                  }}
-                >
-                  <p style={{ fontWeight: 700, color: '#FFFFFF', marginBottom: '4px' }}>{item.title}</p>
-                  <p style={{ fontSize: '14px', color: 'rgba(255,255,255,0.65)' }}>{item.desc}</p>
-                </div>
-              ))}
-            </div>
-          </section>
+      <Section id="music-match" title="6. Music Match">
+        <List
+          items={[
+            'Music Match lets adults discover people with compatible music tastes. It is off unless you turn it on, and requires you to confirm you are 18 or older.',
+            'It compares listening only: artists you have in common and the same track played at the same time. It does not use your moods, your photo, your location, or any relationship status. We do not collect relationship status.',
+            'You are visible only to other members who turned Music Match on.',
+            <>
+              Turn it off anytime in <Strong>Settings › Privacy › Music Match</Strong>: you disappear from all results
+              immediately.
+            </>,
+            'Blocking someone removes them from your results and prevents any contact.',
+          ]}
+        />
+      </Section>
 
-          {/* 3 */}
-          <section>
-            <h2 style={{ fontSize: '22px', fontWeight: 700, color: '#FFFFFF', marginBottom: '16px' }}>3. How We Use Your Data</h2>
-            <p style={{ marginBottom: '12px' }}>We use your personal data for the following purposes:</p>
-            <ul style={{ paddingLeft: '20px', display: 'flex', flexDirection: 'column', gap: '8px' }}>
-              {[
-                'Providing and improving the Service (account management, music detection, feed personalization)',
-                'Enabling social features (follow, discover compatible listeners, messaging)',
-                'Processing payments and managing creator subscriptions',
-                'Sending push notifications you have opted into',
-                'Computing music compatibility scores and personalized recommendations',
-                'Detecting and preventing fraud, abuse, and security threats',
-                'Complying with legal obligations',
-                'Sending transactional emails (password reset, subscription confirmations)',
-              ].map((item, i) => (
-                <li key={i} style={{ fontSize: '15px' }}>
-                  {item}
-                </li>
-              ))}
-            </ul>
-            <p style={{ marginTop: '16px' }}>
-              We do <strong>not</strong> sell your individual personal data to third parties.
-              We do not currently use your personal listening data for advertising targeting on the Zik4U platform.
-            </p>
-            <p style={{ marginTop: '12px' }}>
-              As part of our Zik4U Intelligence Partner Program, we may share aggregated, anonymized, and
-              non-individually-identifiable derivatives of platform listening data with verified business
-              partners (labels, researchers, brands) under strict data use agreements. This aggregated data
-              cannot be used to identify any individual user. For California residents: this aggregated data
-              sharing may constitute a &ldquo;sale&rdquo; under CCPA. You may opt out by contacting{' '}
-              <a href="mailto:privacy@zik4u.com" style={{ color: '#00D4FF', textDecoration: 'none' }}>privacy@zik4u.com</a>.
-            </p>
-          </section>
+      <Section id="research" title="7. Music research">
+        <P>
+          <Strong>Off unless you turn it on.</Strong> Zik4U works exactly the same either way. Only members who
+          confirmed they are 18 or older can turn it on.
+        </P>
+        <P>
+          <Strong>What we use.</Strong> The songs you play after you turn it on, when you play them, the moods derived
+          from them, and your archetype. Never listens made in private mode. Never your moods or archetype if your
+          emotional profile is off.
+        </P>
+        <P>
+          <Strong>What partners receive.</Strong> Weekly trends (for example, how many listeners an artist had, or how
+          moods were distributed) computed only over groups of <Strong>100 people or more</Strong>, with statistical
+          noise added and figures rounded. Never your name, your profile, your songs, or any data about you as an
+          individual. Partners must contractually commit never to try to re-identify anyone.
+        </P>
+        <P>
+          <Strong>Who receives them.</Strong> Music companies (labels, publishers) and, later, AI research
+          organizations. Zik4U may be paid for these reports.
+        </P>
+        <P>
+          <Strong>Your choice.</Strong> Turn it off anytime in <Strong>Settings › Privacy › Music research</Strong>:
+          your data leaves all future reports. Reports already delivered cannot be changed, but they hold no data about
+          you as an individual. Every report we produce is logged.
+        </P>
+      </Section>
 
-          {/* 4 */}
-          <section>
-            <h2 style={{ fontSize: '22px', fontWeight: 700, color: '#FFFFFF', marginBottom: '16px' }}>4. Legal Basis for Processing (GDPR)</h2>
-            <p style={{ marginBottom: '12px' }}>
-              If you are located in the European Economic Area (EEA), our legal basis for processing your data is:
-            </p>
-            <ul style={{ paddingLeft: '20px', display: 'flex', flexDirection: 'column', gap: '8px' }}>
-              <li><strong style={{ color: '#FFFFFF' }}>Contract performance</strong>: to deliver the Service you signed up for</li>
-              <li><strong style={{ color: '#FFFFFF' }}>Consent</strong>: for music detection, push notifications, and optional analytics</li>
-              <li><strong style={{ color: '#FFFFFF' }}>Legitimate interests</strong>: for fraud prevention, security, and product improvement</li>
-              <li><strong style={{ color: '#FFFFFF' }}>Legal obligation</strong>: for tax reporting, GDPR compliance, and law enforcement requests</li>
-            </ul>
-          </section>
+      <Section id="public-profile" title="8. What other people can see">
+        <P>
+          <Strong>What anyone can see.</Strong> Your display name, avatar and bio are public. Anyone, including
+          visitors without a Zik4U account, can see them on your profile page. If you are a creator, your subscription
+          tiers and prices are also public.
+        </P>
+        <P>
+          <Strong>Search engines and AI assistants.</Strong> This minimal public profile (name, avatar, bio) may be
+          indexed by search engines such as Google and read by AI assistants and their crawlers (for example ChatGPT,
+          Claude, Gemini or Perplexity). If your account is set to private, your profile is excluded from our sitemap
+          and marked so that search engines and AI crawlers do not index it.
+        </P>
+        <P>
+          <Strong>What stays protected.</Strong> Your listening history, top artists and tracks, music signature,
+          listener archetype, activity and compatibility scores are never shown to visitors without an account. On a
+          private account, they are visible only to followers you have approved. On a creator&apos;s &ldquo;subscribers
+          only&rdquo; profile, they are visible only to active subscribers.
+        </P>
+        <P>
+          <Strong>Links you share.</Strong> When you share your profile card from the app, the link shows your full
+          card to anyone who opens it, even if your account is private. You choose to share it. Shared cards are marked
+          so that search engines and AI crawlers do not index them. The card stays up to date with your activity. You
+          can revoke all links you have shared at any time in the app&apos;s privacy settings; revoked links then show
+          only your minimal public profile.
+        </P>
+        <P>
+          <Strong>Creator content.</Strong> Sharing a creator card never gives access to exclusive posts, drops or
+          listening rooms, which remain reserved for subscribers.
+        </P>
+      </Section>
 
-          {/* 5 */}
-          <section>
-            <h2 style={{ fontSize: '22px', fontWeight: 700, color: '#FFFFFF', marginBottom: '16px' }}>5. Data Sharing & Third Parties</h2>
-            <p style={{ marginBottom: '12px' }}>We share your data only with the following trusted service providers:</p>
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
-              {[
-                { name: 'Supabase', role: 'Database hosting & authentication (EU region)', link: 'https://supabase.com/privacy' },
-                { name: 'Stripe', role: 'Payment processing', link: 'https://stripe.com/privacy' },
-                { name: 'RevenueCat', role: 'In-app purchase management', link: 'https://www.revenuecat.com/privacy' },
-                { name: 'Sentry', role: 'Error tracking & crash reporting', link: 'https://sentry.io/privacy/' },
-                { name: 'Firebase / Google', role: 'Analytics & crash reporting', link: 'https://firebase.google.com/support/privacy' },
-                { name: 'Trolley', role: 'Creator payout processing (KYC)', link: 'https://trolley.com/privacy-policy/' },
-                { name: 'Expo', role: 'Push notification delivery', link: 'https://expo.dev/privacy' },
-              ].map((provider) => (
-                <div key={provider.name} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '12px 16px', backgroundColor: '#12122A', borderRadius: '8px' }}>
-                  <div>
-                    <span style={{ fontWeight: 700, color: '#FFFFFF' }}>{provider.name}</span>
-                    <span style={{ color: 'rgba(255,255,255,0.5)', fontSize: '14px', marginLeft: '12px' }}>{provider.role}</span>
-                  </div>
-                  <a href={provider.link} target="_blank" rel="noopener noreferrer" style={{ color: '#00D4FF', fontSize: '13px', textDecoration: 'none', whiteSpace: 'nowrap', marginLeft: '12px' }}>
-                    Privacy →
-                  </a>
-                </div>
-              ))}
-            </div>
-          </section>
+      <Section id="providers" title="9. Who processes your data for us">
+        <P>
+          We never sell your personal data. We share it only with providers who process it on our instructions, and
+          with the app stores as independent companies.
+        </P>
+        <Table
+          head={['Provider', 'What for', 'Where']}
+          rows={[
+            ['Supabase', 'Database, sign-in, storage, server functions', 'United States (Virginia)'],
+            ['Vercel', 'Website hosting', 'United States and global network'],
+            ['Expo', 'Delivery of push notifications', 'United States'],
+            ['Google Firebase', 'Push notification transport; analytics if you accept', 'United States'],
+            ['Google / Apple', 'Sign-in, if you choose it', 'United States'],
+            ['Sentry', 'Crash and error reports', 'United States'],
+            ['Resend', 'Account emails (confirmation, password reset)', 'United States'],
+            ['RevenueCat', 'Purchase receipts (when subscriptions open)', 'United States'],
+            ['Apple App Store / Google Play', 'Payments, as independent controllers', 'Their own terms'],
+            ['Trolley', 'Creator payouts and tax verification (when payouts open)', 'Canada'],
+          ]}
+        />
+        <P>
+          We may also disclose data when the law requires it, to protect people&apos;s safety, or to a successor if
+          Zik4U&apos;s business is transferred (we would tell you first).
+        </P>
+      </Section>
 
-          {/* International Transfers */}
-          <section>
-            <h2 style={{ fontSize: '22px', fontWeight: 700, color: '#FFFFFF', marginBottom: '16px' }}>5b. International Data Transfers</h2>
-            <p style={{ marginBottom: '12px' }}>
-              As a Florida C Corp, some of your data is processed and stored in the United States. We comply with GDPR (EU users)
-              and CCPA (California users) requirements.
-            </p>
-            <p style={{ marginBottom: '12px' }}>
-              For transfers of personal data from the European Economic Area (EEA) to the United States, we rely on the following
-              safeguards in accordance with GDPR Article 46:
-            </p>
-            <ul style={{ paddingLeft: '20px', marginBottom: '12px', display: 'flex', flexDirection: 'column', gap: '8px' }}>
-              <li>
-                <strong style={{ color: '#FFFFFF' }}>Standard Contractual Clauses (SCCs):</strong>
-                {' '}Our key service providers (Supabase, Stripe, Firebase, Sentry, Expo) have adopted EU Standard Contractual
-                Clauses as the legal mechanism for transatlantic data transfers.
-              </li>
-              <li>
-                <strong style={{ color: '#FFFFFF' }}>EU Data Storage:</strong>
-                {' '}Our primary database is hosted in the EU (eu-central-1 region, Supabase Frankfurt) to minimize cross-border transfers.
-              </li>
-              <li>
-                <strong style={{ color: '#FFFFFF' }}>Adequacy Decisions:</strong>
-                {' '}Where available, we rely on the European Commission adequacy decisions for the countries where our
-                sub-processors operate.
-              </li>
-            </ul>
-            <p>
-              For more information about the safeguards we apply, or to obtain a copy of the relevant SCCs, contact us at{' '}
-              <a href="mailto:privacy@zik4u.com" style={{ color: '#00D4FF', textDecoration: 'none' }}>privacy@zik4u.com</a>.
-            </p>
-          </section>
+      <Section id="transfers" title="10. International transfers">
+        <P>
+          Our main database is hosted in the United States, and several providers above are based there. When your data
+          leaves the European Economic Area or the UK, it is protected by the European Commission&apos;s Standard
+          Contractual Clauses included in our providers&apos; data processing agreements, and, where a provider is
+          certified, by the EU–U.S. Data Privacy Framework. You can ask us for a copy of these safeguards at{' '}
+          <Mail to={PRIVACY} />.
+        </P>
+      </Section>
 
-          {/* 5c — WEB-PRIV1 */}
-          <section>
-            <h2 style={{ fontSize: '22px', fontWeight: 700, color: '#FFFFFF', marginBottom: '16px' }}>5c. Public Profiles, Search Engines &amp; Shared Links</h2>
-            <p style={{ marginBottom: '12px' }}>
-              <strong style={{ color: '#FFFFFF' }}>What anyone can see.</strong>{' '}Your display name, avatar and bio are public. Anyone, including
-              visitors without a Zik4U account, can see them on your profile page. If you are a creator, your subscription
-              tiers and prices are also public.
-            </p>
-            <p style={{ marginBottom: '12px' }}>
-              <strong style={{ color: '#FFFFFF' }}>Search engines and AI assistants.</strong>{' '}This minimal public profile (name, avatar, bio) may be
-              indexed by search engines such as Google and read by AI assistants and their crawlers (for example ChatGPT,
-              Claude, Gemini or Perplexity). If your account is set to private, your profile is excluded from our sitemap and
-              marked so that search engines and AI crawlers do not index it.
-            </p>
-            <p style={{ marginBottom: '12px' }}>
-              <strong style={{ color: '#FFFFFF' }}>What stays protected.</strong>{' '}Your listening history, top artists and tracks, music signature,
-              activity and compatibility scores are never shown to visitors without an account. On a private account, they are
-              visible only to followers you have approved. On a creator&apos;s &ldquo;subscribers only&rdquo; profile, they are
-              visible only to active subscribers.
-            </p>
-            <p style={{ marginBottom: '12px' }}>
-              <strong style={{ color: '#FFFFFF' }}>Links you share.</strong>{' '}When you share your profile card from the app, the link shows your full
-              card to anyone who opens it, even if your account is private. You choose to share it. Shared cards are marked so
-              that search engines and AI crawlers do not index them. The card stays up to date with your activity. You can
-              revoke all links you have shared at any time in the app&apos;s privacy settings; revoked links then show only
-              your minimal public profile.
-            </p>
-            <p>
-              <strong style={{ color: '#FFFFFF' }}>Creator content.</strong>{' '}Sharing a creator card never gives access to exclusive posts, drops or
-              listening rooms, which remain reserved for subscribers.
-            </p>
-          </section>
+      <Section id="retention" title="11. How long we keep your data">
+        <List
+          items={[
+            <><Strong>Account and everything attached to it</Strong> (listening, content, messages, emotional profile, settings): as long as your account exists.</>,
+            <><Strong>When you delete your account</Strong>: it is erased from our live database immediately. Residual copies in backups and technical logs disappear within 30 days.</>,
+            <><Strong>Emotional profile</Strong>: deleted immediately when you turn it off.</>,
+            <><Strong>Inactive accounts</Strong>: deleted after 3 years without any activity.</>,
+            <><Strong>Purchase, payout and accounting records</Strong>: kept as long as tax and accounting law requires (up to 10 years in France).</>,
+            <><Strong>Waitlists</Strong>: until we invite you at launch, and at most 24 months, or earlier if you ask us.</>,
+            <><Strong>Emails to support</Strong>: up to 3 years after our last exchange.</>,
+            <><Strong>Research reports</Strong>: contain no personal data.</>,
+          ]}
+        />
+      </Section>
 
-          {/* 6 */}
-          <section>
-            <h2 style={{ fontSize: '22px', fontWeight: 700, color: '#FFFFFF', marginBottom: '16px' }}>6. Data Retention</h2>
-            <p style={{ marginBottom: '12px' }}>We retain your personal data as follows:</p>
-            <ul style={{ paddingLeft: '20px', display: 'flex', flexDirection: 'column', gap: '8px' }}>
-              <li><strong style={{ color: '#FFFFFF' }}>Account data:</strong> As long as your account is active. Deleted within 30 days of account deletion request.</li>
-              <li><strong style={{ color: '#FFFFFF' }}>Music listening data:</strong> Rolling 12-month history for personalization; anonymized aggregate data retained indefinitely.</li>
-              <li><strong style={{ color: '#FFFFFF' }}>IP addresses:</strong> Anonymized after 30 days.</li>
-              <li><strong style={{ color: '#FFFFFF' }}>Payment records:</strong> 7 years for tax and legal compliance.</li>
-              <li><strong style={{ color: '#FFFFFF' }}>Push tokens:</strong> Deleted when you revoke notification permission or delete your account.</li>
-              <li>
-                <strong style={{ color: '#FFFFFF' }}>Emotional profile &amp; archetypes:</strong>
-                {' '}Daily emotional snapshots and listener archetypes are retained while your account is active and deleted
-                within 30 days of account deletion. These profiles are never shared in individually identifiable form.
-              </li>
-            </ul>
-          </section>
+      <Section id="rights" title="12. Your rights">
+        <P>
+          <Strong>Everyone.</Strong> Wherever you live, you can:
+        </P>
+        <List
+          items={[
+            <><Strong>Download your data</Strong> in <Strong>Settings › My Data (GDPR / CCPA)</Strong>.</>,
+            <><Strong>Delete your account</Strong> in <Strong>Settings › Delete account</Strong>, or from the web at <A href="/delete-account">zik4u.com/delete-account</A>.</>,
+            <><Strong>Turn off</Strong> your emotional profile, Music Match, music research, analytics and notifications at any time.</>,
+            <><Strong>Correct</Strong> your profile information in the app.</>,
+            <><Strong>Ask us</Strong> anything at <Mail to={PRIVACY} />. We answer within one month.</>,
+          ]}
+        />
+        <P>
+          <Strong>EU/EEA and UK.</Strong> You also have the rights of access, rectification, erasure, restriction,
+          portability, objection (including to the emotional profile, by turning it off) and to withdraw consent at
+          any time without affecting what was done before. You can complain to the French data protection authority,
+          the <Strong>CNIL</Strong> (<A href="https://www.cnil.fr">www.cnil.fr</A>), or to the authority of the country
+          where you live.
+        </P>
+        <P>
+          <Strong>California and other U.S. states.</Strong> You have the right to know what personal information we
+          collect, use and disclose; to access, correct and delete it; and not to be discriminated against for
+          exercising these rights. <Strong>We do not sell or share your personal information</Strong> for
+          cross-context behavioral advertising, and we do not use sensitive personal information to infer
+          characteristics about you beyond providing the Service. Research reports contain only de-identified,
+          aggregated information. If your browser sends a Global Privacy Control signal, we treat it as a request to
+          opt out of sale or sharing. You may use an authorized agent; we will verify the request. If we decline a
+          request, you can appeal by replying to our answer.
+        </P>
+      </Section>
 
-          {/* 7 */}
-          <section>
-            <h2 style={{ fontSize: '22px', fontWeight: 700, color: '#FFFFFF', marginBottom: '16px' }}>7. Your Rights</h2>
-            <p style={{ marginBottom: '12px' }}>Depending on your jurisdiction, you have the following rights:</p>
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
-              {[
-                { right: 'Access', desc: 'Request a copy of the personal data we hold about you.' },
-                { right: 'Rectification', desc: 'Correct inaccurate or incomplete data.' },
-                { right: 'Erasure', desc: 'Request deletion of your personal data ("right to be forgotten").' },
-                { right: 'Portability', desc: 'Receive your data in a machine-readable format (JSON/CSV) via Settings → Export Data.' },
-                { right: 'Restriction', desc: 'Request that we limit processing of your data.' },
-                { right: 'Objection', desc: 'Object to processing based on legitimate interests.' },
-                { right: 'Withdraw Consent', desc: 'Revoke consent for music detection or push notifications at any time via app Settings.' },
-                { right: 'CCPA / California Rights', desc: 'Opt out of sale (we don\'t sell data). Request disclosure or deletion of personal information.' },
-              ].map((item) => (
-                <div key={item.right} style={{ display: 'flex', gap: '12px', alignItems: 'flex-start' }}>
-                  <span style={{ minWidth: '24px', height: '24px', borderRadius: '50%', background: 'linear-gradient(135deg, #00D4FF, #00FFB2)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '12px', fontWeight: 700, color: '#0A0A1A', flexShrink: 0, marginTop: '2px' }}>✓</span>
-                  <div>
-                    <span style={{ fontWeight: 700, color: '#FFFFFF' }}>{item.right}:</span>{' '}
-                    <span style={{ color: 'rgba(255,255,255,0.7)' }}>{item.desc}</span>
-                  </div>
-                </div>
-              ))}
-            </div>
-            <p style={{ marginTop: '16px' }}>
-              To exercise any right, email us at{' '}
-              <a href={`mailto:${CONTACT_EMAIL}`} style={{ color: '#00D4FF', textDecoration: 'none' }}>{CONTACT_EMAIL}</a>.
-              We will respond within 30 days.
-            </p>
-          </section>
+      <Section id="cookies" title="13. Cookies and similar technologies">
+        <P>
+          <Strong>Website.</Strong> zik4u.com uses no advertising or analytics cookies and has no login. If your
+          browser sends a Global Privacy Control signal, we set one technical cookie to remember it. No cookie banner is
+          needed because no cookie requires your consent.
+        </P>
+        <P>
+          <Strong>App.</Strong> The app does not use advertising identifiers. Analytics run only if you accept them.
+        </P>
+      </Section>
 
-          {/* 8b */}
-          <section>
-            <h2 style={{ fontSize: '22px', fontWeight: 700, color: '#FFFFFF', marginBottom: '16px' }}>
-              8b. Automated Processing &amp; Profiling
-            </h2>
-            <p style={{ marginBottom: '12px' }}>
-              In accordance with Article 22 of the GDPR, we inform you that Zik4U uses
-              automated processing to derive insights from your listening behavior.
-              This includes:
-            </p>
-            <ul style={{ paddingLeft: '20px', marginBottom: '12px' }}>
-              <li style={{ marginBottom: '8px' }}>
-                <strong style={{ color: '#FFFFFF' }}>Daily Emotional Score:</strong> A composite
-                score (0–100) reflecting your listening diversity, activity patterns, and
-                consistency. Used to personalize notifications and content.
-              </li>
-              <li style={{ marginBottom: '8px' }}>
-                <strong style={{ color: '#FFFFFF' }}>Mood Indicators:</strong> Inferred listening
-                moods (e.g., nocturnal, explorative, high energy) based on time-of-day patterns
-                and artist diversity. Not used for individual-level external profiling or advertising targeting.
-                Aggregated, anonymized derivatives of platform-wide listening patterns may be shared with
-                verified Zik4U Intelligence Partners (labels, researchers, brands) under strict data use agreements.
-                These aggregated insights cannot be used to identify any individual user. See Section 5 for details
-                on our Partner Program.
-              </li>
-              <li style={{ marginBottom: '8px' }}>
-                <strong style={{ color: '#FFFFFF' }}>Trajectory Analysis:</strong> Week-over-week
-                comparison of listening patterns to personalize engagement notifications.
-              </li>
-            </ul>
-            <p>
-              This automated processing does not produce legal or similarly significant effects.
-              You may opt out of emotional profiling at any time in Settings → Privacy.
-              Opting out will disable personalized digest notifications but will not affect
-              core app functionality.
-            </p>
-          </section>
+      <Section id="age" title="14. Age">
+        <P>
+          Zik4U is for people <Strong>16 and older</Strong>. Music Match and music research are for people{' '}
+          <Strong>18 and older</Strong>. Age is declared by you; we do not verify identity documents. If we learn that
+          an account belongs to someone under 16, we delete it. To report one, write to <Mail to={PRIVACY} />.
+        </P>
+      </Section>
 
-          {/* 8c */}
-          <section>
-            <h2 style={{ fontSize: '22px', fontWeight: 700, color: '#FFFFFF', marginBottom: '16px' }}>
-              8c. Music Match — Connect Through Music
-            </h2>
-            <p style={{ marginBottom: '12px' }}>
-              Music Match is an optional feature that allows users to discover other members
-              with compatible music tastes for social or romantic connections.
-              This feature is <strong style={{ color: '#FFFFFF' }}>strictly opt-in</strong> and
-              disabled by default.
-            </p>
-            <h3 style={{ fontSize: '16px', fontWeight: 700, color: '#FFFFFF', marginBottom: '8px', marginTop: '16px' }}>
-              Data collected for Music Match
-            </h3>
-            <ul style={{ paddingLeft: '20px', display: 'flex', flexDirection: 'column', gap: '8px', marginBottom: '12px' }}>
-              <li>
-                <strong style={{ color: '#FFFFFF' }}>Relationship status</strong> — declared
-                voluntarily by the user (&ldquo;single&rdquo;, &ldquo;open&rdquo;, &ldquo;taken&rdquo;,
-                or &ldquo;undisclosed&rdquo;). Visible on your profile only if you activate Music Match.
-              </li>
-              <li>
-                <strong style={{ color: '#FFFFFF' }}>Music Match preference (dating_opt_in)</strong> — a
-                boolean flag indicating that you consent to appear in and see Music Match results.
-                Off by default. Modifiable at any time in Settings → Privacy.
-              </li>
-              <li>
-                <strong style={{ color: '#FFFFFF' }}>Music compatibility data</strong> — your
-                listening history (already collected for core app functionality) is used to
-                compute compatibility scores with other opted-in users.
-              </li>
-            </ul>
-            <h3 style={{ fontSize: '16px', fontWeight: 700, color: '#FFFFFF', marginBottom: '8px', marginTop: '16px' }}>
-              Legal basis (GDPR)
-            </h3>
-            <p style={{ marginBottom: '12px' }}>
-              Processing of Music Match data is based on{' '}
-              <strong style={{ color: '#FFFFFF' }}>explicit consent</strong> (GDPR Art. 6(1)(a)
-              and Art. 9(2)(a) for relationship status data, which constitutes sensitive personal
-              data under EU law). This consent is obtained via a double opt-in mechanism:
-            </p>
-            <ol style={{ paddingLeft: '20px', display: 'flex', flexDirection: 'column', gap: '8px', marginBottom: '12px' }}>
-              <li>Voluntarily setting your relationship status to &ldquo;single&rdquo; or &ldquo;open&rdquo;.</li>
-              <li>Explicitly enabling the Music Match toggle in Settings → Privacy.</li>
-            </ol>
-            <h3 style={{ fontSize: '16px', fontWeight: 700, color: '#FFFFFF', marginBottom: '8px', marginTop: '16px' }}>
-              Data sharing and visibility
-            </h3>
-            <ul style={{ paddingLeft: '20px', display: 'flex', flexDirection: 'column', gap: '8px', marginBottom: '12px' }}>
-              <li>Your profile may appear in Music Match results visible to other opted-in users.</li>
-              <li>Your relationship status is <strong style={{ color: '#FFFFFF' }}>never</strong> shared with B2B partners or third parties.</li>
-              <li>Your dating preference flag is <strong style={{ color: '#FFFFFF' }}>never</strong> exposed via our Partner Intelligence API.</li>
-              <li>No location data is used or shared in Music Match.</li>
-            </ul>
-            <h3 style={{ fontSize: '16px', fontWeight: 700, color: '#FFFFFF', marginBottom: '8px', marginTop: '16px' }}>
-              Age requirement
-            </h3>
-            <p style={{ marginBottom: '12px' }}>
-              Music Match is available only to users aged{' '}
-              <strong style={{ color: '#FFFFFF' }}>17 years or older</strong>.
-              By activating Music Match, you confirm that you meet this age requirement.
-            </p>
-            <h3 style={{ fontSize: '16px', fontWeight: 700, color: '#FFFFFF', marginBottom: '8px', marginTop: '16px' }}>
-              How to disable
-            </h3>
-            <p>
-              You can disable Music Match at any time by going to{' '}
-              <strong style={{ color: '#FFFFFF' }}>Settings → Privacy → Music Match</strong> and
-              toggling it off. Upon disabling, your profile is immediately removed from all
-              Music Match results. Your relationship status can also be set to
-              &ldquo;undisclosed&rdquo; at any time.
-            </p>
-          </section>
+      <Section id="security" title="15. Security">
+        <P>
+          Data is encrypted in transit (TLS) and at rest by our hosting provider. Access rules in the database restrict
+          each member to the data they are allowed to see. Administrative access requires a physical security key. If
+          a data breach is likely to put your rights at risk, we notify the CNIL within 72 hours and tell you without
+          undue delay when the risk is high.
+        </P>
+      </Section>
 
-          {/* 8 */}
-          <section>
-            <h2 style={{ fontSize: '22px', fontWeight: 700, color: '#FFFFFF', marginBottom: '16px' }}>8. Cookies &amp; Tracking</h2>
-            <p style={{ marginBottom: '12px' }}>Our website uses minimal cookies:</p>
-            <ul style={{ paddingLeft: '20px', display: 'flex', flexDirection: 'column', gap: '8px' }}>
-              <li><strong style={{ color: '#FFFFFF' }}>Essential cookies:</strong> Authentication session management (Supabase auth token). Required for the Service to function.</li>
-              <li><strong style={{ color: '#FFFFFF' }}>Analytics:</strong> Anonymous usage analytics via Firebase Analytics. No cross-site tracking.</li>
-            </ul>
-            <p style={{ marginTop: '12px' }}>
-              We do not use third-party advertising cookies or pixel trackers.
-            </p>
-          </section>
+      <Section id="changes" title="16. Changes to this policy">
+        <P>
+          When we change this policy, we update the date at the top. When a change matters, the app shows it to you
+          before it applies.
+        </P>
+      </Section>
 
-          {/* 9 */}
-          <section>
-            <h2 style={{ fontSize: '22px', fontWeight: 700, color: '#FFFFFF', marginBottom: '16px' }}>9. Data Security</h2>
-            <p>
-              We implement industry-standard security measures including TLS 1.3 encryption in transit, infrastructure-level disk encryption at rest (AES-256, managed by Supabase),
-              Row-Level Security (RLS) policies on all database tables, and regular security audits. OAuth tokens for connected music services
-              are stored encrypted and never exposed in plaintext. In the event of a data breach affecting your rights, we will notify you
-              within 72 hours as required by GDPR.
-            </p>
-          </section>
-
-          {/* 10 */}
-          <section>
-            <h2 style={{ fontSize: '22px', fontWeight: 700, color: '#FFFFFF', marginBottom: '16px' }}>
-              10. Children&apos;s Privacy (COPPA)
-            </h2>
-            <p style={{ marginBottom: '12px' }}>
-              Zik4U is not directed to children under the age of{' '}
-              <strong style={{ color: '#FFFFFF' }}>13 years old</strong>
-              {' '}(or <strong style={{ color: '#FFFFFF' }}>16 years old</strong> in the
-              European Economic Area).
-            </p>
-            <p style={{ marginBottom: '12px' }}>
-              We do not knowingly collect personal data from children under these age thresholds.
-              By using Zik4U, you confirm that you are at least 13 years old (or 16 in the EEA),
-              or that a parent or legal guardian has provided consent on your behalf.
-            </p>
-            <p style={{ marginBottom: '12px' }}>
-              If we become aware that we have collected personal data from a child below the
-              applicable age without verifiable parental consent, we will delete that data
-              immediately. To report such a case, contact us at{' '}
-              <a href={`mailto:${CONTACT_EMAIL}`} style={{ color: '#00D4FF', textDecoration: 'none' }}>
-                {CONTACT_EMAIL}
-              </a>.
-            </p>
-            <p>
-              This policy complies with the Children&apos;s Online Privacy Protection Act
-              (COPPA, USA) and the GDPR provisions applicable to minors (EU/EEA).
-            </p>
-          </section>
-
-          {/* 11 */}
-          <section>
-            <h2 style={{ fontSize: '22px', fontWeight: 700, color: '#FFFFFF', marginBottom: '16px' }}>11. Changes to This Policy</h2>
-            <p>
-              We may update this Privacy Policy from time to time. When we make material changes, we will notify you via email or
-              an in-app notification at least 14 days before the changes take effect. Continued use of the Service after the effective
-              date constitutes acceptance of the updated policy. The &ldquo;Last updated&rdquo; date at the top of this page reflects
-              the most recent revision.
-            </p>
-          </section>
-
-          {/* Contact */}
-          <section
-            style={{
-              backgroundColor: '#12122A',
-              borderRadius: '16px',
-              padding: '32px',
-              border: '1px solid rgba(0,212,255,0.2)',
-            }}
-          >
-            <h2 style={{ fontSize: '20px', fontWeight: 700, color: '#FFFFFF', marginBottom: '12px' }}>Questions?</h2>
-            <p style={{ marginBottom: '16px' }}>
-              If you have questions about this Privacy Policy or wish to exercise your rights, contact our Privacy Team:
-            </p>
-            <a
-              href={`mailto:${CONTACT_EMAIL}`}
-              style={{
-                display: 'inline-block',
-                padding: '12px 24px',
-                background: 'linear-gradient(135deg, #00D4FF, #00FFB2)',
-                borderRadius: '8px',
-                color: '#0A0A1A',
-                fontWeight: 700,
-                textDecoration: 'none',
-                fontSize: '15px',
-              }}
-            >
-              {CONTACT_EMAIL}
-            </a>
-          </section>
-
-        </div>
-      </main>
-
-      {/* Footer */}
-      <footer style={{ borderTop: '1px solid rgba(255,255,255,0.08)', padding: '24px', textAlign: 'center' }}>
-        <div style={{ display: 'flex', gap: '24px', justifyContent: 'center', flexWrap: 'wrap' }}>
-          <a href="/legal/privacy" style={{ color: '#00D4FF', textDecoration: 'none', fontSize: '14px' }}>Privacy Policy</a>
-          <a href="/legal/terms" style={{ color: 'rgba(255,255,255,0.4)', textDecoration: 'none', fontSize: '14px' }}>Terms of Service</a>
-          <a href="/" style={{ color: 'rgba(255,255,255,0.4)', textDecoration: 'none', fontSize: '14px' }}>Home</a>
-        </div>
-        <p style={{ color: 'rgba(255,255,255,0.2)', fontSize: '12px', marginTop: '12px' }}>
-          © {new Date().getFullYear()} Zik4U. All rights reserved.
-        </p>
-      </footer>
-    </div>
+      <Section id="contact" title="17. Contact">
+        <P>
+          <Mail to={PRIVACY} />: Bertrand Chardinne, for Zik4U (French SAS in formation).
+        </P>
+      </Section>
+    </LegalPage>
   );
 }

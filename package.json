@@ -7,23 +7,20 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint",
-    "lint:ci": "eslint next.config.ts src/lib/publicProfile.ts src/components/profile src/app/card src/app/creator src/app/sitemap.ts src/app/robots.ts src/__tests__/web-priv1.test.ts src/lib/sharedCard.ts src/__tests__/share-key1.test.ts src/__tests__/b2b-off1.test.ts src/__tests__/sec-cockpit-c2.test.ts src/__tests__/logo2.test.ts src/lib/listeningFingerprint.ts src/__tests__/dna-sillon-site.test.ts",
+    "lint:ci": "eslint next.config.ts src/lib/publicProfile.ts src/components/profile src/app/card src/app/creator src/app/sitemap.ts src/app/robots.ts src/__tests__/web-priv1.test.ts src/lib/sharedCard.ts src/__tests__/share-key1.test.ts src/__tests__/b2b-off1.test.ts src/__tests__/sec-cockpit-c2.test.ts src/__tests__/logo2.test.ts src/lib/listeningFingerprint.ts src/__tests__/dna-sillon-site.test.ts src/__tests__/comply1c-site.test.ts src/components/legal src/app/legal src/app/delete-account",
     "test": "jest --ci --forceExit"
   },
   "dependencies": {
     "@radix-ui/react-dialog": "^1.1.15",
     "@radix-ui/react-tabs": "^1.1.13",
-    "@stripe/stripe-js": "^8.11.0",
     "@supabase/ssr": "^0.9.0",
     "@supabase/supabase-js": "^2.99.1",
-    "@upstash/redis": "^1.37.0",
     "framer-motion": "^12.36.0",
     "lucide-react": "^0.577.0",
     "next": "16.1.6",
     "react": "19.2.3",
     "react-dom": "19.2.3",
-    "react-hot-toast": "^2.6.0",
-    "stripe": "^20.4.1"
+    "react-hot-toast": "^2.6.0"
   },
   "devDependencies": {
     "@tailwindcss/postcss": "^4",

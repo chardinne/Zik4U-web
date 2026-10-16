@@ -132,8 +132,10 @@ describe('source guards', () => {
     expect(list).toContainEqual({ source: '/@:username', destination: '/card/:username' });
   });
 
-  it('privacy policy carries clause 5c', () => {
+  // COMPLY1c (17/10/2026): clause 5c became section 8 of the rewritten policy.
+  it('privacy policy carries the public-profile clause (section 8)', () => {
     const src = readFileSync(join(root, 'src/app/legal/privacy/page.tsx'), 'utf8');
-    expect(src).toContain('5c. Public Profiles, Search Engines &amp; Shared Links');
+    expect(src).toContain('title="8. What other people can see"');
+    expect(src).toContain('Search engines and AI assistants.');
   });
 });

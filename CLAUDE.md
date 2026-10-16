@@ -39,8 +39,9 @@ src/
     /card/[username]/
       preview/route.tsx    ✅ Aperçu de lien 1200×630 (runtime nodejs, TTF Inter + Bebas) : MINIMAL (nom + @handle) sans clé valide ; avec la clé vivante (?k=) : disque, archétype, écoutes réelles (DNA-SILLON, Décision 46 = A). Jamais mis en cache avec une clé
     /creator/[username]    ✅ Carte MINIMALE (WEB-PRIV1, décision 1 = B) — paliers/prix absents jusqu'aux produits store
-    /legal/privacy         ✅ Privacy Policy (Server Component, 11 sections)
-    /legal/terms           ✅ Terms of Service (Server Component, 12 sections)
+    /legal/privacy         ✅ Privacy Policy (COMPLY1c, 17/10/2026 — textes validés, src/components/legal/LegalPage.tsx)
+    /legal/terms           ✅ Terms of Service (COMPLY1c, 17/10/2026)
+    /delete-account        ✅ Suppression de compte (COMPLY1c, exigée par Google Play ; D2 du 26/09)
     /sitemap.xml           ✅ Routes statiques + profils créateurs dynamiques depuis Supabase
     /robots.txt            ✅ Crawl autorisé (robots IA compris, décision 4 du 23/09), /api/ exclu
     /not-found             ✅ Page 404 custom — "This track doesn't exist."
@@ -54,8 +55,7 @@ src/
                               CTA non-populaire : transparent + border cyan rgba(0,212,255,0.35)
     auth/
       AuthModal.tsx        ✅ Modal auth (Google OAuth + Email sign in/sign up)
-    CookieBanner.tsx       ✅ Banner ePrivacy — 'use client', localStorage (zik4u_cookie_consent),
-                              boutons "Essential only" / "Accept", lien /legal/privacy#cookies
+    legal/LegalPage.tsx    ✅ Cadre des pages légales (COMPLY1c). CookieBanner SUPPRIMÉ (Décision 83 = A : aucun cookie soumis à consentement)
     ui/                    ⏳ Composants réutilisables (à construire)
   lib/
     supabase.ts            ✅ Client Supabase (browser)
@@ -140,10 +140,10 @@ Security headers et `images.remotePatterns` doivent être configurés dans `next
 ## Internationalisation — 100% anglais
 Depuis le Sprint Pré-lancement, **tous les textes visibles** du site sont en anglais.
 - `/fans/page.tsx`, `/listeners/page.tsx`, `/creators/page.tsx` : réécrits intégralement en anglais
-- `legal/privacy/page.tsx`, `legal/terms/page.tsx` : LLC → C Corp, section Music Match FR → EN
+- `legal/privacy/page.tsx`, `legal/terms/page.tsx` : réécrits par COMPLY1c (17/10/2026), responsable = Bertrand Chardinne pour Zik4U SAS en formation
 - `creator/[username]/page.tsx` : MOOD_CONFIG labels EN (Light / Melancholy)
 - `page.tsx` : LiveTicker `mood: 'Melancholy'` (était Mélancolie)
-- `seo.ts` : `publisher: 'Zik4U Inc.'` (était 'Zik4U LLC')
+- `seo.ts` : `publisher: 'Zik4U'` (COMPLY1c, Décision 68)
 - **Règle absolue** : zéro mot français dans le texte visible — les identifiants de code (ex: `explorateur`) ne comptent pas
 
 ## Copy — Tagline "For real"
@@ -248,8 +248,9 @@ Les pages de profil lisent avec la clé SERVICE, qui contourne la RLS et la règ
 | `/users` | ✅ | Alias ancienne URL — conservée pour liens existants |
 | `/become-creator` | ✅ | Redirect Server Component → /creators |
 | `/creator/[username]` | ✅ | Profil public, pills "What you get", titre "Get inside X's musical world", stats mobile, tiers carousel mobile / grid desktop |
-| `/legal/privacy` | ✅ | Privacy Policy GDPR/CCPA (Server Component, 12 sections) — SCCs, B2B data disclosure, emotional retention, DPC contact, section 8c Music Match (Art. 6(1)(a) + Art. 9(2)(a) — statut relationnel = donnée sensible UE). `LAST_UPDATED = 'September 23, 2026'` (section 5c WEB-PRIV1). `COMPANY = 'Zik4U Inc.'` |
-| `/legal/terms` | ✅ | Terms of Service (Server Component, 13 sections) — revenue share chiffré, IAP refunds clarifiés, clause EU consommateurs, section Music Match (17+, double opt-in, usages interdits, disclaimer). `LAST_UPDATED = 'March 28, 2026'`. `COMPANY = 'Zik4U Inc.'` |
+| `/legal/privacy` | ✅ | Privacy Policy COMPLY1c (textes validés 16/10/2026, doc projet claude/COMPLY1c-TEXTES.md) — hébergement États-Unis + clauses contractuelles types, #research, #music-match, #cookies, CNIL, CCPA. Garde `src/__tests__/comply1c-site.test.ts` |
+| `/legal/terms` | ✅ | Terms of Service COMPLY1c — droit français (Décision 84), 80 % du net, re-acceptation dans l'app (Décision 82) |
+| `/delete-account` | ✅ | Suppression de compte : app (immédiate) ou e-mail à privacy@ depuis l'adresse du compte (30 jours) |
 | `/card/[username]` | ✅ | Carte minimale WEB-PRIV1 (nom, avatar, bio), aperçu minimal, noindex si compte privé. Avec ?k= valide : carte Sillon et aperçu Sillon (DNA-SILLON). `/@username` y mène. |
 | `/sitemap.xml` | ✅ | Routes statiques seulement avant lancement (LIST_PROFILES = false, décision 3 = B) ; au lancement + /card/ des comptes publics non supprimés (D4) |
 | `/robots.txt` | ✅ | Crawl autorisé (robots IA compris, décision 4 du 23/09), /api/ exclu |

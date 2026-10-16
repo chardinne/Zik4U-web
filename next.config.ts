@@ -36,6 +36,9 @@ const nextConfig: NextConfig = {
     return [
       { source: '/partner', destination: '/', permanent: false },
       { source: '/partner/:path*', destination: '/', permanent: false },
+      // COMPLY1c — short links to the legal pages.
+      { source: '/privacy', destination: '/legal/privacy', permanent: true },
+      { source: '/terms', destination: '/legal/terms', permanent: true },
     ];
   },
   async rewrites() {
