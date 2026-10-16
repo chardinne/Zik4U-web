@@ -2,7 +2,6 @@ import type { Metadata, Viewport } from 'next';
 import localFont from 'next/font/local';
 import './globals.css';
 import { defaultMetadata, defaultViewport } from '@/lib/seo';
-import { CookieBanner } from '@/components/CookieBanner';
 
 const inter = localFont({
   src: [
@@ -98,7 +97,6 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       </head>
       <body className={inter.className} style={{ backgroundColor: '#0A0A1A', color: '#FFFFFF' }}>
         {children}
-        <CookieBanner />
       </body>
     </html>
   );
