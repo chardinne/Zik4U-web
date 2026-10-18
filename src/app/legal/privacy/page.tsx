@@ -11,7 +11,7 @@ export const metadata = generatePageMetadata(
   '/legal/privacy',
 );
 
-const LAST_UPDATED = 'October 17, 2026';
+const LAST_UPDATED = 'October 18, 2026';
 const PRIVACY = 'privacy@zik4u.com';
 
 export default function PrivacyPolicyPage() {
@@ -87,7 +87,8 @@ export default function PrivacyPolicyPage() {
           <Strong>Device and technical data.</Strong> Push notification token, device model, operating system, app
           version, and signals that show whether capture is working. Crash and error reports (the error, your device
           model and app version, never your name or email) through Sentry. Our hosting providers process IP addresses
-          in their technical logs; we do not store IP addresses in our own database.
+          in their technical logs. Our sign-in system also keeps the IP address and device type of each signed-in
+          session to protect your account; this record is deleted when you sign out or delete your account.
         </P>
         <P>
           <Strong>Analytics, only if you agree.</Strong> If you accept analytics, Firebase Analytics receives usage
