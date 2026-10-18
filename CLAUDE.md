@@ -42,6 +42,7 @@ src/
     /legal/privacy         ✅ Privacy Policy (COMPLY1c, 17/10/2026 — textes validés, src/components/legal/LegalPage.tsx)
     /legal/terms           ✅ Terms of Service (COMPLY1c, 17/10/2026)
     /delete-account        ✅ Suppression de compte (COMPLY1c, exigée par Google Play ; D2 du 26/09)
+    /legal/notice          ✅ Legal notice (WEB-LEGAL1, Décision 92 = B, 18/10/2026) : éditeur SAS en formation, sans domicile ; à compléter au jour J (REGISTERED_COMPANY)
     /sitemap.xml           ✅ Routes statiques + profils créateurs dynamiques depuis Supabase
     /robots.txt            ✅ Crawl autorisé (robots IA compris, décision 4 du 23/09), /api/ exclu
     /not-found             ✅ Page 404 custom — "This track doesn't exist."
@@ -250,6 +251,7 @@ Les pages de profil lisent avec la clé SERVICE, qui contourne la RLS et la règ
 | `/creator/[username]` | ✅ | Profil public, pills "What you get", titre "Get inside X's musical world", stats mobile, tiers carousel mobile / grid desktop |
 | `/legal/privacy` | ✅ | Privacy Policy COMPLY1c (textes validés 16/10/2026, doc projet claude/COMPLY1c-TEXTES.md) — hébergement États-Unis + clauses contractuelles types, #research, #music-match, #cookies, CNIL, CCPA. Garde `src/__tests__/comply1c-site.test.ts` |
 | `/legal/terms` | ✅ | Terms of Service COMPLY1c — droit français (Décision 84), 80 % du net, re-acceptation dans l'app (Décision 82) |
+| `/legal/notice` | ✅ | Mentions légales WEB-LEGAL1 (Décision 92 = B) : éditeur, directeur de la publication, contact, hébergeur Vercel, stockage Supabase. Jour J SAS : compléter REGISTERED_COMPANY + textes soumis à Bertrand. Garde `src/__tests__/web-legal1.test.ts` |
 | `/delete-account` | ✅ | Suppression de compte : app (immédiate) ou e-mail à privacy@ depuis l'adresse du compte (30 jours) |
 | `/card/[username]` | ✅ | Carte minimale WEB-PRIV1 (nom, avatar, bio), aperçu minimal, noindex si compte privé. Avec ?k= valide : carte Sillon et aperçu Sillon (DNA-SILLON). `/@username` y mène. |
 | `/sitemap.xml` | ✅ | Routes statiques seulement avant lancement (LIST_PROFILES = false, décision 3 = B) ; au lancement + /card/ des comptes publics non supprimés (D4) |

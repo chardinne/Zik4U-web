@@ -2,7 +2,7 @@ import type { ReactNode } from 'react';
 import Link from 'next/link';
 
 // COMPLY1c — shared frame of the legal pages (Privacy Policy, Terms of Service,
-// Delete your account). Texts validated by Bertrand on 16/10/2026
+// Delete your account, Legal notice). Texts validated by Bertrand on 16/10/2026
 // (claude/COMPLY1c-TEXTES.md v2.1); guarded by src/__tests__/comply1c-site.test.ts.
 
 const LINK = { color: '#00D4FF', textDecoration: 'none' } as const;
@@ -17,7 +17,7 @@ export function LegalPage({
   crumb: string;
   title: string;
   lastUpdated?: string;
-  current: 'privacy' | 'terms' | 'delete';
+  current: 'privacy' | 'terms' | 'delete' | 'notice';
   children: ReactNode;
 }) {
   const footerLink = (key: typeof current, href: string, label: string) => (
@@ -73,6 +73,7 @@ export function LegalPage({
           {footerLink('privacy', '/legal/privacy', 'Privacy Policy')}
           {footerLink('terms', '/legal/terms', 'Terms of Service')}
           {footerLink('delete', '/delete-account', 'Delete your account')}
+          {footerLink('notice', '/legal/notice', 'Legal notice')}
           <Link href="/" style={{ color: 'rgba(255,255,255,0.4)', textDecoration: 'none', fontSize: '14px' }}>
             Home
           </Link>
