@@ -91,9 +91,12 @@ export default function PrivacyPolicyPage() {
           session to protect your account; this record is deleted when you sign out or delete your account.
         </P>
         <P>
-          <Strong>Analytics, only if you agree.</Strong> If you accept analytics, Firebase Analytics receives usage
-          events linked to a pseudonymous identifier (a short hash, never your name or email). Off unless you accept;
-          you can change it in Settings.
+          <Strong>Analytics, only if you agree.</Strong> If you accept analytics, we record how you use the app.
+          Firebase Analytics receives usage events linked to a pseudonymous identifier (a short code derived from your
+          account, never your name or email). Our own database keeps how you interact with the music on profiles: the
+          track you tap, preview or play, how long a preview stays open, and whose profile you were on. These records
+          are deleted after 13 months. Analytics is off unless you accept. You can turn it off anytime in Settings,
+          which stops recording and deletes these records.
         </P>
         <P>
           <Strong>Website.</Strong> If you join a waitlist on zik4u.com: your email address, and for creators your
@@ -265,6 +268,7 @@ export default function PrivacyPolicyPage() {
             <><Strong>Inactive accounts</Strong>: deleted after 3 years without any activity.</>,
             <><Strong>Purchase, payout and accounting records</Strong>: kept as long as tax and accounting law requires (up to 10 years in France).</>,
             <><Strong>Waitlists</Strong>: until we invite you at launch, and at most 24 months, or earlier if you ask us.</>,
+            <><Strong>Usage analytics</Strong> (only if you accept): 13 months, and deleted at once when you turn analytics off.</>,
             <><Strong>Emails to support</Strong>: up to 3 years after our last exchange.</>,
             <><Strong>Research reports</Strong>: contain no personal data.</>,
           ]}
