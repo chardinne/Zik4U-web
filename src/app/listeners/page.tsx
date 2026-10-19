@@ -18,7 +18,7 @@ const FEATURES_IDENTITY = [
   {
     emoji: '🎵',
     title: 'Your real music identity',
-    body: 'Connect Spotify, Apple Music, YouTube Music. Every listen builds your profile automatically. No curation. No performance. The truth.',
+    body: 'Keep listening in the music apps you already use. Every listen builds your profile automatically. No curation. No performance. The truth.',
     color: C.cyan,
   },
   {
@@ -36,7 +36,7 @@ const FEATURES_IDENTITY = [
   {
     emoji: '📅',
     title: 'Weekly Insights',
-    body: 'Every week: your track of the week, your discoveries, your emotional score. The summary of what your music says about you.',
+    body: 'Every week: your track of the week, your discoveries, your listening moods. The summary of how you really listen.',
     color: C.cyan,
   },
 ];
@@ -78,7 +78,7 @@ const FEATURES_MEMORY = [
   {
     emoji: '🎁',
     title: 'Zik4U Wrapped',
-    body: '6 shareable cards that sum up your musical year. Your top artist, your dominant mood, your first listens. More honest than Spotify.',
+    body: '6 shareable cards that sum up your musical year. Your top artist, your dominant listening mood, your first listens. Built from what you really played.',
     color: C.pink,
   },
   {

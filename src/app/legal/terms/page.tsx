@@ -11,12 +11,12 @@ export const metadata = generatePageMetadata(
   '/legal/terms',
 );
 
-const LAST_UPDATED = 'October 17, 2026';
+const LAST_UPDATED = 'October 19, 2026';
 const SUPPORT = 'support@zik4u.com';
 
 export default function TermsOfServicePage() {
   return (
-    <LegalPage crumb="Terms of Service" title="Terms of Service" lastUpdated={LAST_UPDATED} current="terms">
+    <LegalPage crumb="Terms of Service" title="Terms of Service" lastUpdated={LAST_UPDATED} current="terms" altHref="/fr/legal/terms">
       <Section title="1. Agreement">
         <P>
           These Terms are an agreement between you and <Strong>Bertrand Chardinne, founder, acting for Zik4U, a French
@@ -42,7 +42,7 @@ export default function TermsOfServicePage() {
           items={[
             'Zik4U captures what you listen to in your music apps and turns it into your music identity, social features, and creator subscriptions.',
             <><Strong>Zik4U is not a music player.</Strong> Play buttons open the track in your own music app. We do not stream, host or sell music.</>,
-            'Zik4U is not affiliated with, endorsed or sponsored by Spotify, Apple, YouTube, Deezer, SoundCloud or any other music service. Their names belong to their owners and are used only to describe where a listen came from.',
+            'Zik4U is not affiliated with, endorsed or sponsored by any music streaming service or music app. Their names and trademarks belong to their owners.',
             'Capture on Android requires notification access, which you can revoke at any time.',
           ]}
         />
@@ -131,10 +131,12 @@ export default function TermsOfServicePage() {
 
       <Section title="13. Liability">
         <P>
-          Nothing in these Terms limits liability that cannot be limited by law, including for death or personal injury
-          caused by negligence, fraud, or gross negligence, or your rights as a consumer. Within those limits, Zik4U is
-          not liable for indirect losses, and our total liability to you is limited to the amount you paid through
-          Zik4U in the 12 months before the claim, or €100 if greater.
+          Nothing in these Terms limits or excludes our liability where the law does not allow it, in particular for
+          death or personal injury, fraud or gross negligence, and nothing in these Terms affects your statutory rights
+          as a consumer. If you use Zik4U as a consumer, we are responsible for the damage you suffer as a direct and
+          foreseeable result of our failure to meet our obligations, as provided by law. If you use Zik4U for your
+          business, including as a creator acting in a professional capacity, our total liability to you is limited to
+          the amounts paid between you and Zik4U in the 12 months before the claim.
         </P>
       </Section>
 
