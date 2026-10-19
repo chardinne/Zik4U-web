@@ -2,7 +2,7 @@ import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
   title: 'For Listeners | Zik4U',
-  description: 'Build your real music identity across Spotify, Apple Music, YouTube Music and 10+ sources. Your archetype. Your matches. For real.',
+  description: 'Build your real music identity from the music apps you already use. Your archetype. Your matches. For real.',
   openGraph: {
     title: 'For Listeners | Zik4U',
     description: 'Build your real music identity across 10+ sources. Your archetype. Your matches. For real.',
@@ -10,7 +10,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     title: 'For Listeners | Zik4U',
-    description: 'Build your real music identity across Spotify, Apple Music, YouTube Music and 10+ sources. For real.',
+    description: 'Build your real music identity from the music apps you already use. For real.',
   },
   alternates: { canonical: 'https://zik4u.com/listeners' },
 };

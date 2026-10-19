@@ -11,12 +11,12 @@ export const metadata = generatePageMetadata(
   '/legal/privacy',
 );
 
-const LAST_UPDATED = 'October 18, 2026';
+const LAST_UPDATED = 'October 19, 2026';
 const PRIVACY = 'privacy@zik4u.com';
 
 export default function PrivacyPolicyPage() {
   return (
-    <LegalPage crumb="Privacy Policy" title="Privacy Policy" lastUpdated={LAST_UPDATED} current="privacy">
+    <LegalPage crumb="Privacy Policy" title="Privacy Policy" lastUpdated={LAST_UPDATED} current="privacy" altHref="/fr/legal/privacy">
       <Section title="1. Who we are">
         <P>
           Zik4U is a music social app and website (the &ldquo;Service&rdquo;). The person responsible for your data
@@ -34,8 +34,8 @@ export default function PrivacyPolicyPage() {
           items={[
             'Zik4U builds your music identity from what you really listen to.',
             'On Android, it reads only the "now playing" notifications of music apps, never your messages or other notifications.',
-            'Your emotional music profile is on by default. You can turn it off at any time; turning it off deletes it.',
-            'Your moods are never shared with anyone. Your listener archetype is shown on your Music DNA card.',
+            'Your listening mood profile is on by default if you are 18 or older, and off unless you turn it on if you are 16 or 17. You can turn it off at any time; turning it off deletes it.',
+            'Your listening moods are never shared with anyone. Your listener archetype is shown on your Music DNA card.',
             'Music research is off unless you turn it on. Partners only ever receive trends computed over 100 people or more, never you.',
             'We do not sell your personal data. We do not show ads. We do not use advertising identifiers.',
             'Our database is hosted in the United States. Section 10 explains how your data is protected there.',
@@ -48,7 +48,8 @@ export default function PrivacyPolicyPage() {
         <P>
           <Strong>Account.</Strong> Email address, password (stored by our authentication provider in hashed form),
           username, display name, profile photo, bio, and the sign-in method you use (email, Google or Apple). Your
-          statement that you are 16 or older, and, if you give it, your confirmation that you are 18 or older. A record
+          age group (16 or 17, or 18 and older), and, if you give it, your confirmation that you are 18 or older for Music
+          Match and music research. A record
           of each choice you make about your data (what you chose, when, which version of our terms, and where in the
           app).
         </P>
@@ -64,10 +65,11 @@ export default function PrivacyPolicyPage() {
           and reports you send to us.
         </P>
         <P>
-          <Strong>Emotional music profile</Strong> (see section 5). Computed every night from your listening of the
-          previous day: a dominant mood, a daily listening score (variety, repetition, regularity), the hours you
-          listen at, how many posts and likes you made that day, and your top artists. A listener archetype is derived
-          from the last 30 days.
+          <Strong>Listening mood profile</Strong> (see section 5). Computed every night from your listening of the
+          previous day: a dominant listening mood, worked out from when and how you listened (time of day, how many
+          different artists, repeats), not from the music itself or how you feel; a daily listening score (variety,
+          repetition, regularity); the hours you listen at; how many posts and likes you made that day; and your top
+          artists. A listener archetype is derived from your listening habits over the last 30 days.
         </P>
         <P>
           <Strong>Music Match</Strong> (see section 6) and <Strong>music research</Strong> (see section 7), only if you
@@ -113,7 +115,7 @@ export default function PrivacyPolicyPage() {
           head={['Purpose', 'Data', 'Legal basis']}
           rows={[
             ['Run your account and the Service: capture, profile, feed, followers, messages, creator subscriptions', 'Account, listening, content, purchases', 'Performance of our contract with you'],
-            ['Emotional music profile and listener archetype', 'Listening, emotional profile', 'Legitimate interest: personalizing your music identity, which is the purpose of Zik4U. You can object at any time by turning it off'],
+            ['Listening mood profile and listener archetype', 'Listening, listening mood profile', '18 and older: legitimate interest (personalizing your music identity, which is the purpose of Zik4U); you can object at any time by turning it off. 16 or 17: your consent (you turn it on)'],
             ['Music Match', 'Listening, Music Match setting, 18+ confirmation', 'Your consent (you turn it on)'],
             ['Music research reports', 'See section 7', 'Your consent (off by default)'],
             ['Analytics', 'Usage events', 'Your consent'],
@@ -129,24 +131,27 @@ export default function PrivacyPolicyPage() {
         </P>
       </Section>
 
-      <Section id="emotional-profile" title="5. Your emotional music profile">
+      <Section id="emotional-profile" title="5. Your listening mood profile">
         <P>
-          <Strong>What it is.</Strong> Every night, Zik4U reads the mood of the music you listened to the day before and
-          computes the data listed in section 3. From your last 30 days, it derives a listener archetype.
+          <Strong>What it is.</Strong> Every night, Zik4U sorts the listens of the day before into listening moods (for
+          example Late Night, Explorer or Deep Focus) based on when and how you listened, and computes the data listed
+          in section 3. From your last 30 days, it derives a listener archetype. These moods describe your listening
+          habits: Zik4U does not analyze the music itself, and does not read or infer your feelings.
         </P>
         <P>
           <Strong>Who sees it.</Strong> Your archetype is shown on your Music DNA card, which other members can see
-          under your privacy settings (section 8). Your moods themselves are never shared with anyone: not other
-          members, not partners.
+          under your privacy settings (section 8). Zik4U never shares your listening moods with anyone: not other
+          members, not partners. If you share your own card from the app, it shows what you chose to share.
         </P>
         <P>
-          <Strong>What it is not.</Strong> It describes your music, not your health. Zik4U does not infer health or
-          mental-health conditions.
+          <Strong>What it is not.</Strong> It describes how you listen, not your health or your emotions. Zik4U does not
+          infer health, mental-health conditions or feelings.
         </P>
         <P>
-          <Strong>Your choice.</Strong> It is on by default. Turn it off anytime in{' '}
-          <Strong>Settings › Privacy › Emotional music profile</Strong>: your archetype and the moods behind it are
-          deleted, and Zik4U stops computing them. Everything else works the same.
+          <Strong>Your choice.</Strong> If you are 18 or older, it is on by default; if you are 16 or 17, it stays off
+          unless you turn it on. Turn it off anytime in <Strong>Settings › Privacy › Listening mood profile</Strong>:
+          your archetype and the moods behind it are deleted, and Zik4U stops computing them. Everything else works the
+          same.
         </P>
       </Section>
 
@@ -171,13 +176,13 @@ export default function PrivacyPolicyPage() {
           confirmed they are 18 or older can turn it on.
         </P>
         <P>
-          <Strong>What we use.</Strong> The songs you play after you turn it on, when you play them, the moods derived
-          from them, and your archetype. Never listens made in private mode. Never your moods or archetype if your
-          emotional profile is off.
+          <Strong>What we use.</Strong> The songs you play after you turn it on, when you play them, the listening moods
+          derived from when and how you play them, and your archetype. Never listens made in private mode. Never your
+          moods or archetype if your listening mood profile is off.
         </P>
         <P>
-          <Strong>What partners receive.</Strong> Weekly trends (for example, how many listeners an artist had, or how
-          moods were distributed) computed only over groups of <Strong>100 people or more</Strong>, with statistical
+          <Strong>What partners receive.</Strong> Weekly trends (for example, how many listeners an artist had, or at
+          what times of day and in which listening moods people listened) computed only over groups of <Strong>100 people or more</Strong>, with statistical
           noise added and figures rounded. Never your name, your profile, your songs, or any data about you as an
           individual. Partners must contractually commit never to try to re-identify anyone.
         </P>
@@ -262,9 +267,9 @@ export default function PrivacyPolicyPage() {
       <Section id="retention" title="11. How long we keep your data">
         <List
           items={[
-            <><Strong>Account and everything attached to it</Strong> (listening, content, messages, emotional profile, settings): as long as your account exists.</>,
+            <><Strong>Account and everything attached to it</Strong> (listening, content, messages, listening mood profile, settings): as long as your account exists.</>,
             <><Strong>When you delete your account</Strong>: it is erased from our live database immediately. Residual copies in backups and technical logs disappear within 30 days.</>,
-            <><Strong>Emotional profile</Strong>: deleted immediately when you turn it off.</>,
+            <><Strong>Listening mood profile</Strong>: your daily listening moods are kept for 13 months, then deleted automatically; everything is deleted immediately when you turn it off.</>,
             <><Strong>Inactive accounts</Strong>: deleted after 3 years without any activity.</>,
             <><Strong>Purchase, payout and accounting records</Strong>: kept as long as tax and accounting law requires (up to 10 years in France).</>,
             <><Strong>Waitlists</Strong>: until we invite you at launch, and at most 24 months, or earlier if you ask us.</>,
@@ -283,14 +288,14 @@ export default function PrivacyPolicyPage() {
           items={[
             <><Strong>Download your data</Strong> in <Strong>Settings › My Data (GDPR / CCPA)</Strong>.</>,
             <><Strong>Delete your account</Strong> in <Strong>Settings › Delete account</Strong>, or from the web at <A href="/delete-account">zik4u.com/delete-account</A>.</>,
-            <><Strong>Turn off</Strong> your emotional profile, Music Match, music research, analytics and notifications at any time.</>,
+            <><Strong>Turn off</Strong> your listening mood profile, Music Match, music research, analytics and notifications at any time.</>,
             <><Strong>Correct</Strong> your profile information in the app.</>,
             <><Strong>Ask us</Strong> anything at <Mail to={PRIVACY} />. We answer within one month.</>,
           ]}
         />
         <P>
           <Strong>EU/EEA and UK.</Strong> You also have the rights of access, rectification, erasure, restriction,
-          portability, objection (including to the emotional profile, by turning it off) and to withdraw consent at
+          portability, objection (including to the listening mood profile, by turning it off) and to withdraw consent at
           any time without affecting what was done before. You can complain to the French data protection authority,
           the <Strong>CNIL</Strong> (<A href="https://www.cnil.fr">www.cnil.fr</A>), or to the authority of the country
           where you live.
@@ -322,7 +327,8 @@ export default function PrivacyPolicyPage() {
         <P>
           Zik4U is for people <Strong>16 and older</Strong>. Music Match and music research are for people{' '}
           <Strong>18 and older</Strong>. Age is declared by you; we do not verify identity documents. If we learn that
-          an account belongs to someone under 16, we delete it. To report one, write to <Mail to={PRIVACY} />.
+          an account belongs to someone under 16, we delete it. To report one, write to <Mail to={PRIVACY} />. If you tell
+          us you are 16 or 17, your listening mood profile stays off unless you turn it on.
         </P>
       </Section>
 

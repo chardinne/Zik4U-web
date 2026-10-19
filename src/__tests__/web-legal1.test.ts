@@ -41,7 +41,9 @@ describe('WEB-LEGAL1 — legal notice (Decision 92 = B)', () => {
   });
 
   it('is linked from the legal footer, the home footer and the sitemap', () => {
-    expect(read('src/components/legal/LegalPage.tsx')).toContain("footerLink('notice', '/legal/notice', 'Legal notice')");
+    // COMPLY1e (Decision 103): the footer labels come from LABELS (English or French).
+    expect(read('src/components/legal/LegalPage.tsx')).toContain("footerLink('notice', `${L.prefix}/legal/notice`, L.notice)");
+    expect(read('src/components/legal/LegalPage.tsx')).toContain("notice: 'Legal notice',");
     expect(read('src/app/page.tsx')).toContain("{label:'Legal notice',href:'/legal/notice'}");
     expect(read('src/app/sitemap.ts')).toContain('`${BASE_URL}/legal/notice`');
   });
@@ -58,7 +60,7 @@ describe('WEB-LEGAL1 — IP addresses in the Privacy Policy (Decision 93 = A)', 
     expect(privacy).toContain(
       'Our hosting providers process IP addresses in their technical logs. Our sign-in system also keeps the IP address and device type of each signed-in session to protect your account; this record is deleted when you sign out or delete your account.',
     );
-    expect(privacy).toContain("const LAST_UPDATED = 'October 18, 2026';");
+    expect(privacy).toContain("const LAST_UPDATED = 'October 19, 2026';"); // COMPLY1e/f
   });
 
   it('no longer claims that no IP address is stored', () => {

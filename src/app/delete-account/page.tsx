@@ -15,7 +15,7 @@ const PRIVACY = 'privacy@zik4u.com';
 
 export default function DeleteAccountPage() {
   return (
-    <LegalPage crumb="Delete your account" title="Delete your Zik4U account" current="delete">
+    <LegalPage crumb="Delete your account" title="Delete your Zik4U account" current="delete" altHref="/fr/delete-account">
       <Section title="In the app (fastest)">
         <P>
           Open Zik4U › <Strong>Settings › Delete account</Strong>. Your account and data are deleted immediately.
@@ -33,7 +33,7 @@ export default function DeleteAccountPage() {
       <Section title="What is deleted">
         <P>
           Your profile, listening history, posts, comments, reactions, playlists, messages you sent, followers and
-          follows, emotional profile and archetype, Music Match and research settings, notifications and push tokens.
+          follows, listening mood profile and archetype, Music Match and research settings, notifications and push tokens.
         </P>
       </Section>
 

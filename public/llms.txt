@@ -2,7 +2,7 @@
 
 > The social network built on what you actually listen to.
 
-Zik4U is a music social network that builds a listening identity from what people really play. On Android, with the notification access the user grants, the app reads the "now playing" notifications of a fixed list of music apps (Spotify, YouTube Music, Deezer, SoundCloud, Tidal and others) and keeps track title, artist, album, duration, time played and source app. Zik4U connects to no streaming account and uses no streaming service API.
+Zik4U is a music social network that builds a listening identity from what people really play. On Android, with the notification access the user grants, the app reads the "now playing" notifications of a fixed list of music apps and keeps track title, artist, album, duration, time played and source app. Zik4U connects to no streaming account and uses no streaming service API.
 
 ## Core concepts
 
@@ -15,7 +15,7 @@ Zik4U is a music social network that builds a listening identity from what peopl
 ## Privacy model
 
 - Zik4U is not a music player: every play button opens the track in the user's own music app.
-- An emotional music profile (moods, listener archetype) is on by default and can be turned off at any time, which deletes it. Moods are never shared.
+- A listening mood profile (listening moods worked out from when and how people listen, and a listener archetype) is on by default for adults, off unless turned on for 16-17-year-olds, and can be turned off at any time, which deletes it. Moods are never shared.
 - Music research is opt-in, adults only: partners receive only weekly trends computed over 100 people or more, with noise added. Never individuals.
 - Visitors without an account see only a name, avatar and bio.
 - Users can download or delete all their data at any time.
@@ -32,7 +32,6 @@ Zik4U is a music social network that builds a listening identity from what peopl
 - Privacy Policy: https://zik4u.com/legal/privacy
 - Terms of Service: https://zik4u.com/legal/terms
 - Delete your account: https://zik4u.com/delete-account
-- Streaming Partners Compliance: https://zik4u.com/streaming-partners
 - Operator: Bertrand Chardinne, founder, acting for Zik4U, a French SAS in formation
 - Contact: privacy@zik4u.com
 

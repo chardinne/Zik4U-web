@@ -7,19 +7,54 @@ import Link from 'next/link';
 
 const LINK = { color: '#00D4FF', textDecoration: 'none' } as const;
 
+// COMPLY1e (Decision 103 = A, 19/10/2026) — the legal pages also exist in French
+// (/fr/...), with a language link on each page. Labels validated with the French texts
+// (claude/COMPLY1e-TEXTES-FR.md).
+export type LegalLang = 'en' | 'fr';
+const LABELS = {
+  en: {
+    lastUpdated: 'Last updated: ',
+    privacy: 'Privacy Policy',
+    terms: 'Terms of Service',
+    delete: 'Delete your account',
+    notice: 'Legal notice',
+    home: 'Home',
+    rights: 'All rights reserved.',
+    switchTo: 'Français',
+    prefix: '',
+  },
+  fr: {
+    lastUpdated: 'Dernière mise à jour : ',
+    privacy: 'Politique de confidentialité',
+    terms: "Conditions générales d'utilisation",
+    delete: 'Supprimer votre compte',
+    notice: 'Mentions légales',
+    home: 'Accueil',
+    rights: 'Tous droits réservés.',
+    switchTo: 'English',
+    prefix: '/fr',
+  },
+} as const;
+export const FR_EQUAL_VALUE = 'Les versions française et anglaise ont la même valeur.';
+
 export function LegalPage({
   crumb,
   title,
   lastUpdated,
   current,
+  lang = 'en',
+  altHref,
   children,
 }: {
   crumb: string;
   title: string;
   lastUpdated?: string;
   current: 'privacy' | 'terms' | 'delete' | 'notice';
+  lang?: LegalLang;
+  altHref?: string;
   children: ReactNode;
 }) {
+  const L = LABELS[lang];
   const footerLink = (key: typeof current, href: string, label: string) => (
     <Link
       href={href}
@@ -58,28 +93,42 @@ export function LegalPage({
           ZIK4U
         </Link>
         <span style={{ color: 'rgba(255,255,255,0.3)', fontSize: '14px' }}>/ {crumb}</span>
+        {altHref && (
+          <Link
+            href={altHref}
+            hrefLang={lang === 'en' ? 'fr' : 'en'}
+            data-testid="legal-lang-switch"
+            style={{ marginLeft: 'auto', color: '#00D4FF', textDecoration: 'none', fontSize: '14px' }}
+          >
+            {L.switchTo}
+          </Link>
+        )}
       </header>
-      <main style={{ maxWidth: '800px', margin: '0 auto', padding: '48px 24px 80px', lineHeight: 1.7, fontSize: '15px' }}>
+      <main lang={lang} style={{ maxWidth: '800px', margin: '0 auto', padding: '48px 24px 80px', lineHeight: 1.7, fontSize: '15px' }}>
         <h1 style={{ fontSize: '36px', fontWeight: 900, marginBottom: '8px', color: '#FFFFFF' }}>{title}</h1>
         {lastUpdated && (
           <p style={{ color: 'rgba(255,255,255,0.4)', fontSize: '14px', marginBottom: '40px' }}>
-            Last updated: {lastUpdated}
+            {L.lastUpdated}
+            {lastUpdated}
           </p>
+        )}
+        {lang === 'fr' && (
+          <p style={{ color: 'rgba(255,255,255,0.55)', fontSize: '14px', marginBottom: '32px' }}>{FR_EQUAL_VALUE}</p>
         )}
         {children}
       </main>
       <footer style={{ borderTop: '1px solid rgba(255,255,255,0.08)', padding: '24px', textAlign: 'center' }}>
         <div style={{ display: 'flex', gap: '24px', justifyContent: 'center', flexWrap: 'wrap' }}>
-          {footerLink('privacy', '/legal/privacy', 'Privacy Policy')}
-          {footerLink('terms', '/legal/terms', 'Terms of Service')}
-          {footerLink('delete', '/delete-account', 'Delete your account')}
-          {footerLink('notice', '/legal/notice', 'Legal notice')}
+          {footerLink('privacy', `${L.prefix}/legal/privacy`, L.privacy)}
+          {footerLink('terms', `${L.prefix}/legal/terms`, L.terms)}
+          {footerLink('delete', `${L.prefix}/delete-account`, L.delete)}
+          {footerLink('notice', `${L.prefix}/legal/notice`, L.notice)}
           <Link href="/" style={{ color: 'rgba(255,255,255,0.4)', textDecoration: 'none', fontSize: '14px' }}>
-            Home
+            {L.home}
           </Link>
         </div>
         <p style={{ color: 'rgba(255,255,255,0.2)', fontSize: '12px', marginTop: '12px' }}>
-          © {new Date().getFullYear()} Zik4U. All rights reserved.
+          © {new Date().getFullYear()} Zik4U. {L.rights}
         </p>
       </footer>
     </div>

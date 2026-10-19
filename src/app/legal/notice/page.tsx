@@ -23,7 +23,7 @@ const PRIVACY = 'privacy@zik4u.com';
 
 export default function LegalNoticePage() {
   return (
-    <LegalPage crumb="Legal notice" title="Legal notice" lastUpdated={LAST_UPDATED} current="notice">
+    <LegalPage crumb="Legal notice" title="Legal notice" lastUpdated={LAST_UPDATED} current="notice" altHref="/fr/legal/notice">
       <Section title="Publisher">
         <P>
           This website is published by Bertrand Chardinne, founder, acting for Zik4U, a French simplified joint-stock

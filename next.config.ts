@@ -39,6 +39,11 @@ const nextConfig: NextConfig = {
       // COMPLY1c — short links to the legal pages.
       { source: '/privacy', destination: '/legal/privacy', permanent: true },
       { source: '/terms', destination: '/legal/terms', permanent: true },
+      // COMPLY1g (Decision 106 = A, 19/10/2026) — pages naming streaming services removed:
+      // they claimed account connections that do not exist and used the services' brands.
+      { source: '/works-with', destination: '/', permanent: true },
+      { source: '/works-with/:path*', destination: '/', permanent: true },
+      { source: '/streaming-partners', destination: '/', permanent: true },
     ];
   },
   async rewrites() {
