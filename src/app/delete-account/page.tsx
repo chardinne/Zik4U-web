@@ -39,8 +39,7 @@ export default function DeleteAccountPage() {
 
       <Section title="What may remain">
         <P>
-          Residual copies in backups and technical logs, erased within 30 days. Records we must keep by law (purchases,
-          payouts, accounting). Research reports already delivered, which contain no data about you as an individual.
+          Residual copies in backups and technical logs, erased within 30 days. Records we must keep by law: purchases, payouts and accounting; and, for one year, the minimal record French law requires of hosting services (your username, email, account creation date, and the identifier and date of what you published, never its content). Research reports already delivered, which contain no data about you as an individual.
         </P>
       </Section>
 

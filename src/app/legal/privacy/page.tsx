@@ -11,7 +11,7 @@ export const metadata = generatePageMetadata(
   '/legal/privacy',
 );
 
-const LAST_UPDATED = 'October 19, 2026';
+const LAST_UPDATED = 'October 21, 2026';
 const PRIVACY = 'privacy@zik4u.com';
 
 export default function PrivacyPolicyPage() {
@@ -86,11 +86,7 @@ export default function PrivacyPolicyPage() {
           bank details.
         </P>
         <P>
-          <Strong>Device and technical data.</Strong> Push notification token, device model, operating system, app
-          version, and signals that show whether capture is working. Crash and error reports (the error, your device
-          model and app version, never your name or email) through Sentry. Our hosting providers process IP addresses
-          in their technical logs. Our sign-in system also keeps the IP address and device type of each signed-in
-          session to protect your account; this record is deleted when you sign out or delete your account.
+          <Strong>Device and technical data.</Strong> Push notification token, device model, operating system, app version, and signals that show whether capture is working. Crash and error reports (the error, your device model, operating system and app version) through Sentry; these reports are not linked to your account. Our hosting providers process IP addresses in their technical logs. Our sign-in system also keeps the IP address and device type of each signed-in session to protect your account; this record is deleted when you sign out, when you delete your account, or after 12 months without using the app on that device.
         </P>
         <P>
           <Strong>Analytics, only if you agree.</Strong> If you accept analytics, we record how you use the app.
@@ -121,6 +117,7 @@ export default function PrivacyPolicyPage() {
             ['Analytics', 'Usage events', 'Your consent'],
             ['Notifications you allowed', 'Push token', "Performance of contract; your phone's permission"],
             ['Safety, moderation, fraud and abuse prevention, crash reports, service security', 'Content, reports, technical data', 'Legitimate interest: keeping Zik4U safe and working'],
+            ['Keeping the record French law requires of hosting services', 'Username, email address, account creation date, identifier and date of each post, comment or message you published', 'Legal obligation (French law on confidence in the digital economy, LCEN)'],
             ['Paying creators, accounting and tax', 'Purchases, payouts', 'Legal obligation; performance of contract'],
             ['Waitlists', 'Email, artist name, platform', 'Your consent (you sign up)'],
           ]}
@@ -268,9 +265,11 @@ export default function PrivacyPolicyPage() {
         <List
           items={[
             <><Strong>Account and everything attached to it</Strong> (listening, content, messages, listening mood profile, settings): as long as your account exists.</>,
-            <><Strong>When you delete your account</Strong>: it is erased from our live database immediately. Residual copies in backups and technical logs disappear within 30 days.</>,
+            <><Strong>When you delete your account</Strong>: it is erased from our live database immediately, except a minimal record that French law requires hosting services to keep for one year, so that the author of published content can be identified at a judge&apos;s request: your username, email address, account creation date, and the identifier and date of each post, comment or message you published (never their content, and none of your listening). This record is locked, used only to answer a legal request, and deleted after one year. Residual copies in backups and our providers&apos; technical logs disappear within 30 days.</>,
             <><Strong>Listening mood profile</Strong>: your daily listening moods are kept for 13 months, then deleted automatically; everything is deleted immediately when you turn it off.</>,
             <><Strong>Inactive accounts</Strong>: deleted after 3 years without any activity.</>,
+            <><Strong>Sign-in sessions</Strong>: closed and deleted after 12 months without use.</>,
+            <><Strong>Technical logs we keep</Strong> (for example the health checks of the service): 1 year. <Strong>Records of actions taken in our administration tool</Strong>: 3 years, for security.</>,
             <><Strong>Purchase, payout and accounting records</Strong>: kept as long as tax and accounting law requires (up to 10 years in France).</>,
             <><Strong>Waitlists</Strong>: until we invite you at launch, and at most 24 months, or earlier if you ask us.</>,
             <><Strong>Usage analytics</Strong> (only if you accept): 13 months, and deleted at once when you turn analytics off.</>,

@@ -12,7 +12,7 @@ export const metadata = generatePageMetadata(
   '/fr/legal/privacy',
 );
 
-const LAST_UPDATED = '19 octobre 2026';
+const LAST_UPDATED = '21 octobre 2026';
 const PRIVACY = 'privacy@zik4u.com';
 
 export default function PolitiqueConfidentialitePage() {
@@ -97,13 +97,7 @@ export default function PolitiqueConfidentialitePage() {
           pour vous payer. Nous recevons le statut de vos paiements, pas vos coordonnées bancaires.
         </P>
         <P>
-          <Strong>Données de l&apos;appareil et données techniques.</Strong> Jeton de notification push, modèle de
-          l&apos;appareil, système d&apos;exploitation, version de l&apos;app et signaux indiquant si la captation
-          fonctionne. Rapports de plantage et d&apos;erreur (l&apos;erreur, le modèle de l&apos;appareil et la version
-          de l&apos;app, jamais votre nom ni votre e-mail) via Sentry. Nos hébergeurs traitent les adresses IP dans leurs
-          journaux techniques. Notre système de connexion conserve aussi l&apos;adresse IP et le type d&apos;appareil de
-          chaque session ouverte pour protéger votre compte ; cet enregistrement est supprimé quand vous vous déconnectez
-          ou supprimez votre compte.
+          <Strong>Données de l&apos;appareil et données techniques.</Strong> Jeton de notification push, modèle de l&apos;appareil, système d&apos;exploitation, version de l&apos;app et signaux indiquant si la captation fonctionne. Rapports de plantage et d&apos;erreur (l&apos;erreur, le modèle de votre appareil, son système et la version de l&apos;app) via Sentry ; ces rapports ne sont pas reliés à votre compte. Nos hébergeurs traitent les adresses IP dans leurs journaux techniques. Notre système de connexion conserve aussi l&apos;adresse IP et le type d&apos;appareil de chaque session connectée pour protéger votre compte ; cet enregistrement est supprimé quand vous vous déconnectez, quand vous supprimez votre compte, ou après 12 mois sans utiliser l&apos;app sur cet appareil.
         </P>
         <P>
           <Strong>Mesure d&apos;audience, uniquement si vous l&apos;acceptez.</Strong> Si vous acceptez la mesure
@@ -136,6 +130,7 @@ export default function PolitiqueConfidentialitePage() {
             ["Mesure d'audience", "Événements d'utilisation", 'Votre consentement'],
             ['Notifications que vous avez autorisées', 'Jeton push', 'Exécution du contrat ; autorisation de votre téléphone'],
             ['Sécurité, modération, prévention de la fraude et des abus, rapports de plantage, sécurité du service', 'Contenus, signalements, données techniques', 'Intérêt légitime : garder Zik4U sûr et en état de marche'],
+            ["Conserver l'enregistrement que la loi française impose aux hébergeurs", 'Pseudonyme, adresse e-mail, date de création du compte, identifiant et date de chaque publication, commentaire ou message publié', "Obligation légale (loi pour la confiance dans l'économie numérique, LCEN)"],
             ['Paiement des créateurs, comptabilité et fiscalité', 'Achats, paiements', 'Obligation légale ; exécution du contrat'],
             ["Listes d'attente", "E-mail, nom d'artiste, plateforme", 'Votre consentement (vous vous inscrivez)'],
           ]}
@@ -293,9 +288,11 @@ export default function PolitiqueConfidentialitePage() {
         <List
           items={[
             <><Strong>Le compte et tout ce qui s&apos;y rattache</Strong> (écoutes, contenus, messages, profil d&apos;humeurs d&apos;écoute, réglages) : tant que votre compte existe.</>,
-            <><Strong>Quand vous supprimez votre compte</Strong> : il est effacé immédiatement de notre base active. Les copies résiduelles dans les sauvegardes et les journaux techniques disparaissent sous 30 jours.</>,
+            <><Strong>Quand vous supprimez votre compte</Strong> : il est effacé immédiatement de notre base en service, à l&apos;exception d&apos;un enregistrement minimal que la loi française impose aux hébergeurs de conserver un an, pour qu&apos;un juge puisse faire identifier l&apos;auteur d&apos;un contenu publié : votre pseudonyme, votre adresse e-mail, la date de création du compte, et l&apos;identifiant et la date de chaque publication, commentaire ou message que vous avez publié (jamais leur contenu, et aucune de vos écoutes). Cet enregistrement est verrouillé, utilisé uniquement pour répondre à une demande légale, et supprimé au bout d&apos;un an. Les copies résiduelles dans les sauvegardes et les journaux techniques de nos prestataires disparaissent sous 30 jours.</>,
             <><Strong>Profil d&apos;humeurs d&apos;écoute</Strong> : vos humeurs d&apos;écoute quotidiennes sont conservées 13 mois, puis supprimées automatiquement ; tout est supprimé immédiatement quand vous le désactivez.</>,
             <><Strong>Comptes inactifs</Strong> : supprimés après 3 ans sans aucune activité.</>,
+            <><Strong>Sessions de connexion</Strong> : fermées et supprimées après 12 mois sans utilisation.</>,
+            <><Strong>Journaux techniques que nous conservons</Strong> (par exemple les contrôles de bon fonctionnement du service) : 1 an. <Strong>Traces des actions réalisées dans notre outil d&apos;administration</Strong> : 3 ans, pour la sécurité.</>,
             <><Strong>Pièces d&apos;achat, de paiement et de comptabilité</Strong> : conservées aussi longtemps que le droit fiscal et comptable l&apos;exige (jusqu&apos;à 10 ans en France).</>,
             <><Strong>Listes d&apos;attente</Strong> : jusqu&apos;à votre invitation au lancement, et au plus 24 mois, ou plus tôt si vous nous le demandez.</>,
             <><Strong>Mesure d&apos;audience</Strong> (uniquement si vous l&apos;acceptez) : 13 mois, et supprimée aussitôt que vous la désactivez.</>,
