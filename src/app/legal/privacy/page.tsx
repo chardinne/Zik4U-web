@@ -82,8 +82,11 @@ export default function PrivacyPolicyPage() {
         </P>
         <P>
           <Strong>Creator payouts (when payouts open).</Strong> If you are a creator, our payout provider, Trolley,
-          collects the identity, tax and bank information required to pay you. We receive your payout status, not your
-          bank details.
+          collects the identity, tax and bank information required to pay you. Because French law requires us to report
+          creators&apos; earnings to the French tax authority (EU rules known as DAC7), Trolley also passes to us your
+          name, address, date of birth, tax identification number, country of tax residence, VAT status and number,
+          business status, and the account to which your payouts are sent. We also keep the invoices issued on your
+          behalf.
         </P>
         <P>
           <Strong>Device and technical data.</Strong> Push notification token, device model, operating system, app version, and signals that show whether capture is working. Crash and error reports (the error, your device model, operating system and app version) through Sentry; these reports are not linked to your account. Our hosting providers process IP addresses in their technical logs. Our sign-in system also keeps the IP address and device type of each signed-in session to protect your account; this record is deleted when you sign out, when you delete your account, or after 12 months without using the app on that device.
@@ -118,6 +121,7 @@ export default function PrivacyPolicyPage() {
             ['Notifications you allowed', 'Push token', "Performance of contract; your phone's permission"],
             ['Safety, moderation, fraud and abuse prevention, crash reports, service security', 'Content, reports, technical data', 'Legitimate interest: keeping Zik4U safe and working'],
             ['Keeping the record French law requires of hosting services', 'Username, email address, account creation date, identifier and date of each post, comment or message you published', 'Legal obligation (French law on confidence in the digital economy, LCEN)'],
+            ["Reporting creators' earnings to the tax authority (DAC7) and issuing invoices on their behalf", 'Creator identity, tax and payout information, invoices', 'Legal obligation'],
             ['Paying creators, accounting and tax', 'Purchases, payouts', 'Legal obligation; performance of contract'],
             ['Waitlists', 'Email, artist name, platform', 'Your consent (you sign up)'],
           ]}
@@ -246,6 +250,10 @@ export default function PrivacyPolicyPage() {
           ]}
         />
         <P>
+          For creators who are paid, we send the information required by law to the French tax authority (DGFiP),
+          which may share it with the tax authority of the country where they live.
+        </P>
+        <P>
           We may also disclose data when the law requires it, to protect people&apos;s safety, or to a successor if
           Zik4U&apos;s business is transferred (we would tell you first).
         </P>
@@ -270,7 +278,7 @@ export default function PrivacyPolicyPage() {
             <><Strong>Inactive accounts</Strong>: deleted after 3 years without any activity.</>,
             <><Strong>Sign-in sessions</Strong>: closed and deleted after 12 months without use.</>,
             <><Strong>Technical logs we keep</Strong> (for example the health checks of the service): 1 year. <Strong>Records of actions taken in our administration tool</Strong>: 3 years, for security.</>,
-            <><Strong>Purchase, payout and accounting records</Strong>: kept as long as tax and accounting law requires (up to 10 years in France).</>,
+            <><Strong>Purchase, payout, invoice and tax reporting records</Strong>: kept as long as tax and accounting law requires (up to 10 years in France).</>,
             <><Strong>Waitlists</Strong>: until we invite you at launch, and at most 24 months, or earlier if you ask us.</>,
             <><Strong>Usage analytics</Strong> (only if you accept): 13 months, and deleted at once when you turn analytics off.</>,
             <><Strong>Emails to support</Strong>: up to 3 years after our last exchange.</>,
