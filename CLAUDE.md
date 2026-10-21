@@ -284,7 +284,7 @@ git commit --allow-empty -m "chore: trigger Vercel redeploy"  # Forcer un redepl
       (procédure complète : docs/HOSTINGER_VERCEL_DNS.md)
 - [x] Vercel : configurer NEXT_PUBLIC_SUPABASE_ANON_KEY en prod (`sb_publishable_...`)
 
-### Post-C Corp
+### Après l'immatriculation de la SAS (aucune entité américaine)
 - [ ] Mettre à jour APP_STORE_URL dans /card/[username]/page.tsx si l'ID change
 - [ ] A/B test landing : mesurer conversion listener vs creator vs fan
 - [ ] Composants ui/ réutilisables si duplication détectée
