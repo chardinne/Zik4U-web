@@ -94,7 +94,11 @@ export default function PolitiqueConfidentialitePage() {
         <P>
           <Strong>Paiements des créateurs (à l&apos;ouverture des paiements).</Strong> Si vous êtes créateur, notre
           prestataire de paiement, Trolley, collecte les informations d&apos;identité, fiscales et bancaires nécessaires
-          pour vous payer. Nous recevons le statut de vos paiements, pas vos coordonnées bancaires.
+          pour vous payer. Parce que la loi française nous oblige à déclarer les gains des créateurs à
+          l&apos;administration fiscale (règles européennes dites DAC7), Trolley nous transmet aussi vos nom et prénom,
+          adresse, date de naissance, numéro d&apos;identification fiscale, pays de résidence fiscale, régime et numéro de
+          TVA, statut de particulier ou de professionnel, et le compte sur lequel vos versements sont faits. Nous
+          conservons aussi les factures émises en votre nom.
         </P>
         <P>
           <Strong>Données de l&apos;appareil et données techniques.</Strong> Jeton de notification push, modèle de l&apos;appareil, système d&apos;exploitation, version de l&apos;app et signaux indiquant si la captation fonctionne. Rapports de plantage et d&apos;erreur (l&apos;erreur, le modèle de votre appareil, son système et la version de l&apos;app) via Sentry ; ces rapports ne sont pas reliés à votre compte. Nos hébergeurs traitent les adresses IP dans leurs journaux techniques. Notre système de connexion conserve aussi l&apos;adresse IP et le type d&apos;appareil de chaque session connectée pour protéger votre compte ; cet enregistrement est supprimé quand vous vous déconnectez, quand vous supprimez votre compte, ou après 12 mois sans utiliser l&apos;app sur cet appareil.
@@ -131,6 +135,7 @@ export default function PolitiqueConfidentialitePage() {
             ['Notifications que vous avez autorisées', 'Jeton push', 'Exécution du contrat ; autorisation de votre téléphone'],
             ['Sécurité, modération, prévention de la fraude et des abus, rapports de plantage, sécurité du service', 'Contenus, signalements, données techniques', 'Intérêt légitime : garder Zik4U sûr et en état de marche'],
             ["Conserver l'enregistrement que la loi française impose aux hébergeurs", 'Pseudonyme, adresse e-mail, date de création du compte, identifiant et date de chaque publication, commentaire ou message publié', "Obligation légale (loi pour la confiance dans l'économie numérique, LCEN)"],
+            ['Déclarer les gains des créateurs à l\'administration fiscale (DAC7) et émettre les factures en leur nom', 'Identité, informations fiscales et de versement des créateurs, factures', 'Obligation légale'],
             ['Paiement des créateurs, comptabilité et fiscalité', 'Achats, paiements', 'Obligation légale ; exécution du contrat'],
             ["Listes d'attente", "E-mail, nom d'artiste, plateforme", 'Votre consentement (vous vous inscrivez)'],
           ]}
@@ -268,6 +273,11 @@ export default function PolitiqueConfidentialitePage() {
           ]}
         />
         <P>
+          Pour les créateurs que nous payons, nous transmettons les informations exigées par la loi à
+          l&apos;administration fiscale française (DGFiP), qui peut les communiquer à l&apos;administration fiscale de
+          leur pays de résidence.
+        </P>
+        <P>
           Nous pouvons aussi communiquer des données lorsque la loi l&apos;exige, pour protéger la sécurité des
           personnes, ou à un successeur si l&apos;activité de Zik4U est cédée (nous vous en informerions d&apos;abord).
         </P>
@@ -293,7 +303,7 @@ export default function PolitiqueConfidentialitePage() {
             <><Strong>Comptes inactifs</Strong> : supprimés après 3 ans sans aucune activité.</>,
             <><Strong>Sessions de connexion</Strong> : fermées et supprimées après 12 mois sans utilisation.</>,
             <><Strong>Journaux techniques que nous conservons</Strong> (par exemple les contrôles de bon fonctionnement du service) : 1 an. <Strong>Traces des actions réalisées dans notre outil d&apos;administration</Strong> : 3 ans, pour la sécurité.</>,
-            <><Strong>Pièces d&apos;achat, de paiement et de comptabilité</Strong> : conservées aussi longtemps que le droit fiscal et comptable l&apos;exige (jusqu&apos;à 10 ans en France).</>,
+            <><Strong>Achats, versements, factures et déclarations fiscales</Strong> : conservés aussi longtemps que l&apos;exigent les règles fiscales et comptables (jusqu&apos;à 10 ans en France).</>,
             <><Strong>Listes d&apos;attente</Strong> : jusqu&apos;à votre invitation au lancement, et au plus 24 mois, ou plus tôt si vous nous le demandez.</>,
             <><Strong>Mesure d&apos;audience</Strong> (uniquement si vous l&apos;acceptez) : 13 mois, et supprimée aussitôt que vous la désactivez.</>,
             <><Strong>E-mails au support</Strong> : jusqu&apos;à 3 ans après notre dernier échange.</>,

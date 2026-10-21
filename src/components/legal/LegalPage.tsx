@@ -16,6 +16,7 @@ const LABELS = {
     lastUpdated: 'Last updated: ',
     privacy: 'Privacy Policy',
     terms: 'Terms of Service',
+    creator: 'Creator Terms',
     delete: 'Delete your account',
     notice: 'Legal notice',
     home: 'Home',
@@ -27,6 +28,7 @@ const LABELS = {
     lastUpdated: 'Dernière mise à jour : ',
     privacy: 'Politique de confidentialité',
     terms: "Conditions générales d'utilisation",
+    creator: 'Conditions créateurs',
     delete: 'Supprimer votre compte',
     notice: 'Mentions légales',
     home: 'Accueil',
@@ -49,7 +51,7 @@ export function LegalPage({
   crumb: string;
   title: string;
   lastUpdated?: string;
-  current: 'privacy' | 'terms' | 'delete' | 'notice';
+  current: 'privacy' | 'terms' | 'creator' | 'delete' | 'notice';
   lang?: LegalLang;
   altHref?: string;
   children: ReactNode;
@@ -121,6 +123,7 @@ export function LegalPage({
         <div style={{ display: 'flex', gap: '24px', justifyContent: 'center', flexWrap: 'wrap' }}>
           {footerLink('privacy', `${L.prefix}/legal/privacy`, L.privacy)}
           {footerLink('terms', `${L.prefix}/legal/terms`, L.terms)}
+          {footerLink('creator', `${L.prefix}/legal/creator-terms`, L.creator)}
           {footerLink('delete', `${L.prefix}/delete-account`, L.delete)}
           {footerLink('notice', `${L.prefix}/legal/notice`, L.notice)}
           <Link href="/" style={{ color: 'rgba(255,255,255,0.4)', textDecoration: 'none', fontSize: '14px' }}>
