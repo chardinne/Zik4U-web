@@ -12,7 +12,7 @@ export const metadata = generatePageMetadata(
   '/fr/legal/privacy',
 );
 
-const LAST_UPDATED = '21 octobre 2026';
+const LAST_UPDATED = '22 octobre 2026';
 const PRIVACY = 'privacy@zik4u.com';
 
 export default function PolitiqueConfidentialitePage() {
@@ -253,9 +253,9 @@ export default function PolitiqueConfidentialitePage() {
 
       <Section id="providers" title="9. Qui traite vos données pour nous">
         <P>
-          Nous ne vendons jamais vos données personnelles. Nous ne les partageons qu&apos;avec des prestataires qui les
-          traitent sur nos instructions, et avec les magasins d&apos;applications en tant qu&apos;entreprises
-          indépendantes.
+          Nous ne vendons jamais vos données personnelles. Nous les partageons uniquement avec les prestataires
+          ci-dessous, qui les traitent sur nos instructions (Expo en a aussi un usage limité qui lui est propre, décrit
+          plus bas), et avec les magasins d&apos;applications en tant que sociétés indépendantes.
         </P>
         <Table
           head={['Prestataire', 'Pour quoi', 'Où']}
@@ -272,6 +272,10 @@ export default function PolitiqueConfidentialitePage() {
             ['Trolley', "Paiement des créateurs et vérification fiscale (à l'ouverture des paiements)", 'Canada'],
           ]}
         />
+        <P>
+          Expo utilise aussi des informations techniques sur votre appareil, comme son adresse IP, pour ses propres
+          statistiques agrégées, en tant que responsable indépendant, selon sa propre politique (expo.dev/privacy).
+        </P>
         <P>
           Pour les créateurs que nous payons, nous transmettons les informations exigées par la loi à
           l&apos;administration fiscale française (DGFiP), qui peut les communiquer à l&apos;administration fiscale de

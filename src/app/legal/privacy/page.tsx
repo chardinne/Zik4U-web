@@ -11,7 +11,7 @@ export const metadata = generatePageMetadata(
   '/legal/privacy',
 );
 
-const LAST_UPDATED = 'October 21, 2026';
+const LAST_UPDATED = 'October 22, 2026';
 const PRIVACY = 'privacy@zik4u.com';
 
 export default function PrivacyPolicyPage() {
@@ -231,8 +231,9 @@ export default function PrivacyPolicyPage() {
 
       <Section id="providers" title="9. Who processes your data for us">
         <P>
-          We never sell your personal data. We share it only with providers who process it on our instructions, and
-          with the app stores as independent companies.
+          We never sell your personal data. We share it only with the providers below, which process it on our
+          instructions (Expo also has a limited use of its own, described below), and with the app stores as
+          independent companies.
         </P>
         <Table
           head={['Provider', 'What for', 'Where']}
@@ -249,6 +250,10 @@ export default function PrivacyPolicyPage() {
             ['Trolley', 'Creator payouts and tax verification (when payouts open)', 'Canada'],
           ]}
         />
+        <P>
+          Expo also uses technical information about your device, such as its IP address, for its own aggregate
+          statistics, as an independent controller under its own privacy policy (expo.dev/privacy).
+        </P>
         <P>
           For creators who are paid, we send the information required by law to the French tax authority (DGFiP),
           which may share it with the tax authority of the country where they live.
