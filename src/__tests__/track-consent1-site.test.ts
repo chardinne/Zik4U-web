@@ -19,7 +19,7 @@ describe('TRACK-CONSENT1 — analytics in the Privacy Policy', () => {
 
   it('lists the retention period', () => {
     expect(privacy).toContain(
-      '<Strong>Usage analytics</Strong> (only if you accept): 13 months, and deleted at once when you turn analytics off.',
+      '<Strong>Usage analytics</Strong> (only if you accept): the records in our database are kept 13 months and deleted at once when you turn analytics off; events already sent to Google Analytics are kept 2 months by Google.', // WEB-RET1 (Decision 140)
     );
   });
 

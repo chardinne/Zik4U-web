@@ -11,7 +11,7 @@ export const metadata = generatePageMetadata(
   '/legal/privacy',
 );
 
-const LAST_UPDATED = 'October 22, 2026';
+const LAST_UPDATED = 'October 24, 2026';
 const PRIVACY = 'privacy@zik4u.com';
 
 export default function PrivacyPolicyPage() {
@@ -280,12 +280,13 @@ export default function PrivacyPolicyPage() {
             <><Strong>Account and everything attached to it</Strong> (listening, content, messages, listening mood profile, settings): as long as your account exists.</>,
             <><Strong>When you delete your account</Strong>: it is erased from our live database immediately, except a minimal record that French law requires hosting services to keep for one year, so that the author of published content can be identified at a judge&apos;s request: your username, email address, account creation date, and the identifier and date of each post, comment or message you published (never their content, and none of your listening). This record is locked, used only to answer a legal request, and deleted after one year. Residual copies in backups and our providers&apos; technical logs disappear within 30 days.</>,
             <><Strong>Listening mood profile</Strong>: your daily listening moods are kept for 13 months, then deleted automatically; everything is deleted immediately when you turn it off.</>,
-            <><Strong>Inactive accounts</Strong>: deleted after 3 years without any activity.</>,
+            <><Strong>Inactive accounts</Strong>: deleted after 3 years without any activity. We email you 30 days before, so you can keep your account by opening the app.</>,
             <><Strong>Sign-in sessions</Strong>: closed and deleted after 12 months without use.</>,
             <><Strong>Technical logs we keep</Strong> (for example the health checks of the service): 1 year. <Strong>Records of actions taken in our administration tool</Strong>: 3 years, for security.</>,
+            <><Strong>Crash and error reports</Strong>: up to 90 days.</>,
             <><Strong>Purchase, payout, invoice and tax reporting records</Strong>: kept as long as tax and accounting law requires (up to 10 years in France).</>,
             <><Strong>Waitlists</Strong>: until we invite you at launch, and at most 24 months, or earlier if you ask us.</>,
-            <><Strong>Usage analytics</Strong> (only if you accept): 13 months, and deleted at once when you turn analytics off.</>,
+            <><Strong>Usage analytics</Strong> (only if you accept): the records in our database are kept 13 months and deleted at once when you turn analytics off; events already sent to Google Analytics are kept 2 months by Google.</>,
             <><Strong>Emails to support</Strong>: up to 3 years after our last exchange.</>,
             <><Strong>Research reports</Strong>: contain no personal data.</>,
           ]}

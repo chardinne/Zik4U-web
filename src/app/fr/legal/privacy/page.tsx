@@ -12,7 +12,7 @@ export const metadata = generatePageMetadata(
   '/fr/legal/privacy',
 );
 
-const LAST_UPDATED = '22 octobre 2026';
+const LAST_UPDATED = '24 octobre 2026';
 const PRIVACY = 'privacy@zik4u.com';
 
 export default function PolitiqueConfidentialitePage() {
@@ -304,12 +304,13 @@ export default function PolitiqueConfidentialitePage() {
             <><Strong>Le compte et tout ce qui s&apos;y rattache</Strong> (écoutes, contenus, messages, profil d&apos;humeurs d&apos;écoute, réglages) : tant que votre compte existe.</>,
             <><Strong>Quand vous supprimez votre compte</Strong> : il est effacé immédiatement de notre base en service, à l&apos;exception d&apos;un enregistrement minimal que la loi française impose aux hébergeurs de conserver un an, pour qu&apos;un juge puisse faire identifier l&apos;auteur d&apos;un contenu publié : votre pseudonyme, votre adresse e-mail, la date de création du compte, et l&apos;identifiant et la date de chaque publication, commentaire ou message que vous avez publié (jamais leur contenu, et aucune de vos écoutes). Cet enregistrement est verrouillé, utilisé uniquement pour répondre à une demande légale, et supprimé au bout d&apos;un an. Les copies résiduelles dans les sauvegardes et les journaux techniques de nos prestataires disparaissent sous 30 jours.</>,
             <><Strong>Profil d&apos;humeurs d&apos;écoute</Strong> : vos humeurs d&apos;écoute quotidiennes sont conservées 13 mois, puis supprimées automatiquement ; tout est supprimé immédiatement quand vous le désactivez.</>,
-            <><Strong>Comptes inactifs</Strong> : supprimés après 3 ans sans aucune activité.</>,
+            <><Strong>Comptes inactifs</Strong> : supprimés après 3 ans sans aucune activité. Nous vous écrivons 30 jours avant ; il suffit d&apos;ouvrir l&apos;app pour garder votre compte.</>,
             <><Strong>Sessions de connexion</Strong> : fermées et supprimées après 12 mois sans utilisation.</>,
             <><Strong>Journaux techniques que nous conservons</Strong> (par exemple les contrôles de bon fonctionnement du service) : 1 an. <Strong>Traces des actions réalisées dans notre outil d&apos;administration</Strong> : 3 ans, pour la sécurité.</>,
+            <><Strong>Rapports de plantage et d&apos;erreur</Strong> : 90 jours au plus.</>,
             <><Strong>Achats, versements, factures et déclarations fiscales</Strong> : conservés aussi longtemps que l&apos;exigent les règles fiscales et comptables (jusqu&apos;à 10 ans en France).</>,
             <><Strong>Listes d&apos;attente</Strong> : jusqu&apos;à votre invitation au lancement, et au plus 24 mois, ou plus tôt si vous nous le demandez.</>,
-            <><Strong>Mesure d&apos;audience</Strong> (uniquement si vous l&apos;acceptez) : 13 mois, et supprimée aussitôt que vous la désactivez.</>,
+            <><Strong>Mesure d&apos;audience</Strong> (uniquement si vous l&apos;acceptez) : les enregistrements de notre base sont conservés 13 mois et effacés dès que vous la désactivez ; les événements déjà envoyés à Google Analytics sont conservés 2 mois par Google.</>,
             <><Strong>E-mails au support</Strong> : jusqu&apos;à 3 ans après notre dernier échange.</>,
             <><Strong>Rapports de recherche</Strong> : ils ne contiennent aucune donnée personnelle.</>,
           ]}
