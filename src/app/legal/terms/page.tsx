@@ -11,7 +11,7 @@ export const metadata = generatePageMetadata(
   '/legal/terms',
 );
 
-const LAST_UPDATED = 'October 19, 2026';
+const LAST_UPDATED = 'October 24, 2026';
 const SUPPORT = 'support@zik4u.com';
 
 export default function TermsOfServicePage() {
@@ -75,8 +75,8 @@ export default function TermsOfServicePage() {
 
       <Section title="7. Reporting, moderation and suspension">
         <P>
-          You can report any post, comment, message or account in the app. We review reports and may remove content or
-          suspend accounts that break these Terms or the law. When we remove your content or restrict your account, we
+          You can report any post or comment in the app, and anything else (a message, an account) by writing to{' '}
+          <Mail to={SUPPORT} />. We review reports and may remove content or suspend accounts that break these Terms or the law. When we remove your content or restrict your account, we
           tell you why. If you disagree, write to <Mail to={SUPPORT} /> and a person will review the decision. Our
           contact point for authorities and users under the EU Digital Services Act is <Mail to={SUPPORT} /> (English or
           French).
