@@ -5,9 +5,8 @@ import { useRouter } from 'next/navigation';
 import { motion } from 'framer-motion';
 import { searchCreators, getFeaturedCreators } from '@/lib/creators';
 import type { SearchResult } from '@/types';
+import { WaitlistForm, WaitlistLink } from '@/components/waitlist/WaitlistForm';
 
-const APP_STORE_URL = 'https://apps.apple.com/app/zik4u/id6748722257';
-const PLAY_STORE_URL = 'https://play.google.com/store/apps/details?id=com.zik4u.app';
 
 const C = {
   bg: '#0A0A1A', card: '#12122A', border: 'rgba(255,255,255,0.08)',
@@ -79,9 +78,6 @@ export default function FansPage() {
   const [creators, setCreators] = useState<SearchResult[]>([]);
   const [loading, setLoading] = useState(true);
   const [searching, setSearching] = useState(false);
-  const [fanEmail, setFanEmail] = useState('');
-  const [fanSubmitted, setFanSubmitted] = useState(false);
-  const [fanLoading, setFanLoading] = useState(false);
 
   useEffect(() => {
     getFeaturedCreators()
@@ -103,19 +99,6 @@ export default function FansPage() {
     return () => clearTimeout(t);
   }, [query]);
 
-  const handleFanWaitlist = async () => {
-    if (!fanEmail.trim() || fanLoading) return;
-    setFanLoading(true);
-    try {
-      const res = await fetch('/api/pulse-waitlist', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email: fanEmail }),
-      });
-      if (res.ok) setFanSubmitted(true);
-    } catch { /* silent */ }
-    finally { setFanLoading(false); }
-  };
 
   return (
     <main style={{ minHeight: '100vh', backgroundColor: C.bg, fontFamily: 'Inter, system-ui, sans-serif', color: C.text }}>
@@ -175,20 +158,7 @@ export default function FansPage() {
 
           <div style={{ display:'flex', gap:10, flexWrap:'wrap',
             marginTop:8 }}>
-            <a href={APP_STORE_URL}
-              style={{ padding:'14px 24px',
-                background:`linear-gradient(135deg, #00FFB2, #00D4FF)`,
-                borderRadius:12, color:'#0A0A1A', fontWeight:800,
-                fontSize:18, textDecoration:'none' }}>
-              Download — iOS →
-            </a>
-            <a href={PLAY_STORE_URL}
-              style={{ padding:'14px 24px', background:'#12122A',
-                border:'1px solid rgba(255,255,255,0.1)',
-                borderRadius:12, color:'#fff', fontWeight:800,
-                fontSize:18, textDecoration:'none' }}>
-              Download — Android →
-            </a>
+            <WaitlistForm defaultRole="fan" />
           </div>
           <p style={{ fontSize:13, color:C.muted, marginTop:12, textAlign:'center' }}>
             Free. No card required.
@@ -264,9 +234,6 @@ export default function FansPage() {
                     <div style={{ display: 'flex', alignItems: 'center', gap: 5 }}>
                       <span style={{ fontSize: 13, color: C.muted, opacity: 0.5 }}>🔒 {creator.compat} match</span>
                     </div>
-                    <a href={APP_STORE_URL} style={{ display: 'block', textAlign: 'center', padding: '8px 14px', background: `linear-gradient(135deg, ${C.mint}, ${C.cyan})`, borderRadius: 8, color: '#0A0A1A', fontWeight: 700, fontSize: 15, textDecoration: 'none', marginTop: 4 }}>
-                      Subscribe →
-                    </a>
                   </div>
                 ))}
               </div>
@@ -275,25 +242,7 @@ export default function FansPage() {
                   First real creators arriving soon.<br />
                   <span style={{ color: 'rgba(255,255,255,0.35)' }}>Be notified →</span>
                 </p>
-                {fanSubmitted ? (
-                  <p style={{ color: C.mint, fontSize: 15, fontWeight: 700 }}>✓ You're on the list!</p>
-                ) : (
-                  <div style={{ display: 'flex', gap: 8, maxWidth: 400, margin: '0 auto', justifyContent: 'center', flexWrap: 'wrap' }}>
-                    <input
-                      type="email"
-                      placeholder="your@email.com"
-                      value={fanEmail}
-                      onChange={e => setFanEmail(e.target.value)}
-                      style={{ flex: 1, minWidth: 200, padding: '10px 14px', background: C.card, border: `1px solid ${C.border}`, borderRadius: 10, color: C.text, fontSize: 15, fontFamily: 'Inter, system-ui, sans-serif', outline: 'none' }}
-                    />
-                    <button
-                      onClick={handleFanWaitlist}
-                      disabled={fanLoading || !fanEmail.trim()}
-                      style={{ padding: '10px 18px', background: `linear-gradient(135deg, ${C.mint}, ${C.cyan})`, borderRadius: 10, color: '#0A0A1A', fontWeight: 700, fontSize: 15, border: 'none', cursor: fanLoading || !fanEmail.trim() ? 'not-allowed' : 'pointer', opacity: fanLoading || !fanEmail.trim() ? 0.5 : 1, fontFamily: 'Inter, system-ui, sans-serif' }}>
-                      {fanLoading ? '...' : 'Subscribe'}
-                    </button>
-                  </div>
-                )}
+                <WaitlistLink />
               </div>
             </>
           )}
@@ -308,15 +257,9 @@ export default function FansPage() {
             </span>
           </h2>
           <p style={{ color: C.muted, fontSize: 20, marginBottom: 32, maxWidth: 400, margin: '0 auto 32px' }}>
-            Download the app to subscribe and access exclusive Drops.
           </p>
           <div style={{ display: 'flex', gap: 12, justifyContent: 'center', flexWrap: 'wrap' }}>
-            <a href={APP_STORE_URL} style={{ padding: '14px 32px', background: `linear-gradient(135deg, ${C.mint}, ${C.cyan})`, borderRadius: 12, color: '#0A0A1A', fontWeight: 700, fontSize: 19, textDecoration: 'none' }}>
-              Download — iOS
-            </a>
-            <a href={PLAY_STORE_URL} style={{ padding: '14px 32px', background: C.card, border: `1px solid ${C.border}`, borderRadius: 12, color: C.text, fontWeight: 700, fontSize: 19, textDecoration: 'none' }}>
-              Download — Android
-            </a>
+            <WaitlistLink />
           </div>
         </motion.div>
 
@@ -340,20 +283,7 @@ export default function FansPage() {
           </p>
           <div style={{ display:'flex', gap:10, justifyContent:'center',
             flexWrap:'wrap' }}>
-            <a href={APP_STORE_URL}
-              style={{ padding:'15px 28px',
-                background:`linear-gradient(135deg, #00FFB2, #00D4FF)`,
-                borderRadius:12, color:'#0A0A1A', fontWeight:800,
-                fontSize:19, textDecoration:'none' }}>
-              App Store →
-            </a>
-            <a href={PLAY_STORE_URL}
-              style={{ padding:'15px 28px', background:'#12122A',
-                border:'1px solid rgba(255,255,255,0.1)',
-                borderRadius:12, color:'#fff', fontWeight:800,
-                fontSize:19, textDecoration:'none' }}>
-              Google Play →
-            </a>
+            <WaitlistLink />
           </div>
         </motion.div>
     </main>

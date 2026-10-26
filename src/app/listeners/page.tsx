@@ -1,11 +1,9 @@
 'use client';
 
-import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { motion } from 'framer-motion';
+import { WaitlistForm, WaitlistLink } from '@/components/waitlist/WaitlistForm';
 
-const APP_STORE_URL = 'https://apps.apple.com/app/zik4u/id6748722257';
-const PLAY_STORE_URL = 'https://play.google.com/store/apps/details?id=com.zik4u.app';
 
 const C = {
   bg: '#0A0A1A', card: '#12122A', border: 'rgba(255,255,255,0.08)',
@@ -126,24 +124,6 @@ function SectionTitle({ children, color }: { children: string; color: string }) 
 
 export default function ListenersPage() {
   const router = useRouter();
-  const [email, setEmail] = useState('');
-  const [submitted, setSubmitted] = useState(false);
-  const [loading, setLoading] = useState(false);
-
-  const handleWaitlist = async () => {
-    if (!email.trim() || loading) return;
-    setLoading(true);
-    try {
-      const res = await fetch('/api/pulse-waitlist', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email }),
-      });
-      if (res.ok) setSubmitted(true);
-    } catch { /* silent */ }
-    finally { setLoading(false); }
-  };
-
   return (
     <main style={{ minHeight: '100vh', backgroundColor: C.bg, fontFamily: 'Inter, system-ui, sans-serif', color: C.text }}>
 
@@ -202,21 +182,7 @@ export default function ListenersPage() {
             <strong style={{ color:'#00FFB2', fontWeight:700 }}>For real.</strong>
           </p>
           <div style={{ display:'flex', gap:10, flexWrap:'wrap' }}>
-            <a href={APP_STORE_URL}
-              style={{ padding:'14px 24px',
-                background:`linear-gradient(135deg, #00D4FF, #00FFB2)`,
-                borderRadius:12, color:'#0A0A1A', fontWeight:800,
-                fontSize:18, textDecoration:'none', flexShrink:0 }}>
-              Download — iOS →
-            </a>
-            <a href={PLAY_STORE_URL}
-              style={{ padding:'14px 24px',
-                background:'#12122A',
-                border:'1px solid rgba(255,255,255,0.1)',
-                borderRadius:12, color:'#fff', fontWeight:800,
-                fontSize:18, textDecoration:'none', flexShrink:0 }}>
-              Download — Android →
-            </a>
+            <WaitlistForm defaultRole="listener" />
           </div>
           <p style={{ fontSize:13, color:C.muted, marginTop:12, textAlign:'center' }}>
             Free. No card required.
@@ -259,12 +225,7 @@ export default function ListenersPage() {
             Free. No card required.
           </p>
           <div style={{ display: 'flex', gap: 12, justifyContent: 'center', flexWrap: 'wrap' }}>
-            <a href={APP_STORE_URL} style={{ padding: '14px 32px', background: `linear-gradient(135deg, ${C.cyan}, ${C.mint})`, borderRadius: 12, color: '#0A0A1A', fontWeight: 700, fontSize: 19, textDecoration: 'none' }}>
-              Download — iOS
-            </a>
-            <a href={PLAY_STORE_URL} style={{ padding: '14px 32px', background: C.card, border: `1px solid ${C.border}`, borderRadius: 12, color: C.text, fontWeight: 700, fontSize: 19, textDecoration: 'none' }}>
-              Download — Android
-            </a>
+            <WaitlistLink />
           </div>
         </motion.div>
 
@@ -288,20 +249,7 @@ export default function ListenersPage() {
           </p>
           <div style={{ display:'flex', gap:10, justifyContent:'center',
             flexWrap:'wrap' }}>
-            <a href={APP_STORE_URL}
-              style={{ padding:'15px 28px',
-                background:`linear-gradient(135deg, #00D4FF, #00FFB2)`,
-                borderRadius:12, color:'#0A0A1A', fontWeight:800,
-                fontSize:19, textDecoration:'none' }}>
-              App Store →
-            </a>
-            <a href={PLAY_STORE_URL}
-              style={{ padding:'15px 28px', background:'#12122A',
-                border:'1px solid rgba(255,255,255,0.1)',
-                borderRadius:12, color:'#fff', fontWeight:800,
-                fontSize:19, textDecoration:'none' }}>
-              Google Play →
-            </a>
+            <WaitlistLink />
           </div>
         </motion.div>
     </main>

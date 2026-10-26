@@ -3,19 +3,8 @@
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { motion } from 'framer-motion';
+import { WaitlistForm, WaitlistLink } from '@/components/waitlist/WaitlistForm';
 
-const PLATFORM_OPTIONS = [
-  { value: 'spotify',       label: 'Spotify' },
-  { value: 'apple_music',   label: 'Apple Music' },
-  { value: 'deezer',        label: 'Deezer' },
-  { value: 'soundcloud',    label: 'SoundCloud' },
-  { value: 'tidal',         label: 'Tidal' },
-  { value: 'youtube_music', label: 'YouTube Music' },
-  { value: 'other',         label: 'Other' },
-] as const;
-
-const APP_STORE_URL = 'https://apps.apple.com/app/zik4u/id6748722257';
-const PLAY_STORE_URL = 'https://play.google.com/store/apps/details?id=com.zik4u.app';
 
 const C = {
   bg: '#0A0A1A', card: '#12122A', border: 'rgba(255,255,255,0.08)',
@@ -105,7 +94,7 @@ const STEPS = [
   {
     number: '01',
     title: 'Connect your streaming services',
-    body: 'Spotify, Apple Music, YouTube Music. Zik4U automatically captures your real listening. No manual input.',
+    body: 'Zik4U automatically captures your real listening. No manual input.',
     color: C.cyan,
   },
   {
@@ -160,33 +149,6 @@ export default function CreatorsPage() {
   const router = useRouter();
   const [copied, setCopied] = useState(false);
 
-  // Creator waitlist form state
-  const [wlEmail, setWlEmail] = useState('');
-  const [wlArtistName, setWlArtistName] = useState('');
-  const [wlPlatform, setWlPlatform] = useState('');
-  const [wlLoading, setWlLoading] = useState(false);
-  const [wlSubmitted, setWlSubmitted] = useState(false);
-  const [wlError, setWlError] = useState('');
-
-  const handleWaitlistSubmit = async () => {
-    if (!wlEmail || !wlArtistName || !wlPlatform) { return; }
-    setWlLoading(true);
-    setWlError('');
-    try {
-      const res = await fetch('/api/creator-waitlist', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email: wlEmail, artist_name: wlArtistName, main_platform: wlPlatform }),
-      });
-      const data = await res.json();
-      if (!res.ok) { setWlError(data.error ?? 'Something went wrong'); return; }
-      setWlSubmitted(true);
-    } catch {
-      setWlError('Network error — please try again.');
-    } finally {
-      setWlLoading(false);
-    }
-  };
 
   const handleCopy = () => {
     navigator.clipboard.writeText(STORY_TEXT);
@@ -251,12 +213,7 @@ export default function CreatorsPage() {
             </strong>
           </p>
           <div style={{ display: 'flex', gap: 12, flexWrap: 'wrap' }}>
-            <a href={APP_STORE_URL} style={{ padding: '14px 28px', background: `linear-gradient(135deg, ${C.pink}, ${C.purple})`, borderRadius: 12, color: C.text, fontWeight: 700, fontSize: 19, textDecoration: 'none' }}>
-              Become a creator — iOS →
-            </a>
-            <a href={PLAY_STORE_URL} style={{ padding: '14px 28px', background: C.card, border: `1px solid ${C.border}`, borderRadius: 12, color: C.text, fontWeight: 700, fontSize: 19, textDecoration: 'none' }}>
-              Become a creator — Android →
-            </a>
+            <WaitlistLink />
           </div>
         </motion.div>
 
@@ -318,84 +275,9 @@ export default function CreatorsPage() {
           <h2 style={{ fontSize: 'clamp(24px, 4vw, 40px)', fontWeight: 900, marginBottom: 12, textAlign: 'center' }}>
             Be among the first creators.
           </h2>
-          <p style={{ color: C.muted, fontSize: 18, marginBottom: 32, textAlign: 'center' }}>
-            We'll reach out personally before public launch.
-          </p>
 
-          {wlSubmitted ? (
-            <div style={{ textAlign: 'center', padding: '24px 0' }}>
-              <p style={{ fontSize: 32 }}>✅</p>
-              <p style={{ fontSize: 22, fontWeight: 800, color: C.mint, marginBottom: 8 }}>You're on the list.</p>
-              <p style={{ color: C.muted, fontSize: 18 }}>
-                We'll reach out personally before public launch. For real.
-              </p>
-            </div>
-          ) : (
-            <div style={{ display: 'flex', flexDirection: 'column', gap: 12, maxWidth: 480, margin: '0 auto' }}>
-              <input
-                type="email"
-                placeholder="your@email.com"
-                value={wlEmail}
-                onChange={(e) => setWlEmail(e.target.value)}
-                style={{ padding: '14px 16px', background: C.card, border: `1px solid ${C.border}`, borderRadius: 10, color: C.text, fontSize: 17, fontFamily: 'Inter, system-ui, sans-serif', outline: 'none' }}
-              />
-              <input
-                type="text"
-                placeholder="Your artist name"
-                value={wlArtistName}
-                onChange={(e) => setWlArtistName(e.target.value)}
-                maxLength={100}
-                style={{ padding: '14px 16px', background: C.card, border: `1px solid ${C.border}`, borderRadius: 10, color: C.text, fontSize: 17, fontFamily: 'Inter, system-ui, sans-serif', outline: 'none' }}
-              />
-              <select
-                value={wlPlatform}
-                onChange={(e) => setWlPlatform(e.target.value)}
-                style={{ padding: '14px 16px', background: C.card, border: `1px solid ${C.border}`, borderRadius: 10, color: wlPlatform ? C.text : C.muted, fontSize: 17, fontFamily: 'Inter, system-ui, sans-serif', outline: 'none', cursor: 'pointer' }}
-              >
-                <option value="" disabled>Your main platform</option>
-                {PLATFORM_OPTIONS.map((opt) => (
-                  <option key={opt.value} value={opt.value} style={{ color: C.text, background: C.bg }}>
-                    {opt.label}
-                  </option>
-                ))}
-              </select>
-              {wlError && (
-                <p style={{ color: '#FF3C3C', fontSize: 15, margin: 0 }}>{wlError}</p>
-              )}
-              <button
-                onClick={handleWaitlistSubmit}
-                disabled={wlLoading || !wlEmail || !wlArtistName || !wlPlatform}
-                style={{
-                  padding: '15px 28px',
-                  background: (wlLoading || !wlEmail || !wlArtistName || !wlPlatform)
-                    ? 'rgba(255,60,172,0.3)'
-                    : `linear-gradient(135deg, ${C.pink}, ${C.purple})`,
-                  borderRadius: 12, color: C.text, fontWeight: 700, fontSize: 19,
-                  border: 'none', cursor: (wlLoading || !wlEmail || !wlArtistName || !wlPlatform) ? 'not-allowed' : 'pointer',
-                  fontFamily: 'Inter, system-ui, sans-serif',
-                  transition: 'opacity 0.2s',
-                }}
-              >
-                {wlLoading ? 'Sending...' : 'Join the waitlist →'}
-              </button>
-            </div>
-          )}
+          <div style={{ display: 'flex', justifyContent: 'center' }}><WaitlistForm defaultRole="creator" /></div>
 
-          {/* Divider */}
-          <div style={{ height: 1, background: 'rgba(255,255,255,0.08)', margin: '36px 0 28px' }} />
-
-          {/* Download buttons as fallback */}
-          <p style={{ textAlign: 'center', color: C.muted, fontSize: 16, marginBottom: 16 }}>
-            Or download the app directly:
-          </p>
-          <div style={{ display: 'flex', gap: 12, justifyContent: 'center', flexWrap: 'wrap' }}>
-            <a href={APP_STORE_URL} style={{ padding: '12px 24px', background: `linear-gradient(135deg, ${C.pink}, ${C.purple})`, borderRadius: 12, color: C.text, fontWeight: 700, fontSize: 17, textDecoration: 'none' }}>
-              Download — iOS
-            </a>
-            <a href={PLAY_STORE_URL} style={{ padding: '12px 24px', background: C.card, border: `1px solid ${C.border}`, borderRadius: 12, color: C.text, fontWeight: 700, fontSize: 17, textDecoration: 'none' }}>
-              Download — Android
-            </a>
-          </div>
         </motion.div>
 
       </div>
@@ -418,20 +300,7 @@ export default function CreatorsPage() {
           </p>
           <div style={{ display:'flex', gap:10, justifyContent:'center',
             flexWrap:'wrap' }}>
-            <a href={APP_STORE_URL}
-              style={{ padding:'15px 28px',
-                background:`linear-gradient(135deg, #FF3CAC, #7B2FFF)`,
-                borderRadius:12, color:'#fff', fontWeight:800,
-                fontSize:19, textDecoration:'none' }}>
-              App Store →
-            </a>
-            <a href={PLAY_STORE_URL}
-              style={{ padding:'15px 28px', background:'#12122A',
-                border:'1px solid rgba(255,255,255,0.1)',
-                borderRadius:12, color:'#fff', fontWeight:800,
-                fontSize:19, textDecoration:'none' }}>
-              Google Play →
-            </a>
+            <WaitlistLink />
           </div>
         </motion.div>
     </main>

@@ -12,7 +12,7 @@ export const metadata = generatePageMetadata(
   '/fr/legal/privacy',
 );
 
-const LAST_UPDATED = '24 octobre 2026';
+const LAST_UPDATED = '27 octobre 2026';
 const PRIVACY = 'privacy@zik4u.com';
 
 export default function PolitiqueConfidentialitePage() {
@@ -114,8 +114,8 @@ export default function PolitiqueConfidentialitePage() {
           dans « Settings », ce qui arrête l&apos;enregistrement et supprime ces données.
         </P>
         <P>
-          <Strong>Site.</Strong> Si vous vous inscrivez sur une liste d&apos;attente sur zik4u.com : votre adresse e-mail
-          et, pour les créateurs, votre nom d&apos;artiste et votre principale plateforme de streaming. Le site n&apos;a
+          <Strong>Site.</Strong> Si vous vous inscrivez sur une liste d&apos;attente sur zik4u.com : votre adresse e-mail,
+          le profil choisi (auditeur, créateur ou fan) et, pour les créateurs, votre nom d&apos;artiste. Le site n&apos;a
           ni connexion à un compte, ni mesure d&apos;audience, ni cookie publicitaire (section 13).
         </P>
         <P>
@@ -137,7 +137,7 @@ export default function PolitiqueConfidentialitePage() {
             ["Conserver l'enregistrement que la loi française impose aux hébergeurs", 'Pseudonyme, adresse e-mail, date de création du compte, identifiant et date de chaque publication, commentaire ou message publié', "Obligation légale (loi pour la confiance dans l'économie numérique, LCEN)"],
             ['Déclarer les gains des créateurs à l\'administration fiscale (DAC7) et émettre les factures en leur nom', 'Identité, informations fiscales et de versement des créateurs, factures', 'Obligation légale'],
             ['Paiement des créateurs, comptabilité et fiscalité', 'Achats, paiements', 'Obligation légale ; exécution du contrat'],
-            ["Listes d'attente", "E-mail, nom d'artiste, plateforme", 'Votre consentement (vous vous inscrivez)'],
+            ["Listes d'attente", "E-mail, profil choisi, nom d'artiste", 'Votre consentement (vous vous inscrivez)'],
           ]}
         />
         <P>
