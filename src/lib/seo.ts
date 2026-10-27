@@ -2,26 +2,26 @@ import type { Metadata, Viewport } from 'next';
 
 const BASE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://zik4u.com';
 
+export const SITE_TITLE = 'Zik4U · Your music, as it really is.';
+export const SITE_DESCRIPTION = 'Zik4U draws your galaxy from the music you really play, in the apps you already use. Join the waitlist.';
+
 export const defaultMetadata: Metadata = {
   metadataBase: new URL(BASE_URL),
   title: {
-    default: 'Zik4U — You Are What You Listen To.',
+    // SITE1-4 (Decision 185 = A, 27/10/2026): title and description of the site.
+    default: SITE_TITLE,
     template: '%s | Zik4U',
   },
-  description: 'Zik4U captures everything you listen to, across all platforms, and turns it into your real music identity. Connect. Match. Subscribe. For real.',
+  description: SITE_DESCRIPTION,
   keywords: [
     'music social network',
     'music identity',
     'listening history',
     'music creators',
-    'passive revenue music',
-    'spotify social',
-    'apple music social',
     'music subscription',
     'scrobbling',
     'music compatibility',
     'real listening data',
-    'music analytics',
   ],
   authors: [{ name: 'Zik4U' }],
   creator: 'Zik4U',
@@ -29,8 +29,8 @@ export const defaultMetadata: Metadata = {
   openGraph: {
     type: 'website',
     siteName: 'Zik4U',
-    title: 'Zik4U — You Are What You Listen To.',
-    description: 'The social network built on real listens. Discover, connect, and monetize what you actually hear.',
+    title: SITE_TITLE,
+    description: SITE_DESCRIPTION,
     url: BASE_URL,
     locale: 'en_US',
     images: [
@@ -38,17 +38,16 @@ export const defaultMetadata: Metadata = {
         url: '/og-image.png',
         width: 1200,
         height: 630,
-        alt: 'Zik4U — You Are What You Listen To.',
+        alt: SITE_TITLE,
       },
     ],
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Zik4U — You Are What You Listen To.',
-    description: 'The social network built on real listens. Discover people who listen like you.',
+    title: SITE_TITLE,
+    description: SITE_DESCRIPTION,
     images: ['/og-image.png'],
-    creator: '@zik4u',
-    site: '@zik4u',
+    // Decision 186 (27/10/2026): the X handle zik4u is not Zik4U's account; no X handle declared.
   },
   robots: {
     index: true,
@@ -91,39 +90,6 @@ export function generatePageMetadata(
     },
     alternates: {
       canonical: `${BASE_URL}${path}`,
-    },
-  };
-}
-
-export function generateCreatorMetadata(
-  creatorName: string,
-  username: string,
-  bio: string | null,
-  topArtists: string[],
-): Metadata {
-  const title = `${creatorName} on Zik4U`;
-  const artistsStr = topArtists.length > 0
-    ? `Listens to ${topArtists.slice(0, 3).join(', ')}.`
-    : '';
-  const description = bio
-    ? `${bio.slice(0, 120)} ${artistsStr}`.trim()
-    : `Subscribe to ${creatorName}'s musical world on Zik4U. ${artistsStr}`.trim();
-
-  return {
-    title,
-    description,
-    openGraph: {
-      title: `${title} | Zik4U`,
-      description,
-      url: `https://zik4u.com/creator/${username}`,
-      type: 'profile',
-    },
-    twitter: {
-      title: `${title} | Zik4U`,
-      description,
-    },
-    alternates: {
-      canonical: `https://zik4u.com/creator/${username}`,
     },
   };
 }
