@@ -1,19 +1,7 @@
 import type { Metadata } from 'next';
+import { pathMetadata } from '@/lib/pathTexts';
 
-export const metadata: Metadata = {
-  title: 'For Creators | Zik4U',
-  description: 'Monetize your real music taste. Your fans subscribe to what you actually listen to. 80% of net revenue. No algorithm. For real.',
-  openGraph: {
-    title: 'For Creators | Zik4U',
-    description: 'Monetize your real music taste. 80% of net revenue. No algorithm. For real.',
-    url: 'https://zik4u.com/creators',
-  },
-  twitter: {
-    title: 'For Creators | Zik4U',
-    description: 'Monetize your real music taste. 80% of net revenue. No algorithm. For real.',
-  },
-  alternates: { canonical: 'https://zik4u.com/creators' },
-};
+export const metadata: Metadata = pathMetadata('creators');
 
 export default function CreatorsLayout({ children }: { children: React.ReactNode }) {
   return <>{children}</>;

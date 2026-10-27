@@ -43,23 +43,22 @@ describe('COMPLY1g — pages naming streaming services removed (Decision 106 = A
   });
 
   it('the pages changed by this lot name no streaming service', () => {
-    for (const f of ['src/app/page.tsx', 'src/app/listeners/page.tsx', 'src/app/listeners/layout.tsx',
+    for (const f of ['src/app/page.tsx', 'src/app/listeners/page.tsx', 'src/app/listeners/layout.tsx', 'src/lib/pathTexts.ts',
       'src/app/legal/terms/page.tsx', 'src/app/fr/legal/terms/page.tsx', 'src/app/legal/privacy/page.tsx',
       'src/app/fr/legal/privacy/page.tsx', 'public/llms.txt']) {
       expect([f, SERVICES.test(visible(read(f)))]).toEqual([f, false]);
     }
   });
 
-  it('the Listeners page carries the validated texts', () => {
-    const s = flat(read('src/app/listeners/page.tsx'));
+  it('the Listeners page carries the validated texts (replaced by Decision 184 = A, 27/10/2026)', () => {
+    const s = flat(read('src/lib/pathTexts.ts'));
     for (const t of [
-      'Keep listening in the music apps you already use. Every listen builds your profile automatically. No curation. No performance. The truth.',
-      'Every week: your track of the week, your discoveries, your listening moods. The summary of how you really listen.',
-      '6 shareable cards that sum up your musical year. Your top artist, your dominant listening mood, your first listens. Built from what you really played.',
+      'Zik4U notices the music you play in the apps you already use. Nothing to curate, nothing to fill in.',
+      'Every week, a look back at how you really listened.',
     ]) {
       expect(s).toContain(t);
     }
-    expect(flat(read('src/app/listeners/layout.tsx'))).toContain('Build your real music identity from the music apps you already use. Your archetype. Your matches. For real.');
+    expect(flat(read('src/app/listeners/layout.tsx'))).toContain("pathMetadata('listeners')");
   });
 });
 

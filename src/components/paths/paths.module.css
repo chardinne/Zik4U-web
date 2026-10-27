@@ -1,0 +1,16 @@
+/* SITE1-3 — Listeners / Creators / Fans pages (planche-site1-3.png). Same scale as the home
+   (home.module.css .root cancels the site's 1.25 zoom); calibrated for the phone. */
+.page { max-width: 640px; margin: 0 auto; }
+.hero { padding-top: 18px; }
+.sec { padding-top: 34px; }
+.item { border-top: 1px solid var(--line); padding: 14px 0; }
+.item h3 { font-size: 16px; margin: 0 0 4px; }
+.item p { font-size: 14px; color: var(--muted); margin: 0; line-height: 1.5; }
+.step { display: flex; gap: 12px; padding: 10px 0; }
+.step i { font-family: var(--font-bebas), Inter, sans-serif; font-size: 26px; line-height: 1; color: var(--cyan); font-style: normal; width: 24px; flex: none; }
+.step p { margin: 0; font-size: 14px; line-height: 1.5; color: var(--muted); }
+.step b { color: var(--text); }
+.money { margin-top: 4px; border-radius: 18px; padding: 16px; background: linear-gradient(135deg, rgba(94, 235, 255, 0.1), rgba(155, 123, 255, 0.12)); border: 1px solid rgba(94, 235, 255, 0.35); }
+.money strong { display: block; font-family: var(--font-bebas), Inter, sans-serif; font-weight: 400; font-size: 54px; line-height: 1; color: var(--cyan); }
+.money p { font-size: 14px; color: var(--muted); margin: 6px 0 0; line-height: 1.5; }
+.note { font-size: 13px; color: var(--faint); line-height: 1.5; border: 1px dashed var(--line); border-radius: 14px; padding: 14px; margin-top: 6px; }
