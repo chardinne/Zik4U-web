@@ -44,7 +44,7 @@ describe('WEB-LEGAL1 — legal notice (Decision 92 = B)', () => {
     // COMPLY1e (Decision 103): the footer labels come from LABELS (English or French).
     expect(read('src/components/legal/LegalPage.tsx')).toContain("footerLink('notice', `${L.prefix}/legal/notice`, L.notice)");
     expect(read('src/components/legal/LegalPage.tsx')).toContain("notice: 'Legal notice',");
-    expect(read('src/app/page.tsx')).toContain("{label:'Legal notice',href:'/legal/notice'}");
+    expect(read('src/app/page.tsx')).toContain("{ label: 'Legal notice', href: '/legal/notice' }"); // SITE1-2 home
     expect(read('src/app/sitemap.ts')).toContain('`${BASE_URL}/legal/notice`');
   });
 

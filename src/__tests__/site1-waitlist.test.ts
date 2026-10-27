@@ -16,7 +16,8 @@ const root = join(__dirname, '..', '..');
 const read = (p: string) => readFileSync(join(root, p), 'utf8');
 const flat = (s: string) => s.replace(/\s+/g, ' ');
 const post = (body: unknown) => POST({ json: async () => body } as never);
-const PAGES = ['src/app/page.tsx', 'src/app/listeners/page.tsx', 'src/app/creators/page.tsx', 'src/app/fans/page.tsx'];
+// SITE1-2: the home page's form lives in its hero (src/components/home/HomeHero.tsx).
+const PAGES = ['src/components/home/HomeHero.tsx', 'src/app/listeners/page.tsx', 'src/app/creators/page.tsx', 'src/app/fans/page.tsx'];
 
 beforeEach(() => { mockUpsert.mockReset().mockResolvedValue({ error: null }); mockFrom.mockClear(); });
 
