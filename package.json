@@ -7,7 +7,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint",
-    "lint:ci": "eslint next.config.ts src/lib/publicProfile.ts src/components/profile src/app/card src/app/creator src/app/sitemap.ts src/app/robots.ts src/__tests__/web-priv1.test.ts src/lib/sharedCard.ts src/__tests__/share-key1.test.ts src/__tests__/b2b-off1.test.ts src/__tests__/sec-cockpit-c2.test.ts src/__tests__/logo2.test.ts src/lib/listeningFingerprint.ts src/__tests__/dna-sillon-site.test.ts src/__tests__/comply1c-site.test.ts src/components/legal src/app/legal src/app/delete-account src/__tests__/web-legal1.test.ts src/__tests__/track-consent1-site.test.ts src/app/fr src/__tests__/comply1g-site.test.ts src/__tests__/comply1i-site.test.ts src/__tests__/comply1d-site.test.ts src/__tests__/web-ret1.test.ts src/__tests__/web-cgu1.test.ts",
+    "lint:ci": "eslint next.config.ts src/lib/publicProfile.ts src/components/profile src/app/card src/app/creator src/app/sitemap.ts src/app/robots.ts src/__tests__/web-priv1.test.ts src/lib/sharedCard.ts src/__tests__/share-key1.test.ts src/__tests__/b2b-off1.test.ts src/__tests__/sec-cockpit-c2.test.ts src/__tests__/logo2.test.ts src/lib/listeningFingerprint.ts src/__tests__/dna-sillon-site.test.ts src/__tests__/comply1c-site.test.ts src/components/legal src/app/legal src/app/delete-account src/__tests__/web-legal1.test.ts src/__tests__/track-consent1-site.test.ts src/app/fr src/__tests__/comply1g-site.test.ts src/__tests__/comply1i-site.test.ts src/__tests__/comply1d-site.test.ts src/__tests__/web-ret1.test.ts src/__tests__/web-cgu1.test.ts src/lib/waitlist.ts src/app/api/waitlist src/components/waitlist src/__tests__/site1-waitlist.test.ts",
     "test": "jest --ci --forceExit"
   },
   "dependencies": {

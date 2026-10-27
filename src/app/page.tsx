@@ -5,9 +5,8 @@ import type { ReactNode } from 'react';
 import { useRouter } from 'next/navigation';
 import { motion, AnimatePresence } from 'framer-motion';
 import Link from 'next/link';
+import { WaitlistForm, WaitlistLink } from '@/components/waitlist/WaitlistForm';
 
-const APP_STORE_URL  = 'https://apps.apple.com/app/zik4u/id6748722257';
-const PLAY_STORE_URL = 'https://play.google.com/store/apps/details?id=com.zik4u.app';
 
 const C = {
   bg:     '#0A0A1A',
@@ -419,22 +418,7 @@ export default function HomePage() {
           transition={{ delay:0.5 }}
           style={{ display:'flex', gap:12, justifyContent:'center', flexWrap:'wrap', padding:'0 20px 32px' }}
         >
-          <a href={APP_STORE_URL}
-            style={{ display:'flex', alignItems:'center', gap:11, padding:'14px 26px', borderRadius:14, background:C.text, textDecoration:'none', boxShadow:'0 4px 24px rgba(0,0,0,0.3)' }}>
-            <svg width="22" height="22" viewBox="0 0 24 24" fill={C.bg}><path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/></svg>
-            <div>
-              <div style={{ fontSize:14, color:C.bg, opacity:0.5, letterSpacing:'0.06em' }}>Download on the</div>
-              <div style={{ fontSize:20, fontWeight:800, color:C.bg, lineHeight:1 }}>App Store</div>
-            </div>
-          </a>
-          <a href={PLAY_STORE_URL}
-            style={{ display:'flex', alignItems:'center', gap:11, padding:'14px 26px', borderRadius:14, background:C.card, border:`1px solid rgba(255,255,255,0.12)`, textDecoration:'none' }}>
-            <svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M3 20.5v-17c0-.83 1-.83 1.5-.5l15 8.5-15 8.5c-.5.33-1.5.33-1.5-.5z" fill={C.mint}/></svg>
-            <div>
-              <div style={{ fontSize:14, color:C.muted, opacity:0.6, letterSpacing:'0.06em' }}>Get it on</div>
-              <div style={{ fontSize:20, fontWeight:800, color:C.text, lineHeight:1 }}>Google Play</div>
-            </div>
-          </a>
+          <WaitlistForm defaultRole="listener" />
         </motion.div>
 
         <LiveTicker />
@@ -668,22 +652,7 @@ export default function HomePage() {
             Own it.
           </div>
           <div style={{ display:'flex', gap:12, justifyContent:'center', flexWrap:'wrap' }}>
-            <a href={APP_STORE_URL}
-              style={{ display:'flex', alignItems:'center', gap:11, padding:'14px 26px', borderRadius:14, background:'#F0F0FF', textDecoration:'none', boxShadow:'0 4px 24px rgba(0,0,0,0.3)' }}>
-              <svg width="22" height="22" viewBox="0 0 24 24" fill="#0A0A1A"><path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/></svg>
-              <div>
-                <div style={{ fontSize:14, color:'#0A0A1A', opacity:0.5, letterSpacing:'0.06em' }}>Download on the</div>
-                <div style={{ fontSize:20, fontWeight:800, color:'#0A0A1A', lineHeight:1 }}>App Store</div>
-              </div>
-            </a>
-            <a href={PLAY_STORE_URL}
-              style={{ display:'flex', alignItems:'center', gap:11, padding:'14px 26px', borderRadius:14, background:'#12122A', border:'1px solid rgba(255,255,255,0.12)', textDecoration:'none' }}>
-              <svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M3 20.5v-17c0-.83 1-.83 1.5-.5l15 8.5-15 8.5c-.5.33-1.5.33-1.5-.5z" fill="#00FFB2"/></svg>
-              <div>
-                <div style={{ fontSize:14, color:'rgba(255,255,255,0.5)', opacity:0.6, letterSpacing:'0.06em' }}>Get it on</div>
-                <div style={{ fontSize:20, fontWeight:800, color:'#F0F0FF', lineHeight:1 }}>Google Play</div>
-              </div>
-            </a>
+            <WaitlistLink />
           </div>
         </motion.div>
       </div>

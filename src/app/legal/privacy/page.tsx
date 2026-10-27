@@ -11,7 +11,7 @@ export const metadata = generatePageMetadata(
   '/legal/privacy',
 );
 
-const LAST_UPDATED = 'October 24, 2026';
+const LAST_UPDATED = 'October 27, 2026';
 const PRIVACY = 'privacy@zik4u.com';
 
 export default function PrivacyPolicyPage() {
@@ -100,9 +100,9 @@ export default function PrivacyPolicyPage() {
           which stops recording and deletes these records.
         </P>
         <P>
-          <Strong>Website.</Strong> If you join a waitlist on zik4u.com: your email address, and for creators your
-          artist name and main streaming platform. The website has no account login, no analytics and no advertising
-          cookies (section 13).
+          <Strong>Website.</Strong> If you join a waitlist on zik4u.com: your email address, the profile you pick
+          (listener, creator or fan), and for creators your artist name. The website has no account login, no analytics
+          and no advertising cookies (section 13).
         </P>
         <P>
           <Strong>Messages to us.</Strong> Emails you send to support or privacy.
@@ -123,7 +123,7 @@ export default function PrivacyPolicyPage() {
             ['Keeping the record French law requires of hosting services', 'Username, email address, account creation date, identifier and date of each post, comment or message you published', 'Legal obligation (French law on confidence in the digital economy, LCEN)'],
             ["Reporting creators' earnings to the tax authority (DAC7) and issuing invoices on their behalf", 'Creator identity, tax and payout information, invoices', 'Legal obligation'],
             ['Paying creators, accounting and tax', 'Purchases, payouts', 'Legal obligation; performance of contract'],
-            ['Waitlists', 'Email, artist name, platform', 'Your consent (you sign up)'],
+            ['Waitlists', 'Email, profile picked, artist name', 'Your consent (you sign up)'],
           ]}
         />
         <P>
