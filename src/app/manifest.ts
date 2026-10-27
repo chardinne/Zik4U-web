@@ -1,10 +1,11 @@
 import type { MetadataRoute } from 'next';
+import { SITE_DESCRIPTION } from '@/lib/seo';
 
 export default function manifest(): MetadataRoute.Manifest {
   return {
-    name: 'Zik4U — You Are What You Listen To',
+    name: 'Zik4U',
     short_name: 'Zik4U',
-    description: 'The social network built on real listens. Discover people who listen like you, turn your music taste into identity, and monetize what you actually hear.',
+    description: SITE_DESCRIPTION,
     start_url: '/',
     scope: '/',
     display: 'standalone',
@@ -38,7 +39,7 @@ export default function manifest(): MetadataRoute.Manifest {
         sizes: '1200x630',
         type: 'image/png',
         form_factor: 'wide',
-        label: 'Zik4U — Music Identity Dashboard',
+        label: 'Zik4U',
       },
     ],
     // SITE1-5 (Decision 183 = A): no related store app listed until the store listings exist.

@@ -1,6 +1,18 @@
 # MEMORY — Zik4U Web
 > Mis à jour après chaque session. Source de vérité de l'état réel du projet.
 
+## 🔁 SESSION 69 — REFONTE SITE1 (26-27/10/2026) — liste d'attente + galaxie du founder
+> Détail complet : doc projet claude.ai `claude/REPRISE-SITE1.md`. Décisions D171-D186 de Bertrand.
+- **But du site** : inscrire sur la liste d'attente par e-mail avant les stores ; calibré téléphone ; aucun store, aucun paiement, aucune connexion.
+- **SITE1-1** (web #17 → 6ab9351 ; Zik4U #158 → develop 7d33319, migration 00235) : formulaire unique `WaitlistForm`, `/api/waitlist`, politique EN/FR (D178), anciennes routes `/api/pulse-waitlist` et `/api/creator-waitlist` supprimées.
+- **SITE1-2** (#18 → f04aeff) : accueil M2 = galaxie VIVANTE du compte `bertrand` (port web de LivingSignalSphere, modules et textures de l'app copiés à l'identique, ISR 900 s, `/api/founder-galaxy`, interrupteur `FOUNDER_GALAXY=off`), galaxie entière à l'arrivée.
+- **SITE1-2c** (#19 → c6a6bf1) : carte de planète « Listen on » Spotify / Apple Music / YouTube (D180), clic et non survol sur ordinateur.
+- **SITE1-5** (#20 → 8073bea) : plus aucune bannière d'app ni lien de store (D183) ; `/card` montre le formulaire.
+- **SITE1-3** (#21 → 90e0125) : `/listeners`, `/creators`, `/fans` courtes (`PathPage` + `pathTexts.ts`, D184) ; promesses non tenues et faux créateurs retirés (audit WEB-TRUTH).
+- **SITE1-4** (ménage, D185-D186) : titre « Zik4U · Your music, as it really is. » + description ; aucun compte X (@zik4u n'est PAS à Zik4U) ; JSON-LD sans contact partenaires ni recherche, logo = icon-512 ; code mort supprimé (AuthModal, supabase.ts navigateur, landing/*, creators.ts, types/) ; CLAUDE.md réécrit.
+- **Gardes** : site1-waitlist, site1-galaxy, site1-stores, site1-paths, site1-cleanup (+ comply1g adapté par D184).
+- **Pièges appris** : le réglage Chrome « Version pour ordinateur » affiche la mise en page ordinateur sur téléphone (pas un défaut) ; le modèle de titre `%s | Zik4U` double « | Zik4U » → `title: { absolute }` ; un `git diff` n'inclut pas les fichiers non suivis → patchs faits avec `git diff-index --cached` contre un commit de l'arbre de base.
+
 ## 🔁 SPRINT W1 (2026-06-06) — Suppression flux fan Stripe (IAP only) MERGÉ main
 **HEAD main = `d847faf`** (merge `--no-ff` de `refactor/w1-remove-fan-stripe`@`c27740d`). tsc 0, jest 6/6 (2 suites). 13 fichiers, −1482/+8.
 - **Pivot** : fans paient EXCLUSIVEMENT via IAP (App Store/Google Play + RevenueCat). Web fan Stripe retiré.

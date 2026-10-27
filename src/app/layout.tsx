@@ -1,7 +1,7 @@
 import type { Metadata, Viewport } from 'next';
 import localFont from 'next/font/local';
 import './globals.css';
-import { defaultMetadata, defaultViewport } from '@/lib/seo';
+import { defaultMetadata, defaultViewport, SITE_DESCRIPTION } from '@/lib/seo';
 
 const inter = localFont({
   src: [
@@ -24,22 +24,17 @@ const jsonLd = {
       '@id': 'https://zik4u.com/#website',
       url: 'https://zik4u.com',
       name: 'Zik4U',
-      description: 'The social network built on real listening data. You are what you listen to.',
+      description: SITE_DESCRIPTION,
       publisher: { '@id': 'https://zik4u.com/#organization' },
-      potentialAction: {
-        '@type': 'SearchAction',
-        target: { '@type': 'EntryPoint', urlTemplate: 'https://zik4u.com/users?q={search_term_string}' },
-        'query-input': 'required name=search_term_string',
-      },
     },
     {
       '@type': 'Organization',
       '@id': 'https://zik4u.com/#organization',
       name: 'Zik4U',
       url: 'https://zik4u.com',
-      logo: { '@type': 'ImageObject', url: 'https://zik4u.com/opengraph-image', width: 1200, height: 630 },
-      sameAs: ['https://twitter.com/zik4u'],
-      contactPoint: { '@type': 'ContactPoint', email: 'partner@zik4u.com', contactType: 'Partnership' },
+      logo: { '@type': 'ImageObject', url: 'https://zik4u.com/icon-512.png', width: 512, height: 512 },
+      // SITE1-4: no X account declared (Decision 186), no partnership contact (B2B-OFF1).
+      contactPoint: { '@type': 'ContactPoint', email: 'support@zik4u.com', contactType: 'customer support' },
     },
   ],
 };
@@ -67,7 +62,6 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <link rel="alternate" hrefLang="fr" href="https://zik4u.com" />
         <link rel="alternate" hrefLang="x-default" href="https://zik4u.com" />
         {/* Schema.org JSON-LD — static constant, no user data, official Next.js pattern */}
-        {/* eslint-disable-next-line react/no-danger */}
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
