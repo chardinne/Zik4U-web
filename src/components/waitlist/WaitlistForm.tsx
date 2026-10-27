@@ -76,9 +76,9 @@ export function WaitlistForm({ defaultRole = 'listener' }: { defaultRole?: Waitl
       )}
       <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>
         <input type="email" required aria-label={WAITLIST_TEXTS.emailPlaceholder} placeholder={WAITLIST_TEXTS.emailPlaceholder} value={email}
-          onChange={(e) => setEmail(e.target.value)} style={{ ...input, minWidth: 160 }} />
+          onChange={(e) => setEmail(e.target.value)} style={{ ...input, minWidth: 120 }} />
         <button type="submit" disabled={!ready || state === 'sending'}
-          style={{ flex: '1 0 auto', height: 46, padding: '0 18px', borderRadius: 12, border: 'none', fontFamily: 'inherit', fontWeight: 700, fontSize: 15, whiteSpace: 'nowrap',
+          style={{ flex: 'none', height: 46, padding: '0 14px', borderRadius: 12, border: 'none', fontFamily: 'inherit', fontWeight: 700, fontSize: 15, whiteSpace: 'nowrap',
             background: 'linear-gradient(135deg,#9B7BFF,#5EEBFF)', color: S.night, cursor: ready ? 'pointer' : 'not-allowed', opacity: ready ? 1 : 0.6 }}>
           {WAITLIST_TEXTS.button}
         </button>
