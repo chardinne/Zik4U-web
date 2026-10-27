@@ -31,6 +31,8 @@ export const HOME_TEXTS = {
     { label: 'Fans', body: "Get inside your favorite artist's actual world.", href: '/fans' },
   ],
   footerNote: 'Zik4U never plays music: every play opens your own music app.',
+  // SITE2 (Decision 188 = V2, 27/10/2026): link from the LIVE PROFILE band to /bertrand.
+  founderPageLink: "See Bertrand's full Music DNA",
   listenLabel: 'Listen on',
   closeCard: 'Close',
 } as const;

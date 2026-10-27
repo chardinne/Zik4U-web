@@ -1,0 +1,10 @@
+/* SITE2 — /bertrand (planche-site2-bertrand.png, V2). Same scale as the home (home.module.css
+   .root cancels the site's 1.25 zoom); calibrated for the phone. */
+.page { max-width: 640px; margin: 0 auto; }
+.intro { padding-top: 14px; }
+.sec { padding-top: 30px; }
+.ex { font-size: 14px; color: var(--muted); line-height: 1.55; margin: 0 0 14px; }
+.ex b { color: var(--text); }
+.sky { position: relative; }
+.sky > div { margin: 0 -20px; }
+@media (min-width: 900px) { .sky > div { margin: 0; border-radius: 28px; } }

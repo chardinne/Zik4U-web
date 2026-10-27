@@ -37,6 +37,13 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       priority: 0.8,
     },
     {
+      // SITE2 (Decision 188): the founder's real profile, by his consent (Decision 174).
+      url: `${BASE_URL}/bertrand`,
+      lastModified: new Date(),
+      changeFrequency: 'daily',
+      priority: 0.9,
+    },
+    {
       url: `${BASE_URL}/listeners`,
       lastModified: new Date(),
       changeFrequency: 'monthly',

@@ -13,6 +13,10 @@
 - **Gardes** : site1-waitlist, site1-galaxy, site1-stores, site1-paths, site1-cleanup (+ comply1g adapté par D184).
 - **Pièges appris** : le réglage Chrome « Version pour ordinateur » affiche la mise en page ordinateur sur téléphone (pas un défaut) ; le modèle de titre `%s | Zik4U` double « | Zik4U » → `title: { absolute }` ; un `git diff` n'inclut pas les fichiers non suivis → patchs faits avec `git diff-index --cached` contre un commit de l'arbre de base.
 
+## 🔁 SITE2 (27/10/2026) — page /bertrand : galaxie + carte Music DNA du founder (D188 = V2, D189 = A, D190 = A)
+- `src/app/bertrand/page.tsx` (ISR 900 s, 404 si `FOUNDER_GALAXY=off`) : « This is Bertrand. For real. », 01 galaxie (`FounderSky`), 02 carte Music DNA (`MusicDnaCard`, extraite de `SharedFullCard`, pied `zik4u.com/bertrand`), 03 formulaire. Textes `src/lib/founderPageTexts.ts`. Lien « See Bertrand's full Music DNA » sous le bandeau LIVE PROFILE de l'accueil ; `/bertrand` dans le sitemap.
+- `src/lib/sharedCard.ts` : lectures déplacées dans `loadCard()` (APRÈS les deux portes : clé vivante, `getFounderCard()` du compte `bertrand` seul). Garde `site2-founder-page.test.ts`. Jeu de match et Music Match ABANDONNÉS par Bertrand.
+
 ## 🔁 SPRINT W1 (2026-06-06) — Suppression flux fan Stripe (IAP only) MERGÉ main
 **HEAD main = `d847faf`** (merge `--no-ff` de `refactor/w1-remove-fan-stripe`@`c27740d`). tsc 0, jest 6/6 (2 suites). 13 fichiers, −1482/+8.
 - **Pivot** : fans paient EXCLUSIVEMENT via IAP (App Store/Google Play + RevenueCat). Web fan Stripe retiré.
