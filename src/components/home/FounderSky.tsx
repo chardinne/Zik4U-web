@@ -117,7 +117,8 @@ function LiveSky({ galaxy, width, now }: { galaxy: FounderGalaxy; width: number;
 
   const [orbitLookState, setOrbitLookState] = useState<OrbitLook>(() =>
     orbitLook(sphere.planets.map((p) => p.angle), 0, sphere.cx, sphere.cy, sphere.orbitR, PLANET_PHASES));
-  const [selected, setSelected] = useState(0);
+  // No planet is chosen on arrival: the visitor sees the whole galaxy and taps a planet to read it.
+  const [selected, setSelected] = useState<number | null>(null);
   const [burst, setBurst] = useState(0);
 
   useEffect(() => {
@@ -195,7 +196,7 @@ function LiveSky({ galaxy, width, now }: { galaxy: FounderGalaxy; width: number;
     else if (i !== null && e.type === 'pointerup') setBurst((b) => b + 1);
   };
 
-  const track = galaxy.tracks[selected];
+  const track = selected === null ? null : galaxy.tracks[selected];
   const live = galaxy.lastClean && now !== null ? now - new Date(galaxy.lastClean.playedAt).getTime() < LIVE_WINDOW_MS : false;
 
   const skyW = width + HOLO_SKY * 2;
@@ -212,7 +213,11 @@ function LiveSky({ galaxy, width, now }: { galaxy: FounderGalaxy; width: number;
       onPointerDown={() => { held.current = true; }}
       onPointerUp={(e) => { held.current = false; pick(e); }}
       onPointerCancel={() => { held.current = false; }}
-      onPointerLeave={() => { held.current = false; tiltTarget.current = { x: 0, y: 0 }; }}
+      onPointerLeave={(e) => {
+        held.current = false;
+        tiltTarget.current = { x: 0, y: 0 };
+        if (e.pointerType === 'mouse') setSelected(null); // mouse leaves the sky: back to the whole galaxy
+      }}
       onPointerMove={(e) => {
         if (e.pointerType !== 'mouse') return;
         const at = toSphere(e);

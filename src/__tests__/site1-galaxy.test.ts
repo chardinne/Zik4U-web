@@ -183,6 +183,12 @@ describe('SITE1-2 — validated texts (Decision 176 = A)', () => {
 
 describe('SITE1-2 — home page', () => {
   const page = read('src/app/page.tsx') + read('src/components/home/HomeHero.tsx') + read('src/components/home/FounderSky.tsx');
+  it('shows the whole galaxy on arrival: no planet card until a tap (Bertrand, 27/10)', () => {
+    const sky = read('src/components/home/FounderSky.tsx');
+    expect(sky).toContain('useState<number | null>(null)');
+    expect(sky).toContain('const track = selected === null ? null : galaxy.tracks[selected];');
+    expect(sky).not.toMatch(/useState\(0\);\s*\n\s*const \[burst/);
+  });
   it('is rebuilt every 15 minutes', () => {
     expect(read('src/app/page.tsx')).toContain('export const revalidate = 900;');
   });
