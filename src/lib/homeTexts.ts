@@ -31,7 +31,20 @@ export const HOME_TEXTS = {
     { label: 'Fans', body: "Get inside your favorite artist's actual world.", href: '/fans' },
   ],
   footerNote: 'Zik4U never plays music: every play opens your own music app.',
+  listenLabel: 'Listen on',
+  closeCard: 'Close',
 } as const;
+
+/** Decision 180: the planet card opens the song in the visitor's own music app, like the app's
+ *  card. Search by artist and title, no third-party music API, nothing sent but the search. */
+export function homeListenLinks(artist: string, title: string) {
+  const q = encodeURIComponent(`${artist} ${title}`.trim());
+  return [
+    { label: 'Spotify', href: `https://open.spotify.com/search/${q}` },
+    { label: 'Apple Music', href: `https://music.apple.com/search?term=${q}` },
+    { label: 'YouTube', href: `https://www.youtube.com/results?search_query=${q}` },
+  ] as const;
+}
 
 /** "8 PM" for 20, "12 AM" for 0, "12 PM" for 12. */
 export function hourLabel(h: number): string {

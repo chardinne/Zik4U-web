@@ -2,7 +2,7 @@
 import { createHash } from 'crypto';
 import { readFileSync, readdirSync } from 'fs';
 import { join } from 'path';
-import { HOME_TEXTS, agoLabel, hourLabel, playsLine, lastHeardLabel, lastRedrawnLabel } from '@/lib/homeTexts';
+import { HOME_TEXTS, agoLabel, hourLabel, playsLine, lastHeardLabel, lastRedrawnLabel, homeListenLinks } from '@/lib/homeTexts';
 import { buildSphere, planetAt, planetUnder } from '@/lib/galaxy/sphereGeometry';
 import { founderGalaxyEnabled, seedFromUserId, toFounderTracks, FOUNDER_USERNAME } from '@/lib/founderGalaxy';
 
@@ -191,6 +191,20 @@ describe('SITE1-2 — home page', () => {
   });
   it('is rebuilt every 15 minutes', () => {
     expect(read('src/app/page.tsx')).toContain('export const revalidate = 900;');
+  });
+  it('lets the visitor listen to a planet, like the app card (Decision 180 = A, 27/10)', () => {
+    expect(HOME_TEXTS.listenLabel).toBe('Listen on');
+    expect(homeListenLinks('Noir Désir', 'Marlène')).toEqual([
+      { label: 'Spotify', href: 'https://open.spotify.com/search/Noir%20D%C3%A9sir%20Marl%C3%A8ne' },
+      { label: 'Apple Music', href: 'https://music.apple.com/search?term=Noir%20D%C3%A9sir%20Marl%C3%A8ne' },
+      { label: 'YouTube', href: 'https://www.youtube.com/results?search_query=Noir%20D%C3%A9sir%20Marl%C3%A8ne' },
+    ]);
+    const sky = read('src/components/home/FounderSky.tsx');
+    expect(sky).toContain('homeListenLinks(track.artist, track.title)');
+    expect(sky).toContain('target="_blank" rel="noopener noreferrer"');
+    // a tap in the void closes the card; hovering never picks a planet (click, like a tap)
+    expect(sky).toContain('if (i === null) { setSelected(null); return; }');
+    expect(sky.split('pick(e)').length - 1).toBe(1);
   });
   it('has no store button, no demo profile, no streaming platform', () => {
     expect(page).not.toMatch(/apps\.apple\.com|play\.google\.com|Download on the|Get it on/);
