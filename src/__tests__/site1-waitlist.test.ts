@@ -17,7 +17,8 @@ const read = (p: string) => readFileSync(join(root, p), 'utf8');
 const flat = (s: string) => s.replace(/\s+/g, ' ');
 const post = (body: unknown) => POST({ json: async () => body } as never);
 // SITE1-2: the home page's form lives in its hero (src/components/home/HomeHero.tsx).
-const PAGES = ['src/components/home/HomeHero.tsx', 'src/app/listeners/page.tsx', 'src/app/creators/page.tsx', 'src/app/fans/page.tsx'];
+// SITE1-3: the Listeners / Creators / Fans pages share src/components/paths/PathPage.tsx (Decision 184 = A).
+const PAGES = ['src/components/home/HomeHero.tsx', 'src/components/paths/PathPage.tsx'];
 
 beforeEach(() => { mockUpsert.mockReset().mockResolvedValue({ error: null }); mockFrom.mockClear(); });
 
@@ -97,7 +98,7 @@ describe('SITE1-1 — pages', () => {
     }
   });
   it('names no streaming platform on the creators page nor in the waitlist code', () => {
-    for (const p of ['src/app/creators/page.tsx', 'src/lib/waitlist.ts', 'src/app/api/waitlist/route.ts', 'src/components/waitlist/WaitlistForm.tsx']) {
+    for (const p of ['src/app/creators/page.tsx', 'src/lib/pathTexts.ts', 'src/components/paths/PathPage.tsx', 'src/lib/waitlist.ts', 'src/app/api/waitlist/route.ts', 'src/components/waitlist/WaitlistForm.tsx']) {
       expect(read(p)).not.toMatch(/Spotify|Apple Music|Deezer|SoundCloud|Tidal|YouTube/);
     }
   });
