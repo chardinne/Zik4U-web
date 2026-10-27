@@ -7,12 +7,12 @@
 // repeat. Same rules as the app (PERF1/ORBIT1): every SVG is static; per frame only CSS transforms
 // change (orbit, perspective, hologram, light direction); the stepped look (phase, order, ring
 // shadow) is re-derived once per second. Stops when hidden, off screen, or "reduce motion".
-// Tap (or click / hover) a planet: its card. The orbit holds while a finger is down.
+// Tap or click a planet: its card, with links to listen (Decision 180). Tap in the void: closed. The orbit holds while a finger is down.
 
 import { useEffect, useId, useMemo, useRef, useState } from 'react';
 import type { FounderGalaxy } from '@/lib/founderGalaxy';
 import { LIVE_WINDOW_MS } from '@/lib/founderGalaxy';
-import { HOME_TEXTS, lastHeardLabel, playsLine } from '@/lib/homeTexts';
+import { HOME_TEXTS, homeListenLinks, lastHeardLabel, playsLine } from '@/lib/homeTexts';
 import { ARCHETYPE_VISUAL_PROFILE, DEFAULT_ARCHETYPE_PROFILE } from '@/lib/galaxy/audioMood';
 import { sunLook, SUN_LIVE_PULSE_FACTOR } from '@/lib/galaxy/sunSignature';
 import { galaxyPlace } from '@/lib/galaxy/galaxyPlace';
@@ -192,8 +192,10 @@ function LiveSky({ galaxy, width, now }: { galaxy: FounderGalaxy; width: number;
     const at = toSphere(e);
     if (!at) return;
     const i = planetUnder(sphere, at.x, at.y, orbitT.current, tilt.current.x, tilt.current.y);
-    if (i !== null && i !== selected) { setSelected(i); setBurst((b) => b + 1); }
-    else if (i !== null && e.type === 'pointerup') setBurst((b) => b + 1);
+    // Like the app: a tap (or click) on a planet opens its card, a tap in the void closes it.
+    if (i === null) { setSelected(null); return; }
+    if (i !== selected) setSelected(i);
+    setBurst((b) => b + 1);
   };
 
   const track = selected === null ? null : galaxy.tracks[selected];
@@ -213,17 +215,15 @@ function LiveSky({ galaxy, width, now }: { galaxy: FounderGalaxy; width: number;
       onPointerDown={() => { held.current = true; }}
       onPointerUp={(e) => { held.current = false; pick(e); }}
       onPointerCancel={() => { held.current = false; }}
-      onPointerLeave={(e) => {
+      onPointerLeave={() => {
         held.current = false;
         tiltTarget.current = { x: 0, y: 0 };
-        if (e.pointerType === 'mouse') setSelected(null); // mouse leaves the sky: back to the whole galaxy
       }}
       onPointerMove={(e) => {
         if (e.pointerType !== 'mouse') return;
         const at = toSphere(e);
         if (!at) return;
         tiltTarget.current = { x: Math.max(-1, Math.min(1, ((at.x + PAD) / at.w) * 2 - 1)), y: Math.max(-1, Math.min(1, ((at.y + PAD) / at.h) * 2 - 1)) };
-        pick(e);
       }}
     >
       {/* sky of the place (GALAXY1), deepest layer */}
@@ -307,9 +307,23 @@ function LiveSky({ galaxy, width, now }: { galaxy: FounderGalaxy; width: number;
 
       {/* planet card (M2) */}
       {track && (
-        <div className={styles.card} data-testid="planet-card" aria-live="polite">
+        <div
+          className={styles.card}
+          data-testid="planet-card"
+          aria-live="polite"
+          onPointerDown={(e) => e.stopPropagation()}
+          onPointerUp={(e) => e.stopPropagation()}
+          onPointerMove={(e) => e.stopPropagation()}
+        >
+          <button type="button" className={styles.cardClose} aria-label={HOME_TEXTS.closeCard} onClick={() => setSelected(null)}>×</button>
           <div className={styles.cardLine}><b>{track.title}</b><span> · {track.artist}</span></div>
           <em>{playsLine(track.playCount, track.peakLocalHour)}</em>
+          <div className={styles.listen} data-testid="planet-listen">
+            <span>{HOME_TEXTS.listenLabel}</span>
+            {homeListenLinks(track.artist, track.title).map((l) => (
+              <a key={l.label} href={l.href} target="_blank" rel="noopener noreferrer">{l.label}</a>
+            ))}
+          </div>
         </div>
       )}
     </div>
