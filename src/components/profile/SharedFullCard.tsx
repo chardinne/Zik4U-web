@@ -10,6 +10,7 @@ import { CONSTELLATION_LABEL, fingerprintCaption, trackNumber } from '@/lib/list
 import type { SharedCard, SharedTrack } from '@/lib/sharedCard';
 import { ListenButton } from './ListenButton';
 import { SillonDisc } from './SillonDisc';
+import { WaitlistForm } from '@/components/waitlist/WaitlistForm';
 
 // SHARE-KEY1 / WEB-PRIV1 part 2 — the full music card, rendered ONLY for a link that
 // carries its owner's valid share key (data from getSharedCard). Pure rendering.
@@ -18,8 +19,6 @@ import { SillonDisc } from './SillonDisc';
 // (planche of 12/10): the record (server-drawn empreinte), MY GROOVES, archetype, rarity,
 // tagline, LAST PLAYED / ON REPEAT pills, A-side in bars, bio, then the store buttons.
 
-const APP_STORE_URL = 'https://apps.apple.com/app/zik4u/id6748722257';
-const PLAY_STORE_URL = 'https://play.google.com/store/apps/details?id=com.zik4u.app';
 
 export const SHARED_DISC_SIZE = 236;
 const FOIL = 'linear-gradient(135deg, #C9B6FF, #7EE8FF, #FFC4EC, #FFE28A)';
@@ -68,7 +67,6 @@ export function SharedFullCard({ card }: { card: SharedCard }) {
       : DEFAULT_ARCHETYPE_PROFILE;
   const rim = archetypeProfile.primary;
   const displayName = card.displayName;
-  const DEEP_LINK = `zik4u://profile/${encodeURIComponent(card.username)}`;
   const topCount = Math.max(1, ...card.topArtists.map((a) => a.play_count));
 
   const lastPlayedPill = card.lastPlayed ? (
@@ -202,7 +200,7 @@ export function SharedFullCard({ card }: { card: SharedCard }) {
           </div>
         </section>
 
-        {/* ── CTA — unchanged ─────────────────────────────────────────────── */}
+        {/* ── CTA ─────────────────────────────────────────────── */}
         <div style={{ display: 'flex', flexDirection: 'column', gap: 12, alignItems: 'center', marginTop: 28 }}>
           <p style={{ textAlign: 'center', fontSize: 16, fontWeight: 700, color: '#fff', margin: 0 }}>
             Listen to what {displayName} hears
@@ -211,28 +209,8 @@ export function SharedFullCard({ card }: { card: SharedCard }) {
             Real music. Real identity. For real.
           </p>
 
-          <a
-            href={APP_STORE_URL}
-            style={{ width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 10, background: '#fff', color: '#000', borderRadius: 14, padding: '14px 20px', textDecoration: 'none', fontWeight: 700, fontSize: 15 }}
-          >
-            <span style={{ fontSize: 22 }}>🍎</span>
-            Download on the App Store
-          </a>
-
-          <a
-            href={PLAY_STORE_URL}
-            style={{ width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 10, background: 'linear-gradient(90deg, #00D4FF, #00FFB2)', color: '#0A0A1A', borderRadius: 14, padding: '14px 20px', textDecoration: 'none', fontWeight: 700, fontSize: 15 }}
-          >
-            <span style={{ fontSize: 22 }}>▶</span>
-            Get it on Google Play
-          </a>
-
-          <a
-            href={DEEP_LINK}
-            style={{ fontSize: 13, color: 'rgba(255,255,255,0.35)', textDecoration: 'none', marginTop: 4 }}
-          >
-            Already have Zik4U? Open in app →
-          </a>
+          {/* SITE1-5 (Decision 183 = A): the waitlist instead of store buttons until the store listings exist. */}
+          <WaitlistForm defaultRole="listener" />
         </div>
 
       </div>

@@ -41,18 +41,6 @@ export default function manifest(): MetadataRoute.Manifest {
         label: 'Zik4U — Music Identity Dashboard',
       },
     ],
-    related_applications: [
-      {
-        platform: 'itunes',
-        url: 'https://apps.apple.com/app/zik4u/id6748722257',
-        id: '6748722257',
-      },
-      {
-        platform: 'play',
-        url: 'https://play.google.com/store/apps/details?id=com.zik4u.app',
-        id: 'com.zik4u.app',
-      },
-    ],
-    prefer_related_applications: false,
+    // SITE1-5 (Decision 183 = A): no related store app listed until the store listings exist.
   };
 }

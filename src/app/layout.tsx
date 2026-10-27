@@ -38,26 +38,8 @@ const jsonLd = {
       name: 'Zik4U',
       url: 'https://zik4u.com',
       logo: { '@type': 'ImageObject', url: 'https://zik4u.com/opengraph-image', width: 1200, height: 630 },
-      sameAs: [
-        'https://twitter.com/zik4u',
-        'https://apps.apple.com/app/zik4u/id6748722257',
-        'https://play.google.com/store/apps/details?id=com.zik4u.app',
-      ],
+      sameAs: ['https://twitter.com/zik4u'],
       contactPoint: { '@type': 'ContactPoint', email: 'partner@zik4u.com', contactType: 'Partnership' },
-    },
-    {
-      '@type': 'MobileApplication',
-      '@id': 'https://zik4u.com/#app',
-      name: 'Zik4U',
-      description: 'The social network built on real listening data. Music identity, compatibility scores, live listening rooms.',
-      operatingSystem: ['iOS', 'Android'],
-      applicationCategory: 'MusicApplication',
-      offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
-      installUrl: [
-        'https://apps.apple.com/app/zik4u/id6748722257',
-        'https://play.google.com/store/apps/details?id=com.zik4u.app',
-      ],
-      creator: { '@id': 'https://zik4u.com/#organization' },
     },
   ],
 };
@@ -74,11 +56,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <meta name="apple-mobile-web-app-title" content="Zik4U" />
         <meta name="format-detection" content="telephone=no" />
         <meta name="msapplication-TileColor" content="#0A0A1A" />
-        {/* Smart App Banner — iOS Safari */}
-        <meta name="apple-itunes-app" content="app-id=6748722257, app-argument=zik4u://" />
-        {/* Android App Banner */}
-        <meta name="google-play-app" content="app-id=com.zik4u.app" />
-        <link rel="alternate" href="android-app://com.zik4u.app/zik4u//" />
+        {/* SITE1-5 (Decision 183 = A): no app banner, no store link until the store listings exist. */}
         {/* Icons */}
         <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png" />
         <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />

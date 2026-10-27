@@ -1,12 +1,11 @@
 import type { Metadata } from 'next';
 import type { PublicProfile } from '@/lib/publicProfile';
+import { WaitlistForm } from '@/components/waitlist/WaitlistForm';
 
 // WEB-PRIV1 — minimal public profile (D3): display name, avatar, bio. Nothing else.
 // Listening data, archetype, signature and tiers are intentionally absent.
 
 const BASE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://zik4u.com';
-const APP_STORE_URL = 'https://apps.apple.com/app/zik4u/id6748722257';
-const PLAY_STORE_URL = 'https://play.google.com/store/apps/details?id=com.zik4u.app';
 
 export function profileMetadata(profile: PublicProfile | null): Metadata {
   if (!profile) {
@@ -25,7 +24,6 @@ export function profileMetadata(profile: PublicProfile | null): Metadata {
 }
 
 export function MinimalProfileCard({ profile }: { profile: PublicProfile }) {
-  const deepLink = `zik4u://profile/${encodeURIComponent(profile.username)}`;
   return (
     <main style={{ minHeight: '100vh', backgroundColor: '#0A0A1A', fontFamily: 'Inter, system-ui, sans-serif', display: 'flex', flexDirection: 'column', alignItems: 'center', padding: '24px 16px 48px' }}>
       <div style={{ width: '100%', maxWidth: 400, display: 'flex', flexDirection: 'column' }}>
@@ -68,17 +66,8 @@ export function MinimalProfileCard({ profile }: { profile: PublicProfile }) {
           <p style={{ textAlign: 'center', fontSize: 13, color: 'rgba(255,255,255,0.4)', margin: 0 }}>
             Real music. Real identity. For real.
           </p>
-          <a href={APP_STORE_URL} style={{ width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 10, background: '#fff', color: '#000', borderRadius: 14, padding: '14px 20px', textDecoration: 'none', fontWeight: 700, fontSize: 15 }}>
-            <span style={{ fontSize: 22 }}>🍎</span>
-            Download on the App Store
-          </a>
-          <a href={PLAY_STORE_URL} style={{ width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 10, background: 'linear-gradient(90deg, #00D4FF, #00FFB2)', color: '#0A0A1A', borderRadius: 14, padding: '14px 20px', textDecoration: 'none', fontWeight: 700, fontSize: 15 }}>
-            <span style={{ fontSize: 22 }}>▶</span>
-            Get it on Google Play
-          </a>
-          <a href={deepLink} style={{ fontSize: 13, color: 'rgba(255,255,255,0.35)', textDecoration: 'none', marginTop: 4 }}>
-            Already have Zik4U? Open in app →
-          </a>
+          {/* SITE1-5 (Decision 183 = A): the waitlist instead of store buttons until the store listings exist. */}
+          <WaitlistForm defaultRole="listener" />
         </div>
       </div>
     </main>
