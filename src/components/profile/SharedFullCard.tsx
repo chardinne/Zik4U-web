@@ -60,7 +60,9 @@ function TrackPill({ label, track, showArtist, color, satellite }: { label: stri
   );
 }
 
-export function SharedFullCard({ card }: { card: SharedCard }) {
+/** The Music DNA card itself (the app's card), without page or call to action.
+ *  `footerUrl`: the address printed at the bottom (the shared link, or the founder page). */
+export function MusicDnaCard({ card, footerUrl }: { card: SharedCard; footerUrl: string }) {
   const archetypeProfile =
     card.archetype && ARCHETYPE_VISUAL_PROFILE[card.archetype]
       ? ARCHETYPE_VISUAL_PROFILE[card.archetype]
@@ -74,9 +76,6 @@ export function SharedFullCard({ card }: { card: SharedCard }) {
   ) : null;
 
   return (
-    <main style={{ zoom: CARD_ZOOM, minHeight: '125vh', backgroundColor: '#0A0A1A', color: '#F0F0FF', fontFamily: 'Inter, system-ui, sans-serif', display: 'flex', flexDirection: 'column', alignItems: 'center', padding: '24px 16px 48px' }}>
-      <div style={{ width: '100%', maxWidth: 400, display: 'flex', flexDirection: 'column' }}>
-
         <section
           data-testid="sillon-card"
           style={{ display: 'flex', flexDirection: 'column', background: 'linear-gradient(180deg, #151033, #0E0C22)', border: '1px solid rgba(123,47,255,0.25)', borderRadius: 18, padding: '16px 16px 14px' }}
@@ -195,10 +194,20 @@ export function SharedFullCard({ card }: { card: SharedCard }) {
 
           {/* ── Footer ────────────────────────────────────────────────────── */}
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: 8, marginTop: 16, paddingTop: 12, borderTop: '1px solid rgba(255,255,255,0.06)' }}>
-            <span style={{ fontFamily: MONO, fontSize: 10, color: '#8888BB', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>zik4u.com/@{card.username}</span>
+            <span style={{ fontFamily: MONO, fontSize: 10, color: '#8888BB', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{footerUrl}</span>
             <span style={{ fontWeight: 700, fontSize: 15, color: '#00FFB2', flexShrink: 0 }}>For real.</span>
           </div>
         </section>
+  );
+}
+
+export function SharedFullCard({ card }: { card: SharedCard }) {
+  const displayName = card.displayName;
+  return (
+    <main style={{ zoom: CARD_ZOOM, minHeight: '125vh', backgroundColor: '#0A0A1A', color: '#F0F0FF', fontFamily: 'Inter, system-ui, sans-serif', display: 'flex', flexDirection: 'column', alignItems: 'center', padding: '24px 16px 48px' }}>
+      <div style={{ width: '100%', maxWidth: 400, display: 'flex', flexDirection: 'column' }}>
+
+        <MusicDnaCard card={card} footerUrl={`zik4u.com/@${card.username}`} />
 
         {/* ── CTA ─────────────────────────────────────────────── */}
         <div style={{ display: 'flex', flexDirection: 'column', gap: 12, alignItems: 'center', marginTop: 28 }}>

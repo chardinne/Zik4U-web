@@ -2,6 +2,7 @@ import { createServiceClient } from '@/lib/supabase-server';
 import { normalizeHandle } from '@/lib/publicProfile';
 import { generateMusicBio, toRarity, type MusicSignatureData, type Rarity } from '@/lib/cosmicCard';
 import { parseFingerprint, type ListeningFingerprint } from '@/lib/listeningFingerprint';
+import { FOUNDER_USERNAME, founderGalaxyEnabled } from '@/lib/founderGalaxy';
 
 // SHARE-KEY1 / WEB-PRIV1 part 2 — the ONLY place of the site that reads listening data.
 //
@@ -133,6 +134,30 @@ export async function getSharedCard(rawHandle: string, rawKey: unknown): Promise
     .maybeSingle();
   if (keyError || !keyRow || (keyRow as { user_id: string }).user_id !== user.id) return null;
 
+  return loadCard(sc, { ...user, username: user.username });
+}
+
+/** SITE2 (Decisions 174 and 189 = A, 27/10/2026): the founder's own card on /bertrand, by his
+ *  consent, for his account only. Same switch as his galaxy (FOUNDER_GALAXY=off). */
+export async function getFounderCard(): Promise<SharedCard | null> {
+  if (!founderGalaxyEnabled()) return null;
+  try {
+    const sc = createServiceClient();
+    const { data: userData, error: userError } = await sc
+      .from('users')
+      .select('id, username, display_name, avatar_url, bio, deleted_at, is_banned')
+      .eq('username', FOUNDER_USERNAME)
+      .maybeSingle();
+    const user = userData as UserRow | null;
+    if (userError || !user || !user.username || user.deleted_at || user.is_banned === true) return null;
+    return await loadCard(sc, { ...user, username: user.username });
+  } catch {
+    return null;
+  }
+}
+
+/** Every listening read of a card, ONLY after one of the two gates above (live share key, or the founder's own account). */
+async function loadCard(sc: ReturnType<typeof createServiceClient>, user: UserRow & { username: string }): Promise<SharedCard> {
   const TITLE_COLUMNS = 'track_title, artist_name, track_title_normalized, artist_name_normalized, artist_name_confidence';
   const sevenDaysAgo = new Date(Date.now() - 7 * 24 * 60 * 60 * 1000).toISOString();
   const [last, archetypeRes, distributionRes, signatureRes, recentRes, topRes, fingerprintRes] = await Promise.all([

@@ -5,6 +5,7 @@
 // an older copy gets fresh data from /api/founder-galaxy (no stale "Last redrawn 3 h ago").
 
 import { useEffect, useState } from 'react';
+import Link from 'next/link';
 import type { FounderGalaxy } from '@/lib/founderGalaxy';
 import { FOUNDER_REVALIDATE_SECONDS } from '@/lib/founderGalaxy';
 import { HOME_TEXTS, artistsLabel, lastRedrawnLabel, listensNumber } from '@/lib/homeTexts';
@@ -51,6 +52,7 @@ export function HomeHero({ initial }: { initial: FounderGalaxy | null }) {
         {!liveData && <div style={{ height: 16 }} />}
         <WaitlistForm defaultRole="listener" />
         {liveData ? (
+          <>
           <div className={styles.band} data-testid="live-band">
             <div className={styles.pulse}><i />{HOME_TEXTS.bandLabel}</div>
             <p>
@@ -63,6 +65,11 @@ export function HomeHero({ initial }: { initial: FounderGalaxy | null }) {
               {liveData.archetypeLabel && <span>{liveData.archetypeLabel}</span>}
             </div>
           </div>
+          {/* SITE2 (Decision 188 = V2): the founder's full page. */}
+          <Link href="/bertrand" className={styles.dnaLink} data-testid="founder-page-link">
+            {HOME_TEXTS.founderPageLink}<span aria-hidden="true">→</span>
+          </Link>
+          </>
         ) : (
           <p className={styles.caption} data-testid="fallback-caption">{HOME_TEXTS.fallbackCaption}</p>
         )}
