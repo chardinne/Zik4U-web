@@ -11,7 +11,7 @@ export const metadata = generatePageMetadata(
   '/legal/privacy',
 );
 
-const LAST_UPDATED = 'October 27, 2026';
+const LAST_UPDATED = 'October 30, 2026';
 const PRIVACY = 'privacy@zik4u.com';
 
 export default function PrivacyPolicyPage() {
@@ -51,7 +51,9 @@ export default function PrivacyPolicyPage() {
           age group (16 or 17, or 18 and older), and, if you give it, your confirmation that you are 18 or older for Music
           Match and music research. A record
           of each choice you make about your data (what you chose, when, which version of our terms, and where in the
-          app).
+          app). If you add them in Edit profile: your location (shown only to you), your usernames on other networks
+          offered in the app (for example Instagram, TikTok, X, Snapchat or Facebook) and, if you are 18 or older, your relationship
+          status (single or in a relationship). All three are optional, and you can remove them at any time.
         </P>
         <P>
           <Strong>Listening (capture).</Strong> On Android, if you grant Zik4U notification access, the app reads the
@@ -123,6 +125,7 @@ export default function PrivacyPolicyPage() {
             ['Keeping the record French law requires of hosting services', 'Username, email address, account creation date, identifier and date of each post, comment or message you published', 'Legal obligation (French law on confidence in the digital economy, LCEN)'],
             ["Reporting creators' earnings to the tax authority (DAC7) and issuing invoices on their behalf", 'Creator identity, tax and payout information, invoices', 'Legal obligation'],
             ['Paying creators, accounting and tax', 'Purchases, payouts', 'Legal obligation; performance of contract'],
+            ['Showing the links to your other networks and your relationship status on your profile', 'Usernames on other networks, relationship status', 'Performance of our contract with you: you choose to add them, and you can remove them at any time'],
             ['Waitlists', 'Email, profile picked, artist name', 'Your consent (you sign up)'],
           ]}
         />
@@ -160,7 +163,7 @@ export default function PrivacyPolicyPage() {
         <List
           items={[
             'Music Match lets adults discover people with compatible music tastes. It is off unless you turn it on, and requires you to confirm you are 18 or older.',
-            'It compares listening only: artists you have in common and the same track played at the same time. It does not use your moods, your photo, your location, or any relationship status. We do not collect relationship status.',
+            'It compares listening only: artists you have in common and the same track played at the same time. It does not use your moods, your photo, your location, or your relationship status.',
             'You are visible only to other members who turned Music Match on.',
             <>
               Turn it off anytime in <Strong>Settings › Privacy › Music Match</Strong>: you disappear from all results
@@ -203,6 +206,12 @@ export default function PrivacyPolicyPage() {
           <Strong>What anyone can see.</Strong> Your display name, avatar and bio are public. Anyone, including
           visitors without a Zik4U account, can see them on your profile page. If you are a creator, your subscription
           tiers and prices are also public.
+        </P>
+        <P>
+          <Strong>Links to your other networks and relationship status.</Strong> If you add them, they are shown on your
+          profile in the app to signed-in members only, never to visitors without an account and never on our website.
+          On a private account, only followers you have approved see them. Your relationship status is shown only if you
+          are 18 or older. Tapping one of your links opens that network, whose own privacy policy then applies.
         </P>
         <P>
           <Strong>Search engines and AI assistants.</Strong> This minimal public profile (name, avatar, bio) may be

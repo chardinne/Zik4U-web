@@ -28,8 +28,8 @@ describe('WEB-RET1 — retention lines', () => {
   });
 
   it('dates the change and keeps the site rule (no long dash in the new lines)', () => {
-    expect(en).toContain("const LAST_UPDATED = 'October 27, 2026';");
-    expect(fr).toContain("const LAST_UPDATED = '27 octobre 2026';");
+    expect(en).toContain("const LAST_UPDATED = 'October 30, 2026';");
+    expect(fr).toContain("const LAST_UPDATED = '30 octobre 2026';");
     for (const line of [...en.split('\n'), ...fr.split('\n')].filter((l) => /Google Analytics are kept|Comptes inactifs|Crash and error|plantage et d&apos;erreur/.test(l))) {
       expect(line).not.toMatch(/—/);
     }

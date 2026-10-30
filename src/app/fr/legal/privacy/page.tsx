@@ -12,7 +12,7 @@ export const metadata = generatePageMetadata(
   '/fr/legal/privacy',
 );
 
-const LAST_UPDATED = '27 octobre 2026';
+const LAST_UPDATED = '30 octobre 2026';
 const PRIVACY = 'privacy@zik4u.com';
 
 export default function PolitiqueConfidentialitePage() {
@@ -59,7 +59,10 @@ export default function PolitiqueConfidentialitePage() {
           connexion utilisé (e-mail, Google ou Apple). Votre tranche d&apos;âge (16 ou 17 ans, ou 18 ans et plus) et, si
           vous la donnez, votre confirmation d&apos;avoir 18 ans ou plus pour Music Match et la recherche musicale. Un
           enregistrement de chacun de vos choix sur vos données (ce que vous avez choisi, quand, quelle version de nos
-          conditions, et à quel endroit de l&apos;app).
+          conditions, et à quel endroit de l&apos;app). Si vous les ajoutez dans « Edit profile » : votre localisation
+          (visible de vous seul), vos noms d&apos;utilisateur sur d&apos;autres réseaux
+          proposés dans l&apos;app (par exemple Instagram, TikTok, X, Snapchat ou Facebook) et, si vous avez 18 ans ou plus, votre situation amoureuse (célibataire ou en
+          couple). Ces trois informations sont facultatives et vous pouvez les retirer à tout moment.
         </P>
         <P>
           <Strong>Écoutes (captation).</Strong> Sur Android, si vous accordez à Zik4U l&apos;accès aux notifications,
@@ -137,6 +140,7 @@ export default function PolitiqueConfidentialitePage() {
             ["Conserver l'enregistrement que la loi française impose aux hébergeurs", 'Pseudonyme, adresse e-mail, date de création du compte, identifiant et date de chaque publication, commentaire ou message publié', "Obligation légale (loi pour la confiance dans l'économie numérique, LCEN)"],
             ['Déclarer les gains des créateurs à l\'administration fiscale (DAC7) et émettre les factures en leur nom', 'Identité, informations fiscales et de versement des créateurs, factures', 'Obligation légale'],
             ['Paiement des créateurs, comptabilité et fiscalité', 'Achats, paiements', 'Obligation légale ; exécution du contrat'],
+            ['Afficher sur votre profil les liens vers vos autres réseaux et votre situation amoureuse', "Noms d'utilisateur sur d'autres réseaux, situation amoureuse", 'Exécution de notre contrat avec vous : vous choisissez de les ajouter et pouvez les retirer à tout moment'],
             ["Listes d'attente", "E-mail, profil choisi, nom d'artiste", 'Votre consentement (vous vous inscrivez)'],
           ]}
         />
@@ -176,7 +180,7 @@ export default function PolitiqueConfidentialitePage() {
         <List
           items={[
             "Music Match permet à des adultes de découvrir des personnes aux goûts musicaux compatibles. Il est désactivé tant que vous ne l'activez pas, et exige de confirmer que vous avez 18 ans ou plus.",
-            "Il compare uniquement les écoutes : les artistes que vous avez en commun et le même titre écouté au même moment. Il n'utilise ni vos humeurs, ni votre photo, ni votre localisation, ni aucune situation amoureuse. Nous ne collectons pas de situation amoureuse.",
+            "Il compare uniquement les écoutes : les artistes que vous avez en commun et le même titre écouté au même moment. Il n'utilise ni vos humeurs, ni votre photo, ni votre localisation, ni votre situation amoureuse.",
             "Vous n'êtes visible que des autres membres qui ont activé Music Match.",
             <>
               Désactivez-le à tout moment dans <Strong>« Settings › Privacy › Music Match »</Strong> : vous disparaissez
@@ -223,6 +227,13 @@ export default function PolitiqueConfidentialitePage() {
           <Strong>Ce que tout le monde peut voir.</Strong> Votre nom affiché, votre photo et votre bio sont publics. Tout
           le monde, y compris les visiteurs sans compte Zik4U, peut les voir sur votre page de profil. Si vous êtes
           créateur, vos formules d&apos;abonnement et leurs prix sont aussi publics.
+        </P>
+        <P>
+          <Strong>Liens vers vos autres réseaux et situation amoureuse.</Strong> Si vous les ajoutez, ils sont affichés sur
+          votre profil dans l&apos;app, aux membres connectés seulement : jamais aux visiteurs sans compte, jamais sur
+          notre site. Sur un compte privé, seuls les abonnés que vous avez acceptés les voient. Votre situation amoureuse
+          n&apos;est affichée que si vous avez 18 ans ou plus. Toucher l&apos;un de vos liens ouvre le réseau concerné,
+          dont la propre politique de confidentialité s&apos;applique alors.
         </P>
         <P>
           <Strong>Moteurs de recherche et assistants d&apos;IA.</Strong> Ce profil public minimal (nom, photo, bio) peut
