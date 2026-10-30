@@ -111,12 +111,12 @@ describe('SITE1-1 — privacy policy (Decision 178)', () => {
     expect(en).toContain('<Strong>Website.</Strong> If you join a waitlist on zik4u.com: your email address, the profile you pick (listener, creator or fan), and for creators your artist name. The website has no account login, no analytics and no advertising cookies (section 13).');
     expect(en).toContain("['Waitlists', 'Email, profile picked, artist name', 'Your consent (you sign up)']");
     expect(en).not.toContain('main streaming platform');
-    expect(en).toContain("const LAST_UPDATED = 'October 27, 2026';");
+    expect(en).toContain("const LAST_UPDATED = 'October 30, 2026';");
   });
   it('FR says the same', () => {
     expect(fr).toContain("<Strong>Site.</Strong> Si vous vous inscrivez sur une liste d&apos;attente sur zik4u.com : votre adresse e-mail, le profil choisi (auditeur, créateur ou fan) et, pour les créateurs, votre nom d&apos;artiste. Le site n&apos;a ni connexion à un compte, ni mesure d&apos;audience, ni cookie publicitaire (section 13).");
     expect(fr).toContain(`["Listes d'attente", "E-mail, profil choisi, nom d'artiste", 'Votre consentement (vous vous inscrivez)']`);
     expect(fr).not.toContain('plateforme de streaming');
-    expect(fr).toContain("const LAST_UPDATED = '27 octobre 2026';");
+    expect(fr).toContain("const LAST_UPDATED = '30 octobre 2026';");
   });
 });

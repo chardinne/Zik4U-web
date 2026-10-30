@@ -143,6 +143,6 @@ describe('source guards (part 2)', () => {
   it('the privacy policy carries "Links you share" again', () => {
     const src = readFileSync(join(root, 'src/app/legal/privacy/page.tsx'), 'utf8');
     expect(src).toContain('Links you share.');
-    expect(src).toContain("const LAST_UPDATED = 'October 27, 2026'"); // COMPLY1c, WEB-LEGAL1 (Decision 93), COMPLY1e/f, COMPLY1i, COMPLY1-EXPO, SITE1-1 (Decision 178)
+    expect(src).toContain("const LAST_UPDATED = 'October 30, 2026'"); // COMPLY1c, WEB-LEGAL1 (Decision 93), COMPLY1e/f, COMPLY1i, COMPLY1-EXPO, SITE1-1 (Decision 178)
   });
 });
