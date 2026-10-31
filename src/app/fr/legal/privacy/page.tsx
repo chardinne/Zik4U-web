@@ -12,7 +12,7 @@ export const metadata = generatePageMetadata(
   '/fr/legal/privacy',
 );
 
-const LAST_UPDATED = '30 octobre 2026';
+const LAST_UPDATED = '31 octobre 2026';
 const PRIVACY = 'privacy@zik4u.com';
 
 export default function PolitiqueConfidentialitePage() {
@@ -63,6 +63,12 @@ export default function PolitiqueConfidentialitePage() {
           (visible de vous seul), vos noms d&apos;utilisateur sur d&apos;autres réseaux
           proposés dans l&apos;app (par exemple Instagram, TikTok, X, Snapchat ou Facebook) et, si vous avez 18 ans ou plus, votre situation amoureuse (célibataire ou en
           couple). Ces trois informations sont facultatives et vous pouvez les retirer à tout moment.
+        </P>
+        <P>
+          <Strong>Photo de profil.</Strong> Si vous en choisissez une, nous n&apos;en gardons qu&apos;une copie carrée,
+          sans les informations que votre téléphone joint aux images (comme le lieu de la prise de vue). Elle est stockée
+          de façon privée et affichée par des liens temporaires. Quand vous la changez ou la retirez, l&apos;ancienne est
+          supprimée. Nous pouvons retirer une photo contraire à nos CGU ; nous vous en donnons alors la raison par e-mail.
         </P>
         <P>
           <Strong>Écoutes (captation).</Strong> Sur Android, si vous accordez à Zik4U l&apos;accès aux notifications,

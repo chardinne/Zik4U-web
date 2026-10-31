@@ -65,7 +65,7 @@ describe('COMPLY1g — pages naming streaming services removed (Decision 106 = A
 describe('COMPLY1e/f — English legal pages', () => {
   it('Terms §3 and §13 (Decisions 102 and 106)', () => {
     const s = flat(read('src/app/legal/terms/page.tsx'));
-    expect(s).toContain("const LAST_UPDATED = 'October 24, 2026';"); // WEB-CGU1 (Decision 146)
+    expect(s).toContain("const LAST_UPDATED = 'October 31, 2026';"); // PHOTO1d (D221) // WEB-CGU1 (Decision 146)
     expect(s).toContain('Zik4U is not affiliated with, endorsed or sponsored by any music streaming service or music app. Their names and trademarks belong to their owners.');
     expect(s).toContain('If you use Zik4U as a consumer, we are responsible for the damage you suffer as a direct and foreseeable result of our failure to meet our obligations, as provided by law.');
     expect(s).not.toMatch(/€100/);
