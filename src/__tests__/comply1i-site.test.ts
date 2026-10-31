@@ -50,8 +50,8 @@ describe('COMPLY1i — politique de confidentialité FR (texte validé)', () => 
 
   it('dates both texts on the publication day (D115 = B: no re-acceptance)', () => {
     // Re-dated by COMPLY1-EXPO (Decision 126, 22/10/2026).
-    expect(en).toContain("const LAST_UPDATED = 'October 30, 2026';");
-    expect(fr).toContain("const LAST_UPDATED = '30 octobre 2026';");
+    expect(en).toContain("const LAST_UPDATED = 'October 31, 2026';");
+    expect(fr).toContain("const LAST_UPDATED = '31 octobre 2026';");
   });
 });
 

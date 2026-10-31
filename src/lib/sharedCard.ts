@@ -1,3 +1,4 @@
+import { signedAvatarUrl } from '@/lib/avatarLink';
 import { createServiceClient } from '@/lib/supabase-server';
 import { normalizeHandle } from '@/lib/publicProfile';
 import { generateMusicBio, toRarity, type MusicSignatureData, type Rarity } from '@/lib/cosmicCard';
@@ -196,7 +197,7 @@ async function loadCard(sc: ReturnType<typeof createServiceClient>, user: UserRo
   return {
     username: user.username,
     displayName: user.display_name ?? user.username,
-    avatarUrl: user.avatar_url,
+    avatarUrl: await signedAvatarUrl(sc, user.avatar_url),
     bioText: user.bio ?? (!musicBio.isEmpty ? musicBio.signature : null),
     lastPlayed: lastRow ? displayTrack(lastRow) : null,
     onRepeat: top,

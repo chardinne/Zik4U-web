@@ -1,4 +1,5 @@
 import { createServiceClient } from '@/lib/supabase-server';
+import { signedAvatarUrl } from '@/lib/avatarLink';
 
 // WEB-PRIV1 — single entry point for every public profile surface of the site
 // (/card, its link-preview image, /creator, sitemap).
@@ -74,7 +75,7 @@ export async function getPublicProfile(rawHandle: string): Promise<PublicProfile
   return {
     username: user.username,
     displayName: user.display_name ?? user.username,
-    avatarUrl: user.avatar_url,
+    avatarUrl: await signedAvatarUrl(sc, user.avatar_url),
     bio: user.bio,
     isCreator: user.is_creator === true,
     isPrivate,

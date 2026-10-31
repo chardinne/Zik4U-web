@@ -11,7 +11,7 @@ export const metadata = generatePageMetadata(
   '/legal/privacy',
 );
 
-const LAST_UPDATED = 'October 30, 2026';
+const LAST_UPDATED = 'October 31, 2026';
 const PRIVACY = 'privacy@zik4u.com';
 
 export default function PrivacyPolicyPage() {
@@ -54,6 +54,12 @@ export default function PrivacyPolicyPage() {
           app). If you add them in Edit profile: your location (shown only to you), your usernames on other networks
           offered in the app (for example Instagram, TikTok, X, Snapchat or Facebook) and, if you are 18 or older, your relationship
           status (single or in a relationship). All three are optional, and you can remove them at any time.
+        </P>
+        <P>
+          <Strong>Profile photo.</Strong> If you choose one, we keep only a square copy, without the information your
+          phone attaches to pictures (such as where it was taken). It is stored privately and shown through temporary
+          links. When you change or remove it, the previous photo is deleted. We may remove a photo that breaks our
+          Terms; we then tell you why by email.
         </P>
         <P>
           <Strong>Listening (capture).</Strong> On Android, if you grant Zik4U notification access, the app reads the

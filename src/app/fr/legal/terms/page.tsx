@@ -12,7 +12,7 @@ export const metadata = generatePageMetadata(
   '/fr/legal/terms',
 );
 
-const LAST_UPDATED = '24 octobre 2026';
+const LAST_UPDATED = '31 octobre 2026';
 const SUPPORT = 'support@zik4u.com';
 
 export default function ConditionsGeneralesPage() {
@@ -86,8 +86,8 @@ export default function ConditionsGeneralesPage() {
 
       <Section title="7. Signalement, modération et suspension">
         <P>
-          Vous pouvez signaler toute publication ou tout commentaire dans l&apos;app, et tout le reste (un message, un
-          compte) en écrivant à <Mail to={SUPPORT} />. Nous examinons les signalements et pouvons retirer des contenus ou suspendre des comptes qui enfreignent ces Conditions ou la loi.
+          Vous pouvez signaler toute publication, tout commentaire ou tout profil dans l&apos;app, et tout le reste (un
+          message) en écrivant à <Mail to={SUPPORT} />. Nous examinons les signalements et pouvons retirer des contenus ou suspendre des comptes qui enfreignent ces Conditions ou la loi.
           Quand nous retirons votre contenu ou restreignons votre compte, nous vous en donnons la raison. Si vous
           n&apos;êtes pas d&apos;accord, écrivez à <Mail to={SUPPORT} /> : une personne réexaminera la décision. Notre
           point de contact pour les autorités et les utilisateurs au titre du règlement européen sur les services
