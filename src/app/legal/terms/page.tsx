@@ -11,7 +11,7 @@ export const metadata = generatePageMetadata(
   '/legal/terms',
 );
 
-const LAST_UPDATED = 'October 31, 2026';
+const LAST_UPDATED = 'November 1, 2026';
 const SUPPORT = 'support@zik4u.com';
 
 export default function TermsOfServicePage() {
@@ -80,6 +80,10 @@ export default function TermsOfServicePage() {
           tell you why. If you disagree, write to <Mail to={SUPPORT} /> and a person will review the decision. Our
           contact point for authorities and users under the EU Digital Services Act is <Mail to={SUPPORT} /> (English or
           French).
+        </P>
+        <P>
+          You can block any member from their profile, a post, a comment or a conversation: you will no longer see or
+          contact each other, and they are not told.
         </P>
       </Section>
 

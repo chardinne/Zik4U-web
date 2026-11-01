@@ -12,7 +12,7 @@ export const metadata = generatePageMetadata(
   '/fr/legal/privacy',
 );
 
-const LAST_UPDATED = '31 octobre 2026';
+const LAST_UPDATED = '1er novembre 2026';
 const PRIVACY = 'privacy@zik4u.com';
 
 export default function PolitiqueConfidentialitePage() {
@@ -69,6 +69,11 @@ export default function PolitiqueConfidentialitePage() {
           sans les informations que votre téléphone joint aux images (comme le lieu de la prise de vue). Elle est stockée
           de façon privée et affichée par des liens temporaires. Quand vous la changez ou la retirez, l&apos;ancienne est
           supprimée. Nous pouvons retirer une photo contraire à nos CGU ; nous vous en donnons alors la raison par e-mail.
+        </P>
+        <P>
+          <Strong>Comptes que vous bloquez.</Strong> La liste des membres que vous avez bloqués. Elle sert uniquement à
+          vous tenir à distance l&apos;un de l&apos;autre, ne leur est jamais montrée, et est effacée quand vous les
+          débloquez ou supprimez votre compte.
         </P>
         <P>
           <Strong>Écoutes (captation).</Strong> Sur Android, si vous accordez à Zik4U l&apos;accès aux notifications,

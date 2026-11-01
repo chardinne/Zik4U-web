@@ -12,7 +12,7 @@ export const metadata = generatePageMetadata(
   '/fr/legal/terms',
 );
 
-const LAST_UPDATED = '31 octobre 2026';
+const LAST_UPDATED = '1er novembre 2026';
 const SUPPORT = 'support@zik4u.com';
 
 export default function ConditionsGeneralesPage() {
@@ -92,6 +92,10 @@ export default function ConditionsGeneralesPage() {
           n&apos;êtes pas d&apos;accord, écrivez à <Mail to={SUPPORT} /> : une personne réexaminera la décision. Notre
           point de contact pour les autorités et les utilisateurs au titre du règlement européen sur les services
           numériques est <Mail to={SUPPORT} /> (en français ou en anglais).
+        </P>
+        <P>
+          Vous pouvez bloquer tout membre depuis son profil, une publication, un commentaire ou une conversation : vous
+          ne vous verrez plus et ne pourrez plus vous contacter, et il n&apos;en est pas informé.
         </P>
       </Section>
 
