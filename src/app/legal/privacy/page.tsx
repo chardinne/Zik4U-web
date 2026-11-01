@@ -11,7 +11,7 @@ export const metadata = generatePageMetadata(
   '/legal/privacy',
 );
 
-const LAST_UPDATED = 'October 31, 2026';
+const LAST_UPDATED = 'November 1, 2026';
 const PRIVACY = 'privacy@zik4u.com';
 
 export default function PrivacyPolicyPage() {
@@ -60,6 +60,10 @@ export default function PrivacyPolicyPage() {
           phone attaches to pictures (such as where it was taken). It is stored privately and shown through temporary
           links. When you change or remove it, the previous photo is deleted. We may remove a photo that breaks our
           Terms; we then tell you why by email.
+        </P>
+        <P>
+          <Strong>Accounts you block.</Strong> The list of members you have blocked. It is used only to keep you apart,
+          is never shown to them, and is deleted when you unblock them or delete your account.
         </P>
         <P>
           <Strong>Listening (capture).</Strong> On Android, if you grant Zik4U notification access, the app reads the
