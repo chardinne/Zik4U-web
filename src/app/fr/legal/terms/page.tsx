@@ -116,7 +116,7 @@ export default function ConditionsGeneralesPage() {
             <><Strong>Partage des revenus : les créateurs reçoivent 80 % du montant net effectivement perçu par Zik4U pour leurs abonnements, après la commission du magasin d&apos;applications et les taxes applicables.</Strong> Ce partage est affiché dans le tableau de bord créateur. Nous préviendrons les créateurs actifs au moins 30 jours avant toute modification.</>,
             "Les paiements sont effectués par notre prestataire de paiement (Trolley) après vérification de l'identité et de la situation fiscale, selon le calendrier et le minimum indiqués dans l'app. Les créateurs sont responsables de leurs propres impôts. Nous pouvons retenir des paiements liés à une fraude ou à de fausses écoutes (section 4).",
             "Les créateurs sont indépendants ; rien dans ces Conditions n'en fait nos salariés ou nos associés. Ils sont responsables de ce qu'ils proposent à leurs abonnés.",
-            "Si un créateur bloque un abonné, l'abonnement prend fin et Zik4U rembourse la période en cours ; le créateur n'est pas payé pour cette période.",
+            "Si un créateur bloque un abonné, l'abonné perd l'accès aux contenus réservés aux abonnés de ce créateur, et le créateur n'est pas payé pour la période en cours. Sur Google Play, Zik4U met fin à l'abonnement et rembourse la période en cours via Google Play. Sur l'App Store, Apple ne nous permet ni de résilier ni de rembourser un abonnement : pour arrêter les renouvellements, l'abonné doit le résilier dans les réglages de son compte App Store, et il peut demander un remboursement à Apple sur reportaproblem.apple.com.",
           ]}
         />
       </Section>
@@ -126,7 +126,7 @@ export default function ConditionsGeneralesPage() {
           items={[
             "Les abonnements aux créateurs s'achètent sur l'App Store d'Apple ou Google Play, qui les facturent de façon récurrente jusqu'à votre résiliation.",
             <>Résiliez dans les réglages de votre compte App Store ou Google Play. L&apos;accès continue jusqu&apos;à la fin de la période payée. <Strong>Supprimer votre compte Zik4U ne résilie pas un abonnement souscrit sur un store</Strong> : résiliez-le d&apos;abord dans le store.</>,
-            "Les remboursements sont gérés par Apple ou Google selon leurs règles. Vos droits légaux de consommateur, y compris un éventuel droit de rétractation, s'appliquent comme le prévoient la loi et la procédure du store.",
+            "Les remboursements sont gérés par Apple ou Google selon leurs règles, sauf le remboursement que Zik4U effectue sur Google Play quand un créateur bloque un abonné (section 9). Vos droits légaux de consommateur, y compris un éventuel droit de rétractation, s'appliquent comme le prévoient la loi et la procédure du store.",
             "Les changements de prix suivent les règles du store, qui prévoient de vous prévenir à l'avance.",
           ]}
         />

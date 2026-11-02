@@ -103,7 +103,7 @@ export default function TermsOfServicePage() {
             <><Strong>Revenue share: creators receive 80% of the net amount Zik4U actually receives for their subscriptions, after the app store&apos;s commission and applicable taxes.</Strong> The share is shown in the creator dashboard. We will give active creators at least 30 days&apos; notice before any change.</>,
             'Payouts are made through our payout provider (Trolley) after identity and tax verification, on the schedule and minimum shown in the app. Creators are responsible for their own taxes. We may hold payments linked to fraud or fake listens (section 4).',
             'Creators are independent; nothing in these Terms makes them our employees or partners. They are responsible for what they offer subscribers.',
-            'If a creator blocks a subscriber, the subscription ends and Zik4U refunds the current period; the creator is not paid for that period.',
+            "If a creator blocks a subscriber, the subscriber loses access to that creator's subscriber content and the creator is not paid for the current period. On Google Play, Zik4U ends the subscription and refunds the current period through Google Play. On the App Store, Apple does not let us cancel or refund a subscription: to stop renewals, the subscriber must cancel it in their App Store settings, and they can ask Apple for a refund at reportaproblem.apple.com.",
           ]}
         />
       </Section>
@@ -113,7 +113,7 @@ export default function TermsOfServicePage() {
           items={[
             'Subscriptions to creators are bought through the Apple App Store or Google Play and billed by them, on a recurring basis, until you cancel.',
             <>Cancel in your App Store or Google Play account settings. Access continues until the end of the paid period. <Strong>Deleting your Zik4U account does not cancel a store subscription</Strong>: cancel it in the store first.</>,
-            "Refunds are handled by Apple or Google under their policies. Your statutory rights as a consumer, including any right of withdrawal, apply as provided by law and by the store's process.",
+            "Refunds are handled by Apple or Google under their policies, except the Google Play refund Zik4U makes when a creator blocks a subscriber (section 9). Your statutory rights as a consumer, including any right of withdrawal, apply as provided by law and by the store's process.",
             "Price changes follow the store's rules, which include notifying you in advance.",
           ]}
         />
