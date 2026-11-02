@@ -1,7 +1,7 @@
 # ZIK4U REVENUE FLOW — règles de l'argent
 > SOURCE UNIQUE : dépôt `chardinne/Zik4U`, fichier `.claude/REVENUE_FLOW.md`. Les copies de Zik4U-web, Zik4U-admin et Zik4U-api sont IDENTIQUES ; ne jamais modifier une copie.
 > Ce fichier porte les RÈGLES et les CHEMINS. Les montants, lignes et statuts se lisent en base ; le détail du calcul dans le code (`supabase/functions/calculate-payouts`, `revenuecat-webhook`).
-> Mis à jour : 2026-09-25 (MONEY-OUT1 lot a).
+> Mis à jour : 2026-11-02 (BLOCK1c, remboursement après blocage).
 
 ---
 
@@ -24,6 +24,14 @@
 
 Chemin de l'abonnement : achat store (RevenueCat) → `revenuecat-webhook` retrouve le créateur PAR LE PRODUIT (`resolve_store_product`, un produit par créateur, jamais par une donnée écrite par l'app) → écrit `subscriptions` et `revenue_events` (journal, rejeu ignoré par transaction). Le déclencheur `iap2_sync_creator_subscription` sur `subscriptions` est le SEUL écrivain de `creator_subscriptions` pour le store (une ligne par fan et créateur ; résiliation = accès jusqu'à `expires_at`, remboursement et expiration = coupure). L'abonné d'un créateur se lit dans `creator_subscriptions.subscriber_id` (jamais `user_id`). Aucun client n'écrit `subscriptions` ni `creator_subscriptions`.
 Point ouvert : au premier achat de test, vérifier le format « produit:plan » renvoyé par le store (`resolve_store_product` accepte les deux formes) et l'accès du fan de bout en bout.
+
+### Remboursement après blocage (BLOCK1c, Décisions 227 et 230-233, migration 00242)
+- **Un créateur qui bloque un abonné payant** (période payée en cours) ouvre une affaire `block_refund_cases`, écrite par `block_user` seul (`block1c_open_refund_cases`). L'abonnement prend fin aussitôt : le miroir 00182 (`iap2_sync_creator_subscription`, toujours seul écrivain de `creator_subscriptions`) passe l'abonnement à `cancelled` tant qu'une affaire est ouverte (`block1c_case_open`), même si le store le dit encore actif. Débloquer ne le rétablit pas (D233).
+- **Remboursement** (D230) : fait à la main dans la Play Console (« Rembourser » ET « Retirer les droits », sinon l'abonnement continue), puis enregistré au back-office (Finance › Remboursements après blocage, `admin_mark_block_refund`, journalisé). Le store confirme seul : son remboursement arrive par `revenuecat-webhook` (ligne négative au grand livre) et `block1c_store_closed` date la fermeture de l'abonnement. Remboursement automatique par RevenueCat : non retenu au lancement. Textes publics : CGU §9 (EN D229, FR D234) et conditions créateurs §5 (D235), en ligne le 02/11/2026. Apple ne permet pas à un développeur de rembourser : la phrase de la CGU §9 est à reprendre au chantier iOS.
+- **Le créateur n'est pas payé sur cette période** (D231) : `get_creator_payout_balance` retient sa part de chaque paiement couvert par une affaire (paiements de l'abonnement depuis le dernier encaissé avant le blocage, jusqu'à la fermeture par le store) tant que le remboursement n'est pas inscrit au grand livre ; ensuite la ligne négative prend le relais, sans double retenue. Un paiement jamais remboursé reste retenu.
+- **Abonné qui bloque son créateur** : rien d'automatique, l'abonnement continue (résiliation dans Google Play). Les notifications du créateur ne lui parviennent plus (`active_creator_subscriber_ids`, lu par `notify-exclusive-post` et `broadcast-to-subscribers`).
+- **Confirmation dans l'app** (D228, D232) : `get_block_context` sert les deux lignes (« @x pays a subscription to you… » si une période payée court ; « Your subscription to @x isn't cancelled… » si l'appelant paie et que son renouvellement est actif).
+- Aucun client n'écrit `block_refund_cases` ni `revenue_events` (écritures client fermées par 00242).
 
 ---
 
