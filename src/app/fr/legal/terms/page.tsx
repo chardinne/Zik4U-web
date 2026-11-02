@@ -12,7 +12,7 @@ export const metadata = generatePageMetadata(
   '/fr/legal/terms',
 );
 
-const LAST_UPDATED = '1er novembre 2026';
+const LAST_UPDATED = '2 novembre 2026';
 const SUPPORT = 'support@zik4u.com';
 
 export default function ConditionsGeneralesPage() {
@@ -116,6 +116,7 @@ export default function ConditionsGeneralesPage() {
             <><Strong>Partage des revenus : les créateurs reçoivent 80 % du montant net effectivement perçu par Zik4U pour leurs abonnements, après la commission du magasin d&apos;applications et les taxes applicables.</Strong> Ce partage est affiché dans le tableau de bord créateur. Nous préviendrons les créateurs actifs au moins 30 jours avant toute modification.</>,
             "Les paiements sont effectués par notre prestataire de paiement (Trolley) après vérification de l'identité et de la situation fiscale, selon le calendrier et le minimum indiqués dans l'app. Les créateurs sont responsables de leurs propres impôts. Nous pouvons retenir des paiements liés à une fraude ou à de fausses écoutes (section 4).",
             "Les créateurs sont indépendants ; rien dans ces Conditions n'en fait nos salariés ou nos associés. Ils sont responsables de ce qu'ils proposent à leurs abonnés.",
+            "Si un créateur bloque un abonné, l'abonnement prend fin et Zik4U rembourse la période en cours ; le créateur n'est pas payé pour cette période.",
           ]}
         />
       </Section>

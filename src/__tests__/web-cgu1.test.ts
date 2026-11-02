@@ -17,12 +17,12 @@ describe('WEB-CGU1 — reporting sentence', () => {
   it('EN says what the app can report and where the rest goes', () => {
     expect(en).toContain("You can report any post, comment or profile in the app, and anything else (a message) by writing to{' '} <Mail to={SUPPORT} />.");
     expect(en).not.toContain('any post, comment, message or account in the app');
-    expect(en).toContain("const LAST_UPDATED = 'November 1, 2026';");
+    expect(en).toContain("const LAST_UPDATED = 'November 2, 2026';"); // BLOCK1c (§9)
   });
 
   it('FR says the same', () => {
     expect(fr).toContain('Vous pouvez signaler toute publication, tout commentaire ou tout profil dans l&apos;app, et tout le reste (un message) en écrivant à <Mail to={SUPPORT} />.');
     expect(fr).not.toContain('tout commentaire, message ou compte dans l&apos;app');
-    expect(fr).toContain("const LAST_UPDATED = '1er novembre 2026';");
+    expect(fr).toContain("const LAST_UPDATED = '2 novembre 2026';"); // BLOCK1c (§9)
   });
 });

@@ -12,7 +12,7 @@ export const metadata = generatePageMetadata(
   '/legal/creator-terms',
 );
 
-const LAST_UPDATED = 'October 21, 2026';
+const LAST_UPDATED = 'November 2, 2026';
 const SUPPORT = 'support@zik4u.com';
 
 export default function CreatorTermsPage() {
@@ -65,7 +65,8 @@ export default function CreatorTermsPage() {
       <Section title="5. Refunds and fraud">
         <P>
           If a store refunds a subscription, your share of it is deducted from your balance, including from future
-          earnings if it was already paid. Earnings linked to fake or manipulated listens, to fraud, or to content that
+          earnings if it was already paid. This includes the current period of a subscriber you block: Zik4U refunds it
+          and your share of it is not paid (Terms of Service, section 9). Earnings linked to fake or manipulated listens, to fraud, or to content that
           breaks the Terms of Service are not owed: we may hold them while we check, and cancel them if the breach is
           confirmed, telling you why. You can contest any such decision by writing to <Mail to={SUPPORT} />, and a person
           will review it.

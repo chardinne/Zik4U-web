@@ -11,7 +11,7 @@ export const metadata = generatePageMetadata(
   '/legal/terms',
 );
 
-const LAST_UPDATED = 'November 1, 2026';
+const LAST_UPDATED = 'November 2, 2026';
 const SUPPORT = 'support@zik4u.com';
 
 export default function TermsOfServicePage() {
@@ -103,6 +103,7 @@ export default function TermsOfServicePage() {
             <><Strong>Revenue share: creators receive 80% of the net amount Zik4U actually receives for their subscriptions, after the app store&apos;s commission and applicable taxes.</Strong> The share is shown in the creator dashboard. We will give active creators at least 30 days&apos; notice before any change.</>,
             'Payouts are made through our payout provider (Trolley) after identity and tax verification, on the schedule and minimum shown in the app. Creators are responsible for their own taxes. We may hold payments linked to fraud or fake listens (section 4).',
             'Creators are independent; nothing in these Terms makes them our employees or partners. They are responsible for what they offer subscribers.',
+            'If a creator blocks a subscriber, the subscription ends and Zik4U refunds the current period; the creator is not paid for that period.',
           ]}
         />
       </Section>
