@@ -74,8 +74,9 @@ export default function ConditionsCreateursPage() {
       <Section title="5. Remboursements et fraude">
         <P>
           Si un magasin rembourse un abonnement, votre part est déduite de votre solde, y compris de vos gains futurs si
-          elle vous a déjà été versée. Cela comprend la période en cours d&apos;un abonné que vous bloquez : Zik4U la
-          rembourse et votre part n&apos;en est pas versée (Conditions d&apos;utilisation, section 9). Les gains liés à des écoutes fausses ou manipulées, à une fraude ou à des contenus
+          elle vous a déjà été versée. Si vous bloquez un abonné, votre part de sa période en cours n&apos;est pas versée,
+          que le magasin la rembourse ou non : sur Google Play, Zik4U rembourse cette période ; sur l&apos;App Store,
+          seul Apple peut la rembourser, à la demande de l&apos;abonné (Conditions d&apos;utilisation, section 9). Les gains liés à des écoutes fausses ou manipulées, à une fraude ou à des contenus
           contraires aux Conditions d&apos;utilisation ne sont pas dus : nous pouvons les retenir le temps de vérifier, et
           les annuler si le manquement est confirmé, en vous en donnant la raison. Vous pouvez contester une telle
           décision en écrivant à <Mail to={SUPPORT} /> : une personne la réexaminera.
