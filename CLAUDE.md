@@ -1,5 +1,6 @@
-> 📋 Contexte partagé obligatoire : lire `.claude/SHARED_CONTEXT.md` et `.claude/REVENUE_FLOW.md` avant toute session.
-> 🧠 Fin de session obligatoire : mettre à jour `.claude/MEMORY.md` avec le template prévu.
+> 📋 Début de session : les règles, l'état et les décisions vivent dans le dépôt Zik4U (develop) : `.claude/CANON.md`, `.claude/STATE.md`, `.claude/DECISIONS.md` (lecture : `git -C ~/projets/Zik4U show origin/develop:.claude/CANON.md`). Ici : `.claude/SHARED_CONTEXT.md` (carte commune aux 5 dépôts, D252) et `.claude/REVENUE_FLOW.md` (l'argent, identique dans les 4 dépôts de l'app).
+> 🧠 Fin de session : la gravure se fait dans le dépôt Zik4U (STATE, JOURNAL, DECISIONS). `.claude/MEMORY.md` de ce dépôt est GELÉ depuis le 04/11/2026 : on y cherche, on n'y écrit plus.
+> Ce fichier est la carte de CE dépôt ; en cas d'écart avec le canon ou STATE, ce sont eux qui font foi (REFONTE1 lot 2b, 04/11/2026).
 
 # CLAUDE.md — Zik4U-web
 

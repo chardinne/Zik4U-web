@@ -1,4 +1,5 @@
 # MEMORY — Zik4U Web
+> ⛔ **GELÉ le 04/11/2026 (REFONTE1 lot 2b, D248)** : ce fichier n'est plus écrit. On y CHERCHE l'historique, on n'y ajoute rien. Règles, état, décisions et journal : dépôt Zik4U (develop), `.claude/CANON.md`, `STATE.md`, `DECISIONS.md`, `JOURNAL.md`.
 > Mis à jour après chaque session. Source de vérité de l'état réel du projet.
 
 ## 🔁 SESSION 69 — REFONTE SITE1 (26-27/10/2026) — liste d'attente + galaxie du founder
