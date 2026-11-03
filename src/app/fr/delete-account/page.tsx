@@ -49,7 +49,7 @@ export default function SupprimerComptePage() {
 
       <Section title="Ce qui peut subsister">
         <P>
-          Les copies résiduelles dans les sauvegardes et les journaux techniques, effacées sous 30 jours. Les enregistrements que la loi nous impose de garder : achats, versements et comptabilité ; et, pendant un an, l&apos;enregistrement minimal imposé aux hébergeurs par la loi française (votre pseudonyme, votre e-mail, la date de création du compte, et l&apos;identifiant et la date de ce que vous avez publié, jamais son contenu). Les rapports de recherche déjà livrés, qui ne contiennent aucune donnée sur vous en tant que personne.
+          Les copies résiduelles dans les sauvegardes et les journaux techniques, effacées sous 30 jours. Les enregistrements que la loi nous impose de garder : achats, versements et comptabilité ; et, pendant un an, l&apos;enregistrement minimal imposé aux hébergeurs par la loi française (votre pseudonyme, votre e-mail, la date de création du compte, et l&apos;identifiant, la date et l&apos;adresse IP de ce que vous avez publié, jamais son contenu). Les rapports de recherche déjà livrés, qui ne contiennent aucune donnée sur vous en tant que personne.
         </P>
       </Section>
 
