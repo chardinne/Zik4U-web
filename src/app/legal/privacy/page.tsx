@@ -11,7 +11,7 @@ export const metadata = generatePageMetadata(
   '/legal/privacy',
 );
 
-const LAST_UPDATED = 'November 1, 2026';
+const LAST_UPDATED = 'November 3, 2026';
 const PRIVACY = 'privacy@zik4u.com';
 
 export default function PrivacyPolicyPage() {
@@ -101,7 +101,7 @@ export default function PrivacyPolicyPage() {
           behalf.
         </P>
         <P>
-          <Strong>Device and technical data.</Strong> Push notification token, device model, operating system, app version, and signals that show whether capture is working. Crash and error reports (the error, your device model, operating system and app version) through Sentry; these reports are not linked to your account. Our hosting providers process IP addresses in their technical logs. Our sign-in system also keeps the IP address and device type of each signed-in session to protect your account; this record is deleted when you sign out, when you delete your account, or after 12 months without using the app on that device.
+          <Strong>Device and technical data.</Strong> Push notification token, device model, operating system, app version, and signals that show whether capture is working. Crash and error reports (the error, your device model, operating system and app version) through Sentry; these reports are not linked to your account. Our hosting providers process IP addresses in their technical logs. Our sign-in system also keeps the IP address and the name of the app or browser of each signed-in session to protect your account; this record is deleted when you sign out, when you delete your account, or after 12 months without using the app on that device. We also keep a log of the sign-ins, sign-outs and password or email changes on your account (date, IP address, app or browser) for one year, to protect your account and investigate misuse; it is deleted with your account.
         </P>
         <P>
           <Strong>Analytics, only if you agree.</Strong> If you accept analytics, we record how you use the app.
@@ -132,7 +132,7 @@ export default function PrivacyPolicyPage() {
             ['Analytics', 'Usage events', 'Your consent'],
             ['Notifications you allowed', 'Push token', "Performance of contract; your phone's permission"],
             ['Safety, moderation, fraud and abuse prevention, crash reports, service security', 'Content, reports, technical data', 'Legitimate interest: keeping Zik4U safe and working'],
-            ['Keeping the record French law requires of hosting services', 'Username, email address, account creation date, identifier and date of each post, comment or message you published', 'Legal obligation (French law on confidence in the digital economy, LCEN)'],
+            ['Keeping the record French law requires of hosting services', 'Username, email address, account creation date, identifier, date and IP address of each post, comment or message you published', 'Legal obligation (French law on confidence in the digital economy, LCEN)'],
             ["Reporting creators' earnings to the tax authority (DAC7) and issuing invoices on their behalf", 'Creator identity, tax and payout information, invoices', 'Legal obligation'],
             ['Paying creators, accounting and tax', 'Purchases, payouts', 'Legal obligation; performance of contract'],
             ['Showing the links to your other networks and your relationship status on your profile', 'Usernames on other networks, relationship status', 'Performance of our contract with you: you choose to add them, and you can remove them at any time'],
@@ -297,10 +297,11 @@ export default function PrivacyPolicyPage() {
         <List
           items={[
             <><Strong>Account and everything attached to it</Strong> (listening, content, messages, listening mood profile, settings): as long as your account exists.</>,
-            <><Strong>When you delete your account</Strong>: it is erased from our live database immediately, except a minimal record that French law requires hosting services to keep for one year, so that the author of published content can be identified at a judge&apos;s request: your username, email address, account creation date, and the identifier and date of each post, comment or message you published (never their content, and none of your listening). This record is locked, used only to answer a legal request, and deleted after one year. Residual copies in backups and our providers&apos; technical logs disappear within 30 days.</>,
+            <><Strong>When you delete your account</Strong>: it is erased from our live database immediately, except a minimal record that French law requires hosting services to keep for one year, so that the author of published content can be identified at a judge&apos;s request: your username, email address, account creation date, and the identifier, date and IP address of each post, comment or message you published (never their content, and none of your listening). This record is locked, used only to answer a legal request, and deleted after one year. Residual copies in backups and our providers&apos; technical logs disappear within 30 days.</>,
             <><Strong>Listening mood profile</Strong>: your daily listening moods are kept for 13 months, then deleted automatically; everything is deleted immediately when you turn it off.</>,
             <><Strong>Inactive accounts</Strong>: deleted after 3 years without any activity. We email you 30 days before, so you can keep your account by opening the app.</>,
             <><Strong>Sign-in sessions</Strong>: closed and deleted after 12 months without use.</>,
+            <><Strong>Sign-in log</Strong>: 1 year, deleted with your account.</>,
             <><Strong>Technical logs we keep</Strong> (for example the health checks of the service): 1 year. <Strong>Records of actions taken in our administration tool</Strong>: 3 years, for security.</>,
             <><Strong>Crash and error reports</Strong>: up to 90 days.</>,
             <><Strong>Purchase, payout, invoice and tax reporting records</Strong>: kept as long as tax and accounting law requires (up to 10 years in France).</>,

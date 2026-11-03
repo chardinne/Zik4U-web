@@ -12,7 +12,7 @@ export const metadata = generatePageMetadata(
   '/fr/legal/privacy',
 );
 
-const LAST_UPDATED = '1er novembre 2026';
+const LAST_UPDATED = '3 novembre 2026';
 const PRIVACY = 'privacy@zik4u.com';
 
 export default function PolitiqueConfidentialitePage() {
@@ -115,7 +115,7 @@ export default function PolitiqueConfidentialitePage() {
           conservons aussi les factures émises en votre nom.
         </P>
         <P>
-          <Strong>Données de l&apos;appareil et données techniques.</Strong> Jeton de notification push, modèle de l&apos;appareil, système d&apos;exploitation, version de l&apos;app et signaux indiquant si la captation fonctionne. Rapports de plantage et d&apos;erreur (l&apos;erreur, le modèle de votre appareil, son système et la version de l&apos;app) via Sentry ; ces rapports ne sont pas reliés à votre compte. Nos hébergeurs traitent les adresses IP dans leurs journaux techniques. Notre système de connexion conserve aussi l&apos;adresse IP et le type d&apos;appareil de chaque session connectée pour protéger votre compte ; cet enregistrement est supprimé quand vous vous déconnectez, quand vous supprimez votre compte, ou après 12 mois sans utiliser l&apos;app sur cet appareil.
+          <Strong>Données de l&apos;appareil et données techniques.</Strong> Jeton de notification push, modèle de l&apos;appareil, système d&apos;exploitation, version de l&apos;app et signaux indiquant si la captation fonctionne. Rapports de plantage et d&apos;erreur (l&apos;erreur, le modèle de votre appareil, son système et la version de l&apos;app) via Sentry ; ces rapports ne sont pas reliés à votre compte. Nos hébergeurs traitent les adresses IP dans leurs journaux techniques. Notre système de connexion conserve aussi l&apos;adresse IP et le nom de l&apos;app ou du navigateur de chaque session ouverte, pour protéger votre compte ; cette trace est supprimée quand vous vous déconnectez, quand vous supprimez votre compte, ou après 12 mois sans utiliser l&apos;app sur cet appareil. Nous tenons aussi un journal des connexions, déconnexions et changements de mot de passe ou d&apos;adresse e-mail de votre compte (date, adresse IP, app ou navigateur), conservé un an pour protéger votre compte et enquêter sur un abus ; il est supprimé avec votre compte.
         </P>
         <P>
           <Strong>Mesure d&apos;audience, uniquement si vous l&apos;acceptez.</Strong> Si vous acceptez la mesure
@@ -148,7 +148,7 @@ export default function PolitiqueConfidentialitePage() {
             ["Mesure d'audience", "Événements d'utilisation", 'Votre consentement'],
             ['Notifications que vous avez autorisées', 'Jeton push', 'Exécution du contrat ; autorisation de votre téléphone'],
             ['Sécurité, modération, prévention de la fraude et des abus, rapports de plantage, sécurité du service', 'Contenus, signalements, données techniques', 'Intérêt légitime : garder Zik4U sûr et en état de marche'],
-            ["Conserver l'enregistrement que la loi française impose aux hébergeurs", 'Pseudonyme, adresse e-mail, date de création du compte, identifiant et date de chaque publication, commentaire ou message publié', "Obligation légale (loi pour la confiance dans l'économie numérique, LCEN)"],
+            ["Conserver l'enregistrement que la loi française impose aux hébergeurs", 'Pseudonyme, adresse e-mail, date de création du compte, identifiant, date et adresse IP de chaque publication, commentaire ou message publié', "Obligation légale (loi pour la confiance dans l'économie numérique, LCEN)"],
             ['Déclarer les gains des créateurs à l\'administration fiscale (DAC7) et émettre les factures en leur nom', 'Identité, informations fiscales et de versement des créateurs, factures', 'Obligation légale'],
             ['Paiement des créateurs, comptabilité et fiscalité', 'Achats, paiements', 'Obligation légale ; exécution du contrat'],
             ['Afficher sur votre profil les liens vers vos autres réseaux et votre situation amoureuse', "Noms d'utilisateur sur d'autres réseaux, situation amoureuse", 'Exécution de notre contrat avec vous : vous choisissez de les ajouter et pouvez les retirer à tout moment'],
@@ -324,10 +324,11 @@ export default function PolitiqueConfidentialitePage() {
         <List
           items={[
             <><Strong>Le compte et tout ce qui s&apos;y rattache</Strong> (écoutes, contenus, messages, profil d&apos;humeurs d&apos;écoute, réglages) : tant que votre compte existe.</>,
-            <><Strong>Quand vous supprimez votre compte</Strong> : il est effacé immédiatement de notre base en service, à l&apos;exception d&apos;un enregistrement minimal que la loi française impose aux hébergeurs de conserver un an, pour qu&apos;un juge puisse faire identifier l&apos;auteur d&apos;un contenu publié : votre pseudonyme, votre adresse e-mail, la date de création du compte, et l&apos;identifiant et la date de chaque publication, commentaire ou message que vous avez publié (jamais leur contenu, et aucune de vos écoutes). Cet enregistrement est verrouillé, utilisé uniquement pour répondre à une demande légale, et supprimé au bout d&apos;un an. Les copies résiduelles dans les sauvegardes et les journaux techniques de nos prestataires disparaissent sous 30 jours.</>,
+            <><Strong>Quand vous supprimez votre compte</Strong> : il est effacé immédiatement de notre base en service, à l&apos;exception d&apos;un enregistrement minimal que la loi française impose aux hébergeurs de conserver un an, pour qu&apos;un juge puisse faire identifier l&apos;auteur d&apos;un contenu publié : votre pseudonyme, votre adresse e-mail, la date de création du compte, et l&apos;identifiant, la date et l&apos;adresse IP de chaque publication, commentaire ou message que vous avez publié (jamais leur contenu, et aucune de vos écoutes). Cet enregistrement est verrouillé, utilisé uniquement pour répondre à une demande légale, et supprimé au bout d&apos;un an. Les copies résiduelles dans les sauvegardes et les journaux techniques de nos prestataires disparaissent sous 30 jours.</>,
             <><Strong>Profil d&apos;humeurs d&apos;écoute</Strong> : vos humeurs d&apos;écoute quotidiennes sont conservées 13 mois, puis supprimées automatiquement ; tout est supprimé immédiatement quand vous le désactivez.</>,
             <><Strong>Comptes inactifs</Strong> : supprimés après 3 ans sans aucune activité. Nous vous écrivons 30 jours avant ; il suffit d&apos;ouvrir l&apos;app pour garder votre compte.</>,
             <><Strong>Sessions de connexion</Strong> : fermées et supprimées après 12 mois sans utilisation.</>,
+            <><Strong>Journal des connexions</Strong> : 1 an, supprimé avec votre compte.</>,
             <><Strong>Journaux techniques que nous conservons</Strong> (par exemple les contrôles de bon fonctionnement du service) : 1 an. <Strong>Traces des actions réalisées dans notre outil d&apos;administration</Strong> : 3 ans, pour la sécurité.</>,
             <><Strong>Rapports de plantage et d&apos;erreur</Strong> : 90 jours au plus.</>,
             <><Strong>Achats, versements, factures et déclarations fiscales</Strong> : conservés aussi longtemps que l&apos;exigent les règles fiscales et comptables (jusqu&apos;à 10 ans en France).</>,
