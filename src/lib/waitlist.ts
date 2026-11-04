@@ -46,11 +46,16 @@ export function parseWaitlistBody(body: unknown): WaitlistInput {
   return { ok: true, email, role: role as WaitlistRole, artistName, bot };
 }
 
-/** The row written for a valid input: table, values, conflict key. Never sends created_at
- *  (kept from the first sign-up, so the 24-month purge counts from it). */
-export function waitlistRow(input: Extract<WaitlistInput, { ok: true }>) {
-  if (input.role === 'creator') {
-    return { table: 'creator_waitlist', values: { email: input.email, artist_name: input.artistName as string } } as const;
-  }
-  return { table: 'pulse_waitlist', values: { email: input.email, role: input.role } } as const;
+/** AUDIT1-b (Decision 256 = A, 04/11/2026): the sign-up goes through the database function
+ *  public.waitlist_sign_up (migration 00245, service_role only): 10 sign-ups per hour per network
+ *  address, the FIRST artist name of a creator kept, a listener / fan keeps the last role chosen.
+ *  Never sends created_at (kept from the first sign-up, so the 24-month purge counts from it), never
+ *  a platform. The address itself is never sent: only a keyed hash of it (waitlistIpHash). */
+export function waitlistRpcArgs(input: Extract<WaitlistInput, { ok: true }>, ipHash: string) {
+  return {
+    p_email: input.email,
+    p_role: input.role,
+    p_artist_name: input.role === 'creator' ? (input.artistName as string) : null,
+    p_ip_hash: ipHash,
+  };
 }
