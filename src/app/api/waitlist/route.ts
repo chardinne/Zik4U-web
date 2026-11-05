@@ -1,5 +1,6 @@
 import { type NextRequest } from 'next/server';
 import { createServiceClient } from '@/lib/supabase-server';
+import { serverSecretKey } from '@/lib/supabaseKeys';
 import { parseWaitlistBody, waitlistRpcArgs } from '@/lib/waitlist';
 import { waitlistClientIp, waitlistIpHash } from '@/lib/waitlistServer';
 
@@ -19,7 +20,7 @@ export async function POST(request: NextRequest) {
   if (!input.ok) return Response.json({ error: input.error }, { status: 400 });
   if (input.bot) return Response.json({ success: true });
 
-  const key = process.env.SUPABASE_SERVICE_ROLE_KEY ?? '';
+  const key = serverSecretKey(); // KEYS1 K1c: new secret key only, '' when missing (fail-closed)
   if (!key) {
     console.error('[waitlist]', 'no_key');
     return Response.json({ error: 'unavailable' }, { status: 500 });

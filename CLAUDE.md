@@ -17,7 +17,7 @@ Next.js 16.1.6 (App Router, ISR) · React 19 · TypeScript 5 · Tailwind 4 (`@ta
 - URL : `https://qjrwjdlqlmyliinfjjic.supabase.co`
 - Même base que l'app mobile.
 - Client : `src/lib/supabase-server.ts` → `createServiceClient()` (clé service, serveur seulement). Plus aucun client navigateur ni connexion sur le site (AuthModal et `src/lib/supabase.ts` supprimés le 27/10/2026, SITE1-4).
-- **Nouveau format clés** : `sb_publishable_...` (anon) + `sb_secret_...` (service_role) — les clés `eyJ...` JWT ne sont plus utilisées
+- **Clé (KEYS1 K1c, D261, 05/11/2026)** : le site n'utilise que la clé SECRÈTE nouvelle (`sb_secret_...`), lue par `src/lib/supabaseKeys.ts` dans `SUPABASE_SECRET_KEY` (Vercel), sans repli : valeur absente ou ancienne clé JWT = refus (garde `keys1c-site.test.ts`). L'ancienne variable Vercel `SUPABASE_SERVICE_ROLE_KEY` n'est plus lue ; elle se retire en K3.
 
 ## Routes (état au 27/10/2026)
 | Route | Contenu |
@@ -114,9 +114,8 @@ Les pages de profil lisent avec la clé SERVICE, qui contourne la RLS et la règ
 ## Variables d'environnement
 ```env
 NEXT_PUBLIC_SUPABASE_URL=https://qjrwjdlqlmyliinfjjic.supabase.co
-NEXT_PUBLIC_SUPABASE_ANON_KEY=sb_publishable_...
 NEXT_PUBLIC_SITE_URL=https://zik4u.com
-SUPABASE_SERVICE_ROLE_KEY=sb_secret_...   # serveur seulement (cartes, liste d'attente, galaxie du founder)
+SUPABASE_SECRET_KEY=sb_secret_...         # serveur seulement (cartes, liste d'attente, galaxie du founder) ; KEYS1 K1c
 FOUNDER_GALAXY=off                        # optionnel : coupe la galaxie du founder (D174)
 ```
 

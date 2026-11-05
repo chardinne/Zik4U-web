@@ -11,8 +11,8 @@ Ces étapes connectent les deux.
 2. Importer le repo GitHub : chardinne/Zik4U-web
 3. Framework : Next.js (auto-détecté)
 4. Variables d'environnement à configurer dans Vercel :
-   - NEXT_PUBLIC_SUPABASE_URL = https://eirkzsbjlwmflwhqihiw.supabase.co
-   - NEXT_PUBLIC_SUPABASE_ANON_KEY = (depuis Supabase Dashboard → Settings → API)
+   - NEXT_PUBLIC_SUPABASE_URL = https://qjrwjdlqlmyliinfjjic.supabase.co
+   - SUPABASE_SECRET_KEY = clé secrète `sb_secret_...` (Supabase Dashboard → Project Settings → API Keys ; KEYS1 K1c)
    - NEXT_PUBLIC_SITE_URL = https://zik4u.com
 5. Cliquer Deploy → noter l'URL Vercel (ex: zik4u-web.vercel.app)
 
