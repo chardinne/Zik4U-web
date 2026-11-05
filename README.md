@@ -97,9 +97,8 @@ Create a `.env.local` file:
 
 ```env
 NEXT_PUBLIC_SUPABASE_URL=https://qjrwjdlqlmyliinfjjic.supabase.co
-NEXT_PUBLIC_SUPABASE_ANON_KEY=<your-anon-key>
 NEXT_PUBLIC_SITE_URL=http://localhost:3000   # https://zik4u.com in production
-SUPABASE_SERVICE_ROLE_KEY=<service-key>     # server-only (publicProfile, sharedCard, waitlists)
+SUPABASE_SECRET_KEY=sb_secret_...          # server-only (publicProfile, sharedCard, waitlists); KEYS1 K1c, no legacy key
 ```
 
 ### Development

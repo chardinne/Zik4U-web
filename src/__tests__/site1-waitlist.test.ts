@@ -10,7 +10,7 @@ import { waitlistClientIp, waitlistIpHash } from '@/lib/waitlistServer';
 const mockRpc = jest.fn();
 const mockFrom = jest.fn();
 jest.mock('@/lib/supabase-server', () => ({ createServiceClient: () => ({ from: mockFrom, rpc: mockRpc }) }));
-process.env.SUPABASE_SERVICE_ROLE_KEY = 'test-key';
+process.env.SUPABASE_SECRET_KEY = 'sb_secret_test-key';
 // eslint-disable-next-line @typescript-eslint/no-require-imports
 const { POST } = require('@/app/api/waitlist/route') as typeof import('@/app/api/waitlist/route');
 
@@ -20,7 +20,7 @@ const flat = (s: string) => s.replace(/\s+/g, ' ');
 const headers = (h: Record<string, string>) => ({ get: (n: string) => h[n.toLowerCase()] ?? null });
 const post = (body: unknown, h: Record<string, string> = { 'x-forwarded-for': '203.0.113.7, 10.0.0.1' }) =>
   POST({ json: async () => body, headers: headers(h) } as never);
-const HASH = waitlistIpHash('203.0.113.7', 'test-key');
+const HASH = waitlistIpHash('203.0.113.7', 'sb_secret_test-key');
 // SITE1-2: the home page's form lives in its hero (src/components/home/HomeHero.tsx).
 // SITE1-3: the Listeners / Creators / Fans pages share src/components/paths/PathPage.tsx (Decision 184 = A).
 const PAGES = ['src/components/home/HomeHero.tsx', 'src/components/paths/PathPage.tsx'];
