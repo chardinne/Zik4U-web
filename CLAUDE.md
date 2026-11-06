@@ -87,7 +87,7 @@ Security headers et `images.remotePatterns` doivent être configurés dans `next
 
 ## B2B-OFF1 — pas de B2B ni de paiement sur le site (RÈGLE DURE, 24/09/2026)
 - D1 = A : l'offre aux labels (/partner, forfaits, AI Analyst) n'est ni vendue ni promise avant le lancement. `/partner` et `/partner/*` redirigent vers `/` (next.config.ts). `public/llms.txt` ne la présente plus.
-- D2 = A : le B2B vit UNIQUEMENT dans le dépôt Zik4U-api, en sommeil (service Render suspendu le 24/09). Ne jamais le recopier ici. Zik4U-admin = back-office interne seul.
+- D2 = A : le B2B vit UNIQUEMENT dans le dépôt Zik4U-api, en sommeil (service Render suspendu le 24/09, supprimé le 05/11/2026, D265). Ne jamais le recopier ici. Zik4U-admin = back-office interne seul.
 - D3 = A : aucun paiement direct créateur. Aucune route `/api/partner/*` ni `/api/creator/*`, aucun renvoi vers `api.zik4u.com` ou `admin.zik4u.com` (domaines inexistants).
 - CSP : `connect-src` limité à Supabase, `frame-src 'none'`. Garde : `src/__tests__/b2b-off1.test.ts`.
 - Textes légaux (privacy/terms) NON modifiés par B2B-OFF1 : la mention du programme partenaires reste une information sur un partage possible, à revoir avec l'avocat.

@@ -24,9 +24,9 @@ En cas d'écart entre ce dépôt et ces fichiers, ce sont eux qui font foi ; l'�
 |---|---|
 | `chardinne/Zik4U` (privé, `develop`) | app mobile React Native, base Supabase de l'app (SEULE source du schéma : `supabase/migrations/`), fonctions Edge |
 | `chardinne/Zik4U-web` (public, `main` = production Vercel) | site zik4u.com : vitrine, liste d'attente, cartes partagées, textes légaux |
-| `chardinne/Zik4U-admin` (privé, `main`) | back-office interne, poste d'administration seulement ; service Render suspendu |
-| `chardinne/Zik4U-api` (privé, `main`) | futur B2B, en sommeil ; service Render suspendu |
-| `chardinne/zik4u-activation` (privé, `main`) | ZIK4U ACTIVATION OS (relations avec l'industrie musicale), sur son PROPRE projet Supabase ; cron et site Studio sur Render ; cockpit local, jamais déployé |
+| `chardinne/Zik4U-admin` (privé, `main`) | back-office interne, poste d'administration seulement ; aucun hébergement (service Render supprimé le 05/11/2026, D265) |
+| `chardinne/Zik4U-api` (privé, `main`) | futur B2B, en sommeil ; aucun hébergement (service Render supprimé le 05/11/2026, D265 ; se recrée depuis le dépôt au réveil du B2B) |
+| `chardinne/zik4u-activation` (privé, `main`) | ZIK4U ACTIVATION OS (relations avec l'industrie musicale), prévu sur son PROPRE projet Supabase ; JAMAIS DÉPLOYÉ (ni projet Supabase, ni service, ni cockpit installé) ; `render.yaml` décrit une cible non retenue, l'hébergement se choisira au déploiement (D266) |
 
 ## Ce qui vaut partout
 
