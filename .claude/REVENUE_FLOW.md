@@ -51,7 +51,7 @@ Point ouvert : au premier achat de test, vérifier le format « produit:plan » 
 
 ## Webhooks et secrets
 - `revenuecat-webhook` et `trolley-webhook` : signature ou secret vérifié avant tout traitement ; traitement idempotent (un webhook peut être rejoué).
-- Clés Trolley (`TROLLEY_ACCESS_KEY`, `TROLLEY_SECRET_KEY`, `TROLLEY_WEBHOOK_SECRET`), clés Stripe et RevenueCat : serveur uniquement, posées dans les secrets Supabase. Celles qui ont vécu sur les services Render suspendus sont à régénérer avant tout usage.
+- Clés Trolley (`TROLLEY_ACCESS_KEY`, `TROLLEY_SECRET_KEY`, `TROLLEY_WEBHOOK_SECRET`), clés Stripe et RevenueCat : serveur uniquement, posées dans les secrets Supabase. Celles qui ont vécu sur les services Render (supprimés le 05/11/2026, D265) sont à régénérer avant tout usage.
 
 ## Fiscalité
 Rien n'est affirmé ici : elle dépend de l'entité juridique, en cours de décision.
