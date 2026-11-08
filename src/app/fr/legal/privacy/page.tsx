@@ -12,7 +12,7 @@ export const metadata = generatePageMetadata(
   '/fr/legal/privacy',
 );
 
-const LAST_UPDATED = '3 novembre 2026';
+const LAST_UPDATED = '9 novembre 2026';
 const PRIVACY = 'privacy@zik4u.com';
 
 export default function PolitiqueConfidentialitePage() {
@@ -415,7 +415,25 @@ export default function PolitiqueConfidentialitePage() {
         </P>
       </Section>
 
-      <Section id="contact" title="17. Contact">
+      <Section id="prospects" title="17. Les professionnels que nous contactons (prospects)">
+        <P>
+          Cette section vous concerne si Zik4U vous a écrit, ou pourrait vous écrire, à titre professionnel (label,
+          management d&apos;artistes, agence de booking, artiste, curateur ou animateur de communauté).
+        </P>
+        <List
+          items={[
+            <><Strong>Qui est responsable.</Strong> Bertrand Chardinne, fondateur, agissant pour Zik4U, société par actions simplifiée (SAS) en cours de constitution. Contact : <Mail to={PRIVACY} />.</>,
+            <><Strong>Ce que nous gardons.</Strong> Vos nom, fonction et structure ; l&apos;adresse e-mail professionnelle publiée sur votre site ou celui de votre structure ; votre pays et votre langue ; la page où nous l&apos;avons trouvée et la date ; de courtes notes sur votre activité professionnelle publique (par exemple une sortie récente, une tournée, ou un chiffre public comme le nombre de vos membres payants), qui servent uniquement à rendre notre message pertinent pour vous ; et nos échanges. Nous ne gardons jamais d&apos;adresse personnelle ou privée, et ne collectons rien sur LinkedIn, Instagram ou d&apos;autres réseaux sociaux.</>,
+            <><Strong>D&apos;où cela vient.</Strong> De pages publiques publiées par vous ou votre structure. Notre premier message vous indique laquelle.</>,
+            <><Strong>Pourquoi, et sur quelle base légale.</Strong> Pour vous présenter Zik4U et vous proposer une relation professionnelle (profil de créateur fondateur, partenariat label, ou un échange avec le fondateur). Notre base légale est notre intérêt légitime à joindre les professionnels de la musique pour lesquels le service est conçu (RGPD art. 6, 1, f). Chaque message est lu et envoyé par une personne, jamais automatiquement. Nous classons les personnes que nous pourrions contacter selon l&apos;intérêt de Zik4U pour leur activité ; ce classement n&apos;a aucun effet juridique ni d&apos;effet significatif similaire sur vous.</>,
+            <><Strong>Qui les traite pour nous.</Strong> Supabase (base de données, Union européenne), Google (Gmail, États-Unis), Anthropic (assistant d&apos;IA qui nous aide à rechercher des informations publiques et à rédiger, États-Unis), Hostinger (envoi des e-mails). Les transferts hors de l&apos;EEE et du Royaume-Uni sont couverts par les garanties décrites à la section 10. Nous ne vendons ni ne partageons jamais vos données.</>,
+            <><Strong>Combien de temps.</Strong> Sans réponse de votre part, ou si vous répondez ne pas être intéressé, nous supprimons vos informations 12 mois après notre dernier message. Si vous vous opposez, nous les supprimons aussitôt et ne gardons que votre adresse e-mail dans une liste « ne plus contacter », pour ne plus jamais vous écrire.</>,
+            <><Strong>Vos droits.</Strong> <Strong>Vous pouvez vous opposer à tout moment, sans motif : répondez « non » à notre message ou écrivez à <Mail to={PRIVACY} />.</Strong> Vous pouvez aussi demander l&apos;accès, la rectification ou l&apos;effacement, et saisir la CNIL (<A href="https://www.cnil.fr">www.cnil.fr</A>) ou l&apos;autorité de votre pays.</>,
+          ]}
+        />
+      </Section>
+
+      <Section id="contact" title="18. Contact">
         <P>
           <Mail to={PRIVACY} /> : Bertrand Chardinne, pour Zik4U (SAS de droit français en formation).
         </P>

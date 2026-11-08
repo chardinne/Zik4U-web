@@ -21,7 +21,7 @@ describe('TRACE1 — privacy policy EN', () => {
     "'Username, email address, account creation date, identifier, date and IP address of each post, comment or message you published'",
     'and the identifier, date and IP address of each post, comment or message you published (never their content, and none of your listening)',
     '<Strong>Sign-in log</Strong>: 1 year, deleted with your account.',
-    "const LAST_UPDATED = 'November 3, 2026';",
+    "const LAST_UPDATED = 'November 9, 2026';",
   ])('%s', (s) => expect(en).toContain(s));
   it('drops the old wording', () => {
     expect(en).not.toContain('device type');
@@ -35,7 +35,7 @@ describe('TRACE1 — politique de confidentialité FR', () => {
     'identifiant, date et adresse IP de chaque publication, commentaire ou message publié',
     "et l'identifiant, la date et l'adresse IP de chaque publication, commentaire ou message que vous avez publié (jamais leur contenu, et aucune de vos écoutes)",
     '<Strong>Journal des connexions</Strong> : 1 an, supprimé avec votre compte.',
-    "const LAST_UPDATED = '3 novembre 2026';",
+    "const LAST_UPDATED = '9 novembre 2026';",
   ])('%s', (s) => expect(fr).toContain(s));
   it("supprime l'ancienne formulation", () => {
     expect(fr).not.toContain("type d'appareil");

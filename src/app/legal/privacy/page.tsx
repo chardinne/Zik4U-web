@@ -11,7 +11,7 @@ export const metadata = generatePageMetadata(
   '/legal/privacy',
 );
 
-const LAST_UPDATED = 'November 3, 2026';
+const LAST_UPDATED = 'November 9, 2026';
 const PRIVACY = 'privacy@zik4u.com';
 
 export default function PrivacyPolicyPage() {
@@ -381,7 +381,25 @@ export default function PrivacyPolicyPage() {
         </P>
       </Section>
 
-      <Section id="contact" title="17. Contact">
+      <Section id="prospects" title="17. Professionals we contact (prospects)">
+        <P>
+          This section is for you if Zik4U wrote to you, or may write to you, in your professional capacity (label,
+          artist management, booking agency, artist, curator or community leader).
+        </P>
+        <List
+          items={[
+            <><Strong>Who is responsible.</Strong> Bertrand Chardinne, founder, acting for Zik4U, a French simplified joint-stock company (SAS) in formation. Contact: <Mail to={PRIVACY} />.</>,
+            <><Strong>What we keep.</Strong> Your name, role and organization; the professional email address published on your own website or your organization&apos;s; your country and language; the page where we found it and the date; short notes on your public professional activity (for example a recent release, a tour, or a public figure such as the number of your paid members), used only to make our message relevant to you; and our exchanges with you. We never keep personal or private addresses, and we never collect anything from LinkedIn, Instagram or other social networks.</>,
+            <><Strong>Where it comes from.</Strong> Public pages published by you or your organization. Our first message tells you which page.</>,
+            <><Strong>Why, and on what legal basis.</Strong> To introduce Zik4U and offer you a professional relationship (founding creator profile, label partnership, or a conversation with the founder). Our legal basis is our legitimate interest in reaching the music professionals our service is built for (GDPR art. 6(1)(f)). Each message is read and sent by a person, never automatically. We rank the people we may contact by how relevant Zik4U is to their work; this ranking has no legal or similarly significant effect on you.</>,
+            <><Strong>Who processes it for us.</Strong> Supabase (database, European Union), Google (Gmail, United States), Anthropic (AI assistant that helps us research public information and draft messages, United States), Hostinger (email sending). Transfers outside the EEA and the UK are covered by the safeguards described in section 10. We never sell or share your data.</>,
+            <><Strong>How long.</Strong> If you do not reply, or reply that you are not interested, we delete your details 12 months after our last message. If you object, we delete them at once and keep only your email address on a do-not-contact list, so that we never write to you again.</>,
+            <><Strong>Your rights.</Strong> <Strong>You can object at any time, without giving a reason: reply &ldquo;no&rdquo; to our message or write to <Mail to={PRIVACY} />.</Strong> You can also ask for access, correction or deletion, and complain to the CNIL (<A href="https://www.cnil.fr">www.cnil.fr</A>) or to your local authority.</>,
+          ]}
+        />
+      </Section>
+
+      <Section id="contact" title="18. Contact">
         <P>
           <Mail to={PRIVACY} />: Bertrand Chardinne, for Zik4U (French SAS in formation).
         </P>
