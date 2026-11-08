@@ -32,7 +32,7 @@ describe('COMPLY1-EXPO — privacy policy §9', () => {
   });
 
   it('re-dates both texts', () => {
-    expect(en).toContain("const LAST_UPDATED = 'November 3, 2026';");
-    expect(fr).toContain("const LAST_UPDATED = '3 novembre 2026';");
+    expect(en).toContain("const LAST_UPDATED = 'November 8, 2026';");
+    expect(fr).toContain("const LAST_UPDATED = '8 novembre 2026';");
   });
 });
