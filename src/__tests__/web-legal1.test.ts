@@ -60,7 +60,7 @@ describe('WEB-LEGAL1 — IP addresses in the Privacy Policy (Decision 93 = A)', 
     expect(privacy).toContain(
       'Our hosting providers process IP addresses in their technical logs. Our sign-in system also keeps the IP address and the name of the app or browser of each signed-in session to protect your account; this record is deleted when you sign out, when you delete your account, or after 12 months without using the app on that device. We also keep a log of the sign-ins, sign-outs and password or email changes on your account (date, IP address, app or browser) for one year, to protect your account and investigate misuse; it is deleted with your account.', // COMPLY1i
     );
-    expect(privacy).toContain("const LAST_UPDATED = 'November 9, 2026';"); // COMPLY1i, COMPLY1-EXPO, SITE1-1 (Decision 178), COCKPIT1 (D275)
+    expect(privacy).toContain("const LAST_UPDATED = 'November 8, 2026';"); // COMPLY1i, COMPLY1-EXPO, SITE1-1 (Decision 178), COCKPIT1 (D275)
   });
 
   it('no longer claims that no IP address is stored', () => {

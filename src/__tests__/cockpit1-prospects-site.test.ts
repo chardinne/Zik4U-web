@@ -28,7 +28,7 @@ describe('COCKPIT1 — prospects notice (EN + FR)', () => {
     expect(en).toContain('keep only your email address on a do-not-contact list, so that we never write to you again.');
     expect(en).toContain('You can object at any time, without giving a reason: reply &ldquo;no&rdquo; to our message');
     expect(en).toContain('Supabase (database, European Union), Google (Gmail, United States), Anthropic (AI assistant that helps us research public information and draft messages, United States), Hostinger (email sending).');
-    expect(en).toContain("const LAST_UPDATED = 'November 9, 2026';");
+    expect(en).toContain("const LAST_UPDATED = 'November 8, 2026';");
   });
 
   it('carries the validated French text', () => {
@@ -36,7 +36,7 @@ describe('COCKPIT1 — prospects notice (EN + FR)', () => {
     expect(fr).toContain('Notre base légale est notre intérêt légitime à joindre les professionnels de la musique pour lesquels le service est conçu (RGPD art. 6, 1, f).');
     expect(fr).toContain('nous supprimons vos informations 12 mois après notre dernier message.');
     expect(fr).toContain('Vous pouvez vous opposer à tout moment, sans motif : répondez « non » à notre message');
-    expect(fr).toContain("const LAST_UPDATED = '9 novembre 2026';");
+    expect(fr).toContain("const LAST_UPDATED = '8 novembre 2026';");
   });
 
   it('has no long dash in the new visible text', () => {
