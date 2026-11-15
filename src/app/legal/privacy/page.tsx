@@ -11,7 +11,7 @@ export const metadata = generatePageMetadata(
   '/legal/privacy',
 );
 
-const LAST_UPDATED = 'November 8, 2026';
+const LAST_UPDATED = 'November 16, 2026';
 const PRIVACY = 'privacy@zik4u.com';
 
 export default function PrivacyPolicyPage() {
@@ -82,6 +82,12 @@ export default function PrivacyPolicyPage() {
           different artists, repeats), not from the music itself or how you feel; a daily listening score (variety,
           repetition, regularity); the hours you listen at; how many posts and likes you made that day; and your top
           artists. A listener archetype is derived from your listening habits over the last 30 days.
+        </P>
+        <P>
+          <Strong>Skipped tracks.</Strong> If your listening mood profile is on, Zik4U also records the tracks you start
+          and then leave after at least 10 seconds, before they count as a listen (title, artist, the app, when you
+          started it, how long you listened, and whether you moved to another track or closed the player). They are
+          never shown or counted as listens. They help describe how you listen.
         </P>
         <P>
           <Strong>Music Match</Strong> (see section 6) and <Strong>music research</Strong> (see section 7), only if you
@@ -299,6 +305,7 @@ export default function PrivacyPolicyPage() {
             <><Strong>Account and everything attached to it</Strong> (listening, content, messages, listening mood profile, settings): as long as your account exists.</>,
             <><Strong>When you delete your account</Strong>: it is erased from our live database immediately, except a minimal record that French law requires hosting services to keep for one year, so that the author of published content can be identified at a judge&apos;s request: your username, email address, account creation date, and the identifier, date and IP address of each post, comment or message you published (never their content, and none of your listening). This record is locked, used only to answer a legal request, and deleted after one year. Residual copies in backups and our providers&apos; technical logs disappear within 30 days.</>,
             <><Strong>Listening mood profile</Strong>: your daily listening moods are kept for 13 months, then deleted automatically; everything is deleted immediately when you turn it off.</>,
+            <><Strong>Skipped tracks</Strong>: kept for 90 days, then only counted per track without anyone&apos;s identity; deleted immediately when you turn off your listening mood profile.</>,
             <><Strong>Inactive accounts</Strong>: deleted after 3 years without any activity. We email you 30 days before, so you can keep your account by opening the app.</>,
             <><Strong>Sign-in sessions</Strong>: closed and deleted after 12 months without use.</>,
             <><Strong>Sign-in log</Strong>: 1 year, deleted with your account.</>,
