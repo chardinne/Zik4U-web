@@ -12,7 +12,7 @@ export const metadata = generatePageMetadata(
   '/fr/legal/privacy',
 );
 
-const LAST_UPDATED = '8 novembre 2026';
+const LAST_UPDATED = '16 novembre 2026';
 const PRIVACY = 'privacy@zik4u.com';
 
 export default function PolitiqueConfidentialitePage() {
@@ -94,6 +94,13 @@ export default function PolitiqueConfidentialitePage() {
           score d&apos;écoute du jour (variété, répétition, régularité) ; vos heures d&apos;écoute ; le nombre de
           publications et de mentions « j&apos;aime » faites ce jour-là ; et vos artistes principaux. Un archétype
           d&apos;auditeur est déduit de vos habitudes d&apos;écoute des 30 derniers jours.
+        </P>
+        <P>
+          <Strong>Titres zappés.</Strong> Si votre profil d&apos;humeurs d&apos;écoute est activé, Zik4U enregistre aussi
+          les titres que vous lancez puis quittez après au moins 10 secondes, avant qu&apos;ils ne comptent comme une
+          écoute (titre, artiste, app, moment où vous l&apos;avez lancé, durée écoutée, et si vous êtes passé à un autre
+          titre ou avez fermé le lecteur). Ils ne sont jamais affichés ni comptés comme des écoutes. Ils aident à
+          décrire votre façon d&apos;écouter.
         </P>
         <P>
           <Strong>Music Match</Strong> (voir section 6) et <Strong>recherche musicale</Strong> (voir section 7),
@@ -326,6 +333,7 @@ export default function PolitiqueConfidentialitePage() {
             <><Strong>Le compte et tout ce qui s&apos;y rattache</Strong> (écoutes, contenus, messages, profil d&apos;humeurs d&apos;écoute, réglages) : tant que votre compte existe.</>,
             <><Strong>Quand vous supprimez votre compte</Strong> : il est effacé immédiatement de notre base en service, à l&apos;exception d&apos;un enregistrement minimal que la loi française impose aux hébergeurs de conserver un an, pour qu&apos;un juge puisse faire identifier l&apos;auteur d&apos;un contenu publié : votre pseudonyme, votre adresse e-mail, la date de création du compte, et l&apos;identifiant, la date et l&apos;adresse IP de chaque publication, commentaire ou message que vous avez publié (jamais leur contenu, et aucune de vos écoutes). Cet enregistrement est verrouillé, utilisé uniquement pour répondre à une demande légale, et supprimé au bout d&apos;un an. Les copies résiduelles dans les sauvegardes et les journaux techniques de nos prestataires disparaissent sous 30 jours.</>,
             <><Strong>Profil d&apos;humeurs d&apos;écoute</Strong> : vos humeurs d&apos;écoute quotidiennes sont conservées 13 mois, puis supprimées automatiquement ; tout est supprimé immédiatement quand vous le désactivez.</>,
+            <><Strong>Titres zappés</Strong> : conservés 90 jours, puis seulement comptés par titre, sans l&apos;identité de personne ; supprimés immédiatement quand vous désactivez votre profil d&apos;humeurs d&apos;écoute.</>,
             <><Strong>Comptes inactifs</Strong> : supprimés après 3 ans sans aucune activité. Nous vous écrivons 30 jours avant ; il suffit d&apos;ouvrir l&apos;app pour garder votre compte.</>,
             <><Strong>Sessions de connexion</Strong> : fermées et supprimées après 12 mois sans utilisation.</>,
             <><Strong>Journal des connexions</Strong> : 1 an, supprimé avec votre compte.</>,
