@@ -50,7 +50,7 @@ describe('PRIV-IDENT1 — privacy policy', () => {
   });
 
   it('is dated 30 October 2026 in both languages', () => {
-    expect(en).toContain("const LAST_UPDATED = 'November 16, 2026';");
-    expect(fr).toContain("const LAST_UPDATED = '16 novembre 2026';");
+    expect(en).toContain("const LAST_UPDATED = 'November 18, 2026';");
+    expect(fr).toContain("const LAST_UPDATED = '18 novembre 2026';");
   });
 });

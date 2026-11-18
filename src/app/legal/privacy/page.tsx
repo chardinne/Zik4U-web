@@ -11,7 +11,7 @@ export const metadata = generatePageMetadata(
   '/legal/privacy',
 );
 
-const LAST_UPDATED = 'November 16, 2026';
+const LAST_UPDATED = 'November 18, 2026';
 const PRIVACY = 'privacy@zik4u.com';
 
 export default function PrivacyPolicyPage() {
@@ -84,10 +84,14 @@ export default function PrivacyPolicyPage() {
           artists. A listener archetype is derived from your listening habits over the last 30 days.
         </P>
         <P>
-          <Strong>Skipped tracks.</Strong> If your listening mood profile is on, Zik4U also records the tracks you start
+          <Strong>Skipped tracks.</Strong> If your emotional mirror is on, Zik4U also records the tracks you start
           and then leave after at least 10 seconds, before they count as a listen (title, artist, the app, when you
           started it, how long you listened, and whether you moved to another track or closed the player). They are
           never shown or counted as listens. They help describe how you listen.
+        </P>
+        <P>
+          <Strong>Emotional mirror</Strong> (see section 5), only if you turn it on: the emotions you give to tracks (and
+          when), your weekly mirror, and how you answered (time taken, how long after listening).
         </P>
         <P>
           <Strong>Music Match</Strong> (see section 6) and <Strong>music research</Strong> (see section 7), only if you
@@ -133,6 +137,7 @@ export default function PrivacyPolicyPage() {
           rows={[
             ['Run your account and the Service: capture, profile, feed, followers, messages, creator subscriptions', 'Account, listening, content, purchases', 'Performance of our contract with you'],
             ['Listening mood profile and listener archetype', 'Listening, listening mood profile', '18 and older: legitimate interest (personalizing your music identity, which is the purpose of Zik4U); you can object at any time by turning it off. 16 or 17: your consent (you turn it on)'],
+            ['Emotional mirror and your answers', 'Listening, skipped tracks, your answers', 'Your explicit consent (you turn it on)'],
             ['Music Match', 'Listening, Music Match setting, 18+ confirmation', 'Your consent (you turn it on)'],
             ['Music research reports', 'See section 7', 'Your consent (off by default)'],
             ['Analytics', 'Usage events', 'Your consent'],
@@ -151,27 +156,32 @@ export default function PrivacyPolicyPage() {
         </P>
       </Section>
 
-      <Section id="emotional-profile" title="5. Your listening mood profile">
+      <Section id="emotional-profile" title="5. Your listening moods and your emotional mirror">
         <P>
-          <Strong>What it is.</Strong> Every night, Zik4U sorts the listens of the day before into listening moods (for
-          example Late Night, Explorer or Deep Focus) based on when and how you listened, and computes the data listed
-          in section 3. From your last 30 days, it derives a listener archetype. These moods describe your listening
-          habits: Zik4U does not analyze the music itself, and does not read or infer your feelings.
+          <Strong>Your listening mood profile.</Strong> Every night, Zik4U sorts the listens of the day before into
+          listening moods (for example Late Night, Explorer or Deep Focus) based on when and how you listened, and
+          derives a listener archetype from your last 30 days. Your archetype is shown on your Music DNA card; your
+          listening moods are never shared with anyone. If you are 18 or older it is on by default (legitimate interest:
+          your music identity is what Zik4U is for); if you are 16 or 17 it stays off unless you turn it on. Turning it
+          off deletes your archetype and the moods behind it.
         </P>
         <P>
-          <Strong>Who sees it.</Strong> Your archetype is shown on your Music DNA card, which other members can see
-          under your privacy settings (section 8). Zik4U never shares your listening moods with anyone: not other
-          members, not partners. If you share your own card from the app, it shows what you chose to share.
+          <Strong>Your emotional mirror (18 and older, only if you turn it on).</Strong> Zik4U describes each track by
+          the emotions it usually carries (for example Nostalgia, Melancholy or Joy), worked out from the track itself:
+          its sound and what it is about. Zik4U never uses your voice, your face or any body signal. With your
+          permission, Zik4U uses these descriptions, your listens and your skipped tracks to show you a private weekly
+          mirror, and invites you, at most once a week, to say how a few tracks felt to you. Your answers are private,
+          dated, and can be changed or deleted one by one. Other members only see, for a track answered by 20 or more
+          different people, its most frequent emotion, with no names and no numbers.
         </P>
         <P>
-          <Strong>What it is not.</Strong> It describes how you listen, not your health or your emotions. Zik4U does not
-          infer health, mental-health conditions or feelings.
+          <Strong>What it is not.</Strong> It reflects music, not your health. Zik4U makes no health or mental-health
+          assessment, does not use it for advertising, and never alerts you about how you feel.
         </P>
         <P>
-          <Strong>Your choice.</Strong> If you are 18 or older, it is on by default; if you are 16 or 17, it stays off
-          unless you turn it on. Turn it off anytime in <Strong>Settings › Privacy › Listening mood profile</Strong>:
-          your archetype and the moods behind it are deleted, and Zik4U stops computing them. Everything else works the
-          same.
+          <Strong>Your choice.</Strong> Your emotional mirror is based on your explicit consent, given when you turn it
+          on. Turn it off anytime in <Strong>Settings › Privacy › Emotional mirror</Strong>: your mirror, your answers
+          and your skipped tracks are deleted, and trends shown to others are recalculated without your answers.
         </P>
       </Section>
 
@@ -305,7 +315,8 @@ export default function PrivacyPolicyPage() {
             <><Strong>Account and everything attached to it</Strong> (listening, content, messages, listening mood profile, settings): as long as your account exists.</>,
             <><Strong>When you delete your account</Strong>: it is erased from our live database immediately, except a minimal record that French law requires hosting services to keep for one year, so that the author of published content can be identified at a judge&apos;s request: your username, email address, account creation date, and the identifier, date and IP address of each post, comment or message you published (never their content, and none of your listening). This record is locked, used only to answer a legal request, and deleted after one year. Residual copies in backups and our providers&apos; technical logs disappear within 30 days.</>,
             <><Strong>Listening mood profile</Strong>: your daily listening moods are kept for 13 months, then deleted automatically; everything is deleted immediately when you turn it off.</>,
-            <><Strong>Skipped tracks</Strong>: kept for 90 days, then only counted per track without anyone&apos;s identity; deleted immediately when you turn off your listening mood profile.</>,
+            <><Strong>Emotional mirror</Strong>: your answers and mirror are kept while it is on; everything is deleted immediately when you turn it off.</>,
+            <><Strong>Skipped tracks</Strong>: kept for 90 days, then only counted per track without anyone&apos;s identity; deleted immediately when you turn off your emotional mirror.</>,
             <><Strong>Inactive accounts</Strong>: deleted after 3 years without any activity. We email you 30 days before, so you can keep your account by opening the app.</>,
             <><Strong>Sign-in sessions</Strong>: closed and deleted after 12 months without use.</>,
             <><Strong>Sign-in log</Strong>: 1 year, deleted with your account.</>,
@@ -335,8 +346,9 @@ export default function PrivacyPolicyPage() {
         />
         <P>
           <Strong>EU/EEA and UK.</Strong> You also have the rights of access, rectification, erasure, restriction,
-          portability, objection (including to the listening mood profile, by turning it off) and to withdraw consent at
-          any time without affecting what was done before. You can complain to the French data protection authority,
+          portability, objection (including to the listening mood profile, by turning it off), and to withdraw your
+          consent to your emotional mirror at any time; and to withdraw consent at any time without affecting what was
+          done before. You can complain to the French data protection authority,
           the <Strong>CNIL</Strong> (<A href="https://www.cnil.fr">www.cnil.fr</A>), or to the authority of the country
           where you live.
         </P>

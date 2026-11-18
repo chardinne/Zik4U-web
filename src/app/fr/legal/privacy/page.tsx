@@ -12,7 +12,7 @@ export const metadata = generatePageMetadata(
   '/fr/legal/privacy',
 );
 
-const LAST_UPDATED = '16 novembre 2026';
+const LAST_UPDATED = '18 novembre 2026';
 const PRIVACY = 'privacy@zik4u.com';
 
 export default function PolitiqueConfidentialitePage() {
@@ -96,11 +96,16 @@ export default function PolitiqueConfidentialitePage() {
           d&apos;auditeur est déduit de vos habitudes d&apos;écoute des 30 derniers jours.
         </P>
         <P>
-          <Strong>Titres zappés.</Strong> Si votre profil d&apos;humeurs d&apos;écoute est activé, Zik4U enregistre aussi
+          <Strong>Titres zappés.</Strong> Si votre miroir émotionnel est activé, Zik4U enregistre aussi
           les titres que vous lancez puis quittez après au moins 10 secondes, avant qu&apos;ils ne comptent comme une
           écoute (titre, artiste, app, moment où vous l&apos;avez lancé, durée écoutée, et si vous êtes passé à un autre
           titre ou avez fermé le lecteur). Ils ne sont jamais affichés ni comptés comme des écoutes. Ils aident à
           décrire votre façon d&apos;écouter.
+        </P>
+        <P>
+          <Strong>Miroir émotionnel</Strong> (voir section 5), seulement si vous l&apos;activez : les émotions que vous
+          donnez aux titres (et quand), votre miroir hebdomadaire, et votre façon de répondre (temps mis, délai depuis
+          l&apos;écoute).
         </P>
         <P>
           <Strong>Music Match</Strong> (voir section 6) et <Strong>recherche musicale</Strong> (voir section 7),
@@ -150,6 +155,7 @@ export default function PolitiqueConfidentialitePage() {
           rows={[
             ['Faire fonctionner votre compte et le Service : captation, profil, fil, abonnés, messages, abonnements aux créateurs', 'Compte, écoutes, contenus, achats', 'Exécution de notre contrat avec vous'],
             ["Profil d'humeurs d'écoute et archétype d'auditeur", "Écoutes, profil d'humeurs d'écoute", "18 ans et plus : intérêt légitime (personnaliser votre identité musicale, qui est la raison d'être de Zik4U) ; vous pouvez vous y opposer à tout moment en le désactivant. 16 ou 17 ans : votre consentement (vous l'activez)"],
+            ['Miroir émotionnel et vos réponses', 'Écoutes, titres zappés, vos réponses', "Votre consentement explicite (vous l'activez)"],
             ['Music Match', 'Écoutes, réglage Music Match, confirmation 18+', "Votre consentement (vous l'activez)"],
             ['Rapports de recherche musicale', 'Voir section 7', 'Votre consentement (désactivé par défaut)'],
             ["Mesure d'audience", "Événements d'utilisation", 'Votre consentement'],
@@ -168,29 +174,36 @@ export default function PolitiqueConfidentialitePage() {
         </P>
       </Section>
 
-      <Section id="emotional-profile" title="5. Votre profil d'humeurs d'écoute">
+      <Section id="emotional-profile" title="5. Vos humeurs d'écoute et votre miroir émotionnel">
         <P>
-          <Strong>Ce que c&apos;est.</Strong> Chaque nuit, Zik4U classe les écoutes de la veille en humeurs
-          d&apos;écoute (par exemple Late Night, Explorer ou Deep Focus) selon quand et comment vous avez écouté, et
-          calcule les données listées en section 3. À partir de vos 30 derniers jours, il déduit un archétype
-          d&apos;auditeur. Ces humeurs décrivent vos habitudes d&apos;écoute : Zik4U n&apos;analyse pas la musique
-          elle-même, et ne lit ni ne déduit vos sentiments.
+          <Strong>Votre profil d&apos;humeurs d&apos;écoute.</Strong> Chaque nuit, Zik4U classe les écoutes de la veille
+          en humeurs d&apos;écoute (par exemple Late Night, Explorer ou Deep Focus) selon quand et comment vous avez
+          écouté, et déduit un archétype d&apos;auditeur de vos 30 derniers jours. Votre archétype apparaît sur votre
+          carte Music DNA ; vos humeurs d&apos;écoute ne sont jamais partagées avec qui que ce soit. Si vous avez 18 ans
+          ou plus, il est activé par défaut (intérêt légitime : votre identité musicale est la raison d&apos;être de
+          Zik4U) ; si vous avez 16 ou 17 ans, il reste désactivé tant que vous ne l&apos;activez pas. Le désactiver
+          supprime votre archétype et les humeurs qui le fondent.
         </P>
         <P>
-          <Strong>Qui le voit.</Strong> Votre archétype apparaît sur votre carte Music DNA, visible par les autres
-          membres selon vos réglages de confidentialité (section 8). Zik4U ne partage jamais vos humeurs d&apos;écoute
-          avec qui que ce soit : ni les autres membres, ni les partenaires. Si vous partagez vous-même votre carte depuis
-          l&apos;app, elle montre ce que vous avez choisi de partager.
+          <Strong>Votre miroir émotionnel (18 ans et plus, seulement si vous l&apos;activez).</Strong> Zik4U décrit
+          chaque titre par les émotions qu&apos;il porte habituellement (par exemple Nostalgia, Melancholy ou Joy),
+          déduites du titre lui-même : son son et ce dont il parle. Zik4U n&apos;utilise jamais votre voix, votre visage
+          ni aucun signal de votre corps. Avec votre permission, Zik4U utilise ces descriptions, vos écoutes et vos
+          titres zappés pour vous montrer un miroir hebdomadaire privé, et vous invite, au plus une fois par semaine, à
+          dire ce que quelques titres vous ont fait ressentir. Vos réponses sont privées, datées, et peuvent être
+          modifiées ou supprimées une à une. Les autres membres voient seulement, pour un titre auquel 20 personnes
+          différentes ou plus ont répondu, son émotion la plus fréquente, sans nom ni chiffre.
         </P>
         <P>
-          <Strong>Ce que ce n&apos;est pas.</Strong> Il décrit votre façon d&apos;écouter, pas votre santé ni vos
-          émotions. Zik4U ne déduit aucun état de santé, aucun trouble psychique ni aucun sentiment.
+          <Strong>Ce que ce n&apos;est pas.</Strong> Il reflète la musique, pas votre santé. Zik4U ne fait aucune
+          évaluation de santé ni de santé mentale, ne l&apos;utilise pas pour la publicité, et ne vous alerte jamais sur
+          ce que vous ressentez.
         </P>
         <P>
-          <Strong>Votre choix.</Strong> Si vous avez 18 ans ou plus, il est activé par défaut ; si vous avez 16 ou 17
-          ans, il reste désactivé tant que vous ne l&apos;activez pas. Désactivez-le à tout moment dans{' '}
-          <Strong>« Settings › Privacy › Listening mood profile »</Strong> : votre archétype et les humeurs qui le
-          fondent sont supprimés, et Zik4U cesse de les calculer. Tout le reste fonctionne de la même façon.
+          <Strong>Votre choix.</Strong> Votre miroir émotionnel repose sur votre consentement explicite, donné quand
+          vous l&apos;activez. Désactivez-le à tout moment dans <Strong>« Settings › Privacy › Emotional mirror »</Strong>
+          : votre miroir, vos réponses et vos titres zappés sont supprimés, et les tendances montrées aux autres sont
+          recalculées sans vos réponses.
         </P>
       </Section>
 
@@ -333,7 +346,8 @@ export default function PolitiqueConfidentialitePage() {
             <><Strong>Le compte et tout ce qui s&apos;y rattache</Strong> (écoutes, contenus, messages, profil d&apos;humeurs d&apos;écoute, réglages) : tant que votre compte existe.</>,
             <><Strong>Quand vous supprimez votre compte</Strong> : il est effacé immédiatement de notre base en service, à l&apos;exception d&apos;un enregistrement minimal que la loi française impose aux hébergeurs de conserver un an, pour qu&apos;un juge puisse faire identifier l&apos;auteur d&apos;un contenu publié : votre pseudonyme, votre adresse e-mail, la date de création du compte, et l&apos;identifiant, la date et l&apos;adresse IP de chaque publication, commentaire ou message que vous avez publié (jamais leur contenu, et aucune de vos écoutes). Cet enregistrement est verrouillé, utilisé uniquement pour répondre à une demande légale, et supprimé au bout d&apos;un an. Les copies résiduelles dans les sauvegardes et les journaux techniques de nos prestataires disparaissent sous 30 jours.</>,
             <><Strong>Profil d&apos;humeurs d&apos;écoute</Strong> : vos humeurs d&apos;écoute quotidiennes sont conservées 13 mois, puis supprimées automatiquement ; tout est supprimé immédiatement quand vous le désactivez.</>,
-            <><Strong>Titres zappés</Strong> : conservés 90 jours, puis seulement comptés par titre, sans l&apos;identité de personne ; supprimés immédiatement quand vous désactivez votre profil d&apos;humeurs d&apos;écoute.</>,
+            <><Strong>Miroir émotionnel</Strong> : vos réponses et votre miroir sont conservés tant qu&apos;il est activé ; tout est supprimé immédiatement quand vous le désactivez.</>,
+            <><Strong>Titres zappés</Strong> : conservés 90 jours, puis seulement comptés par titre, sans l&apos;identité de personne ; supprimés immédiatement quand vous désactivez votre miroir émotionnel.</>,
             <><Strong>Comptes inactifs</Strong> : supprimés après 3 ans sans aucune activité. Nous vous écrivons 30 jours avant ; il suffit d&apos;ouvrir l&apos;app pour garder votre compte.</>,
             <><Strong>Sessions de connexion</Strong> : fermées et supprimées après 12 mois sans utilisation.</>,
             <><Strong>Journal des connexions</Strong> : 1 an, supprimé avec votre compte.</>,
@@ -364,8 +378,9 @@ export default function PolitiqueConfidentialitePage() {
         <P>
           <Strong>UE/EEE et Royaume-Uni.</Strong> Vous disposez aussi des droits d&apos;accès, de rectification,
           d&apos;effacement, de limitation, de portabilité, d&apos;opposition (y compris au profil d&apos;humeurs
-          d&apos;écoute, en le désactivant) et du droit de retirer votre consentement à tout moment, sans remettre en
-          cause ce qui a été fait avant. Vous pouvez introduire une réclamation auprès de l&apos;autorité française de
+          d&apos;écoute, en le désactivant), du droit de retirer à tout moment votre consentement à votre miroir
+          émotionnel, et du droit de retirer votre consentement à tout moment, sans remettre en cause ce qui a été fait
+          avant. Vous pouvez introduire une réclamation auprès de l&apos;autorité française de
           protection des données, la <Strong>CNIL</Strong> (<A href="https://www.cnil.fr">www.cnil.fr</A>), ou de
           l&apos;autorité du pays où vous vivez.
         </P>
