@@ -75,10 +75,11 @@ describe('COMPLY1e/f — English legal pages', () => {
     const s = flat(read('src/app/legal/privacy/page.tsx'));
     for (const t of [
       'Your listening mood profile is on by default if you are 18 or older, and off unless you turn it on if you are 16 or 17.',
-      'These moods describe your listening habits: Zik4U does not analyze the music itself, and does not read or infer your feelings.',
+      // EMO2 R3 (Zik4U session 105, texts 2.4 validated 15/11/2026): section 5 rewritten for the emotional mirror.
+      'If you are 18 or older it is on by default (legitimate interest: your music identity is what Zik4U is for); if you are 16 or 17 it stays off unless you turn it on.',
       'your daily listening moods are kept for 13 months, then deleted automatically; everything is deleted immediately when you turn it off.',
       'If you tell us you are 16 or 17, your listening mood profile stays off unless you turn it on.',
-      '<Strong>Settings › Privacy › Listening mood profile</Strong>',
+      '<Strong>Settings › Privacy › Emotional mirror</Strong>',
     ]) {
       expect(s).toContain(t);
     }
@@ -114,7 +115,8 @@ describe('COMPLY1e — French legal pages (Decision 103 = A)', () => {
   it('carry the validated French texts', () => {
     const p = flat(read('src/app/fr/legal/privacy/page.tsx'));
     expect(p).toContain('<Strong>Profil d&apos;humeurs d&apos;écoute</Strong> (voir section 5)');
-    expect(p).toContain('Ces humeurs décrivent vos habitudes d&apos;écoute : Zik4U n&apos;analyse pas la musique elle-même, et ne lit ni ne déduit vos sentiments.');
+    // EMO2 R3 — section 5 rewritten (texte 2.4, traduction fidèle).
+    expect(p).toContain('Le désactiver supprime votre archétype et les humeurs qui le fondent.');
     expect(p).toContain('vos humeurs d&apos;écoute quotidiennes sont conservées 13 mois, puis supprimées automatiquement ; tout est supprimé immédiatement quand vous le désactivez.');
     const t = flat(read('src/app/fr/legal/terms/page.tsx'));
     expect(t).toContain("Zik4U n'est ni affilié à, ni approuvé ou parrainé par un service de streaming ou une application musicale. Leurs noms et marques appartiennent à leurs propriétaires.");

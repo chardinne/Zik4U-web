@@ -13,15 +13,15 @@ const fr = flat('src/app/fr/legal/privacy/page.tsx');
 
 describe('EMO1d — skipped tracks in the Privacy Policy (EN + FR)', () => {
   it('carries the validated English text', () => {
-    expect(en).toContain('<Strong>Skipped tracks.</Strong> If your listening mood profile is on, Zik4U also records the tracks you start and then leave after at least 10 seconds, before they count as a listen (title, artist, the app, when you started it, how long you listened, and whether you moved to another track or closed the player). They are never shown or counted as listens. They help describe how you listen.');
-    expect(en).toContain('<Strong>Skipped tracks</Strong>: kept for 90 days, then only counted per track without anyone&apos;s identity; deleted immediately when you turn off your listening mood profile.');
-    expect(en).toContain("const LAST_UPDATED = 'November 16, 2026';");
+    expect(en).toContain('<Strong>Skipped tracks.</Strong> If your emotional mirror is on, Zik4U also records the tracks you start and then leave after at least 10 seconds, before they count as a listen (title, artist, the app, when you started it, how long you listened, and whether you moved to another track or closed the player). They are never shown or counted as listens. They help describe how you listen.');
+    expect(en).toContain('<Strong>Skipped tracks</Strong>: kept for 90 days, then only counted per track without anyone&apos;s identity; deleted immediately when you turn off your emotional mirror.'); // EMO2 R3 (text 2.5)
+    expect(en).toContain("const LAST_UPDATED = 'November 18, 2026';");
   });
 
   it('carries the French translation', () => {
-    expect(fr).toContain('<Strong>Titres zappés.</Strong> Si votre profil d&apos;humeurs d&apos;écoute est activé, Zik4U enregistre aussi les titres que vous lancez puis quittez après au moins 10 secondes');
-    expect(fr).toContain('<Strong>Titres zappés</Strong> : conservés 90 jours, puis seulement comptés par titre, sans l&apos;identité de personne ; supprimés immédiatement quand vous désactivez votre profil d&apos;humeurs d&apos;écoute.');
-    expect(fr).toContain("const LAST_UPDATED = '16 novembre 2026';");
+    expect(fr).toContain('<Strong>Titres zappés.</Strong> Si votre miroir émotionnel est activé, Zik4U enregistre aussi les titres que vous lancez puis quittez après au moins 10 secondes');
+    expect(fr).toContain('<Strong>Titres zappés</Strong> : conservés 90 jours, puis seulement comptés par titre, sans l&apos;identité de personne ; supprimés immédiatement quand vous désactivez votre miroir émotionnel.'); // EMO2 R3 (texte 2.5)
+    expect(fr).toContain("const LAST_UPDATED = '18 novembre 2026';");
   });
 
   it('places the skipped tracks right after the listening mood profile, in both languages', () => {
