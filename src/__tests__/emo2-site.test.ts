@@ -35,7 +35,7 @@ describe('EMO2 R3 — emotional mirror in the Privacy Policy (EN)', () => {
     expect(en).not.toContain('does not analyze the music itself');
     expect(en).not.toContain('does not read or infer your feelings');
     expect(en).not.toContain('not your health or your emotions');
-    expect(en).toContain("const LAST_UPDATED = 'November 18, 2026';");
+    expect(en).toContain("const LAST_UPDATED = 'November 24, 2026';");
   });
 });
 
@@ -51,7 +51,7 @@ describe('EMO2 R3 — the French translation', () => {
       "['Miroir émotionnel et vos réponses', 'Écoutes, titres zappés, vos réponses', \"Votre consentement explicite (vous l'activez)\"]",
       '<Strong>Miroir émotionnel</Strong> : vos réponses et votre miroir sont conservés tant qu&apos;il est activé',
       'du droit de retirer à tout moment votre consentement à votre miroir émotionnel',
-      "const LAST_UPDATED = '18 novembre 2026';",
+      "const LAST_UPDATED = '24 novembre 2026';",
     ]) {
       expect(fr).toContain(t);
     }

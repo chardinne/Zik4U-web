@@ -11,7 +11,7 @@ export const metadata = generatePageMetadata(
   '/legal/privacy',
 );
 
-const LAST_UPDATED = 'November 18, 2026';
+const LAST_UPDATED = 'November 24, 2026';
 const PRIVACY = 'privacy@zik4u.com';
 
 export default function PrivacyPolicyPage() {
@@ -114,6 +114,12 @@ export default function PrivacyPolicyPage() {
           <Strong>Device and technical data.</Strong> Push notification token, device model, operating system, app version, and signals that show whether capture is working. Crash and error reports (the error, your device model, operating system and app version) through Sentry; these reports are not linked to your account. Our hosting providers process IP addresses in their technical logs. Our sign-in system also keeps the IP address and the name of the app or browser of each signed-in session to protect your account; this record is deleted when you sign out, when you delete your account, or after 12 months without using the app on that device. We also keep a log of the sign-ins, sign-outs and password or email changes on your account (date, IP address, app or browser) for one year, to protect your account and investigate misuse; it is deleted with your account.
         </P>
         <P>
+          <Strong>App opens.</Strong> When you open the app, our server notes the date of your last visit (one date,
+          replaced each day). We use it only to count how many members use Zik4U each day, as totals that name no one,
+          and to apply the 3-year inactivity rule. It is never used to send you notifications, never combined with other
+          data and never shared.
+        </P>
+        <P>
           <Strong>Analytics, only if you agree.</Strong> If you accept analytics, we record how you use the app.
           Firebase Analytics receives usage events linked to a pseudonymous identifier (a short code derived from your
           account, never your name or email). Our own database keeps how you interact with the music on profiles: the
@@ -141,6 +147,7 @@ export default function PrivacyPolicyPage() {
             ['Music Match', 'Listening, Music Match setting, 18+ confirmation', 'Your consent (you turn it on)'],
             ['Music research reports', 'See section 7', 'Your consent (off by default)'],
             ['Analytics', 'Usage events', 'Your consent'],
+            ['Counting how many members use Zik4U each day; the 3-year inactivity rule', 'Date of your last visit', 'Legitimate interest: knowing how many people use Zik4U and deleting inactive accounts'],
             ['Notifications you allowed', 'Push token', "Performance of contract; your phone's permission"],
             ['Safety, moderation, fraud and abuse prevention, crash reports, service security', 'Content, reports, technical data', 'Legitimate interest: keeping Zik4U safe and working'],
             ['Keeping the record French law requires of hosting services', 'Username, email address, account creation date, identifier, date and IP address of each post, comment or message you published', 'Legal obligation (French law on confidence in the digital economy, LCEN)'],
@@ -324,6 +331,7 @@ export default function PrivacyPolicyPage() {
             <><Strong>Crash and error reports</Strong>: up to 90 days.</>,
             <><Strong>Purchase, payout, invoice and tax reporting records</Strong>: kept as long as tax and accounting law requires (up to 10 years in France).</>,
             <><Strong>Waitlists</Strong>: until we invite you at launch, and at most 24 months, or earlier if you ask us.</>,
+            <><Strong>Daily totals of app opens</Strong>: 25 months. <Strong>The date of your last visit</Strong>: until your account is deleted.</>,
             <><Strong>Usage analytics</Strong> (only if you accept): the records in our database are kept 13 months and deleted at once when you turn analytics off; events already sent to Google Analytics are kept 2 months by Google.</>,
             <><Strong>Emails to support</Strong>: up to 3 years after our last exchange.</>,
             <><Strong>Research reports</Strong>: contain no personal data.</>,
@@ -371,7 +379,7 @@ export default function PrivacyPolicyPage() {
           needed because no cookie requires your consent.
         </P>
         <P>
-          <Strong>App.</Strong> The app does not use advertising identifiers. Analytics run only if you accept them.
+          <Strong>App.</Strong> The app does not use advertising identifiers. Analytics (Firebase) run only if you accept them.
         </P>
       </Section>
 
