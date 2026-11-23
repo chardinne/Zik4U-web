@@ -12,7 +12,7 @@ export const metadata = generatePageMetadata(
   '/fr/legal/privacy',
 );
 
-const LAST_UPDATED = '18 novembre 2026';
+const LAST_UPDATED = '24 novembre 2026';
 const PRIVACY = 'privacy@zik4u.com';
 
 export default function PolitiqueConfidentialitePage() {
@@ -130,6 +130,13 @@ export default function PolitiqueConfidentialitePage() {
           <Strong>Données de l&apos;appareil et données techniques.</Strong> Jeton de notification push, modèle de l&apos;appareil, système d&apos;exploitation, version de l&apos;app et signaux indiquant si la captation fonctionne. Rapports de plantage et d&apos;erreur (l&apos;erreur, le modèle de votre appareil, son système et la version de l&apos;app) via Sentry ; ces rapports ne sont pas reliés à votre compte. Nos hébergeurs traitent les adresses IP dans leurs journaux techniques. Notre système de connexion conserve aussi l&apos;adresse IP et le nom de l&apos;app ou du navigateur de chaque session ouverte, pour protéger votre compte ; cette trace est supprimée quand vous vous déconnectez, quand vous supprimez votre compte, ou après 12 mois sans utiliser l&apos;app sur cet appareil. Nous tenons aussi un journal des connexions, déconnexions et changements de mot de passe ou d&apos;adresse e-mail de votre compte (date, adresse IP, app ou navigateur), conservé un an pour protéger votre compte et enquêter sur un abus ; il est supprimé avec votre compte.
         </P>
         <P>
+          <Strong>Ouvertures de l&apos;app.</Strong> Quand vous ouvrez l&apos;app, notre serveur note la date de votre
+          dernière visite (une seule date, remplacée chaque jour). Elle sert uniquement à compter combien de membres
+          utilisent Zik4U chaque jour, sous forme de totaux qui ne nomment personne, et à appliquer la règle des 3 ans
+          d&apos;inactivité. Elle n&apos;est jamais utilisée pour vous envoyer des notifications, jamais croisée avec
+          d&apos;autres données et jamais partagée.
+        </P>
+        <P>
           <Strong>Mesure d&apos;audience, uniquement si vous l&apos;acceptez.</Strong> Si vous acceptez la mesure
           d&apos;audience, nous enregistrons la façon dont vous utilisez l&apos;app. Firebase Analytics reçoit des
           événements d&apos;utilisation liés à un identifiant pseudonyme (un code court dérivé de votre compte, jamais
@@ -159,6 +166,7 @@ export default function PolitiqueConfidentialitePage() {
             ['Music Match', 'Écoutes, réglage Music Match, confirmation 18+', "Votre consentement (vous l'activez)"],
             ['Rapports de recherche musicale', 'Voir section 7', 'Votre consentement (désactivé par défaut)'],
             ["Mesure d'audience", "Événements d'utilisation", 'Votre consentement'],
+            ["Compter combien de membres utilisent Zik4U chaque jour ; règle des 3 ans d'inactivité", 'Date de votre dernière visite', 'Intérêt légitime : savoir combien de personnes utilisent Zik4U et supprimer les comptes inactifs'],
             ['Notifications que vous avez autorisées', 'Jeton push', 'Exécution du contrat ; autorisation de votre téléphone'],
             ['Sécurité, modération, prévention de la fraude et des abus, rapports de plantage, sécurité du service', 'Contenus, signalements, données techniques', 'Intérêt légitime : garder Zik4U sûr et en état de marche'],
             ["Conserver l'enregistrement que la loi française impose aux hébergeurs", 'Pseudonyme, adresse e-mail, date de création du compte, identifiant, date et adresse IP de chaque publication, commentaire ou message publié', "Obligation légale (loi pour la confiance dans l'économie numérique, LCEN)"],
@@ -355,6 +363,7 @@ export default function PolitiqueConfidentialitePage() {
             <><Strong>Rapports de plantage et d&apos;erreur</Strong> : 90 jours au plus.</>,
             <><Strong>Achats, versements, factures et déclarations fiscales</Strong> : conservés aussi longtemps que l&apos;exigent les règles fiscales et comptables (jusqu&apos;à 10 ans en France).</>,
             <><Strong>Listes d&apos;attente</Strong> : jusqu&apos;à votre invitation au lancement, et au plus 24 mois, ou plus tôt si vous nous le demandez.</>,
+            <><Strong>Totaux quotidiens des ouvertures de l&apos;app</Strong> : 25 mois. <Strong>Date de votre dernière visite</Strong> : jusqu&apos;à la suppression de votre compte.</>,
             <><Strong>Mesure d&apos;audience</Strong> (uniquement si vous l&apos;acceptez) : les enregistrements de notre base sont conservés 13 mois et effacés dès que vous la désactivez ; les événements déjà envoyés à Google Analytics sont conservés 2 mois par Google.</>,
             <><Strong>E-mails au support</Strong> : jusqu&apos;à 3 ans après notre dernier échange.</>,
             <><Strong>Rapports de recherche</Strong> : ils ne contiennent aucune donnée personnelle.</>,
@@ -407,7 +416,7 @@ export default function PolitiqueConfidentialitePage() {
         </P>
         <P>
           <Strong>App.</Strong> L&apos;app n&apos;utilise pas d&apos;identifiant publicitaire. La mesure d&apos;audience
-          ne fonctionne que si vous l&apos;acceptez.
+          (Firebase) ne fonctionne que si vous l&apos;acceptez.
         </P>
       </Section>
 
