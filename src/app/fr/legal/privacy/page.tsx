@@ -237,13 +237,14 @@ export default function PolitiqueConfidentialitePage() {
         </P>
         <P>
           <Strong>Ce que nous utilisons.</Strong> Les titres que vous écoutez après l&apos;avoir activée, le moment où
-          vous les écoutez, les humeurs d&apos;écoute déduites de quand et comment vous les écoutez, et votre archétype.
-          Jamais les écoutes faites en mode privé. Jamais vos humeurs ni votre archétype si votre profil d&apos;humeurs
-          d&apos;écoute est désactivé.
+          vous les écoutez, les habitudes d&apos;écoute déduites du moment et de la façon dont vous écoutez (par exemple
+          tard le soir, en boucle, ou en découvrant de nouveaux artistes), et votre archétype. Jamais les écoutes faites
+          en mode privé. Jamais vos habitudes d&apos;écoute ni votre archétype si votre profil d&apos;humeurs d&apos;écoute
+          est désactivé.
         </P>
         <P>
           <Strong>Ce que reçoivent les partenaires.</Strong> Des tendances hebdomadaires (par exemple, le nombre
-          d&apos;auditeurs d&apos;un artiste, ou à quelles heures et dans quelles humeurs d&apos;écoute les gens ont
+          d&apos;auditeurs d&apos;un artiste, ou à quelles heures et selon quelles habitudes d&apos;écoute les gens ont
           écouté) calculées uniquement sur des groupes de <Strong>100 personnes ou plus</Strong>, avec un bruit
           statistique ajouté et des chiffres arrondis. Jamais votre nom, votre profil, vos titres, ni aucune donnée vous
           concernant individuellement. Les partenaires doivent s&apos;engager par contrat à ne jamais chercher à

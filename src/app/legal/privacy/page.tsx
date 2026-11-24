@@ -213,13 +213,14 @@ export default function PrivacyPolicyPage() {
           confirmed they are 18 or older can turn it on.
         </P>
         <P>
-          <Strong>What we use.</Strong> The songs you play after you turn it on, when you play them, the listening moods
-          derived from when and how you play them, and your archetype. Never listens made in private mode. Never your
-          moods or archetype if your listening mood profile is off.
+          <Strong>What we use.</Strong> The songs you play after you turn it on, when you play them, the listening
+          patterns derived from when and how you play them (for example late at night, on repeat, or exploring new
+          artists), and your archetype. Never listens made in private mode. Never your listening patterns or archetype
+          if your listening mood profile is off.
         </P>
         <P>
           <Strong>What partners receive.</Strong> Weekly trends (for example, how many listeners an artist had, or at
-          what times of day and in which listening moods people listened) computed only over groups of <Strong>100 people or more</Strong>, with statistical
+          what times of day and in which listening patterns people listened) computed only over groups of <Strong>100 people or more</Strong>, with statistical
           noise added and figures rounded. Never your name, your profile, your songs, or any data about you as an
           individual. Partners must contractually commit never to try to re-identify anyone.
         </P>
