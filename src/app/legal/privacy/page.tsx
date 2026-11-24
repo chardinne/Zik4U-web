@@ -67,8 +67,11 @@ export default function PrivacyPolicyPage() {
         </P>
         <P>
           <Strong>Listening (capture).</Strong> On Android, if you grant Zik4U notification access, the app reads the
-          playback notifications of a fixed list of music apps and keeps: track title, artist, album, duration, time
-          played, the app you listened in, and a link to the cover art. It ignores every other notification. You can
+          playback notifications of a fixed list of music apps and keeps: track title, artist, album, duration, how
+          long you actually listened, time played, the app you listened in, a coded fingerprint of the track&apos;s ID
+          in that app when the app provides one (never the ID itself), and a link to the cover art. How long you
+          listened tells a real listen from a track skipped or left running; the fingerprint tells two versions of a
+          track apart. Other members never see either. It ignores every other notification. You can
           revoke notification access at any time in your phone settings; capture then stops. Listens made in private
           mode are marked private.
         </P>
@@ -142,6 +145,7 @@ export default function PrivacyPolicyPage() {
           head={['Purpose', 'Data', 'Legal basis']}
           rows={[
             ['Run your account and the Service: capture, profile, feed, followers, messages, creator subscriptions', 'Account, listening, content, purchases', 'Performance of our contract with you'],
+            ['Telling real listens apart and recognizing the exact track you played', "How long you listened, coded fingerprint of the track's ID", 'Legitimate interest: making sure listens counted on Zik4U, and paid to creators, are real, and recognizing the exact version you played. You can object by writing to us.'],
             ['Listening mood profile and listener archetype', 'Listening, listening mood profile', '18 and older: legitimate interest (personalizing your music identity, which is the purpose of Zik4U); you can object at any time by turning it off. 16 or 17: your consent (you turn it on)'],
             ['Emotional mirror and your answers', 'Listening, skipped tracks, your answers', 'Your explicit consent (you turn it on)'],
             ['Music Match', 'Listening, Music Match setting, 18+ confirmation', 'Your consent (you turn it on)'],

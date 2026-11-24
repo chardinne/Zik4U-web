@@ -78,7 +78,11 @@ export default function PolitiqueConfidentialitePage() {
         <P>
           <Strong>Écoutes (captation).</Strong> Sur Android, si vous accordez à Zik4U l&apos;accès aux notifications,
           l&apos;app lit les notifications de lecture d&apos;une liste fermée d&apos;applications musicales et conserve :
-          titre, artiste, album, durée, heure d&apos;écoute, application utilisée et lien vers la pochette. Elle ignore
+          titre, artiste, album, durée, durée réellement écoutée, heure d&apos;écoute, application utilisée, une empreinte
+          codée de l&apos;identifiant du titre dans cette application quand elle le fournit (jamais l&apos;identifiant
+          lui-même) et lien vers la pochette. La durée écoutée distingue une vraie écoute d&apos;un titre zappé ou
+          laissé tourner ; l&apos;empreinte distingue deux versions d&apos;un même titre. Les autres membres ne voient
+          ni l&apos;une ni l&apos;autre. Elle ignore
           toutes les autres notifications. Vous pouvez retirer l&apos;accès aux notifications à tout moment dans les
           réglages de votre téléphone ; la captation s&apos;arrête alors. Les écoutes faites en mode privé sont marquées
           comme privées.
@@ -161,6 +165,7 @@ export default function PolitiqueConfidentialitePage() {
           head={['Finalité', 'Données', 'Base légale']}
           rows={[
             ['Faire fonctionner votre compte et le Service : captation, profil, fil, abonnés, messages, abonnements aux créateurs', 'Compte, écoutes, contenus, achats', 'Exécution de notre contrat avec vous'],
+            ['Distinguer les vraies écoutes et reconnaître le titre exact que vous avez écouté', "Durée écoutée, empreinte codée de l'identifiant du titre", "Intérêt légitime : s'assurer que les écoutes comptées sur Zik4U, et payées aux créateurs, sont réelles, et reconnaître la version exacte que vous avez écoutée. Vous pouvez vous y opposer en nous écrivant."],
             ["Profil d'humeurs d'écoute et archétype d'auditeur", "Écoutes, profil d'humeurs d'écoute", "18 ans et plus : intérêt légitime (personnaliser votre identité musicale, qui est la raison d'être de Zik4U) ; vous pouvez vous y opposer à tout moment en le désactivant. 16 ou 17 ans : votre consentement (vous l'activez)"],
             ['Miroir émotionnel et vos réponses', 'Écoutes, titres zappés, vos réponses', "Votre consentement explicite (vous l'activez)"],
             ['Music Match', 'Écoutes, réglage Music Match, confirmation 18+', "Votre consentement (vous l'activez)"],
